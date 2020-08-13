@@ -1,0 +1,159 @@
+
+import React,{useEffect } from 'react';
+import { useWindowDimensions,Image } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { CardStyleInterpolators,createStackNavigator } from '@react-navigation/stack';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider, useSelector } from 'react-redux';
+import rootReducer from './src/reducers';
+
+import thunk from 'redux-thunk';
+import Spinner from 'react-native-loading-spinner-overlay';
+
+import CustomDrawerContent from './src/components/Drawer'
+import ToastComponent from './src/components/Toast'
+import { RootSiblingParent } from 'react-native-root-siblings';
+
+import HomeScreen from './src/screen/Home'
+import LoginScreen from './src/screen/Login'
+import MymvpScreen from './src/screen/Mymvp'
+import BranchScreen from './src/screen/Branch'
+import BarcodeScreen from './src/screen/Barcode'
+import NoticeScreen from './src/screen/Notice'
+import FaqScreen from './src/screen/FAQ'
+import ContactScreen from './src/screen/Contact'
+import SignUpScreen from './src/screen/SignUp'
+import ChangeScreen from './src/screen/Change'
+import MileVerseScreen from './src/changeScreen/MileVerse';
+import MileVerseGiftScreen from './src/gifticon/MileVerse'
+import SplashScreen from 'react-native-splash-screen'
+
+
+const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+
+const LoginGuard = (event,navigation,_stat,_target) =>{
+	event.preventDefault();
+	_stat === false ? navigation.navigate("Login") : navigation.navigate(_target)
+}
+const TabScreen = ({navigation}) =>{
+	const stat = useSelector(state => state.authentication.status.isLoggedIn);
+
+	return (
+		<Tab.Navigator
+			initialRouteName="Home"
+			activeColor="#8d3981"
+			inactiveColor="#b8b8b8"
+			
+			tabBarOptions={{
+				activeTintColor: '#8d3981',
+				inactiveTintColor: '#b8b8b8',
+				tabStyle:{
+					justifyContent:"center"
+				},
+				labelStyle:{
+					fontFamily:"NanumSquareR",
+					bottom:5
+				}
+			  }}
+			barStyle={{ backgroundColor: 'white' }}
+		>
+			<Tab.Screen name="Home" component={HomeScreen} options={{title:"홈",tabBarIcon:({focused})=>{
+				return (
+					<Image source={focused ? require('./assets/img/home_active.png') : require('./assets/img/home.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
+				)
+			}}}/>
+			<Tab.Screen name="MyMvp" component={MymvpScreen} options={{title:"My mvp",tabBarIcon:({focused})=>{
+				return (
+					<Image source={focused ? require('./assets/img/mvp_active.png') : require('./assets/img/mvp.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
+				)
+			}}} listeners={()=>({tabPress:(event)=>LoginGuard(event,navigation,stat,"MyMvp")})}/>
+			<Tab.Screen name="Branch" component={BranchScreen} options={{title:"가맹점 정보",tabBarIcon:({focused})=>{
+				return (
+					<Image source={focused ? require('./assets/img/branch_active.png') : require('./assets/img/branch.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
+				)
+			}}} listeners={()=>({tabPress:(event)=>LoginGuard(event,navigation,stat,"Branch")})}/>
+			<Tab.Screen name="Pay" component={BarcodeScreen} options={{title:"사용하기",tabBarIcon:({focused})=>{
+				return (
+					<Image source={focused ? require('./assets/img/barcode_active.png') : require('./assets/img/barcode.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
+				)
+			}}} listeners={()=>({tabPress:(event)=>LoginGuard(event,navigation,stat,"Pay")})}/>
+			<Tab.Screen name="Menu" component={HomeScreen} options={{title:"메뉴",tabBarIcon:({focused})=>{
+				return (
+					<Image source={focused ? require('./assets/img/menu_active.png') : require('./assets/img/menu.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
+				)
+			}}}
+				listeners={()=>(
+					{tabPress:event=>{
+					  event.preventDefault();
+					  navigation.openDrawer()
+					}}
+				)}
+			/>
+		</Tab.Navigator>
+	)
+}
+const DrawerScreen = ({navigation}) =>{
+	const dimensions = useWindowDimensions();
+	return (
+		<Drawer.Navigator
+			drawerContent={props=> <CustomDrawerContent {...props} />}
+			drawerPosition= "right"
+			drawerType={dimensions.width >= 768 ? 'permanent' : 'front'}
+		>
+			<Drawer.Screen name="menu" component={TabScreen} />
+		</Drawer.Navigator>
+	)
+}
+const SpinnerComponent = () =>{
+	const spinner = useSelector(state => state.spinner.status);
+	return (
+		<Spinner
+			visible={spinner}
+			color="#8D3981"
+			animation="fade"
+		/>
+	)
+}
+const App: () => React$Node = () => {
+
+	useEffect(() => {
+		setTimeout(() => {
+			// SplashScreen.hide();
+			
+		}, 2000);
+	  }, []);
+	return (
+		<RootSiblingParent>
+			<Provider store={store}>
+				<SpinnerComponent />
+				<ToastComponent />
+				<NavigationContainer>
+					<Stack.Navigator screenOptions={{headerShown:false,cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS}} mode='card'>
+						<Stack.Screen
+							name="Drawer"
+							component={DrawerScreen}
+						/>
+						<Stack.Screen name="FAQ" component={FaqScreen} />
+						<Stack.Screen name="Login" component={LoginScreen} />
+						<Stack.Screen name="Notice" component={NoticeScreen} />
+						<Stack.Screen name="Contact" component={ContactScreen} />
+						<Stack.Screen name="SignUp" component={SignUpScreen} />
+						<Stack.Screen name="Change" component={ChangeScreen} />
+						<Stack.Screen name="MileVerse" component={MileVerseScreen} />
+						<Stack.Screen name="MileVerseGiftScreen" component={MileVerseGiftScreen} />
+					</Stack.Navigator>
+				</NavigationContainer>
+			</Provider>
+		</RootSiblingParent>
+		
+	);
+};
+
+export default App;
