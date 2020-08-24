@@ -1,4 +1,4 @@
-package com.mileverse;
+package com.cordova.mileverse;
 
 import android.os.Bundle; // here
 import com.facebook.react.ReactActivity;

@@ -3,6 +3,8 @@ import { Image,Text,View,SafeAreaView,StyleSheet,TouchableOpacity,FlatList } fro
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { RegularText, BoldText,ExtraBoldText } from '../components/customComponents';
+import CommonStatusbar from '../components/CommonStatusbar';
+
 
 const MymvpScreen : () => React$Node = (props) =>{
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
@@ -11,7 +13,7 @@ const MymvpScreen : () => React$Node = (props) =>{
     const [data,setData] = useState([]);
 
     useEffect(()=>{
-        axios.post('http://192.168.0.5:3000/api/point/getHistory',{},{headers:{"x-access-token":token}})
+        axios.post('http://13.209.142.239:3010/api/point/getHistory',{},{headers:{"x-access-token":token}})
             .then((response)=>{
                 var _response = response.data
                 setData(_response.data)
@@ -54,56 +56,60 @@ const MymvpScreen : () => React$Node = (props) =>{
     }
 
     return (
-        <SafeAreaView>
-            <View style={styles.header}>
-                <ExtraBoldText text={"My MVP"} customStyle={{color:"#707070"}} />
-            </View>
-            <View style={{paddingLeft:20,paddingRight:20}}>
-                <View style={{borderRadius:10,marginTop:20,backgroundColor:"white",shadowColor:"#000",elevation:2, shadowOffset:0.20,shadowRadius:1.41,shadowOffset:{width:0,height:1}}}>
-                    <View style={{alignItems:"center"}}>
-                        <BoldText text={"My MVP"} customStyle={{fontSize:18,marginTop:20}}/>
-                        <View style={{flexDirection:'row',marginTop:10}}>
-                            <View style={{flex:4,height:80,alignItems:'flex-end',justifyContent:"center",paddingRight:10}}>
-                                <Image source={require('../../assets/img/mvp_coin.png')} style={{resizeMode:'contain',height:60,width:60}}></Image>
-                            </View>
-                            <View style={{flex:5,height:80}}>
-                                <View style={{flex:5,justifyContent:'center'}}>
-                                    <RegularText text={"나의 보유 포인트 :"}/>
+        <>
+            <CommonStatusbar backgroundColor="#F9F9F9"/>
+            <SafeAreaView>
+                <View style={styles.header}>
+                    <ExtraBoldText text={"My MVP"} customStyle={{color:"#707070"}} />
+                </View>
+                <View style={{paddingLeft:20,paddingRight:20}}>
+                    <View style={styles.cardWrap}>
+                        <View style={{alignItems:"center"}}>
+                            <BoldText text={"My MVP"} customStyle={{fontSize:18,marginTop:20}}/>
+                            <View style={{flexDirection:'row',marginTop:10}}>
+                                <View style={{flex:4,height:80,alignItems:'flex-end',justifyContent:"center",paddingRight:10}}>
+                                    <Image source={require('../../assets/img/mvp_coin.png')} style={{resizeMode:'contain',height:60,width:60}}></Image>
                                 </View>
-                                <View style={{flex:6,justifyContent:'flex-start'}}>
-                                    <RegularText text={
-                                               stat ? (mvp) : ("로그인이 필요합니다.")
-                                        }customStyle={{fontSize:18,color:'#8D3981'}} />
+                                <View style={{flex:5,height:80}}>
+                                    <View style={{flex:5,justifyContent:'center'}}>
+                                        <RegularText text={"나의 보유 포인트 :"}/>
+                                    </View>
+                                    <View style={{flex:6,justifyContent:'flex-start'}}>
+                                        <RegularText text={
+                                            stat ? (mvp) : ("로그인이 필요합니다.")
+                                            }customStyle={{fontSize:18,color:'#8D3981'}} />
+                                    </View>
                                 </View>
                             </View>
                         </View>
-                        <View style={{flexDirection:'row', alignItems:'center',justifyContent:"center",paddingBottom:20,marginTop:10,width:"100%"}}>
-                            <TouchableOpacity onPress={()=>navigateScreen('Change')}>
-                                <View style={{flex:1,backgroundColor:"#CD84AF",width:140,maxWidth:140,height:50,borderTopLeftRadius:10,borderBottomLeftRadius:10,alignItems:"center",justifyContent:"center"}}>
-                                <BoldText text="교환" customStyle={{color:"white",fontSize:16}} />
+                        <View style={{flexDirection:'row', alignItems:'center',justifyContent:"center",paddingBottom:20,marginTop:10,width:"100%",paddingHorizontal:20}}>
+                            <TouchableOpacity onPress={()=>navigateScreen('Change')} style={{flex:1}}>
+                                <View style={{backgroundColor:"#CD84AF",height:50,borderTopLeftRadius:10,borderBottomLeftRadius:10,alignItems:"center",justifyContent:"center"}}>
+                                    <BoldText text="교환" customStyle={{color:"white",fontSize:16}} />
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>navigateScreen('Pay')}>
-                                <View style={{backgroundColor:"#8D3981",width:140,maxWidth:140,height:50,borderTopRightRadius:10,borderBottomRightRadius:10,alignItems:"center",justifyContent:"center"}}>
+                            <TouchableOpacity onPress={()=>navigateScreen('Pay')} style={{flex:1}}>
+                                <View style={{backgroundColor:"#8D3981",height:50,borderTopRightRadius:10,borderBottomRightRadius:10,alignItems:"center",justifyContent:"center"}}>
                                     <BoldText text="사용" customStyle={{color:"white",fontSize:16}} />
                                 </View>
                             </TouchableOpacity>
                         </View>
                     </View>
-                </View>
-                <View style={{overflow:"hidden", marginTop:20,backgroundColor:"white",borderRadius:10,shadowColor:"#000",elevation:2, shadowOffset:0.20,shadowRadius:1.41,shadowOffset:{width:0,height:1}}}>
-                    <View style={{padding:10}}>
-                        <ExtraBoldText text="사용 및 교환 내역" customStyle={{fontSize:20,fontWeight:"bold"}}/>
+                    <View style={styles.listWrap}>
+                        <View style={{padding:10}}>
+                            <ExtraBoldText text="사용 및 교환 내역" customStyle={{fontSize:20}}/>
+                        </View>
+                        <FlatList
+                            data={data}
+                            renderItem={renderItem}
+                            keyExtractor={(item) =>item.CREA_DT}
+                            style={{borderTopWidth:1.5,borderColor:"#CCCCCC",height:"45%"}}
+                        />
                     </View>
-                    <FlatList
-                        data={data}
-                        renderItem={renderItem}
-                        keyExtractor={(item) =>item.CREA_DT}
-                        style={{borderTopWidth:1.5,borderColor:"#CCCCCC",height:"45%"}}
-                    />
                 </View>
-            </View>
-        </SafeAreaView>
+            </SafeAreaView>
+        </>
+        
     )
 }
 export default MymvpScreen;
@@ -114,11 +120,27 @@ const styles = StyleSheet.create({
         height:60,
         justifyContent:'center',
         alignItems:'center',
-        shadowColor:"#000",
         elevation:2,
-        shadowOffset:0.20,
-        shadowRadius:1.41,
-        shadowOffset:{width:0,height:1}
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 2.22
+    },
+    cardWrap:{
+        borderRadius:10,
+        marginTop:20,
+        backgroundColor:"white",
+        elevation:2, 
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 2.22
     },
     myMvp:{
         alignItems:"center",
@@ -127,7 +149,20 @@ const styles = StyleSheet.create({
     },
     myFont:{
         fontFamily:"NanumSquareR"
+    },
+    listWrap:{
+        overflow:"hidden", 
+        marginTop:20,
+        backgroundColor:"#FFFFFF",
+        borderRadius:10,
+        shadowColor:"#000",
+        elevation:2,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 2.22
     }
 });
-
-

@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback,useState } from 'react';
 import { Image,Text,View,SafeAreaView,TextInput,StyleSheet,Alert } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import CheckBox from 'react-native-check-box'
 import { useDispatch } from 'react-redux';
 import * as actions from '../actions/authentication'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -69,7 +69,7 @@ const LoginScreen : () => React$Node = (props) =>{
 
     return (
         <SafeAreaView style={{flex:1,backgroundColor:"#FFF"}}>
-            <View style={{height:20,justifyContent:'center',alignItems:"space-between",paddingRight:12,paddingTop:19}}>
+            <View style={{height:60,justifyContent:'center',alignItems:"flex-end",paddingRight:12,paddingTop:20}}>
                 <TouchableOpacity onPress={()=>{
                     props.navigation.goBack()
                 }}>
@@ -102,19 +102,23 @@ const LoginScreen : () => React$Node = (props) =>{
                 <View style={{marginTop:20,paddingBottom:18,borderBottomWidth:1,borderBottomColor:"#D8D8D8",flexDirection:"row"}}>
                     <View style={{flexDirection:"row"}}>
                         <CheckBox
-                            tintColors={{ true: '#8D3981' }}
-                            value={saveId}
-                            onValueChange={() => saveId ? setsaveId(false) : setsaveId(true)}
+                            isChecked={saveId}
+                            checkedCheckBoxColor={'#8D3981'}
+                            uncheckedCheckBoxColor={"#999999"}
+                            style={{marginHorizontal:4}}
+                            onClick={() => saveId ? setsaveId(false) : setsaveId(true)}
                         />
-                        <BoldText text={"아이디 저장"} customStyle={{color:'#444444',lineHeight:32,fontSize:12}}/>
+                        <BoldText text={"아이디 저장"} customStyle={{color:'#444444',lineHeight:25,fontSize:12}}/>
                     </View>
                     <View style={{flexDirection:"row",marginLeft:20}}>
                         <CheckBox
-                            tintColors={{ true: '#8D3981' }}
-                            value={autoLogin}
-                            onValueChange={() => autoLogin ? setautoLogin(false) : setautoLogin(true)}
+                            isChecked={autoLogin}
+                            checkedCheckBoxColor={'#8D3981'}
+                            uncheckedCheckBoxColor={"#999999"}
+                            style={{marginHorizontal:4}}
+                            onClick={() => autoLogin ? setautoLogin(false) : setautoLogin(true)}
                         />
-                        <BoldText text={"자동 로그인"} customStyle={{color:'#444444',lineHeight:32,fontSize:12}}/>
+                        <BoldText text={"자동 로그인"} customStyle={{color:'#444444',lineHeight:25,fontSize:12}}/>
                     </View>
                 </View>
                 <View style={{marginTop:16,flexDirection:"row",justifyContent:"center",alignItems:"center"}}>

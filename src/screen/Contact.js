@@ -7,7 +7,9 @@ import DocumentPicker from 'react-native-document-picker';
 import {BoldText} from '../components/customComponents';
 
 import axios from 'axios';
-import * as spinner from '../actions/spinner'
+import * as spinner from '../actions/spinner';
+import CommonStatusbar from '../components/CommonStatusbar';
+
 
 const ContactScreen : () => React$Node = (props) =>{
     const dispatch = useDispatch()
@@ -31,11 +33,11 @@ const ContactScreen : () => React$Node = (props) =>{
             errorToast('메일 내용을 입력해주세요.')
         } else {
             dispatch(spinner.showSpinner());
-            const data = new FormData();
+            let data = new FormData();
             data.append("from",mail)
             data.append("title",title)
             data.append("contents",contents)
-            let url = 'http://192.168.0.5:3000/api/notice/sendMailWithOutFile'
+            let url = 'http://13.209.142.239:3010/api/notice/sendMailWithOutFile'
             if(Object.keys(file).length !== 0) {
                 data.append("avatar", {
                     name: file.fileName,
@@ -43,7 +45,7 @@ const ContactScreen : () => React$Node = (props) =>{
                     uri:
                       Platform.OS === "android" ? file.uri : file.uri.replace("file://", "")
                 });
-                url = 'http://192.168.0.5:3000/api/notice/sendMail'
+                url = 'http://13.209.142.239:3010/api/notice/sendMail'
             }
             axios.post(url,data,{
                 headers:{
@@ -93,6 +95,13 @@ const ContactScreen : () => React$Node = (props) =>{
                     onFileRead()
                 }
             }else{
+                if(response.fileName === null || response.fileName === undefined) {
+                    if( response.uri.indexOf('jpg') || response.uri.indexOf('JPG') ) response.fileName = new Date().getTime()+".jpg";
+                    else if( response.uri.indexOf('png') || response.uri.indexOf('PNG') ) response.fileName = new Date().getTime()+".png";
+                    else if( response.uri.indexOf('jpeg') || response.uri.indexOf('JPEG') ) response.fileName = new Date().getTime()+".jpeg";
+                    response.originalname = response.fileName;
+                    response.filename = response.fileName;
+                }
                 setFile(response)
                 setFileName(response.fileName)
             }
@@ -124,57 +133,61 @@ const ContactScreen : () => React$Node = (props) =>{
     }
 
     return (
-        <SafeAreaView>
-            <View style={styles.header}>
-                <BoldText text={"문의 하기"} customStyle={{fontWeight:'bold',color:"#707070"}} />
-                <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
-                    <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
-                </TouchableOpacity>
-            </View>
-            <View style={{backgroundColor:"white",height:"100%",padding:20}}>
-                <View>
-                    <BoldText text={"이메일"} customStyle={styles.inputLabel}/>
-                    <TextInput placeholder="이메일을 입력해주세요." style={styles.inputForm} onChangeText={text=>setMail(text)}/>
+        <>
+            <CommonStatusbar backgroundColor="#F9F9F9"/>
+            <SafeAreaView>
+                <View style={styles.header}>
+                    <BoldText text={"문의 하기"} customStyle={{fontWeight:'bold',color:"#707070"}} />
+                    <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
+                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
+                    </TouchableOpacity>
                 </View>
-                <View style={{marginTop:20}}>
-                    <BoldText text={"제목"} customStyle={styles.inputLabel}/>
-                    <TextInput placeholder="제목을 입력해주세요." style={styles.inputForm} onChangeText={text=>setTitle(text)}/>
-                </View>
-                <View style={{marginTop:20}}>
-                <BoldText text={"내용"} customStyle={styles.inputLabel}/>
-                    <TextInput placeholder="내용을 입력해주세요." blurOnSubmit={true} maxLength={150} multiline={true} numberOfLines={6} style={[styles.inputForm,{height:160,textAlignVertical:'top'}]} onChangeText={text=>{onChangeContents(text);}}/>
-                </View>
-                <View style={{alignItems:'flex-end',marginTop:4}}>
-                    <BoldText text={"("+limitLength+"/150)"} style={{color:"#2D2D2D"}} />
-                </View>
-                <View style={{margiTop:40}}>
-                    <View style={{flexDirection:'row',alignItems:"center"}}>
-                        <BoldText text={"첨부파일"} customStyle={styles.inputLabel}/>
-                        <BoldText text={"*JPG, PNG, PDF만 첨부가능합니다."} customStyle={{color:"#EC6E6E",paddingLeft:6,fontSize:10}}/>
+                <View style={{backgroundColor:"white",height:"100%",padding:20}}>
+                    <View>
+                        <BoldText text={"이메일"} customStyle={styles.inputLabel}/>
+                        <TextInput placeholder="이메일을 입력해주세요." style={styles.inputForm} onChangeText={text=>setMail(text)}/>
                     </View>
-                    <View style={{marginTop:6,padding:6,borderWidth:1,borderColor:"#CCCCCC",flexDirection:'row',alignItems:'center',borderRadius:5}}>
-                        <BoldText text={fileName} customStyle={{flex:9}}/>
-                        <TouchableOpacity style={{flex:3 }} onPress={showPicker}>
-                            <View style={{backgroundColor:"#AE7AA7",justifyContent:'center',alignItems:"center",padding:10,borderRadius:5}}>
-                                <BoldText text={"첨부하기"} customStyle={{color:"white",fontSize:10}}/>
+                    <View style={{marginTop:20}}>
+                        <BoldText text={"제목"} customStyle={styles.inputLabel}/>
+                        <TextInput placeholder="제목을 입력해주세요." style={styles.inputForm} onChangeText={text=>setTitle(text)}/>
+                    </View>
+                    <View style={{marginTop:20}}>
+                    <BoldText text={"내용"} customStyle={styles.inputLabel}/>
+                        <TextInput placeholder="내용을 입력해주세요." blurOnSubmit={true} maxLength={150} multiline={true} numberOfLines={6} style={[styles.inputForm,{height:160,textAlignVertical:'top'}]} onChangeText={text=>{onChangeContents(text);}}/>
+                    </View>
+                    <View style={{alignItems:'flex-end',marginTop:4}}>
+                        <BoldText text={"("+limitLength+"/150)"} style={{color:"#2D2D2D"}} />
+                    </View>
+                    <View style={{margiTop:40}}>
+                        <View style={{flexDirection:'row',alignItems:"center"}}>
+                            <BoldText text={"첨부파일"} customStyle={styles.inputLabel}/>
+                            <BoldText text={"*JPG, PNG, PDF만 첨부가능합니다."} customStyle={{color:"#EC6E6E",paddingLeft:6,fontSize:10}}/>
+                        </View>
+                        <View style={{marginTop:6,padding:6,borderWidth:1,borderColor:"#CCCCCC",flexDirection:'row',alignItems:'center',borderRadius:5}}>
+                            <BoldText text={fileName} customStyle={{flex:9}}/>
+                            <TouchableOpacity style={{flex:3 }} onPress={showPicker}>
+                                <View style={{backgroundColor:"#AE7AA7",justifyContent:'center',alignItems:"center",padding:10,borderRadius:5}}>
+                                    <BoldText text={"첨부하기"} customStyle={{color:"white",fontSize:10}}/>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={{flexDirection:'row', alignItems:'center',justifyContent:"center",paddingBottom:20,marginTop:10,width:"100%",marginTop:40}}>
+                        <TouchableOpacity onPress={()=>props.navigation.goBack()} style={{flex:1}}>
+                            <View style={{backgroundColor:"#B6B6B6",height:50,borderTopLeftRadius:5,borderBottomLeftRadius:5,alignItems:"center",justifyContent:"center"}}>
+                                <BoldText text={"취소"} customStyle={{color:"white",fontSize:16,fontWeight:"bold"}}/>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={sendMail} style={{flex:1}}>
+                            <View style={{backgroundColor:"#8D3981",height:50,borderTopRightRadius:5,borderBottomRightRadius:5,alignItems:"center",justifyContent:"center"}}>
+                                <BoldText text={"보내기"} customStyle={{color:"white",fontSize:16,fontWeight:"bold"}}/>
                             </View>
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={{flexDirection:'row', alignItems:'center',justifyContent:"center",paddingBottom:20,marginTop:10,width:"100%",marginTop:40}}>
-                    <TouchableOpacity onPress={()=>props.navigation.goBack()} style={{flex:1}}>
-                        <View style={{backgroundColor:"#B6B6B6",height:50,borderTopLeftRadius:5,borderBottomLeftRadius:5,alignItems:"center",justifyContent:"center"}}>
-                            <BoldText text={"취소"} customStyle={{color:"white",fontSize:16,fontWeight:"bold"}}/>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={sendMail} style={{flex:1}}>
-                        <View style={{backgroundColor:"#8D3981",height:50,borderTopRightRadius:5,borderBottomRightRadius:5,alignItems:"center",justifyContent:"center"}}>
-                            <BoldText text={"보내기"} customStyle={{color:"white",fontSize:16,fontWeight:"bold"}}/>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        </SafeAreaView>
+            </SafeAreaView>
+        </>
+        
     )
 }
         
@@ -189,9 +202,14 @@ const styles = StyleSheet.create({
         alignItems:'center',
         flexDirection:'row',
         elevation:2,
-        shadowOffset:0.20,
-        shadowRadius:1.41,
-        shadowOffset:{width:0,height:1}
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 2.22,
+        zIndex:1
     },
     inputLabel:{
         color:"#2D2D2D"

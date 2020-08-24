@@ -1,9 +1,11 @@
 import React, { useCallback } from 'react';
-import { Image,Text,View,SafeAreaView,StyleSheet,TouchableOpacity, Alert} from 'react-native';
+import { Image,View,SafeAreaView,StyleSheet,TouchableOpacity, Alert} from 'react-native';
 import { RegularText, ExtraBoldText, BoldText } from '../components/customComponents';
 import { useDispatch } from 'react-redux';
 import * as actions from '../actions/authentication'
 import * as spinner from '../actions/spinner'
+import CommonStatusbar from '../components/CommonStatusbar';
+
 
 const MileVerseGiftScreen : () => React$Node = (props) =>{
     const dispatch = useDispatch();
@@ -63,63 +65,65 @@ const MileVerseGiftScreen : () => React$Node = (props) =>{
     }
 
     return (
-        <SafeAreaView>
-            <View style={[styles.header,styles.shadow]}>
-                <ExtraBoldText text="마일벌스" customStyle={{color:"#707070"}}/>
-                <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
-                    <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
-                </TouchableOpacity>
-            </View>
-            <View style={{backgroundColor:"white",height:"100%",padding:20}}>
-                <View style={{alignItems:"center",justifyContent:"center",marginTop:30}}>
-                    <ExtraBoldText text= "가맹점 정보" customStyle={{fontSize:16,color:'#2D2D2D'}} />
-                    <Image source={require('../../assets/img/logo_c.png')} style={{resizeMode:"contain",height:80,marginTop:20}}/>
-                    <RegularText text="https://mileverse.com" customStyle={{fontSize:13,color:'#2D2D2D',marginTop:10}} />
-                </View>
-                <View style={{marginTop:40}}>
-                    <ExtraBoldText text= "기프티콘 구매" customStyle={{fontSize:16,color:'#2D2D2D',marginBottom:10}} />
-                    <TouchableOpacity onPress={()=>buyGiftCon('S1')}>
-                        <View style={[styles.listWrap,styles.shadow]}>
-                            <View style={{flex:1,alignItems:'center'}}>
-                                <Image source={require('../../assets/img/starb.png')} style={{resizeMode:"contain", height:50}}/>
-                            </View>
-                            <View style={styles.itemInfoWrap}>
-                                <RegularText text="스타벅스 아메리카노 Tall" customStyle={styles.itemName} />
-                                <BoldText text="4100 MVP" customStyle={styles.itemPrice} />
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>buyGiftCon('G1')}>
-                        <View style={[styles.listWrap,styles.shadow]}>
-                            <View style={{flex:2,alignItems:'center'}}>
-                                <Image source={require('../../assets/img/gift_card.png')} style={{resizeMode:"contain", height:50}}/>
-                            </View>
-                            <View style={styles.itemInfoWrap}>
-                                <RegularText text="문화상품권" customStyle={styles.itemName} />
-                                <BoldText text="5000 MVP" customStyle={styles.itemPrice} />
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>buyGiftCon('B1')}>
-                        <View style={[styles.listWrap,styles.shadow]}>
-                            <View style={{flex:1,alignItems:'center'}}>
-                                <Image source={require('../../assets/img/banana_milk.png')} style={{resizeMode:"contain", height:50}}/>
-                            </View>
-                            <View style={styles.itemInfoWrap}>
-                                <RegularText text="바나나 우유" customStyle={styles.itemName} />
-                                <BoldText text="1400 MVP" customStyle={styles.itemPrice} />
-                            </View>
-                        </View>
+        <>
+            <CommonStatusbar backgroundColor="#F9F9F9"/>
+            <SafeAreaView>
+                <View style={[styles.header,styles.shadow]}>
+                    <ExtraBoldText text="마일벌스" customStyle={{color:"#707070"}}/>
+                    <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
+                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
                     </TouchableOpacity>
                 </View>
-                <RegularText 
-                    text="*구매하신 기프티콘은 1~3영업일 이내 회원가입 시 등록한 휴대전화로 발송 됩니다."
-                    customStyle={{color:"#2D2D2D",fontSize:10,marginTop:16}} 
-                />
-                    
-                
-            </View>
-        </SafeAreaView>
+                <View style={{backgroundColor:"white",height:"100%",padding:20}}>
+                    <View style={{alignItems:"center",justifyContent:"center",marginTop:30}}>
+                        <ExtraBoldText text= "가맹점 정보" customStyle={{fontSize:16,color:'#2D2D2D'}} />
+                        <Image source={require('../../assets/img/logo_c.png')} style={{resizeMode:"contain",height:80,marginTop:20}}/>
+                        <RegularText text="https://mileverse.com" customStyle={{fontSize:13,color:'#2D2D2D',marginTop:10}} />
+                    </View>
+                    <View style={{marginTop:40}}>
+                        <ExtraBoldText text= "기프티콘 구매" customStyle={{fontSize:16,color:'#2D2D2D',marginBottom:10}} />
+                        <TouchableOpacity onPress={()=>buyGiftCon('S1')}>
+                            <View style={[styles.listWrap,styles.shadow]}>
+                                <View style={{flex:1,alignItems:'center'}}>
+                                    <Image source={require('../../assets/img/starb.png')} style={{resizeMode:"contain", height:50}}/>
+                                </View>
+                                <View style={styles.itemInfoWrap}>
+                                    <RegularText text="스타벅스 아메리카노 Tall" customStyle={styles.itemName} />
+                                    <BoldText text="4100 MVP" customStyle={styles.itemPrice} />
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>buyGiftCon('G1')}>
+                            <View style={[styles.listWrap,styles.shadow]}>
+                                <View style={{flex:2,alignItems:'center'}}>
+                                    <Image source={require('../../assets/img/gift_card.png')} style={{resizeMode:"contain", height:50}}/>
+                                </View>
+                                <View style={styles.itemInfoWrap}>
+                                    <RegularText text="문화상품권" customStyle={styles.itemName} />
+                                    <BoldText text="5000 MVP" customStyle={styles.itemPrice} />
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>buyGiftCon('B1')}>
+                            <View style={[styles.listWrap,styles.shadow]}>
+                                <View style={{flex:1,alignItems:'center'}}>
+                                    <Image source={require('../../assets/img/banana_milk.png')} style={{resizeMode:"contain", height:50}}/>
+                                </View>
+                                <View style={styles.itemInfoWrap}>
+                                    <RegularText text="바나나 우유" customStyle={styles.itemName} />
+                                    <BoldText text="1400 MVP" customStyle={styles.itemPrice} />
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <RegularText 
+                        text="*구매하신 기프티콘은 1~3영업일 이내 회원가입 시 등록한 휴대전화로 발송 됩니다."
+                        customStyle={{color:"#2D2D2D",fontSize:10,marginTop:16}} 
+                    />             
+                </View>
+            </SafeAreaView>
+        </>
+        
     )
 }
 export default MileVerseGiftScreen;
@@ -135,9 +139,14 @@ const styles = StyleSheet.create({
     shadow:{
         borderColor:"#CCCCCC",
         elevation:2,
-        shadowOffset:0.20,
-        shadowRadius:1.41,
-        shadowOffset:{width:0,height:1},
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 2.22,
+        zIndex:1
     },
     listWrap:{
         flexDirection:"row",

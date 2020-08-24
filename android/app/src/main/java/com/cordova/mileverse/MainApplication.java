@@ -1,4 +1,4 @@
-package com.mileverse;
+package com.cordova.mileverse;
 
 import android.app.Application;
 import android.content.Context;

@@ -2,11 +2,13 @@ import React, { useEffect, useCallback,useState } from 'react';
 import { Image,Text,View,SafeAreaView,TextInput,StyleSheet,TouchableOpacity,Alert} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../actions/authentication'
-import CheckBox from '@react-native-community/checkbox';
+import CheckBox from 'react-native-check-box'
 import axios from 'axios'
 import * as spinner from '../actions/spinner'
 import * as toast from '../actions/toast'
 import { RegularText, ExtraBoldText,BoldText } from '../components/customComponents';
+import CommonStatusbar from '../components/CommonStatusbar';
+
 
 const MileVerseScreen : () => React$Node = (props) =>{
     const dispatch = useDispatch();
@@ -25,7 +27,7 @@ const MileVerseScreen : () => React$Node = (props) =>{
 
 
     useEffect(()=>{
-        axios.post('http://192.168.0.5:3000/api/point/getTrustPoint',{},{headers:{"x-access-token":token,"content-type": "application/json"}})
+        axios.post('http://13.209.142.239:3010/api/point/getTrustPoint',{},{headers:{"x-access-token":token,"content-type": "application/json"}})
         .then((response)=>{
             if(response.data.result === 'success') setTrustPoint(response.data.trust_point)
             else {
@@ -93,71 +95,76 @@ const MileVerseScreen : () => React$Node = (props) =>{
     },[dispatch]);
 
     return (
-        <SafeAreaView>
-            <View style={styles.header}>
-                <ExtraBoldText text="마일리지 교환" customStyle={{color:"#707070"}}/>
-                <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
-                    <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
-                </TouchableOpacity>
-            </View>
-            <View style={{backgroundColor:"white",height:"100%",padding:20}}>
-                <View>
-                    <BoldText text="마일벌스 포인트 전환 신청" customStyle={styles.inputLabel} />
-                    <View style={{padding:5,borderWidth:1,borderColor:"#A9A9A9",borderRadius:10,marginTop:10,flexDirection:"row",alignItems:'center'}}>
-                        <CheckBox
-                            tintColors={{ true: '#8D3981' }}
-                            value={check}
-                            onValueChange={(value) => {
-                                check ? setCheck(false) : setCheck(true); 
-                            } }
-                        />
-                        <RegularText text="개인정보 제 3자 제공 동의" customStyle={[{fontSize:12},styles.inputLabel]} />
-                        <Image source={require('../../assets/img/ico_down.png')} style={{position:"absolute",right:-16,resizeMode:"contain",height:10}}/>
-                    </View>
+        <>
+            <CommonStatusbar backgroundColor="#F9F9F9"/>
+            <SafeAreaView>
+                <View style={styles.header}>
+                    <ExtraBoldText text="마일리지 교환" customStyle={{color:"#707070"}}/>
+                    <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
+                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
+                    </TouchableOpacity>
                 </View>
-                <View style={{marginTop:20}}>
-                    <BoldText text="기업 가입회원 확인" customStyle={styles.inputLabel} />
-                    <View style={{borderWidth:1,borderColor:"#A9A9A9",borderRadius:10,marginTop:10,alignItems:'center',height:202}}>
-                        <View style={{padding:5,borderBottomWidth:1,borderColor:"#A9A9A9",flexDirection:'row',alignItems:'center',height:50}}>
-                            <RegularText text="회원 확인(본인만 가능)" customStyle={styles.boxText} />
-                            <TouchableOpacity style={{flex:3}} onPress={()=>{setAuthBtn("rgb(174, 174, 174)"); setAuthBtnChecked(true); showToast('인증되었습니다.')  }} disabled={authBtnChecked}>
-                                <View style={{backgroundColor:authBtn,padding:10,borderRadius:5,alignItems:'center'}}>
-                                    <BoldText text="회원학인 하기" customStyle={{color:"white"}} />
+                <View style={{backgroundColor:"white",height:"100%",padding:20}}>
+                    <View>
+                        <BoldText text="마일벌스 포인트 전환 신청" customStyle={styles.inputLabel} />
+                        <View style={{padding:5,borderWidth:1,borderColor:"#A9A9A9",borderRadius:10,marginTop:10,flexDirection:"row",alignItems:'center'}}>
+                            <CheckBox
+                                isChecked={check}
+                                checkBoxColor={'#8D3981'}
+                                checkedCheckBoxColor={'#8D3981'}
+                                uncheckedCheckBoxColor={"#999999"}
+                                style={{marginHorizontal:4}}
+                                onClick={() =>check ? setCheck(false) : setCheck(true) }
+                            />
+                            <RegularText text="개인정보 제 3자 제공 동의" customStyle={[{fontSize:12},styles.inputLabel]} />
+                            <Image source={require('../../assets/img/ico_down.png')} style={{position:"absolute",right:-16,resizeMode:"contain",height:10}}/>
+                        </View>
+                    </View>
+                    <View style={{marginTop:20}}>
+                        <BoldText text="기업 가입회원 확인" customStyle={styles.inputLabel} />
+                        <View style={{borderWidth:1,borderColor:"#A9A9A9",borderRadius:10,marginTop:10,alignItems:'center',height:202}}>
+                            <View style={{padding:5,borderBottomWidth:1,borderColor:"#A9A9A9",flexDirection:'row',alignItems:'center',height:50}}>
+                                <RegularText text="회원 확인(본인만 가능)" customStyle={styles.boxText} />
+                                <TouchableOpacity style={{flex:3}} onPress={()=>{setAuthBtn("rgb(174, 174, 174)"); setAuthBtnChecked(true); showToast('인증되었습니다.')  }} disabled={authBtnChecked}>
+                                    <View style={{backgroundColor:authBtn,padding:10,borderRadius:5,alignItems:'center'}}>
+                                        <BoldText text="회원학인 하기" customStyle={{color:"white"}} />
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{padding:5,borderBottomWidth:1,borderColor:"#A9A9A9",flexDirection:'row',alignItems:'center',height:50}}>
+                                <RegularText text="사용가능 포인트" customStyle={styles.boxText} />
+                                <View style={{alignItems:'center',justifyContent:'center',height:30,flex:3}}>
+                                    <RegularText text={trustPoint+" Point"} customStyle={{color:"#8D3981"}} />
                                 </View>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{padding:5,borderBottomWidth:1,borderColor:"#A9A9A9",flexDirection:'row',alignItems:'center',height:50}}>
-                            <RegularText text="사용가능 포인트" customStyle={styles.boxText} />
-                            <View style={{alignItems:'center',justifyContent:'center',height:30,flex:3}}>
-                                <RegularText text={trustPoint+" Point"} customStyle={{color:"#8D3981"}} />
                             </View>
-                        </View>
-                        <View style={{padding:5,borderBottomWidth:1,borderColor:"#A9A9A9",flexDirection:'row',alignItems:'center',height:50}}>
-                            <RegularText text="전환할 포인트" customStyle={styles.boxText} />
-                            <View style={{alignItems:'center',justifyContent:'center',height:30,flex:3}}>
-                                <TextInput onBlur={beforePointOut} onChangeText={text=> beforePoint (text)} keyboardType={'numeric'} style={{borderWidth:1,borderRadius:5,borderColor:"#A9A9A9",width:'100%',color:'#8D3981',height:38,textAlign:'center'}}/>
+                            <View style={{padding:5,borderBottomWidth:1,borderColor:"#A9A9A9",flexDirection:'row',alignItems:'center',height:50}}>
+                                <RegularText text="전환할 포인트" customStyle={styles.boxText} />
+                                <View style={{alignItems:'center',justifyContent:'center',height:30,flex:3}}>
+                                    <TextInput returnKeyType='done' returnKeyLabel="" onBlur={beforePointOut} onChangeText={text=> beforePoint (text)} keyboardType={'numeric'} style={{borderWidth:1,borderRadius:5,borderColor:"#A9A9A9",width:'100%',color:'#8D3981',height:38,textAlign:'center'}}/>
+                                </View>
                             </View>
-                        </View>
-                        <View style={{padding:5,flexDirection:'row',alignItems:'center',height:50}}>
-                            <RegularText text="전환되는 MVP" customStyle={styles.boxText} />
-                            <View style={{alignItems:'center',justifyContent:'center',height:30,flex:3}}>
-                                <TextInput value={String(toMvp)} editable={false} style={{backgroundColor:"#F8EDF6",borderWidth:1,borderRadius:5,borderColor:"#A9A9A9",width:'100%',color:'#8D3981',height:38,textAlign:'center'}}/>
+                            <View style={{padding:5,flexDirection:'row',alignItems:'center',height:50}}>
+                                <RegularText text="전환되는 MVP" customStyle={styles.boxText} />
+                                <View style={{alignItems:'center',justifyContent:'center',height:30,flex:3}}>
+                                    <TextInput value={String(toMvp)} editable={false} style={{backgroundColor:"#F8EDF6",borderWidth:1,borderRadius:5,borderColor:"#A9A9A9",width:'100%',color:'#8D3981',height:38,textAlign:'center'}}/>
+                                </View>
                             </View>
                         </View>
                     </View>
-                </View>
-                <RegularText text={warnMsg} customStyle={{color:'red',fontSize:12,marginTop:8}} />
-                <View style={{marginTop:10}}>
-                    <RegularText text="* 주의사항" customStyle={styles.inputLabel} />
-                    <RegularText text={"전환된 마일리지는 환불되지 않습니다.\n상기 포인트는 상용화 시 소멸되며, 최소 1MVP이상 교환 가능합니다."}customStyle={{marginTop:5,fontSize:12,color:'#707070'}} />
-                </View>
-                <TouchableOpacity disabled={changeBtnDisabed} onPress={()=>updateMvp(convertedPoint)}>
-                    <View style={{marginTop:20,backgroundColor:"#8D3981",justifyContent:'center',alignItems:"center",borderRadius:8,height:60,opacity:changeBtnDisabedColor}}>
-                        <BoldText text="교환" customStyle={{color:"white",fontSize:20}} />
+                    <RegularText text={warnMsg} customStyle={{color:'red',fontSize:12,marginTop:8}} />
+                    <View style={{marginTop:10}}>
+                        <RegularText text="* 주의사항" customStyle={styles.inputLabel} />
+                        <RegularText text={"전환된 마일리지는 환불되지 않습니다.\n상기 포인트는 상용화 시 소멸되며, 최소 1MVP이상 교환 가능합니다."}customStyle={{marginTop:5,fontSize:12,color:'#707070'}} />
                     </View>
-                </TouchableOpacity>
-            </View>
-        </SafeAreaView>
+                    <TouchableOpacity disabled={changeBtnDisabed} onPress={()=>updateMvp(convertedPoint)}>
+                        <View style={{marginTop:20,backgroundColor:"#8D3981",justifyContent:'center',alignItems:"center",borderRadius:8,height:60,opacity:changeBtnDisabedColor}}>
+                            <BoldText text="교환" customStyle={{color:"white",fontSize:20}} />
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
+        </>
+        
     )
 }
 export default MileVerseScreen;
@@ -171,9 +178,14 @@ const styles = StyleSheet.create({
         alignItems:'center',
         flexDirection:'row',
         elevation:2,
-        shadowOffset:0.20,
-        shadowRadius:1.41,
-        shadowOffset:{width:0,height:1}
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 2.22,
+        zIndex:1
     },
     inputLabel:{
         color:"#707070"
