@@ -12,11 +12,10 @@ import axios from 'axios';
 export function loginRequest(id, password) {
     return (dispatch,getState) =>{
         dispatch(login());
-        // http://13.209.142.239:3000/users/login
         return axios.post('http://13.209.142.239:3010/users/login',{id:id,password:password})
             .then((response)=>{
                 var _response = response.data
-                _response.result === "success" ? dispatch(loginSuccess(_response.username,_response.mvp,_response.token)) : dispatch(loginFailure())
+                _response.result === "success" ? dispatch(loginSuccess(_response.username,_response.mvp)) : dispatch(loginFailure())
             }).catch((error)=>{
                 dispatch(loginFailure());
             }).then(()=> { return getState().authentication.login.status });
@@ -39,13 +38,12 @@ export function logoutRequest() {
 export function verifyRequest(_parmas) {
     return (dispatch,getState) =>{
         dispatch(login());
-        // http://13.209.142.239:3000/users/login
         return axios.post('http://13.209.142.239:3010/users/verify',_parmas)
             .then((response)=>{
                 var _response = response.data
-                _response.status === "login" ?  dispatch(loginSuccess(_response.username,_response.mvp,_response.token)) : dispatch(logout())
+                _response.status === "login" ?  dispatch(loginSuccess(_response.username,_response.mvp)) : dispatch(logout())
             }).catch((error)=>{
-                // dispatch(loginFailure());
+                dispatch(logout())
             }).then(()=> { return getState().authentication.login.status });
     }
 }
@@ -53,7 +51,7 @@ export function verifyRequest(_parmas) {
 export function convertMVPRequest(_amount) {
     return (dispatch,getState) =>{
         dispatch(initRequest());
-        return axios.post('http://13.209.142.239:3010/api/point/trustToMvp',{amount:_amount},{headers:{"x-access-token":getState().authentication.status.token}})
+        return axios.post('http://13.209.142.239:3010/api/point/trustToMvp',{amount:_amount})
             .then((response)=>{
                 var _response = response.data
                 _response.result === "success" ? dispatch(udpateMvp(_response.mvp)) : dispatch(failureRequest(_response.msg))
@@ -66,7 +64,7 @@ export function convertMVPRequest(_amount) {
 export function buyGiftConByMVP(_item,_comp) {
     return (dispatch,getState) =>{
         dispatch(initRequest());
-        return axios.post('http://13.209.142.239:3010/api/point/useMvp',{item:_item,comp:_comp},{headers:{"x-access-token":getState().authentication.status.token}})
+        return axios.post('http://13.209.142.239:3010/api/point/useMvp',{item:_item,comp:_comp})
             .then((response)=>{
                 var _response = response.data
                 _response.result === "success" ? dispatch(udpateMvp(_response.mvp)) : dispatch(failureRequest(_response.msg))
@@ -88,12 +86,11 @@ export function logout() {
     };
 }
 
-export function loginSuccess(username,mvp,token) {
+export function loginSuccess(username,mvp) {
     return {
         type: AUTH_LOGIN_SUCCESS,
         username,
-        mvp,
-        token
+        mvp
     };
 }
 

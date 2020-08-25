@@ -69,12 +69,12 @@ const TabScreen = ({navigation}) =>{
 					<Image source={focused ? require('./assets/img/home_active.png') : require('./assets/img/home.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
 				)
 			}}}/>
-			<Tab.Screen name="MyMvp" component={MymvpScreen} options={{title:"My mvp",tabBarIcon:({focused})=>{
+			<Tab.Screen name="MyMvp" component={MymvpScreen} options={{title:"My MVP",tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/mvp_active.png') : require('./assets/img/mvp.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
 				)
 			}}} listeners={()=>({tabPress:(event)=>LoginGuard(event,navigation,stat,"MyMvp")})}/>
-			<Tab.Screen name="Branch" component={BranchScreen} options={{title:"가맹점 정보",tabBarIcon:({focused})=>{
+			<Tab.Screen name="Branch" component={BranchScreen} options={{title:"가맹점",tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/branch_active.png') : require('./assets/img/branch.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
 				)

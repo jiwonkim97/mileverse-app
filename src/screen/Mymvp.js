@@ -13,9 +13,10 @@ const MymvpScreen : () => React$Node = (props) =>{
     const [data,setData] = useState([]);
 
     useEffect(()=>{
-        axios.post('http://13.209.142.239:3010/api/point/getHistory',{},{headers:{"x-access-token":token}})
+        axios.post('http://13.209.142.239:3010/api/point/getHistory',{})
             .then((response)=>{
                 var _response = response.data
+                console.log(_response)
                 setData(_response.data)
             }).catch((error)=>{
                 console.log(error)
@@ -66,18 +67,18 @@ const MymvpScreen : () => React$Node = (props) =>{
                     <View style={styles.cardWrap}>
                         <View style={{alignItems:"center"}}>
                             <BoldText text={"My MVP"} customStyle={{fontSize:18,marginTop:20}}/>
-                            <View style={{flexDirection:'row',marginTop:10}}>
-                                <View style={{flex:4,height:80,alignItems:'flex-end',justifyContent:"center",paddingRight:10}}>
+                            <View style={{flexDirection:'row'}}>
+                                <View style={{flex:3,height:80,alignItems:'flex-end',justifyContent:"center",paddingRight:10}}>
                                     <Image source={require('../../assets/img/mvp_coin.png')} style={{resizeMode:'contain',height:60,width:60}}></Image>
                                 </View>
-                                <View style={{flex:5,height:80}}>
+                                <View style={{flex:5,marginTop:10}}>
                                     <View style={{flex:5,justifyContent:'center'}}>
                                         <RegularText text={"나의 보유 포인트 :"}/>
                                     </View>
                                     <View style={{flex:6,justifyContent:'flex-start'}}>
-                                        <RegularText text={
-                                            stat ? (mvp) : ("로그인이 필요합니다.")
-                                            }customStyle={{fontSize:18,color:'#8D3981'}} />
+                                        {
+                                            stat ? <BoldText text={mvp +" MVP"} customStyle={styles.mvpCardPointText}/> : <RegularText text="로그인이 필요합니다." customStyle={styles.mvpCardPointText}/>
+                                        }
                                     </View>
                                 </View>
                             </View>
@@ -97,7 +98,7 @@ const MymvpScreen : () => React$Node = (props) =>{
                     </View>
                     <View style={styles.listWrap}>
                         <View style={{padding:10}}>
-                            <ExtraBoldText text="사용 및 교환 내역" customStyle={{fontSize:20}}/>
+                            <ExtraBoldText text="사용 및 교환 내역" customStyle={{fontSize:16}}/>
                         </View>
                         <FlatList
                             data={data}
@@ -164,5 +165,9 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.05,
         shadowRadius: 2.22
+    },
+    mvpCardPointText:{
+        color:"#8D3981",
+        fontSize:18
     }
 });

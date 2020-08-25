@@ -23,16 +23,12 @@ const CustomDrawerContent : () => React$Node = (props) =>{
         <>
             {Platform.OS === 'ios'? <CommonStatusbar backgroundColor="#8D3981"/> : null  }
             <SafeAreaView style={{flex:1,backgroundColor:'#F2F2F2'}}>
-                <View style={{flex:6, alignItems:'center', justifyContent:'center', backgroundColor:'#8D3981',width:'100%'}}>
-                    <View style={{flex:1,width:"100%",alignItems:'flex-end',justifyContent:"center", paddingRight:10}}>
-                        <TouchableOpacity onPress={()=>props.navigation.closeDrawer()}>
-                            <Image source={require('../../assets/img/ico_close_w.png')} style={{width:15,height:15,resizeMode:"contain"}}></Image>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{flex:3,width:"100%",alignItems:'center',justifyContent:"center",paddingBottom:10}}>
-                        <Image source={require('../../assets/img/mileverse_letter.png')} style={{width:180,resizeMode:"contain"}}></Image>
-                    </View>
-                    <View style={{flex:2,width:"100%",alignItems:"center"}}>
+                <View style={{flex:5, alignItems:'center', justifyContent:'center', backgroundColor:'#8D3981',width:'100%'}}>
+                    <TouchableOpacity onPress={()=>props.navigation.closeDrawer()} style={{position:'absolute',right:10,top:35}}>
+                        <Image source={require('../../assets/img/ico_close_w.png')} style={{width:15,height:15,resizeMode:"contain"}}></Image>
+                    </TouchableOpacity>
+                    <View>
+                        <Image source={require('../../assets/img/mileverse_letter.png')} style={{marginTop:30,height:50,width:170,resizeMode:"contain"}} />
                         <RegularText customStyle={styles.loginText} text={stat ? (user_name+"님 반갑습니다!") : ("로그인이 필요합니다.")} />
                     </View>
                 </View>
@@ -99,6 +95,7 @@ const styles = StyleSheet.create({
         paddingBottom:5,
         paddingRight:13,
         borderRadius:13,
-        overflow:'hidden'
+        overflow:'hidden',
+        textAlign:'center'
     }
 });

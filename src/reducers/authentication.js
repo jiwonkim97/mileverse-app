@@ -7,7 +7,6 @@ const initialState = {
     },
     status: {
         isLoggedIn: false,
-        token:''
     },
     userInfo:{
         mvp:"",
@@ -36,7 +35,6 @@ export default function authentication(state, action) {
                 },
                 status: {
                     isLoggedIn: { $set: false },
-                    token: { $set: ''}
                 },
                 userInfo: {
                     currentUser : {$set: ""},
@@ -50,7 +48,6 @@ export default function authentication(state, action) {
                 },
                 status: {
                     isLoggedIn: { $set: true },
-                    token: { $set: action.token }
                 },userInfo:{
                     currentUser : {$set: action.username},
                     mvp: {$set : action.mvp}

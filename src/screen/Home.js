@@ -34,8 +34,7 @@ const HomeScreen : () => React$Node = (props) =>{
     useEffect(()=>{
         onVerifyRequest();
         setTimeout(()=>{
-            SplashScreen.hide()
-            // onEventPopup();
+            onEventPopup();
         },1000)
         
     },[])
@@ -51,21 +50,26 @@ const HomeScreen : () => React$Node = (props) =>{
 
     
     const onEventPopup = async() =>{
-        await AsyncStorage.getItem("@HomeStorage").then(value=>{
-            if(value !== null) {
-                let _data = JSON.parse(value);
-                let saveDate = new Date(_data.saveTime);
-                let currentDate = new Date();
-                let diff = (currentDate.getTime() - saveDate.getTime()) / (24 * 60 * 60 * 1000);
-                if( diff > 7) {
-                    setModalVisible(true)
+        if(!stat){
+            await AsyncStorage.getItem("@HomeStorage").then(value=>{
+                if(value !== null) {
+                    let _data = JSON.parse(value);
+                    let saveDate = new Date(_data.saveTime);
+                    let currentDate = new Date();
+                    let diff = (currentDate.getTime() - saveDate.getTime()) / (24 * 60 * 60 * 1000);
+                    if( diff > 7) {
+                        setModalVisible(true);
+                    }
+                }else {
+                    setModalVisible(true);
                 }
-            }else {
-                setModalVisible(true)
-            }
-        }).then(()=>{
-            // SplashScreen.hide()
-        })
+            }).then(()=>{
+                SplashScreen.hide();
+            })    
+        } else {
+            SplashScreen.hide();
+        }
+        
     }
 
 
@@ -88,21 +92,21 @@ const HomeScreen : () => React$Node = (props) =>{
                         <View style={{width:'100%'}}>
                             <Image source={require('../../assets/img/main_banner.png')} style={{width:"100%", height:145, resizeMode:"stretch"} }/>
                         </View>
-                        <View style={styles.cardWrap}>
+                        <View style={[styles.cardWrap,{marginTop:16}]}>
                             <View style={{alignItems:"center"}}>
                                 <BoldText text={"My MVP"} customStyle={{fontSize:18,marginTop:20}}/>
-                                <View style={{flexDirection:'row',marginTop:10}}>
-                                    <View style={{flex:4,height:80,alignItems:'flex-end',justifyContent:"center",paddingRight:10}}>
+                                <View style={{flexDirection:'row'}}>
+                                    <View style={{flex:3,height:80,alignItems:'flex-end',justifyContent:"center",paddingRight:10}}>
                                         <Image source={require('../../assets/img/mvp_coin.png')} style={{resizeMode:'contain',height:60,width:60}}></Image>
                                     </View>
-                                    <View style={{flex:5,height:80}}>
+                                    <View style={{flex:5,marginTop:10}}>
                                         <View style={{flex:5,justifyContent:'center'}}>
                                             <RegularText text={"나의 보유 포인트 :"}/>
                                         </View>
                                         <View style={{flex:6,justifyContent:'flex-start'}}>
-                                            <RegularText text={
-                                                stat ? (mvp) : ("로그인이 필요합니다.")
-                                                }customStyle={{fontSize:18,color:'#8D3981'}} />
+                                            {
+                                                stat ? <BoldText text={mvp +" MVP"} customStyle={styles.mvpCardPointText}/> : <RegularText text="로그인이 필요합니다." customStyle={styles.mvpCardPointText}/>
+                                            }
                                         </View>
                                     </View>
                                 </View>
@@ -121,25 +125,25 @@ const HomeScreen : () => React$Node = (props) =>{
                             </View>
                         </View>
                         <TouchableOpacity onPress={()=>navigateScreen('Branch')}>
-                            <View style={styles.cardWrap}>
+                            <View style={[styles.cardWrap,{paddingHorizontal:10,paddingBottom:10}]}>
                                 <View style={{justifyContent:"center",alignItems:"center",paddingVertical:20}}>
                                     <BoldText text="My 가맹점 확인" customStyle={{fontSize:18}} />
                                 </View>
-                                <View style={{flexDirection:"row",justifyContent:"space-around",paddingVertical:10}}>
+                                <View style={{flexDirection:"row",justifyContent:"space-between"}}>
                                     <View style={[styles.cardWrap,styles.branchWrap]}>
-                                        <Image source={require("../../assets/img/store_2.png")} style={{width:30,height:40,resizeMode:"contain"}} />
+                                        <Image source={require("../../assets/img/store_2.png")} style={{width:30,height:35,resizeMode:"contain",marginTop:5}} />
                                         <RegularText text="커피 전문점" customStyle={styles.branchTxt}/>
                                     </View>
                                     <View style={[styles.cardWrap,styles.branchWrap]}>
-                                        <Image source={require("../../assets/img/store_3.png")} style={{width:30,height:40,resizeMode:"contain"}} />
+                                        <Image source={require("../../assets/img/store_3.png")} style={{width:40,height:40,resizeMode:"contain"}} />
                                         <RegularText text="편의점" customStyle={styles.branchTxt}/>
                                     </View>
                                     <View style={[styles.cardWrap,styles.branchWrap]}>
-                                        <Image source={require("../../assets/img/store_4.png")} style={{width:30,height:40,resizeMode:"contain"}} />
+                                        <Image source={require("../../assets/img/store_4.png")} style={{width:40,height:40,resizeMode:"contain"}} />
                                         <RegularText text="베이커리" customStyle={styles.branchTxt}/>
                                     </View>
                                     <View style={[styles.cardWrap,styles.branchWrap]}>
-                                        <Image source={require("../../assets/img/store_5.png")} style={{width:30,height:40,resizeMode:"contain"}} />
+                                        <Image source={require("../../assets/img/store_5.png")} style={{width:40,height:40,resizeMode:"contain"}} />
                                         <RegularText text="음식점" customStyle={styles.branchTxt}/>
                                     </View>
                                 </View>
@@ -175,7 +179,7 @@ const HomeScreen : () => React$Node = (props) =>{
                                     setTimeout(()=>{
                                         props.navigation.navigate("SignUp")
                                     },500)
-                                    }} style={{position:"absolute",bottom:10,left:0,right:0,alignItems:'center',justifyContent:"center"}}>
+                                    }} style={{position:"absolute",bottom:20,left:0,right:0,alignItems:'center',justifyContent:"center"}}>
                                     <View style={{backgroundColor:"#8D3981",borderRadius:6,padding:10}}>
                                         <BoldText text="회원가입 하러가기" customStyle={{color:"white"}} />
                                     </View>
@@ -254,6 +258,7 @@ const styles = StyleSheet.create({
         height:70,
         width:70,
         marginTop:0,
+        elevation:1,
         shadowOffset: {
             width: 0,
             height: 1,
@@ -262,5 +267,9 @@ const styles = StyleSheet.create({
     branchTxt:{
         fontSize:10,
         marginTop:4
+    },
+    mvpCardPointText:{
+        color:"#8D3981",
+        fontSize:18
     }
 });
