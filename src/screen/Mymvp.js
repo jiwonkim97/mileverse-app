@@ -16,10 +16,9 @@ const MymvpScreen : () => React$Node = (props) =>{
         axios.post('http://13.209.142.239:3010/api/point/getHistory',{})
             .then((response)=>{
                 var _response = response.data
-                console.log(_response)
                 setData(_response.data)
             }).catch((error)=>{
-                console.log(error)
+                alert("사용기록을 불러오는데 실패했습니다.")
             });
     },[mvp])
     const navigateScreen = (_target) =>{

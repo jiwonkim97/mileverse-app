@@ -27,7 +27,7 @@ const MileVerseScreen : () => React$Node = (props) =>{
 
 
     useEffect(()=>{
-        axios.post('http://13.209.142.239:3010/api/point/getTrustPoint',{},{headers:{"x-access-token":token,"content-type": "application/json"}})
+        axios.post('http://13.209.142.239:3010/api/point/getTrustPoint',{})
         .then((response)=>{
             if(response.data.result === 'success') setTrustPoint(response.data.trust_point)
             else {

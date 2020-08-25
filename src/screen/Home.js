@@ -33,24 +33,23 @@ const HomeScreen : () => React$Node = (props) =>{
     }
     useEffect(()=>{
         onVerifyRequest();
-        setTimeout(()=>{
-            onEventPopup();
-        },1000)
-        
     },[])
     const onVerifyRequest = async() =>{
         await AsyncStorage.getItem("@loginStorage").then(value=>{
             dispatch(spinner.showSpinner());
             let _data = {};
             if(value !== null) _data = JSON.parse(value);
-            dispatch(actions.verifyRequest(_data))
-            dispatch(spinner.hideSpinner())
+            dispatch(actions.verifyRequest(_data)).then(rst=>{
+                dispatch(spinner.hideSpinner())
+                onEventPopup(rst);
+            })
+            
         })
     }
 
     
-    const onEventPopup = async() =>{
-        if(!stat){
+    const onEventPopup = async(_rst) =>{
+        if(_rst !== "SUCCESS"){
             await AsyncStorage.getItem("@HomeStorage").then(value=>{
                 if(value !== null) {
                     let _data = JSON.parse(value);
