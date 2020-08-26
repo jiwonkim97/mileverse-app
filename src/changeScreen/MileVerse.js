@@ -5,7 +5,7 @@ import * as actions from '../actions/authentication'
 import CheckBox from 'react-native-check-box'
 import axios from 'axios'
 import * as spinner from '../actions/spinner'
-import * as toast from '../actions/toast'
+import * as toast from '../components/Toast';
 import { RegularText, ExtraBoldText,BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 
@@ -60,11 +60,6 @@ const MileVerseScreen : () => React$Node = (props) =>{
         if(Number(convertedPoint <= 0) && convertedPoint !== '') setWarnMsg("1포인트 이상부터 교환 가능 합니다.")
         else setWarnMsg("")
     }
-
-    const showToast = (msg) =>{
-        dispatch(toast.onToastAlert(msg))
-    }
-    
 
     const updateMvp = useCallback( _mvp => {
         dispatch(spinner.showSpinner());
@@ -125,7 +120,7 @@ const MileVerseScreen : () => React$Node = (props) =>{
                         <View style={{borderWidth:1,borderColor:"#A9A9A9",borderRadius:10,marginTop:10,alignItems:'center',height:202}}>
                             <View style={{padding:5,borderBottomWidth:1,borderColor:"#A9A9A9",flexDirection:'row',alignItems:'center',height:50}}>
                                 <RegularText text="회원 확인(본인만 가능)" customStyle={styles.boxText} />
-                                <TouchableOpacity style={{flex:3}} onPress={()=>{setAuthBtn("rgb(174, 174, 174)"); setAuthBtnChecked(true); showToast('인증되었습니다.')  }} disabled={authBtnChecked}>
+                                <TouchableOpacity style={{flex:3}} onPress={()=>{setAuthBtn("rgb(174, 174, 174)"); setAuthBtnChecked(true); toast.info('인증되었습니다.');  }} disabled={authBtnChecked}>
                                     <View style={{backgroundColor:authBtn,padding:10,borderRadius:5,alignItems:'center'}}>
                                         <BoldText text="회원학인 하기" customStyle={{color:"white"}} />
                                     </View>

@@ -1,5 +1,5 @@
 
-import React,{useEffect } from 'react';
+import React from 'react';
 import { useWindowDimensions,Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -13,7 +13,6 @@ import thunk from 'redux-thunk';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import CustomDrawerContent from './src/components/Drawer'
-import ToastComponent from './src/components/Toast'
 import { RootSiblingParent } from 'react-native-root-siblings';
 
 import HomeScreen from './src/screen/Home'
@@ -28,7 +27,6 @@ import SignUpScreen from './src/screen/SignUp'
 import ChangeScreen from './src/screen/Change'
 import MileVerseScreen from './src/changeScreen/MileVerse';
 import MileVerseGiftScreen from './src/gifticon/MileVerse'
-import SplashScreen from 'react-native-splash-screen'
 
 
 const Tab = createBottomTabNavigator();
@@ -123,17 +121,10 @@ const SpinnerComponent = () =>{
 }
 const App: () => React$Node = () => {
 
-	useEffect(() => {
-		setTimeout(() => {
-			// SplashScreen.hide();
-			
-		}, 2000);
-	  }, []);
 	return (
 		<RootSiblingParent>
 			<Provider store={store}>
 				<SpinnerComponent />
-				<ToastComponent />
 				<NavigationContainer>
 					<Stack.Navigator screenOptions={{headerShown:false,cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS}} mode='card'>
 						<Stack.Screen
@@ -152,7 +143,6 @@ const App: () => React$Node = () => {
 				</NavigationContainer>
 			</Provider>
 		</RootSiblingParent>
-		
 	);
 };
 

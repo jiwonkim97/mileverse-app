@@ -41,14 +41,16 @@ const HomeScreen : () => React$Node = (props) =>{
             if(value !== null) _data = JSON.parse(value);
             dispatch(actions.verifyRequest(_data)).then(rst=>{
                 dispatch(spinner.hideSpinner())
-                onEventPopup(rst);
+                setTimeout(()=>{
+                    onEventPopup(rst);
+                },2000)
             })
-            
         })
     }
 
     
     const onEventPopup = async(_rst) =>{
+        SplashScreen.hide();
         if(_rst !== "SUCCESS"){
             await AsyncStorage.getItem("@HomeStorage").then(value=>{
                 if(value !== null) {
@@ -62,13 +64,8 @@ const HomeScreen : () => React$Node = (props) =>{
                 }else {
                     setModalVisible(true);
                 }
-            }).then(()=>{
-                SplashScreen.hide();
             })    
-        } else {
-            SplashScreen.hide();
         }
-        
     }
 
 
@@ -104,7 +101,7 @@ const HomeScreen : () => React$Node = (props) =>{
                                         </View>
                                         <View style={{flex:6,justifyContent:'flex-start'}}>
                                             {
-                                                stat ? <BoldText text={mvp +" MVP"} customStyle={styles.mvpCardPointText}/> : <RegularText text="로그인이 필요합니다." customStyle={styles.mvpCardPointText}/>
+                                                stat ? <BoldText text={mvp +" MVP"} customStyle={[styles.mvpCardPointText,{fontSize:20}]}/> : <RegularText text="로그인이 필요합니다." customStyle={styles.mvpCardPointText}/>
                                             }
                                         </View>
                                     </View>

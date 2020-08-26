@@ -76,7 +76,7 @@ const MymvpScreen : () => React$Node = (props) =>{
                                     </View>
                                     <View style={{flex:6,justifyContent:'flex-start'}}>
                                         {
-                                            stat ? <BoldText text={mvp +" MVP"} customStyle={styles.mvpCardPointText}/> : <RegularText text="로그인이 필요합니다." customStyle={styles.mvpCardPointText}/>
+                                            stat ? <BoldText text={mvp +" MVP"} customStyle={[styles.mvpCardPointText,{fontSize:20}]}/> : <RegularText text="로그인이 필요합니다." customStyle={styles.mvpCardPointText}/>
                                         }
                                     </View>
                                 </View>

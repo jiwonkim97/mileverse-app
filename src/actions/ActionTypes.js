@@ -14,7 +14,3 @@ export const FAIL_REQUEST_STAT = "FAIL_REQUEST_STAT";
 // SPINNER
 export const SHOW_SPINNER = "SHOW_SPINNER"
 export const HIDE_SPINNER = "HIDE_SPINNER"
-
-// TOAST
-export const SHOW_TOAST = "SHOW_TOAST"
-export const HIDE_TOAST = "HIDE_TOAST"

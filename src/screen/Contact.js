@@ -1,7 +1,7 @@
 import React,{  useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Image,View,SafeAreaView,TextInput,StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import * as toast from '../actions/toast'
+import * as toast from '../components/Toast';
 import ImagePicker from 'react-native-image-picker';
 import DocumentPicker from 'react-native-document-picker';
 import {BoldText} from '../components/customComponents';
@@ -20,17 +20,13 @@ const ContactScreen : () => React$Node = (props) =>{
     const [file,setFile] = useState({})
     const [fileName,setFileName] = useState("")
 
-    const errorToast = (msg) =>{
-        dispatch(toast.onErrorAlert(msg))
-    }
-
     const sendMail = () =>{
         if(mail === '') {
-            errorToast('회신 메일을 입력해주세요.')
+            toast.error('회신 메일을 입력해주세요.')
         } else if(title === '') {
-            errorToast('메일 제목을 입력해주세요.')
+            toast.error('메일 제목을 입력해주세요.')
         } else if(contents === '') {
-            errorToast('메일 내용을 입력해주세요.')
+            toast.error('메일 내용을 입력해주세요.')
         } else {
             dispatch(spinner.showSpinner());
             let data = new FormData();

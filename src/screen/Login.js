@@ -1,12 +1,12 @@
 import React, { useEffect, useCallback,useState } from 'react';
-import { Image,Text,View,SafeAreaView,TextInput,StyleSheet,Alert } from 'react-native';
+import { Image,View,SafeAreaView,TextInput,StyleSheet,Alert } from 'react-native';
 import CheckBox from 'react-native-check-box'
 import { useDispatch } from 'react-redux';
 import * as actions from '../actions/authentication'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as spinner from '../actions/spinner'
-import * as toast from '../actions/toast'
+import * as toast from '../components/Toast'
 import {BoldText, RegularText} from '../components/customComponents';
 
 
@@ -23,15 +23,12 @@ const LoginScreen : () => React$Node = (props) =>{
     useEffect(() => {
         storageGetData()
     },[]);
-    const errorToast = (msg) =>{
-        dispatch(toast.onErrorAlert(msg))
-    }
     
     const requestLogin = useCallback((_id,_pw)=>{
         if(_id === '') {
-            errorToast("아이디를 입력해 주세요.")
+            toast.error("아이디를 입력해 주세요.")
         } else if (_pw === '') {
-            errorToast("비밀번호를 입력해 주세요.")
+            toast.error("비밀번호를 입력해 주세요.")
         } else {
             dispatch(spinner.showSpinner());
             dispatch(actions.loginRequest(_id,_pw)).then((result)=>{

@@ -1,15 +1,13 @@
 import React, {useState,useEffect} from 'react';
-import { Text,View,SafeAreaView,TextInput,StyleSheet,ScrollView,Image,TouchableOpacity, Alert } from 'react-native';
+import { View,SafeAreaView,TextInput,StyleSheet,ScrollView,Image,TouchableOpacity, Alert } from 'react-native';
 import CheckBox from 'react-native-check-box'
 import axios from 'axios'
-import { useDispatch } from 'react-redux';
-import * as toast from '../actions/toast'
 import { RegularText, ExtraBoldText,BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
+import * as toast from '../components/Toast'
 
 
 const SignUpScreen : () => React$Node = (props) =>{
-    const dispatch = useDispatch();
 
     const [check, setCheck] = useState(false)
     const [term, setTerm] = useState("")
@@ -24,21 +22,15 @@ const SignUpScreen : () => React$Node = (props) =>{
 
     useEffect(()=>{
         fetch('http://13.209.142.239:3010/get/terms').then(res=>res.json()).then(data=>setTerm(data.content))
-    })
-    const errorToast = (msg) =>{
-        dispatch(toast.onErrorAlert(msg))
-    }
-    const showToast = (msg) =>{
-        dispatch(toast.onToastAlert(msg))
-    }
+    },[])
 
     const doSignUp = ()=>{
-        if(doubleChk === false) errorToast('아이디 중복확인을 해주세요.')
-        else if(password !== password2) errorToast("비밀번호를 확인하여 주세요.")
-        else if(name === "") errorToast('이름을 확인하여 주세요.')
-        else if(phone === "") errorToast('휴대폰 번호를 확인하여 주세요.')
-        else if(mail === "") errorToast('이메일을 확인하여 주세요.')
-        else if(check === false) errorToast("이용약관에 동의하여 주세요.")
+        if(doubleChk === false) toast.error('아이디 중복확인을 해주세요.')
+        else if(password !== password2) toast.error("비밀번호를 확인하여 주세요.")
+        else if(name === "") toast.error('이름을 확인하여 주세요.')
+        else if(phone === "") toast.error('휴대폰 번호를 확인하여 주세요.')
+        else if(mail === "") toast.error('이메일을 확인하여 주세요.')
+        else if(check === false) toast.error("이용약관에 동의하여 주세요.")
         else {
             axios.post('http://13.209.142.239:3010/users/register',{id:id,name:name,phone:phone,pw:password2,email:mail})
             .then((response)=>{
@@ -56,10 +48,10 @@ const SignUpScreen : () => React$Node = (props) =>{
         axios.post('http://13.209.142.239:3010/users/doubleCheck',{id:id})
         .then((response)=>{
             if(response.data.result==="success") {
-                showToast('사용 가능한 아이디입니다.')
+                toast.info('사용 가능한 아이디입니다.')
                 setDoubleChk(true)
             } else {
-                errorToast("중복된 아이디가 있습니다.")
+                toast.error("중복된 아이디가 있습니다.")
                 setDoubleChk(false)
             }
         }).catch((error)=>{
