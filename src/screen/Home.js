@@ -11,6 +11,8 @@ import { RegularText, BoldText } from '../components/customComponents';
 import SplashScreen from 'react-native-splash-screen';
 import CommonStatusbar from '../components/CommonStatusbar';
 
+import axios from 'axios';
+import noticeAlert from '../components/NoticeAlert';
 
 
 
@@ -20,6 +22,7 @@ const HomeScreen : () => React$Node = (props) =>{
     const [ignore, setIgnore] = useState(false)
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
     const mvp = useSelector(state => state.authentication.userInfo.mvp);
+    const _ver = useSelector(state => state.global.version);
     
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
@@ -32,8 +35,19 @@ const HomeScreen : () => React$Node = (props) =>{
         stat ? props.navigation.navigate(_target) : props.navigation.navigate("Login")
     }
     useEffect(()=>{
-        onVerifyRequest();
+        axios.post('http://192.168.0.5:3010/api/notice/initRequest',{version:_ver})
+        .then(response=>{
+            var _response = response.data
+            noticeAlert(_response.rows,_ver).then(()=>{
+                onVerifyRequest();
+            }).catch(e=>{
+                console.log(e)
+            })
+        }).catch((error)=>{
+            console.log(error)
+        });
     },[])
+    
     const onVerifyRequest = async() =>{
         await AsyncStorage.getItem("@loginStorage").then(value=>{
             dispatch(spinner.showSpinner());

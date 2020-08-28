@@ -122,7 +122,7 @@ const MileVerseScreen : () => React$Node = (props) =>{
                                 <RegularText text="회원 확인(본인만 가능)" customStyle={styles.boxText} />
                                 <TouchableOpacity style={{flex:3}} onPress={()=>{setAuthBtn("rgb(174, 174, 174)"); setAuthBtnChecked(true); toast.info('인증되었습니다.');  }} disabled={authBtnChecked}>
                                     <View style={{backgroundColor:authBtn,padding:10,borderRadius:5,alignItems:'center'}}>
-                                        <BoldText text="회원학인 하기" customStyle={{color:"white"}} />
+                                        <BoldText text="회원확인 하기" customStyle={{color:"white"}} />
                                     </View>
                                 </TouchableOpacity>
                             </View>
