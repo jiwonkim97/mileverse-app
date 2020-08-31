@@ -35,17 +35,14 @@ const HomeScreen : () => React$Node = (props) =>{
         stat ? props.navigation.navigate(_target) : props.navigation.navigate("Login")
     }
     useEffect(()=>{
-        axios.post('http://192.168.0.5:3010/api/notice/initRequest',{version:_ver})
-        .then(response=>{
-            var _response = response.data
-            noticeAlert(_response.rows,_ver).then(()=>{
-                onVerifyRequest();
-            }).catch(e=>{
-                console.log(e)
-            })
-        }).catch((error)=>{
-            console.log(error)
-        });
+        async function checkNotice(){
+            const _getNotice = await axios.post('http://13.209.142.239:3010/api/notice/initRequest',{version:_ver});
+            const _response = _getNotice.data.rows
+            const _notice = await noticeAlert(_response,_ver);
+            if(_notice === true) onVerifyRequest();
+        }
+        
+        checkNotice();
     },[])
     
     const onVerifyRequest = async() =>{
@@ -57,14 +54,12 @@ const HomeScreen : () => React$Node = (props) =>{
                 dispatch(spinner.hideSpinner())
                 setTimeout(()=>{
                     onEventPopup(rst);
-                },2000)
+                },1000)
             })
         })
     }
 
-    
     const onEventPopup = async(_rst) =>{
-        SplashScreen.hide();
         if(_rst !== "SUCCESS"){
             await AsyncStorage.getItem("@HomeStorage").then(value=>{
                 if(value !== null) {

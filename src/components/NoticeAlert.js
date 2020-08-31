@@ -5,7 +5,6 @@ import AlertAsync from "react-native-alert-async";
 
  
 export default async(info,_ver) => {
-
     const buttons = {
         "A1":[{
             text:"확인",
@@ -45,17 +44,16 @@ export default async(info,_ver) => {
         ]
     }
     if((info.TYPE_CODE.indexOf("U") !== -1 && _ver !== info.VER_NUM) || info.TYPE_CODE.indexOf("U") === -1) {
-        const z = await AlertAsync(
+        return await AlertAsync(
             info.TITLE,
             info.EXPL,
             buttons[info.TYPE_CODE]
         );
-        return z;
-    }
+    }else return true;
     
     function onUpdate(){
-        let url = Platform.OS === "ios" ? 'itms-apps://itunes.apple.com/us/app/apple-store/myiosappid?mt=1521818622' : 'market://details?id=com.cordova.mileverse';
-        Linking.openURL(url);
-        RNExitApp.exitApp();
+        let url = Platform.OS === "ios" ? 'itms-apps://apps.apple.com/kr/app/마일벌스/id1521818622' : 'market://details?id=com.cordova.mileverse';
+        Linking.openURL(url).then(()=>RNExitApp.exitApp());
+        
     }
 }

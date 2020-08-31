@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React,{useEffect} from 'react';
 import { useWindowDimensions,Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -27,6 +27,7 @@ import SignUpScreen from './src/screen/SignUp'
 import ChangeScreen from './src/screen/Change'
 import MileVerseScreen from './src/changeScreen/MileVerse';
 import MileVerseGiftScreen from './src/gifticon/MileVerse'
+import SplashScreen from 'react-native-splash-screen';
 
 
 const Tab = createBottomTabNavigator();
@@ -34,8 +35,6 @@ const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
-
-
 const LoginGuard = (event,navigation,_stat,_target) =>{
 	event.preventDefault();
 	_stat === false ? navigation.navigate("Login") : navigation.navigate(_target)
@@ -120,7 +119,12 @@ const SpinnerComponent = () =>{
 	)
 }
 const App: () => React$Node = () => {
-
+	useEffect(()=>{
+		setTimeout(()=>{
+			SplashScreen.hide();
+		},2000)
+	},[])
+	
 	return (
 		<RootSiblingParent>
 			<Provider store={store}>

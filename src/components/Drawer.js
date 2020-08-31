@@ -10,6 +10,8 @@ const CustomDrawerContent : () => React$Node = (props) =>{
     const dispatch = useDispatch();
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
     const user_name = useSelector(state => state.authentication.userInfo.currentUser);
+    const height = Platform.OS === 'ios' ? 5 : 35;
+    const margin = Platform.OS === 'ios' ? 0 : 30;
     const logout = useCallback(()=>{
         dispatch(actions.logoutRequest()).then(rst=>{
             if(rst === 'INIT') {
@@ -24,11 +26,11 @@ const CustomDrawerContent : () => React$Node = (props) =>{
             {Platform.OS === 'ios'? <CommonStatusbar backgroundColor="#8D3981"/> : null  }
             <SafeAreaView style={{flex:1,backgroundColor:'#F2F2F2'}}>
                 <View style={{flex:5, alignItems:'center', justifyContent:'center', backgroundColor:'#8D3981',width:'100%'}}>
-                    <TouchableOpacity onPress={()=>props.navigation.closeDrawer()} style={{position:'absolute',right:10,top:35}}>
+                    <TouchableOpacity onPress={()=>props.navigation.closeDrawer()} style={{position:'absolute',right:10,top:height}}>
                         <Image source={require('../../assets/img/ico_close_w.png')} style={{width:15,height:15,resizeMode:"contain"}}></Image>
                     </TouchableOpacity>
                     <View>
-                        <Image source={require('../../assets/img/mileverse_letter.png')} style={{marginTop:30,height:50,width:170,resizeMode:"contain"}} />
+                        <Image source={require('../../assets/img/mileverse_letter.png')} style={{marginTop:margin,height:50,width:170,resizeMode:"contain"}} />
                         <RegularText customStyle={styles.loginText} text={stat ? (user_name+"님 반갑습니다!") : ("로그인이 필요합니다.")} />
                     </View>
                 </View>
