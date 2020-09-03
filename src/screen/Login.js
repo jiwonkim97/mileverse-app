@@ -32,11 +32,11 @@ const LoginScreen : () => React$Node = (props) =>{
         } else {
             dispatch(spinner.showSpinner());
             dispatch(actions.loginRequest(_id,_pw)).then((result)=>{
-                if(result === "SUCCESS"){
+                if(result.stat === "SUCCESS"){
                     dispatch(spinner.hideSpinner());
                     props.navigation.goBack();
                 } else {
-                    Alert.alert("알림","아이디 및 비밀번호를 확인해주세요.",[{text:"확인",onPress:()=>dispatch(spinner.hideSpinner())}])
+                    Alert.alert("알림",result.msg,[{text:"확인",onPress:()=>dispatch(spinner.hideSpinner())}])
                 }
             })
         }

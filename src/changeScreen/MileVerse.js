@@ -27,7 +27,7 @@ const MileVerseScreen : () => React$Node = (props) =>{
 
 
     useEffect(()=>{
-        axios.post('http://13.209.142.239:3010/api/point/getTrustPoint',{})
+        axios.post('http://13.209.142.239:3010/api/point/getTrustPoint')
         .then((response)=>{
             if(response.data.result === 'success') setTrustPoint(response.data.trust_point)
             else {
@@ -40,7 +40,14 @@ const MileVerseScreen : () => React$Node = (props) =>{
                 );
             }
         }).catch((err)=>{
-            console.log(err)
+            console.log(err);
+            Alert.alert(
+                '알림',
+                '트러스트 포인트를 가져오지 못했습니다.',
+                [
+                  { text: '확인'}
+                ]
+            );
         })
     },[])
     useEffect(()=>{

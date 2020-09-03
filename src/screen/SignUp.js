@@ -37,7 +37,7 @@ const SignUpScreen : () => React$Node = (props) =>{
                 if(response.data.result==="success") {
                     Alert.alert("알림","회원가입이 완료되었습니다.",[{text:"확인",onPress:()=>props.navigation.goBack()}])
                 } else if(response.data.result==="fail"){
-                    alert(response.data.msg)
+                    Alert.alert("알림",response.data.msg,[{text:"확인"}])
                 }
             }).catch((error)=>{
                 console.log(error)
@@ -51,7 +51,7 @@ const SignUpScreen : () => React$Node = (props) =>{
                 toast.info('사용 가능한 아이디입니다.')
                 setDoubleChk(true)
             } else {
-                toast.error("중복된 아이디가 있습니다.")
+                toast.error(response.data.msg)
                 setDoubleChk(false)
             }
         }).catch((error)=>{

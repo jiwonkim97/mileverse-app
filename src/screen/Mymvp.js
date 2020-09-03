@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image,Text,View,SafeAreaView,StyleSheet,TouchableOpacity,FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -9,17 +9,22 @@ import CommonStatusbar from '../components/CommonStatusbar';
 const MymvpScreen : () => React$Node = (props) =>{
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
     const mvp = useSelector(state => state.authentication.userInfo.mvp);
-    const token = useSelector(state => state.authentication.status.token);
     const [data,setData] = useState([]);
 
     useEffect(()=>{
-        axios.post('http://13.209.142.239:3010/api/point/getHistory',{})
+        if(stat){
+            axios.post('http://13.209.142.239:3010/api/point/getHistory')
             .then((response)=>{
                 var _response = response.data
-                setData(_response.data)
+                if(_response.result === "success") {
+                    setData(_response.data)
+                } else {
+                    alert("사용기록을 불러오는데 실패했습니다.")
+                }
             }).catch((error)=>{
                 alert("사용기록을 불러오는데 실패했습니다.")
             });
+        }
     },[mvp])
     const navigateScreen = (_target) =>{
         stat ? props.navigation.navigate(_target) : props.navigation.navigate("Login")

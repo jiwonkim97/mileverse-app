@@ -13,12 +13,13 @@ export function loginRequest(id, password) {
     return (dispatch,getState) =>{
         dispatch(login());
         return axios.post('http://13.209.142.239:3010/users/login',{id:id,password:password})
-            .then((response)=>{
+            .then(response=>{
                 var _response = response.data
                 _response.result === "success" ? dispatch(loginSuccess(_response.username,_response.mvp)) : dispatch(loginFailure())
+                return _response
             }).catch((error)=>{
                 dispatch(loginFailure());
-            }).then(()=> { return getState().authentication.login.status });
+            }).then((_response)=> { return {stat:getState().authentication.login.status,msg:_response.msg} });
     }
 }
 
