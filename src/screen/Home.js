@@ -54,7 +54,7 @@ const HomeScreen : () => React$Node = (props) =>{
                 dispatch(spinner.hideSpinner())
                 setTimeout(()=>{
                     onEventPopup(rst);
-                },1000)
+                },2000)
             })
         })
     }
@@ -220,7 +220,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
     header:{
         backgroundColor:"white",
-        height:60,
+        height:50,
         justifyContent:'center',
         alignItems:'center',
     },

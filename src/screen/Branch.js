@@ -10,7 +10,7 @@ const BranchScreen : () => React$Node = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView>
                 <View style={styles.header}>
-                    <ExtraBoldText text="가맹점 정보" customStyle={{color:"#707070"}}/>
+                    <ExtraBoldText text="가맹점 정보" customStyle={{color:"#707070",fontSize:16}}/>
                 </View>
                 <View style={{marginTop:20}}>
                     <ScrollView style={{height:"91%"}}>

@@ -43,7 +43,7 @@ export default async(info,_ver) => {
             }
         ]
     }
-    if((info.TYPE_CODE.indexOf("U") !== -1 && _ver !== info.VER_NUM) || info.TYPE_CODE.indexOf("U") === -1) {
+    if((info.TYPE_CODE.indexOf("U") !== -1 && Number(_ver.replace(/[^\d]+/g, '')) < Number(info.VER_NUM.replace(/[^\d]+/g, ''))) || info.TYPE_CODE.indexOf("U") === -1) {
         return await AlertAsync(
             info.TITLE,
             info.EXPL,

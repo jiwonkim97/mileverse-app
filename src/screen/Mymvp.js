@@ -65,7 +65,7 @@ const MymvpScreen : () => React$Node = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView>
                 <View style={styles.header}>
-                    <ExtraBoldText text={"My MVP"} customStyle={{color:"#707070"}} />
+                    <ExtraBoldText text={"My MVP"} customStyle={{color:"#707070",fontSize:16}} />
                 </View>
                 <View style={{paddingLeft:20,paddingRight:20}}>
                     <View style={styles.cardWrap}>

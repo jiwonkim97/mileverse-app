@@ -73,10 +73,10 @@ const LoginScreen : () => React$Node = (props) =>{
                     <Image source={require('../../assets/img/ico_close_bl.png')} style={{resizeMode:"contain",width:20}} />    
                 </TouchableOpacity>
             </View>
-            <View style={{marginTop:50,justifyContent:"center",alignItems:"center"}}>
-                <Image source={require('../../assets/img/header_logo.png')} style={{resizeMode:'contain',height:25}} />
+            <View style={{marginTop:22,justifyContent:"center",alignItems:"center"}}>
+                <Image source={require('../../assets/img/mileverse_letter_2.png')} style={{resizeMode:'contain',height:25}} />
             </View>
-            <View style={{marginTop:50,paddingHorizontal:30}}>
+            <View style={{marginTop:53,paddingHorizontal:30}}>
                 <TextInput placeholder="아이디를 입력해주세요." style={[styles.inputForm,{color:focusColor,borderColor:focusColor,fontFamily:"NanumSquareR"}]} 
                     onChangeText={(text)=>setId(text)} 
                     value={id} 

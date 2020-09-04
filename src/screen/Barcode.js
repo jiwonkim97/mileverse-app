@@ -12,10 +12,10 @@ const BarcodeScreen : () => React$Node = (props) =>{
         <CommonStatusbar backgroundColor="#F9F9F9"/>
         <SafeAreaView>
                 <View style={styles.header}>
-                    <ExtraBoldText text="사용하기" customStyle={{color:"#707070"}}/>
+                    <ExtraBoldText text="사용하기" customStyle={{color:"#707070",fontSize:16}}/>
                 </View>
                 <ImageBackground source={require('../../assets/img/pay_bg.png')} style={{height:"95%",resizeMode:'contain'}}>
-                    <View style={{backgroundColor:"white",height:"50%",borderBottomLeftRadius:70,borderBottomRightRadius:70,
+                    <View style={{backgroundColor:"white",height:"45%",borderBottomLeftRadius:70,borderBottomRightRadius:70,
                     shadowColor:"#000",elevation:2, shadowOffset:0.20,shadowRadius:1.41,shadowOffset:{width:0,height:1}}}>
                         <View style={{marginTop:30,flexDirection:'row'}}>
                             <View style={{flex:1,justifyContent:"center",alignItems:"flex-start",paddingLeft:34}}>

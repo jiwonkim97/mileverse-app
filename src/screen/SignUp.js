@@ -117,7 +117,7 @@ const SignUpScreen : () => React$Node = (props) =>{
                                 <RegularText text={term} customStyle={{fontSize:9}} />
                             </ScrollView>
                         </View>
-                        <View style={{flexDirection:'row',alignItems:"center"}}>
+                        <View style={{flexDirection:'row',alignItems:"center",marginTop:6}}>
                             <CheckBox
                                 isChecked={check}
                                 checkedCheckBoxColor={'#8D3981'}
