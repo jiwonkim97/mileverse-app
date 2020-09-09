@@ -44,7 +44,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>For taking a photo.</string>
+	<string>Use of screenshots required for enquiries</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Used to Location's Info for Using Beacon when In Use.</string>
 	<key>NSMicrophoneUsageDescription</key>
