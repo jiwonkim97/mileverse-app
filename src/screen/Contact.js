@@ -6,7 +6,7 @@ import ImagePicker from 'react-native-image-picker';
 import DocumentPicker from 'react-native-document-picker';
 import {BoldText} from '../components/customComponents';
 
-import axios from 'axios';
+import Axios from '../modules/Axios';
 import * as spinner from '../actions/spinner';
 import CommonStatusbar from '../components/CommonStatusbar';
 
@@ -33,7 +33,7 @@ const ContactScreen : () => React$Node = (props) =>{
             data.append("from",mail)
             data.append("title",title)
             data.append("contents",contents)
-            let url = 'http://13.209.142.239:3010/api/notice/sendMailWithOutFile'
+            let url = '/api/notice/sendMailWithOutFile'
             if(Object.keys(file).length !== 0) {
                 data.append("avatar", {
                     name: file.fileName,
@@ -41,9 +41,9 @@ const ContactScreen : () => React$Node = (props) =>{
                     uri:
                       Platform.OS === "android" ? file.uri : file.uri.replace("file://", "")
                 });
-                url = 'http://13.209.142.239:3010/api/notice/sendMail'
+                url = '/api/notice/sendMail'
             }
-            axios.post(url,data,{
+            Axios.post(url,data,{
                 headers:{
                     "Content-Type": "multipart/form-data",
                     "processData": false,

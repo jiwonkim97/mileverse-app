@@ -7,12 +7,12 @@ import {
     INIT_REQUEST_STAT,
     FAIL_REQUEST_STAT
 } from './ActionTypes';
-import axios from 'axios';
+import Axios from '../modules/Axios';
 
 export function loginRequest(id, password) {
     return (dispatch,getState) =>{
         dispatch(login());
-        return axios.post('http://13.209.142.239:3010/users/login',{id:id,password:password})
+        return Axios.post('/users/login',{id:id,password:password})
             .then(response=>{
                 var _response = response.data
                 _response.result === "success" ? dispatch(loginSuccess(_response.username,_response.mvp)) : dispatch(loginFailure())
@@ -25,7 +25,7 @@ export function loginRequest(id, password) {
 
 export function logoutRequest() {
     return (dispatch,getState) =>{
-        return axios.post("http://13.209.142.239:3010/users/logout",{}).then(response=>{
+        return Axios.post("/users/logout").then(response=>{
             let _response = response.data;
             if(_response.result === "success") {
                 dispatch(logout())
@@ -39,7 +39,7 @@ export function logoutRequest() {
 export function verifyRequest(_parmas) {
     return (dispatch,getState) =>{
         dispatch(login());
-        return axios.post('http://13.209.142.239:3010/users/verify',_parmas)
+        return Axios.post('/users/verify',_parmas)
             .then((response)=>{
                 var _response = response.data
                 _response.status === "login" ?  dispatch(loginSuccess(_response.username,_response.mvp)) : dispatch(logout())
@@ -52,7 +52,7 @@ export function verifyRequest(_parmas) {
 export function convertMVPRequest(_amount) {
     return (dispatch,getState) =>{
         dispatch(initRequest());
-        return axios.post('http://13.209.142.239:3010/api/point/trustToMvp',{amount:_amount})
+        return Axios.post('/api/point/trustToMvp',{amount:_amount})
             .then((response)=>{
                 var _response = response.data
                 _response.result === "success" ? dispatch(udpateMvp(_response.mvp)) : dispatch(failureRequest(_response.msg))
@@ -65,7 +65,7 @@ export function convertMVPRequest(_amount) {
 export function buyGiftConByMVP(_item,_comp) {
     return (dispatch,getState) =>{
         dispatch(initRequest());
-        return axios.post('http://13.209.142.239:3010/api/point/useMvp',{item:_item,comp:_comp})
+        return Axios.post('/api/point/useMvp',{item:_item,comp:_comp})
             .then((response)=>{
                 var _response = response.data
                 _response.result === "success" ? dispatch(udpateMvp(_response.mvp)) : dispatch(failureRequest(_response.msg))

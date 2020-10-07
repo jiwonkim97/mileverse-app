@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image,Text,View,SafeAreaView,StyleSheet,TouchableOpacity,FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
+import Axios from '../modules/Axios';
 import { RegularText, BoldText,ExtraBoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 
@@ -13,7 +13,7 @@ const MymvpScreen : () => React$Node = (props) =>{
 
     useEffect(()=>{
         if(stat){
-            axios.post('http://13.209.142.239:3010/api/point/getHistory')
+            Axios.post('/api/point/getHistory')
             .then((response)=>{
                 var _response = response.data
                 if(_response.result === "success") {

@@ -1,11 +1,10 @@
 import React, {useState,useEffect} from 'react';
 import { View,SafeAreaView,TextInput,StyleSheet,ScrollView,Image,TouchableOpacity, Alert } from 'react-native';
 import CheckBox from 'react-native-check-box'
-import axios from 'axios'
 import { RegularText, ExtraBoldText,BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import * as toast from '../components/Toast'
-
+import Axios from '../modules/Axios';
 
 const SignUpScreen : () => React$Node = (props) =>{
 
@@ -21,7 +20,9 @@ const SignUpScreen : () => React$Node = (props) =>{
     const [doubleChk,setDoubleChk] = useState(false)
 
     useEffect(()=>{
-        fetch('http://13.209.142.239:3010/get/terms').then(res=>res.json()).then(data=>setTerm(data.content))
+        Axios.get('/get/terms').then((response)=>{
+            setTerm(response.data.content)
+        })
     },[])
 
     const doSignUp = ()=>{
@@ -32,7 +33,7 @@ const SignUpScreen : () => React$Node = (props) =>{
         else if(mail === "") toast.error('이메일을 확인하여 주세요.')
         else if(check === false) toast.error("이용약관에 동의하여 주세요.")
         else {
-            axios.post('http://13.209.142.239:3010/users/register',{id:id,name:name,phone:phone,pw:password2,email:mail})
+            Axios.post('/users/register',{id:id,name:name,phone:phone,pw:password2,email:mail})
             .then((response)=>{
                 if(response.data.result==="success") {
                     Alert.alert("알림","회원가입이 완료되었습니다.",[{text:"확인",onPress:()=>props.navigation.goBack()}])
@@ -45,7 +46,7 @@ const SignUpScreen : () => React$Node = (props) =>{
         }
     }
     const doDoubleCheck = () =>{
-        axios.post('http://13.209.142.239:3010/users/doubleCheck',{id:id})
+        Axios.post('/users/doubleCheck',{id:id})
         .then((response)=>{
             if(response.data.result==="success") {
                 toast.info('사용 가능한 아이디입니다.')
@@ -180,5 +181,3 @@ const styles = StyleSheet.create({
         alignItems:"center"
     }
 });
-
-

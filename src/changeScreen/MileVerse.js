@@ -1,13 +1,13 @@
 import React, { useEffect, useCallback,useState } from 'react';
-import { Image,Text,View,SafeAreaView,TextInput,StyleSheet,TouchableOpacity,Alert} from 'react-native';
+import { Image,View,SafeAreaView,TextInput,StyleSheet,TouchableOpacity,Alert} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../actions/authentication'
 import CheckBox from 'react-native-check-box'
-import axios from 'axios'
 import * as spinner from '../actions/spinner'
 import * as toast from '../components/Toast';
 import { RegularText, ExtraBoldText,BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
+import Axios from '../modules/Axios';
 
 
 const MileVerseScreen : () => React$Node = (props) =>{
@@ -27,7 +27,7 @@ const MileVerseScreen : () => React$Node = (props) =>{
 
 
     useEffect(()=>{
-        axios.post('http://13.209.142.239:3010/api/point/getTrustPoint')
+        Axios.post('/api/point/getTrustPoint')
         .then((response)=>{
             if(response.data.result === 'success') setTrustPoint(response.data.trust_point)
             else {

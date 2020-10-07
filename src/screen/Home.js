@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { Image,View,SafeAreaView,ScrollView ,StyleSheet, ImageBackground,TouchableOpacity, StatusBar } from 'react-native';
+import { Image,View,SafeAreaView,ScrollView ,StyleSheet, ImageBackground,TouchableOpacity } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux';
 import CheckBox from 'react-native-check-box'
 
@@ -8,12 +8,10 @@ import * as spinner from '../actions/spinner'
 import * as actions from '../actions/authentication'
 import AsyncStorage from '@react-native-community/async-storage';
 import { RegularText, BoldText } from '../components/customComponents';
-import SplashScreen from 'react-native-splash-screen';
 import CommonStatusbar from '../components/CommonStatusbar';
+import Axios from '../modules/Axios'
 
-import axios from 'axios';
 import noticeAlert from '../components/NoticeAlert';
-
 
 
 const HomeScreen : () => React$Node = (props) =>{
@@ -23,7 +21,6 @@ const HomeScreen : () => React$Node = (props) =>{
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
     const mvp = useSelector(state => state.authentication.userInfo.mvp);
     const _ver = useSelector(state => state.global.version);
-    
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
         if(ignore === true) {
@@ -36,7 +33,7 @@ const HomeScreen : () => React$Node = (props) =>{
     }
     useEffect(()=>{
         async function checkNotice(){
-            const _getNotice = await axios.post('http://13.209.142.239:3010/api/notice/initRequest',{version:_ver});
+            const _getNotice = await Axios.post('/api/notice/initRequest',{version:_ver});
             const _response = _getNotice.data.rows
             const _notice = await noticeAlert(_response,_ver);
             if(_notice === true) onVerifyRequest();
