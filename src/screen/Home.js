@@ -96,7 +96,7 @@ const HomeScreen : () => React$Node = (props) =>{
                         </View>
                         <View style={[styles.cardWrap,{marginTop:16}]}>
                             <View style={{alignItems:"center"}}>
-                                <BoldText text={"My MVP"} customStyle={{fontSize:18,marginTop:20}}/>
+                                <BoldText text={"나의 MVP"} customStyle={{fontSize:18,marginTop:20}}/>
                                 <View style={{flexDirection:'row'}}>
                                     <View style={{flex:3,height:80,alignItems:'flex-end',justifyContent:"center",paddingRight:10}}>
                                         <Image source={require('../../assets/img/mvp_coin.png')} style={{resizeMode:'contain',height:60,width:60}}></Image>

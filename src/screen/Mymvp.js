@@ -36,8 +36,11 @@ const MymvpScreen : () => React$Node = (props) =>{
             return (
                 <View style={{flexDirection:'row',padding:10,borderBottomWidth:1,borderColor:"#CCCCCC"}}>
                     <View style={{flex:3}}>
-                        <Text style={styles.myFont}>{_item.CREA_DT}     <Text style={[styles.myFont,{fontWeight:"bold",color:"#8D3981"}]}>{_item.C_NAME}</Text></Text>
-                        <Text style={styles.myFont,{marginTop:6}}>{_item.COMP_NAME} {_item.COMP_AMT} -> {_item.AMOUNT} MVP</Text>
+                        <View style={{flexDirection:"row"}}>
+                            <RegularText text={_item.CREA_DT}/>
+                            <BoldText customStyle={{color:"#8D3981",marginLeft:20}} text={_item.C_NAME}/>
+                        </View>
+                        <RegularText customStyle={{marginTop:6}} text={_item.COMP_NAME+" "+_item.COMP_AMT+ " -> "+_item.AMOUNT+" MVP"} />
                     </View>
                     <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                         <Image source={require('../../assets/img/ico_change.png')} style={{resizeMode:"contain",height:34}}></Image>
@@ -48,9 +51,12 @@ const MymvpScreen : () => React$Node = (props) =>{
             return (
                 <View style={{flexDirection:'row',padding:10,borderBottomWidth:1,borderColor:"#CCCCCC",backgroundColor:"#F3EBF2"}}>
                     <View style={{flex:3}}>
-                        <Text style={styles.myFont}>{_item.CREA_DT}     <Text style={[styles.myFont,{fontWeight:"bold",color:"#8D3981"}]}>{_item.C_NAME}</Text></Text>
-                        <Text style={styles.myFont,{marginTop:6}}>{_item.COMP_NAME} {_item.AMOUNT} MVP</Text>
-                        <Text style={[styles.myFont,{fontWeight:'bold'}]}>{_item.COMP_AMT}</Text>
+                        <View style={{flexDirection:"row"}}>
+                            <RegularText text={_item.CREA_DT}/>
+                            <BoldText customStyle={{color:"#8D3981",marginLeft:20}} text={_item.C_NAME}/>
+                        </View>
+                        <RegularText customStyle={{marginTop:6}} text={_item.COMP_NAME +" "+_item.AMOUNT+" MVP"}/>
+                        <BoldText text={_item.COMP_AMT} />
                     </View>
                     <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                         <Image source={require('../../assets/img/ico_use.png')} style={{resizeMode:"contain",height:34}}></Image>
@@ -70,7 +76,7 @@ const MymvpScreen : () => React$Node = (props) =>{
                 <View style={{paddingLeft:20,paddingRight:20}}>
                     <View style={styles.cardWrap}>
                         <View style={{alignItems:"center"}}>
-                            <BoldText text={"My MVP"} customStyle={{fontSize:18,marginTop:20}}/>
+                            <BoldText text={"나의 MVP"} customStyle={{fontSize:18,marginTop:20}}/>
                             <View style={{flexDirection:'row'}}>
                                 <View style={{flex:3,height:80,alignItems:'flex-end',justifyContent:"center",paddingRight:10}}>
                                     <Image source={require('../../assets/img/mvp_coin.png')} style={{resizeMode:'contain',height:60,width:60}}></Image>
@@ -101,7 +107,7 @@ const MymvpScreen : () => React$Node = (props) =>{
                         </View>
                     </View>
                     <View style={styles.listWrap}>
-                        <View style={{padding:10}}>
+                        <View style={{padding:15}}>
                             <ExtraBoldText text="사용 및 교환 내역" customStyle={{fontSize:16}}/>
                         </View>
                         <FlatList
@@ -151,9 +157,6 @@ const styles = StyleSheet.create({
         alignItems:"center",
         resizeMode:"contain",
         height:220
-    },
-    myFont:{
-        fontFamily:"NanumSquareR"
     },
     listWrap:{
         overflow:"hidden", 

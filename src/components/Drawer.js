@@ -1,5 +1,5 @@
 import React,{useCallback} from 'react';
-import { Image,View,SafeAreaView,TouchableOpacity,StyleSheet,Platform } from 'react-native';
+import { Image,View,SafeAreaView,TouchableOpacity,StyleSheet,Platform,Pressable } from 'react-native';
 import { useSelector, useDispatch  } from 'react-redux';
 import * as actions from '../actions/authentication'
 import { RegularText } from '../components/customComponents';
@@ -31,7 +31,13 @@ const CustomDrawerContent : () => React$Node = (props) =>{
                     </TouchableOpacity>
                     <View>
                         <Image source={require('../../assets/img/mileverse_letter.png')} style={{marginTop:margin,height:50,width:170,resizeMode:"contain"}} />
-                        <RegularText customStyle={styles.loginText} text={stat ? (user_name+"님 반갑습니다!") : ("로그인이 필요합니다.")} />
+                        {stat ?
+                            <RegularText customStyle={styles.loginText} text={user_name+"님 반갑습니다!"} />
+                            :
+                            <Pressable onPress={()=>{props.navigation.navigate("Login")}}>
+                                <RegularText customStyle={styles.loginText} text={"로그인이 필요합니다."} />    
+                            </Pressable>
+                        }
                     </View>
                 </View>
                 <View style={{flex:12, backgroundColor:'white',paddingLeft:10,paddingRight:10}}>
@@ -92,11 +98,9 @@ const styles = StyleSheet.create({
         backgroundColor:"rgba(190,190,190,0.5)",
         color:"white",
         fontSize:14,
-        paddingTop:5,
-        paddingLeft:13,
-        paddingBottom:5,
-        paddingRight:13,
-        borderRadius:13,
+        paddingVertical:6,
+        paddingHorizontal:10,
+        borderRadius:7,
         overflow:'hidden',
         textAlign:'center'
     }

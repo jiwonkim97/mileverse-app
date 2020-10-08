@@ -19,7 +19,7 @@ const BarcodeScreen : () => React$Node = (props) =>{
                     shadowColor:"#000",elevation:2, shadowOffset:0.20,shadowRadius:1.41,shadowOffset:{width:0,height:1}}}>
                         <View style={{marginTop:30,flexDirection:'row'}}>
                             <View style={{flex:1,justifyContent:"center",alignItems:"flex-start",paddingLeft:34}}>
-                                <BoldText text="My MVP" customStyle={{fontSize:28}} />
+                                <BoldText text="나의 MVP" customStyle={{fontSize:28}} />
                                 <BoldText text={mvp+" MVP"}  customStyle={{fontSize:18,color:"#8D3981",marginTop:16}} />
                             </View>
                             <View style={{flex:1,justifyContent:"center",alignItems:"flex-start",paddingRight:16}}>
