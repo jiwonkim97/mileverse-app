@@ -10,7 +10,8 @@ const initialState = {
     },
     userInfo:{
         mvp:"",
-        currentUser:''
+        currentUser:'',
+        code:""
     },request:{
         status:"INIT",
         msg:''
@@ -21,7 +22,6 @@ export default function authentication(state, action) {
     if(typeof state === "undefined")
         state = initialState;
     switch(action.type) {
-        /* LOGIN */
         case types.AUTH_LOGIN:
             return update(state, {
                 login: {
@@ -38,7 +38,8 @@ export default function authentication(state, action) {
                 },
                 userInfo: {
                     currentUser : {$set: ""},
-                    mvp: {$set : ""}
+                    mvp: {$set : ""},
+                    code: {$set : ""}
                 }
             });
         case types.AUTH_LOGIN_SUCCESS:
@@ -50,7 +51,8 @@ export default function authentication(state, action) {
                     isLoggedIn: { $set: true },
                 },userInfo:{
                     currentUser : {$set: action.username},
-                    mvp: {$set : action.mvp}
+                    mvp: {$set : action.mvp},
+                    code: {$set : action.code}
                 }
             });
         case types.AUTH_LOGIN_FAILURE:

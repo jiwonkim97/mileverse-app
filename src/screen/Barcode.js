@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Image,View,SafeAreaView,StyleSheet, ImageBackground,TouchableOpacity } from 'react-native';
+import { View,SafeAreaView,StyleSheet, ImageBackground,TouchableOpacity } from 'react-native';
 import { RegularText, ExtraBoldText, BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
+import Barcode from "react-native-barcode-builder";
 
 
 const BarcodeScreen : () => React$Node = (props) =>{
     const mvp = useSelector(state => state.authentication.userInfo.mvp);
+    const code = useSelector(state => state.authentication.userInfo.code);
+    const [text,setText] = useState("");
+    useEffect(()=>{
+        setText(code.substr(0,4)+" "+code.substr(4,4)+" "+code.substr(8,4)+" "+code.substr(12,4))
+    },[code])
     return (
         <>
-        <CommonStatusbar backgroundColor="#F9F9F9"/>
-        <SafeAreaView>
+            <CommonStatusbar backgroundColor="#F9F9F9"/>
+            <SafeAreaView>
                 <View style={styles.header}>
                     <ExtraBoldText text="사용하기" customStyle={{color:"#707070",fontSize:16}}/>
                 </View>
@@ -30,9 +36,9 @@ const BarcodeScreen : () => React$Node = (props) =>{
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View style={{marginTop:60,alignItems:"center"}}>
-                            <Image source={require('../../assets/img/pay_barcode.png')} style={{resizeMode:"contain",height:74}}></Image>
-                            <RegularText text="0124 2626 6565 9595" customStyle={{marginTop:4}} />
+                        <View style={{marginTop:40,alignItems:"center"}}>
+                            <Barcode value={code? code : "0000"} format="CODE128" height={80}/>
+                            <RegularText text={text} customStyle={{marginTop:4}} />
                         </View>
                     </View>
                 </ImageBackground>

@@ -15,7 +15,7 @@ export function loginRequest(id, password) {
         return Axios.post('/users/login',{id:id,password:password})
             .then(response=>{
                 var _response = response.data
-                _response.result === "success" ? dispatch(loginSuccess(_response.username,_response.mvp)) : dispatch(loginFailure())
+                _response.result === "success" ? dispatch(loginSuccess(_response.username,_response.mvp,_response.code)) : dispatch(loginFailure())
                 return _response
             }).catch((error)=>{
                 dispatch(loginFailure());
@@ -42,7 +42,7 @@ export function verifyRequest(_parmas) {
         return Axios.post('/users/verify',_parmas)
             .then((response)=>{
                 var _response = response.data
-                _response.status === "login" ?  dispatch(loginSuccess(_response.username,_response.mvp)) : dispatch(logout())
+                _response.status === "login" ?  dispatch(loginSuccess(_response.username,_response.mvp,_response.code)) : dispatch(logout())
             }).catch((error)=>{
                 dispatch(logout())
             }).then(()=> { return getState().authentication.login.status });
@@ -87,11 +87,12 @@ export function logout() {
     };
 }
 
-export function loginSuccess(username,mvp) {
+export function loginSuccess(username,mvp,code) {
     return {
         type: AUTH_LOGIN_SUCCESS,
         username,
-        mvp
+        mvp,
+        code
     };
 }
 

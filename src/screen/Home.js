@@ -157,6 +157,7 @@ const HomeScreen : () => React$Node = (props) =>{
                         <RegularText text="대표자: 정진형 | 사업자 등록 번호: 746-87-01620" customStyle={styles.footer} />
                         <RegularText text="사업장 소재지: 서울특별시 영등포구 당산로 49길 28 1층" customStyle={styles.footer} />
                         <RegularText text="e-mail: mkt@mileverse.com │ contact@mileverse.com" customStyle={styles.footer} />
+                        <RegularText text="tel: 02-2633-5896" customStyle={styles.footer} />
                         <RegularText text="Copyright ⓒ 2019 Trustchain Inc. ALL RIGHT RESERVED" customStyle={[styles.footer,{marginTop:10}]} />
                     </View>
                 </ScrollView>
