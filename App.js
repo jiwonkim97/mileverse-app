@@ -1,6 +1,6 @@
 
 import React,{useEffect} from 'react';
-import { useWindowDimensions,Image } from 'react-native';
+import { useWindowDimensions,Image,StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -63,27 +63,22 @@ const TabScreen = ({navigation}) =>{
 		>
 			<Tab.Screen name="Home" component={HomeScreen} options={{title:"홈",tabBarIcon:({focused})=>{
 				return (
-					<Image source={focused ? require('./assets/img/home_active.png') : require('./assets/img/home.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
+					<Image source={focused ? require('./assets/img/home_active.png') : require('./assets/img/home.png')} style={styles.dockIcon}/>
 				)
 			}}}/>
-			<Tab.Screen name="MyMvp" component={MymvpScreen} options={{title:"나의 MVP",tabBarIcon:({focused})=>{
+			<Tab.Screen name="Change" component={ChangeScreen} options={{title:"교환",tabBarIcon:({focused})=>{
 				return (
-					<Image source={focused ? require('./assets/img/mvp_active.png') : require('./assets/img/mvp.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
+					<Image source={focused ? require('./assets/img/mvp_active.png') : require('./assets/img/mvp.png')} style={styles.dockIcon}/>
 				)
-			}}} listeners={()=>({tabPress:(event)=>LoginGuard(event,navigation,stat,"MyMvp")})}/>
-			<Tab.Screen name="Pay" component={BarcodeScreen} options={{title:"사용하기",tabBarIcon:({focused})=>{
+			}}} listeners={()=>({tabPress:event=>LoginGuard(event,navigation,stat,"Change")})}/>
+			<Tab.Screen name="Branch" component={BranchScreen} options={{title:"가맹점",tabBarIcon:({focused})=>{
 				return (
-					<Image source={focused ? require('./assets/img/barcode_active.png') : require('./assets/img/barcode.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
+					<Image source={focused ? require('./assets/img/branch_active.png') : require('./assets/img/branch.png')} style={styles.dockIcon}/>
 				)
-			}}} listeners={()=>({tabPress:(event)=>LoginGuard(event,navigation,stat,"Pay")})}/>
-			<Tab.Screen name="Branch" component={BranchScreen} options={{title:"스토어",tabBarIcon:({focused})=>{
-				return (
-					<Image source={focused ? require('./assets/img/branch_active.png') : require('./assets/img/branch.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
-				)
-			}}} listeners={()=>({tabPress:(event)=>LoginGuard(event,navigation,stat,"Branch")})}/>
+			}}} listeners={()=>({tabPress:event=>event.preventDefault()})}/>
 			<Tab.Screen name="Menu" component={HomeScreen} options={{title:"메뉴",tabBarIcon:({focused})=>{
 				return (
-					<Image source={focused ? require('./assets/img/menu_active.png') : require('./assets/img/menu.png')} style={{width:20,height:20,resizeMode:"contain"}}/>
+					<Image source={focused ? require('./assets/img/menu_active.png') : require('./assets/img/menu.png')} style={styles.dockIcon}/>
 				)
 			}}}
 				listeners={()=>(
@@ -135,12 +130,12 @@ const App: () => React$Node = () => {
 							name="Drawer"
 							component={DrawerScreen}
 						/>
+						<Stack.Screen name="MyMvp" component={MymvpScreen} />
 						<Stack.Screen name="FAQ" component={FaqScreen} />
 						<Stack.Screen name="Login" component={LoginScreen} />
 						<Stack.Screen name="Notice" component={NoticeScreen} />
 						<Stack.Screen name="Contact" component={ContactScreen} />
 						<Stack.Screen name="SignUp" component={SignUpScreen} />
-						<Stack.Screen name="Change" component={ChangeScreen} />
 						<Stack.Screen name="MileVerse" component={MileVerseScreen} />
 						<Stack.Screen name="MileVerseGiftScreen" component={MileVerseGiftScreen} />
 					</Stack.Navigator>
@@ -151,3 +146,9 @@ const App: () => React$Node = () => {
 };
 
 export default App;
+
+
+const styles = StyleSheet.create({
+    dockIcon:{width:20,height:20,resizeMode:"contain"}
+    
+});

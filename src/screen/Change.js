@@ -12,9 +12,6 @@ const ChangeScreen : () => React$Node = (props) =>{
         <SafeAreaView>
                 <View style={styles.header}>
                     <ExtraBoldText text="마일리지 교환" customStyle={{color:"#707070"}}/>
-                    <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
-                    </TouchableOpacity>
                 </View>
                 <View style={{marginTop:20}}>
                     <ScrollView style={{height:"91%"}}>
@@ -82,7 +79,7 @@ const ChangeScreen : () => React$Node = (props) =>{
         
     )
 }
-// 마지막 줄 boderBottom 제거, borderRadius 설정해보기
+
 export default ChangeScreen;
 
 const styles = StyleSheet.create({
