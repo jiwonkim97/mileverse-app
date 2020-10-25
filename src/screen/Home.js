@@ -1,9 +1,7 @@
-import React, { useState,useEffect } from 'react';
-import { Image,View,SafeAreaView,ScrollView ,StyleSheet, ImageBackground,TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { Image,View,SafeAreaView,ScrollView ,StyleSheet,TouchableOpacity } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux';
-import CheckBox from 'react-native-check-box'
 
-import Modal from 'react-native-modal';
 import * as spinner from '../actions/spinner'
 import * as actions from '../actions/authentication'
 import AsyncStorage from '@react-native-community/async-storage';
@@ -16,17 +14,9 @@ import noticeAlert from '../components/NoticeAlert';
 
 const HomeScreen : () => React$Node = (props) =>{
     const dispatch = useDispatch();
-    const [isModalVisible, setModalVisible] = useState(false);
-    const [ignore, setIgnore] = useState(false)
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
     const mvp = useSelector(state => state.authentication.userInfo.mvp);
     const _ver = useSelector(state => state.global.version);
-    const toggleModal = () => {
-        setModalVisible(!isModalVisible);
-        if(ignore === true) {
-            IngoreSevenDays();
-        }
-    };
     
     const navigateScreen = (_target) =>{
         stat ? props.navigation.navigate(_target) : props.navigation.navigate("Login")
@@ -49,37 +39,8 @@ const HomeScreen : () => React$Node = (props) =>{
             if(value !== null) _data = JSON.parse(value);
             dispatch(actions.verifyRequest(_data)).then(rst=>{
                 dispatch(spinner.hideSpinner())
-                setTimeout(()=>{
-                    onEventPopup(rst);
-                },2000)
             })
         })
-    }
-
-    const onEventPopup = async(_rst) =>{
-        if(_rst !== "SUCCESS"){
-            await AsyncStorage.getItem("@HomeStorage").then(value=>{
-                if(value !== null) {
-                    let _data = JSON.parse(value);
-                    let saveDate = new Date(_data.saveTime);
-                    let currentDate = new Date();
-                    let diff = (currentDate.getTime() - saveDate.getTime()) / (24 * 60 * 60 * 1000);
-                    if( diff > 7) {
-                        setModalVisible(true);
-                    }
-                }else {
-                    setModalVisible(true);
-                }
-            })    
-        }
-    }
-
-
-    const IngoreSevenDays = async() =>{
-        let homeData = {
-            saveTime : new Date
-        }
-        await AsyncStorage.setItem("@HomeStorage",JSON.stringify(homeData))
     }
 
     return (
@@ -161,55 +122,8 @@ const HomeScreen : () => React$Node = (props) =>{
                         <RegularText text="Copyright ⓒ 2019 Trustchain Inc. ALL RIGHT RESERVED" customStyle={[styles.footer,{marginTop:10}]} />
                     </View>
                 </ScrollView>
-                <Modal isVisible={isModalVisible} backdropTransitionOutTiming={0} style={{margin: 0}} useNativeDriver={true}>
-                    <View style={{justifyContent:"center",alignItems:"center"}}>
-                        <View style={{width:300,height:"90%"}}>
-                            <View style={{padding:15,backgroundColor:"white",borderTopRightRadius:10,borderTopLeftRadius:10}}>
-                                <TouchableOpacity onPress={toggleModal} style={{position:"absolute",right:10,zIndex:2,bottom:8}}>
-                                    <Image source={require('../../assets/img/ico_close_bl.png')} style={{resizeMode:"contain", width:17}} />
-                                </TouchableOpacity>
-                                <RegularText text="이벤트" customStyle={{color:'#2D2D2D',fontSize:18,fontWeight:"bold",textAlign:"center"}} />
-                                <View style={{marginTop:8,borderBottomColor: 'black',borderBottomWidth:2 , borderBottomColor:"#E3E3E3"}} />
-                            </View>
-                            <View>
-                                <ImageBackground source={require('../../assets/img/event_bg_nt.png')} style={{resizeMode:'cover',height:430,alignItems:'center'}} fadeDuration={0}>
-                                    <RegularText text="마일벌스가 처음이라면-" customStyle={{color:"#8D3981",marginTop:20,marginBottom:10,fontSize:20}} />
-                                    <RegularText text={"회원가입 시\n5,000 보너스 포인트를\n드립니다."}customStyle={{color:"#5E5E5E",fontSize:20,textAlign:'center',lineHeight:30}} />
-                                    <RegularText text="* 기프티콘 교환 가능" customStyle={{color:"red",fontSize:12,marginTop:10}} />
-                                </ImageBackground>
-                                <TouchableOpacity onPress={()=>{
-                                    toggleModal()
-                                    setTimeout(()=>{
-                                        props.navigation.navigate("SignUp")
-                                    },500)
-                                    }} style={{position:"absolute",bottom:20,left:0,right:0,alignItems:'center',justifyContent:"center"}}>
-                                    <View style={{backgroundColor:"#8D3981",borderRadius:6,padding:10}}>
-                                        <BoldText text="회원가입 하러가기" customStyle={{color:"white"}} />
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{backgroundColor:"#F2F2F2",height:44,borderBottomLeftRadius:10,borderBottomRightRadius:10,flexDirection:'row'}}>
-                                <View style={{flex:9,flexDirection:'row',alignItems:"center"}}>
-                                    <CheckBox
-                                        isChecked={ignore}
-                                        checkedCheckBoxColor={'#8D3981'}
-                                        uncheckedCheckBoxColor={"#999999"}
-                                        style={{marginHorizontal:4}}
-                                        onClick={() => ignore ? setIgnore(false) : setIgnore(true)}/>
-                                    <RegularText text="7일동안 다시보지 않기" customStyle={{color:'#707070',fontSize:10}}/>
-                                </View>
-                                <TouchableOpacity style={{flex:3,justifyContent:"center",alignItems:"center"}} onPress={toggleModal}>
-                                    <View>
-                                        <RegularText text="닫기" customStyle={{color:'#707070',fontSize:10}} />
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                </Modal>
             </SafeAreaView>
         </>
-        
     )
 }
 

@@ -71,11 +71,11 @@ const TabScreen = ({navigation}) =>{
 					<Image source={focused ? require('./assets/img/mvp_active.png') : require('./assets/img/mvp.png')} style={styles.dockIcon}/>
 				)
 			}}} listeners={()=>({tabPress:event=>LoginGuard(event,navigation,stat,"Change")})}/>
-			<Tab.Screen name="Branch" component={BranchScreen} options={{title:"가맹점",tabBarIcon:({focused})=>{
+			<Tab.Screen name="Branch" component={BranchScreen} options={{title:"스토어",tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/branch_active.png') : require('./assets/img/branch.png')} style={styles.dockIcon}/>
 				)
-			}}} listeners={()=>({tabPress:event=>event.preventDefault()})}/>
+			}}} listeners={()=>({tabPress:event=>LoginGuard(event,navigation,stat,"Branch")})}/>
 			<Tab.Screen name="Menu" component={HomeScreen} options={{title:"메뉴",tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/menu_active.png') : require('./assets/img/menu.png')} style={styles.dockIcon}/>
@@ -130,6 +130,7 @@ const App: () => React$Node = () => {
 							name="Drawer"
 							component={DrawerScreen}
 						/>
+						<Stack.Screen name="Pay" component={BarcodeScreen} />
 						<Stack.Screen name="MyMvp" component={MymvpScreen} />
 						<Stack.Screen name="FAQ" component={FaqScreen} />
 						<Stack.Screen name="Login" component={LoginScreen} />

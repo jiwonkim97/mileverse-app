@@ -44,7 +44,10 @@ const CustomDrawerContent : () => React$Node = (props) =>{
                     <TouchableOpacity disabled={true} onPress={()=> props.navigation.navigate("Home")} style={styles.drawerItem}>
                         <RegularText text={"내 정보"} customStyle={styles.drawerDisableText} />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> props.navigation.navigate("MyMvp")} style={styles.drawerItem}>
+                    <TouchableOpacity onPress={()=> {
+                        stat ? props.navigation.navigate("MyMvp") : props.navigation.navigate("Login")
+                        
+                    }} style={styles.drawerItem}>
                         <RegularText text={"나의 MVP"} customStyle={styles.drawerText} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=> props.navigation.navigate("Notice")} style={styles.drawerItem}>

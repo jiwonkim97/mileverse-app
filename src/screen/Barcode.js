@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { View,SafeAreaView,StyleSheet, ImageBackground,TouchableOpacity } from 'react-native';
+import { View,SafeAreaView,StyleSheet, ImageBackground,TouchableOpacity,Image } from 'react-native';
 import { RegularText, ExtraBoldText, BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Barcode from "react-native-barcode-builder";
@@ -19,6 +19,9 @@ const BarcodeScreen : () => React$Node = (props) =>{
             <SafeAreaView>
                 <View style={styles.header}>
                     <ExtraBoldText text="사용하기" customStyle={{color:"#707070",fontSize:16}}/>
+                    <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
+                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
+                    </TouchableOpacity>
                 </View>
                 <ImageBackground source={require('../../assets/img/pay_bg.png')} style={{height:"95%",resizeMode:'contain'}}>
                     <View style={{backgroundColor:"white",height:"45%",borderBottomLeftRadius:70,borderBottomRightRadius:70,
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
         borderWidth:1,
         borderColor:"#ccc",
         borderRadius:4,
-        width:140,
+        width:150,
         paddingHorizontal:16,
         paddingVertical:10
     }
