@@ -297,6 +297,7 @@ const MymvpScreen : () => React$Node = (props) =>{
                                         value={mode.current === "to" ? toYear.current : fromYear.current}
                                         placeholder={{}}
                                         doneText={"완료"}
+                                        style={{inputIOS:{paddingLeft:10,height:'100%'}}}
                                         items={yearArr}
                                     />
                                 </View>
@@ -317,6 +318,7 @@ const MymvpScreen : () => React$Node = (props) =>{
                                         value={mode.current === "to" ? toMonth.current : fromMonth.current}
                                         placeholder={{}}
                                         doneText={"완료"}
+                                        style={{inputIOS:{paddingLeft:10,height:'100%'}}}
                                         items={monthArr}
                                     />
                                 </View>
@@ -330,6 +332,7 @@ const MymvpScreen : () => React$Node = (props) =>{
                                         value={mode.current === "to" ? toDay.current : fromDay.current}
                                         placeholder={{}}
                                         doneText={"완료"}
+                                        style={{inputIOS:{paddingLeft:10,height:'100%'}}}
                                         items={dayArr}
                                     />
                                 </View>
