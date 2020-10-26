@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Image,View,SafeAreaView,ScrollView ,StyleSheet,TouchableOpacity } from 'react-native';
+import { Image,View,SafeAreaView,ScrollView ,StyleSheet,TouchableOpacity,Platform } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux';
 
 import * as spinner from '../actions/spinner'
@@ -23,7 +23,7 @@ const HomeScreen : () => React$Node = (props) =>{
     }
     useEffect(()=>{
         async function checkNotice(){
-            const _getNotice = await Axios.post('/api/notice/initRequest',{version:_ver});
+            const _getNotice = await Axios.post('/api/notice/check-notice-version',{version:_ver,platform:Platform.OS});
             const _response = _getNotice.data.rows
             const _notice = await noticeAlert(_response,_ver);
             if(_notice === true) onVerifyRequest();
