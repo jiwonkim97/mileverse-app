@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react';
-import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback } from 'react-native';
+import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,TouchableOpacity } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 import Barcode from "react-native-barcode-builder";
@@ -12,7 +12,6 @@ import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios'
 
 import noticeAlert from '../components/NoticeAlert';
-
 
 const HomeScreen : () => React$Node = (props) =>{
     const dispatch = useDispatch();
@@ -166,25 +165,24 @@ const HomeScreen : () => React$Node = (props) =>{
             </SafeAreaView>
             <Modal isVisible={modal} backdropTransitionOutTiming={0} 
                 onBackdropPress={()=>{setModal(!modal)}}
-                style={{margin: 0}} useNativeDriver={true} animationIn={"slideInDown"} animationOut={"slideOutUp"}>
-                <View style={{width:"100%",height:"100%"}}>
-                    <View style={{backgroundColor:"#ffffff",borderBottomRightRadius:50,borderBottomLeftRadius:50,paddingBottom:60}}>
-                        <View style={{position:"absolute",right:15,top:15}}>
-                            <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
-                                <Image source={require('../../assets/img/ico_close_bl.png')} style={{resizeMode:"contain",width:20,height:20}} />    
-                            </TouchableWithoutFeedback> 
+                style={{margin: 0,flex:1,justifyContent:"flex-start"}} useNativeDriver={true} animationIn={"slideInDown"} animationOut={"slideOutUp"}>
+                {Platform.OS === 'ios'? <CommonStatusbar backgroundColor="#FFFFFF"/> : null  }
+                <View style={{backgroundColor:"#ffffff",borderBottomRightRadius:50,borderBottomLeftRadius:50,paddingBottom:60}}>
+                    <View style={{paddingTop:50,paddingLeft:54}}>
+                        <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
+                        <View style={{flexDirection:"row",alignItems:"center",marginTop:14}}>
+                            <ExtraBoldText text={mvp===""? "-": mvp+" MVP"} customStyle={{fontSize:18,color:"#8D3981"}}/>
+                            <Image source={require('../../assets/img/ico_bracket.png')} style={styles.icoBracket}/>
                         </View>
-                        <View style={{paddingTop:50,paddingLeft:54}}>
-                            <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
-                            <View style={{flexDirection:"row",alignItems:"center",marginTop:14}}>
-                                <ExtraBoldText text={mvp===""? "-": mvp+" MVP"} customStyle={{fontSize:18,color:"#8D3981"}}/>
-                                <Image source={require('../../assets/img/ico_bracket.png')} style={styles.icoBracket}/>
-                            </View>
-                        </View>
-                        <View style={{marginTop:36,alignItems:"center",justifyContent:"center"}}>
+                    </View>
+                    <View style={{marginTop:36,alignItems:"center",justifyContent:"center"}}>
                         <Barcode value={code? code : "0000"} format="CODE128" height={77}/>
-                            <BoldText text={codeNum? codeNum : "0000"} customStyle={{fontSize:12,color:"#000000"}}/>
-                        </View>
+                        <BoldText text={codeNum? codeNum : "0000"} customStyle={{fontSize:12,color:"#000000"}}/>
+                    </View>
+                    <View style={{position:"absolute",right:15,top:15}}>
+                        <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
+                            <Image source={require('../../assets/img/ico_close_bl.png')} style={{resizeMode:"contain",width:20,height:20}} />    
+                        </TouchableWithoutFeedback> 
                     </View>
                 </View>
             </Modal>

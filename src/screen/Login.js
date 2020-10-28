@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import * as spinner from '../actions/spinner'
 import * as toast from '../components/Toast'
 import {BoldText, RegularText} from '../components/customComponents';
+import CommonStatusbar from '../components/CommonStatusbar';
 
 
 
@@ -66,14 +67,15 @@ const LoginScreen : () => React$Node = (props) =>{
 
     return (
         <SafeAreaView style={{flex:1,backgroundColor:"#FFF"}}>
-            <View style={{height:60,justifyContent:'center',alignItems:"flex-end",paddingRight:12,paddingTop:20}}>
+            <CommonStatusbar backgroundColor="#FFFFFF"/>
+            <View style={{position:"absolute",top:20,right:20}}>
                 <TouchableOpacity onPress={()=>{
                     props.navigation.goBack()
                 }}>
                     <Image source={require('../../assets/img/ico_close_bl.png')} style={{resizeMode:"contain",width:20}} />    
-                </TouchableOpacity>
+                </TouchableOpacity>   
             </View>
-            <View style={{marginTop:22,justifyContent:"center",alignItems:"center"}}>
+            <View style={{marginTop:55,justifyContent:"center",alignItems:"center"}}>
                 <Image source={require('../../assets/img/mileverse_letter_2.png')} style={{resizeMode:'contain',height:25}} />
             </View>
             <View style={{marginTop:53,paddingHorizontal:30}}>
