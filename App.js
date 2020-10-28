@@ -15,18 +15,19 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import CustomDrawerContent from './src/components/Drawer'
 import { RootSiblingParent } from 'react-native-root-siblings';
 
-import HomeScreen from './src/screen/Home'
-import LoginScreen from './src/screen/Login'
-import MymvpScreen from './src/screen/Mymvp'
-import BranchScreen from './src/screen/Branch'
-import BarcodeScreen from './src/screen/Barcode'
-import NoticeScreen from './src/screen/Notice'
-import FaqScreen from './src/screen/FAQ'
-import ContactScreen from './src/screen/Contact'
-import SignUpScreen from './src/screen/SignUp'
-import ChangeScreen from './src/screen/Change'
+import HomeScreen from './src/screen/Home';
+import LoginScreen from './src/screen/Login';
+import MymvpScreen from './src/screen/Mymvp';
+import BranchScreen from './src/screen/Branch';
+import BarcodeScreen from './src/screen/Barcode';
+import NoticeScreen from './src/screen/Notice';
+import FaqScreen from './src/screen/FAQ';
+import ContactScreen from './src/screen/Contact';
+import SignUpScreen from './src/screen/SignUp';
+import ChangeScreen from './src/screen/Change';
+import GifticonCategory from './src/screen/GifticonCategory';
 import MileVerseScreen from './src/changeScreen/MileVerse';
-import MileVerseGiftScreen from './src/gifticon/MileVerse'
+import MileVerseGiftScreen from './src/gifticon/MileVerse';
 import SplashScreen from 'react-native-splash-screen';
 
 
@@ -139,6 +140,8 @@ const App: () => React$Node = () => {
 						<Stack.Screen name="SignUp" component={SignUpScreen} />
 						<Stack.Screen name="MileVerse" component={MileVerseScreen} />
 						<Stack.Screen name="MileVerseGiftScreen" component={MileVerseGiftScreen} />
+
+						<Stack.Screen name="GifticonCategory" component={GifticonCategory} />
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>

@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react';
-import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,TouchableOpacity } from 'react-native';
+import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 import Barcode from "react-native-barcode-builder";
@@ -57,10 +57,10 @@ const HomeScreen : () => React$Node = (props) =>{
                 <View style={styles.header}>
                     <Image source={require('../../assets/img/header_logo.png')} style={{width:150,resizeMode:"contain"}}></Image>
                 </View>
-                <ScrollView >
+                <ScrollView>
                     <View style={{paddingVertical:6}}>
                         <TouchableWithoutFeedback onPress={()=>{
-                            stat?alert("기프티콘 이동!"):props.navigation.navigate("Login")
+                            stat?props.navigation.navigate("GifticonCategory"):props.navigation.navigate("Login")
                         }}>
                             <Image source={require("../../assets/img/main_banner.png")} style={{resizeMode:"stretch",width:"100%",height:154}}/>
                         </TouchableWithoutFeedback>
@@ -133,9 +133,9 @@ const HomeScreen : () => React$Node = (props) =>{
                                 <View style={{flexDirection:"row",justifyContent:"space-around",marginTop:36}}>
                                     <TouchableWithoutFeedback onPress={()=>navigateScreen("icecream")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
-                                                <Image source={require("../../assets/img/ico_icecream.png")} style={[styles.gifticonImg]}/>
-                                                <BoldText text={" 베이커리/\n아이스크림"} style={styles.gifticonTxt}/>
-                                            </View>
+                                            <Image source={require("../../assets/img/ico_icecream.png")} style={[styles.gifticonImg]}/>
+                                            <BoldText text={" 베이커리/\n아이스크림"} style={styles.gifticonTxt}/>
+                                        </View>
                                     </TouchableWithoutFeedback>
                                     <TouchableWithoutFeedback onPress={()=>navigateScreen("movie")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
@@ -230,7 +230,8 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     btnTxt:{
-        fontSize:16,color:"#434343"
+        fontSize:16,
+        color:"#434343"
     },
     icoBracket:{
         resizeMode:"contain",
