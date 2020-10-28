@@ -91,7 +91,7 @@ const ChangeScreen = (props) =>{
                         <RegularText text={"2. 구매할 기프티콘을 선택해 주세요."} customStyle={styles.noticeText}/>
                         <RegularText text={"3. 구매한 기프티콘은 MMS(문자메세지)로 전송됩니다."} customStyle={styles.noticeText}/>
                         <BoldText text={"[기프티콘 구매 이용 가이드]"} customStyle={[styles.noticeTextHeader,{marginTop:36}]}/>
-                        <RegularText text={"1. 각 기프티콘별로 상품 사용 기간 및 방법이 상이합니다.\n\t 구매 전 꼭 상품 별 유의사항을 확인하여 주세요."} customStyle={styles.noticeText}/>
+                        <RegularText text={"1. 각 기프티콘별로 상품 사용 기간 및 방법이 상이합니다.\n구매 전 꼭 상품 별 유의사항을 확인하여 주세요."} customStyle={[styles.noticeText,{lineHeight:18}]}/>
                         <RegularText text={"2. 구매한 기프티콘의 사용기한은 연장 되지 않습니다."} customStyle={styles.noticeText}/>
                         <RegularText text={"3. 구매한 기프티콘은 취소/환불이 불가능합니다."} customStyle={styles.noticeText}/>
                     </View>
