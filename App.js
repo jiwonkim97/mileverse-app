@@ -57,7 +57,10 @@ const TabScreen = ({navigation}) =>{
 				},
 				labelStyle:{
 					fontFamily:"NanumSquareR",
-					bottom:5
+					bottom:6
+				},
+				iconStyle:{
+					top:-3
 				}
 			  }}
 			barStyle={{ backgroundColor: 'white' }}
@@ -153,6 +156,6 @@ export default App;
 
 
 const styles = StyleSheet.create({
-    dockIcon:{width:20,height:20,resizeMode:"contain"}
+    dockIcon:{width:24,height:24,resizeMode:"contain"}
     
 });
