@@ -124,8 +124,7 @@ const styles = StyleSheet.create({
         zIndex:1
     },
     categoryCardWrap:{
-        flexDirection:"row",
-        justifyContent:"space-between"
+        flexDirection:"row"
     },
     categoryCard:{
         flex:1,
