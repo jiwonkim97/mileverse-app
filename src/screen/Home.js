@@ -20,13 +20,18 @@ const HomeScreen : () => React$Node = (props) =>{
     const _ver = useSelector(state => state.global.version);
     const [modal,setModal] = useState(false)
     const [codeNum,setCodeNum] = useState("");
+    const [commaMvp,setCommaMvp] = useState(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     
+    useEffect(()=>{
+        setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+    },[mvp])
+
     useEffect(()=>{
         setCodeNum(code.substr(0,4)+" "+code.substr(4,4)+" "+code.substr(8,4)+" "+code.substr(12,4))
     },[code])
     
     useEffect(()=>{
-        async function checkNotice(){
+        const checkNotice = async() => {
             const _getNotice = await Axios.post('/api/notice/check-notice-version',{version:_ver,platform:Platform.OS});
             const _response = _getNotice.data.rows
             const _notice = await noticeAlert(_response,_ver);
@@ -74,7 +79,7 @@ const HomeScreen : () => React$Node = (props) =>{
                                     <BoldText text={"로그인이 필요합니다."} customStyle={{fontSize:15,color:"#2B2B2B"}}/>
                                 }
                                 <View style={{flexDirection:"row",alignItems:"center",marginTop:12}}>
-                                    <ExtraBoldText text={mvp===""? "-": mvp+" MVP"} customStyle={{fontSize:20,color:"#8D3981"}}/>
+                                    <ExtraBoldText text={mvp===""? "-": commaMvp+" MVP"} customStyle={{fontSize:20,color:"#8D3981"}}/>
                                     <Image source={require('../../assets/img/ico_bracket.png')} style={styles.icoBracket}/>
                                 </View>
                             </View>
@@ -171,7 +176,7 @@ const HomeScreen : () => React$Node = (props) =>{
                     <View style={{paddingTop:50,paddingLeft:54}}>
                         <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
                         <View style={{flexDirection:"row",alignItems:"center",marginTop:14}}>
-                            <ExtraBoldText text={mvp===""? "-": mvp+" MVP"} customStyle={{fontSize:18,color:"#8D3981"}}/>
+                            <ExtraBoldText text={mvp===""? "-": commaMvp+" MVP"} customStyle={{fontSize:18,color:"#8D3981"}}/>
                             <Image source={require('../../assets/img/ico_bracket.png')} style={styles.icoBracket}/>
                         </View>
                     </View>
@@ -230,7 +235,7 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     btnTxt:{
-        fontSize:16,
+        fontSize:14,
         color:"#434343"
     },
     icoBracket:{

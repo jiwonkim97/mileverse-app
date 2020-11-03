@@ -215,17 +215,17 @@ const MymvpScreen : () => React$Node = (props) =>{
                         <View style={{paddingHorizontal:16,paddingTop:16,flexDirection:"row",justifyContent:"space-between"}}>
                             <TouchableWithoutFeedback onPress={()=>{setType("all")}}>
                             <View style={[styles.typeBtn,{borderBottomColor:type==="all"?"#8D3981":"white"}]}>
-                                    <BoldText text={"전체"} customStyle={{fontSize:16}}/>
+                                    <BoldText text={"전체"} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback onPress={()=>{setType("use")}}>
                             <View style={[styles.typeBtn,{borderBottomColor:type==="use"?"#8D3981":"white"}]}>
-                                    <BoldText text={"사용"} customStyle={{fontSize:16}}/>
+                                    <BoldText text={"사용"} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback onPress={()=>{setType("change")}}>
                                 <View style={[styles.typeBtn,{borderBottomColor:type==="change"?"#8D3981":"white"}]}>
-                                    <BoldText text={"교환"} customStyle={{fontSize:16}}/>
+                                    <BoldText text={"교환"} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>

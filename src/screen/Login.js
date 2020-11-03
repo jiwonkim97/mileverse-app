@@ -121,7 +121,7 @@ const LoginScreen : () => React$Node = (props) =>{
                     </View>
                 </View>
                 <View style={{marginTop:16,flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
-                    <TouchableOpacity onPress={()=> props.navigation.navigate("SignUp")}>
+                    <TouchableOpacity onPress={()=> props.navigation.navigate("SignUp01")}>
                         <RegularText text={"회원가입"} customStyle={{color:'#676767',fontSize:12}} />
                     </TouchableOpacity>
                     <RegularText text={"|"} customStyle={{color:'#676767',fontSize:12,marginHorizontal:8}} />

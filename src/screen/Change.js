@@ -35,7 +35,8 @@ const ChangeScreen = (props) =>{
                                     <BoldText text={"MVP 1만원권"} customStyle={styles.salesTitle}/>
                                     <View style={styles.salesWrap}>
                                         <ExtraBoldText text={"10%"} customStyle={styles.sales}/>
-                                        <ExtraBoldText text={"9,000원"} customStyle={styles.salesPrice}/>
+                                        <ExtraBoldText text={"9,000"} customStyle={styles.salesPrice}/>
+                                        <RegularText text={"원"} customStyle={{fontSize:8}}/>
                                         <BoldText text={"10,000원"} customStyle={styles.price}/>
                                     </View>
                                 </View>
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
         marginTop:10
     },
     itemTitle:{
-        fontSize:14,
+        fontSize:13,
         color:"#2B2B2B"
     },
     cardWrap:{
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
         fontSize:10
     },
     sales:{
-        fontSize:11,
+        fontSize:12,
         color:"#EE1818"
     },
     price:{
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
         textDecorationLine: 'line-through'
     },
     salesPrice:{
-        fontSize:11,
+        fontSize:12,
         color:"#2B2B2B",
         marginLeft:4
     },

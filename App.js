@@ -23,9 +23,11 @@ import BarcodeScreen from './src/screen/Barcode';
 import NoticeScreen from './src/screen/Notice';
 import FaqScreen from './src/screen/FAQ';
 import ContactScreen from './src/screen/Contact';
-import SignUpScreen from './src/screen/SignUp';
+import SignUp02 from './src/screen/SignUp02';
 import ChangeScreen from './src/screen/Change';
 import GifticonCategory from './src/screen/GifticonCategory';
+// import GifticonList from './src/screen/GifticonList';
+import SignUp01 from './src/screen/SignUp01';
 import MileVerseScreen from './src/changeScreen/MileVerse';
 import MileVerseGiftScreen from './src/gifticon/MileVerse';
 import SplashScreen from 'react-native-splash-screen';
@@ -140,11 +142,13 @@ const App: () => React$Node = () => {
 						<Stack.Screen name="Login" component={LoginScreen} />
 						<Stack.Screen name="Notice" component={NoticeScreen} />
 						<Stack.Screen name="Contact" component={ContactScreen} />
-						<Stack.Screen name="SignUp" component={SignUpScreen} />
+						<Stack.Screen name="SignUp02" component={SignUp02} />
 						<Stack.Screen name="MileVerse" component={MileVerseScreen} />
 						<Stack.Screen name="MileVerseGiftScreen" component={MileVerseGiftScreen} />
 
 						<Stack.Screen name="GifticonCategory" component={GifticonCategory} />
+						{/* <Stack.Screen name="GifticonList" component={GifticonList} /> */}
+						<Stack.Screen name="SignUp01" component={SignUp01} />
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>
