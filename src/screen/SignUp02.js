@@ -15,7 +15,9 @@ const SignUp02 = (props) =>{
     const [doubleChk,setDoubleChk] = useState(false)
 
     useEffect(()=>{
-        
+        const {name,mobileno} = props.route.params.data
+        setName(name)
+        setPhone(mobileno)
     },[])
 
     const doSignUp = ()=>{
@@ -109,7 +111,7 @@ const SignUp02 = (props) =>{
                             <View style={[styles.inputBox,{borderBottomWidth:1,borderBottomColor:"#ECECEC"}]}>
                                 <BoldText text={"이름"} customStyle={styles.label}/>
                                 <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <TextInput placeholder="이름을 입력해주세요." maxLength={10} placeholderTextColor="#D5C2D3" onChangeText={text=>setName(text)} style={styles.input}/>
+                                    <TextInput placeholder="이름을 입력해주세요." maxLength={10} placeholderTextColor="#D5C2D3" value={name} onChangeText={text=>setName(text)} style={styles.input}/>
                                 </View>
                             </View>
                             <View style={[styles.inputBox,{borderBottomWidth:1,borderBottomColor:"#ECECEC"}]}>

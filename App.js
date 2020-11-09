@@ -31,6 +31,7 @@ import SignUp01 from './src/screen/SignUp01';
 import MileVerseScreen from './src/changeScreen/MileVerse';
 import MileVerseGiftScreen from './src/gifticon/MileVerse';
 import SplashScreen from 'react-native-splash-screen';
+import NiceCheck from './src/screen/NiceCheck';
 
 
 const Tab = createBottomTabNavigator();
@@ -149,6 +150,7 @@ const App: () => React$Node = () => {
 						<Stack.Screen name="GifticonCategory" component={GifticonCategory} />
 						{/* <Stack.Screen name="GifticonList" component={GifticonList} /> */}
 						<Stack.Screen name="SignUp01" component={SignUp01} />
+						<Stack.Screen name="NiceCheck" component={NiceCheck} />
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>

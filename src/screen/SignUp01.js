@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,ScrollView } from 'react-native';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,ScrollView, Alert } from 'react-native';
 import CheckBox from 'react-native-check-box'
 import CommonStatusbar from '../components/CommonStatusbar';
 import { RegularText, ExtraBoldText,BoldText } from '../components/customComponents';
@@ -16,7 +16,7 @@ const SignUp01 = (props) =>{
     const [modalMode,setModalMode] = useState("");
     const [terms,setTerms] = useState("");
     const [privacy,setPrivacy] = useState("");
-
+    const [checkIdentify,setCheckIdentify] = useState(false)
     useEffect(()=>{
         Axios.get('/get/terms').then((response)=>{
             setTerms(response.data.content);
@@ -24,7 +24,7 @@ const SignUp01 = (props) =>{
         Axios.get('/get/privacy').then((response)=>{
             setPrivacy(response.data.content);
         });
-    },[])
+    },[]);
 
     const onChangeCheckbox = (_target) =>{
         if(_target === "all") {
@@ -57,6 +57,23 @@ const SignUp01 = (props) =>{
         }
     }
 
+    const onIdentifyCheck = ()=>{
+        props.navigation.navigate("NiceCheck",{
+            onGoBack:(_value)=>{setCheckIdentify(_value)}
+        });
+    }
+
+    const onNextStep = ()=>{
+        if(checkIdentify !== true) Alert.alert("알림","본인인증을 완료해주세요.");
+        else if(checkTerms !== true) Alert.alert("알림","이용약관에 동의해주세요.");
+        else if(checkprivacy !== true) Alert.alert("알림","개인정보 처리방침에 동의해주세요.");
+        else {
+            props.navigation.navigate("SignUp02",{
+                data:props.route.params
+            });
+        }
+    }
+
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
@@ -81,9 +98,11 @@ const SignUp01 = (props) =>{
                                 <RegularText text={"이용하여 본인인증을"} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:10}}/>
                                 <RegularText text={"진행합니다."} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:10}}/>
                             </View>
-                            <View style={{marginTop:25,backgroundColor:"#8D3981",paddingHorizontal:32,paddingVertical:8,borderRadius:6}}>
-                                <BoldText text={"인증하기"} customStyle={{fontSize:12,color:'#FFFFFF'}}/>
-                            </View>
+                            <TouchableWithoutFeedback onPress={onIdentifyCheck}>
+                                <View style={{marginTop:25,backgroundColor:"#8D3981",paddingHorizontal:32,paddingVertical:8,borderRadius:6}}>
+                                    <BoldText text={"인증하기"} customStyle={{fontSize:12,color:'#FFFFFF'}}/>
+                                </View>
+                            </TouchableWithoutFeedback>
                         </View>
                     </View>
                     <View style={{marginTop:14}}>
@@ -150,7 +169,7 @@ const SignUp01 = (props) =>{
                             </View>
                         </View>
                     </View>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("SignUp02")}>
+                    <TouchableWithoutFeedback onPress={onNextStep}>
                         <View style={{height:44,backgroundColor:"#8D3981",justifyContent:"center",alignItems:'center',borderRadius:6,marginTop:14}}>
                             <BoldText text={"다음"} customStyle={{fontSize:14,color:'#FFFFFF'}}/>
                         </View>
