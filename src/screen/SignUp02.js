@@ -2,7 +2,7 @@ import React, {useState,useEffect} from 'react';
 import { View,SafeAreaView,TextInput,StyleSheet,ScrollView,Image, Alert,TouchableWithoutFeedback } from 'react-native';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
-import * as toast from '../components/Toast'
+import * as toast from '../components/Toast';
 import Axios from '../modules/Axios';
 
 const SignUp02 = (props) =>{
@@ -15,7 +15,7 @@ const SignUp02 = (props) =>{
     const [doubleChk,setDoubleChk] = useState(false)
 
     useEffect(()=>{
-        const {name,mobileno} = props.route.params.data
+        const {name,mobileno} = props.route.params.data;
         setName(name)
         setPhone(mobileno)
     },[])
@@ -42,6 +42,9 @@ const SignUp02 = (props) =>{
     const doDoubleCheck = () =>{
         if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(id)) {
             Alert.alert("알림","아이디에 한글을 사용할 수 없습니다.",[{text:"확인"}]);
+            return;
+        }else if(id === "") {
+            Alert.alert("알림","아이디를 입력해주세요.",[{text:"확인"}]);
             return;
         }
         Axios.post('/users/doubleCheck',{id:id})
@@ -77,12 +80,12 @@ const SignUp02 = (props) =>{
                 </View>
                 <ScrollView style={{padding:16,flex:1}} contentContainerStyle={{justifyContent:"space-between",flexGrow:1}}>
                     <View style={{flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
-                        <Image source={require('../../assets/img/ico_progress_none.png')}/>
-                        <Image source={require('../../assets/img/ico_progress_02.png')} style={{marginLeft:5}}/>
+                        <Image source={require('../../assets/img/ico_progress_none.png')} style={{resizeMode:"stretch",width:10,height:10}}/>
+                        <Image source={require('../../assets/img/ico_progress_02.png')} style={{marginLeft:5,resizeMode:"stretch",width:20,height:20}}/>
                     </View>
                     <View style={{marginTop:14,flex:1}}>
                         <ExtraBoldText text={"상세정보"} customStyle={{fontSize:14,color:"#707070"}}/>
-                        <View style={{marginTop:14,borderRadius:6,borderWidth:1,borderColor:"#E5E5E5",paddingLeft:16,paddingRight:5,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+                        <View style={{marginTop:14,borderRadius:6,borderWidth:1,borderColor:"#E5E5E5",paddingLeft:16,paddingRight:5,paddingVertical:5,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
                             <BoldText text={"아이디"} customStyle={styles.label}/>
                             <View style={{flexDirection:"row",alignItems:"center"}}>
                                 <TextInput placeholder="아이디를 입력해주세요." maxLength={20} placeholderTextColor="#D5C2D3" onChangeText={text => onChangeId(text)} style={[styles.input,{marginRight:15}]}/>
@@ -169,13 +172,15 @@ const styles = StyleSheet.create({
     },
     input:{
         color:"#000000",
-        textAlign:"right"
+        textAlign:"right",
+        height:20,
+        paddingVertical:0
     },
     inputBox:{
         flexDirection:"row",
         justifyContent:"space-between",
         alignItems:"center",
-        paddingHorizontal:16
+        padding:16
     },
     btnBox:{
         backgroundColor:"#8D3981",

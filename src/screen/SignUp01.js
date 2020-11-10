@@ -5,6 +5,7 @@ import CommonStatusbar from '../components/CommonStatusbar';
 import { RegularText, ExtraBoldText,BoldText } from '../components/customComponents';
 import Axios from '../modules/Axios';
 import Modal from 'react-native-modal';
+import * as toast from '../components/Toast';
 
 const SignUp01 = (props) =>{
 
@@ -58,15 +59,20 @@ const SignUp01 = (props) =>{
     }
 
     const onIdentifyCheck = ()=>{
-        props.navigation.navigate("NiceCheck",{
-            onGoBack:(_value)=>{setCheckIdentify(_value)}
-        });
+        if(checkIdentify === true) {
+            toast.info("본인인증을 완료하였습니다.");
+        } else {
+            props.navigation.navigate("NiceCheck",{
+                onGoBack:(_value)=>{setCheckIdentify(_value)}
+            });
+        }
+        
     }
 
     const onNextStep = ()=>{
-        if(checkIdentify !== true) Alert.alert("알림","본인인증을 완료해주세요.");
-        else if(checkTerms !== true) Alert.alert("알림","이용약관에 동의해주세요.");
-        else if(checkprivacy !== true) Alert.alert("알림","개인정보 처리방침에 동의해주세요.");
+        if(checkIdentify !== true) toast.error("본인인증을 완료해주세요.");
+        else if(checkTerms !== true) toast.error("이용약관에 동의해주세요.");
+        else if(checkprivacy !== true) toast.error("개인정보 처리방침에 동의해주세요.");
         else {
             props.navigation.navigate("SignUp02",{
                 data:props.route.params
@@ -86,8 +92,8 @@ const SignUp01 = (props) =>{
                 </View>
                 <View style={{paddingHorizontal:16,paddingTop:16}}>
                     <View style={{flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
-                        <Image source={require('../../assets/img/ico_progress_01.png')}/>
-                        <Image source={require('../../assets/img/ico_progress_none.png')} style={{marginLeft:5}}/>
+                        <Image source={require('../../assets/img/ico_progress_01.png')} style={{resizeMode:"stretch",width:20,height:20}}/>
+                        <Image source={require('../../assets/img/ico_progress_none.png')} style={{marginLeft:5,resizeMode:"stretch",width:10,height:10}}/>
                     </View>
                     <View style={{marginTop:14}}>
                         <ExtraBoldText text={"본인 인증하기"} customStyle={{fontSize:14,color:"#707070"}}/>
