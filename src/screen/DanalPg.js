@@ -1,32 +1,28 @@
 import React from 'react';
-import { Alert,LogBox,SafeAreaView,TouchableWithoutFeedback,Image,View,StyleSheet,Linking, Platform } from 'react-native';
+import { Alert,LogBox,SafeAreaView,StyleSheet,Linking, Platform } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useDispatch } from 'react-redux';
 
 import SendIntentAndroid from "react-native-send-intent";
-import CommonStatusbar from '../components/CommonStatusbar';
-import { BoldText,ExtraBoldText } from '../components/customComponents';
+import { BoldText } from '../components/customComponents';
 import * as dialog from '../actions/dialog';
 import * as auth from '../actions/authentication';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
+    'WebView'
 ])
 
 const DanalPg = ({navigation,route})=>{
     const dispatch = useDispatch();
     return (
         <>
-            {/* <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
-                <View style={[styles.header,styles.shadow]}>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
-                    </TouchableWithoutFeedback>
-                    <ExtraBoldText text="본인인증" customStyle={{color:"#707070"}}/>
-                </View> */}
                 <WebView
-                    source={{uri: 'http://192.168.0.5:3010/api/danal/pg',method:"POST",body:"item="+route.params.item}}
+                    source={{uri: 'http://13.209.142.239:3010/api/danal/pg',method:"POST",
+                        body:"item="+route.params.item,
+                        headers : Platform.OS !== 'android' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {} 
+                    }}
                     originWhitelist={['*']}
                     javaScriptEnabled={true}
                     style={{marginTop:16}}
@@ -50,15 +46,15 @@ const DanalPg = ({navigation,route})=>{
                         } else {
                             console.log(url);
                             if (Platform.OS === 'android') {
-                            SendIntentAndroid.openAppWithUri(url)
-                            .then(isOpened => {
-                                if (!isOpened) {
-                                    Alert.alert("알림","앱 실행에 실패했습니다.",[{text:"확인"}]);
-                                }
-                            })
-                            .catch(err => {
-                                console.log(err);
-                            });
+                                SendIntentAndroid.openAppWithUri(url)
+                                .then(isOpened => {
+                                    if (!isOpened) {
+                                        Alert.alert("알림","앱 실행에 실패했습니다.",[{text:"확인"}]);
+                                    }
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                });
                             } else {
                                 Linking.openURL(url).catch(err => {
                                     Alert.alert("알림","앱 실행에 실패했습니다. 설치가 되어있지 않은 경우 설치하기 버튼을 눌러주세요.",[{text:"확인"}]);
@@ -68,7 +64,7 @@ const DanalPg = ({navigation,route})=>{
                         }
                     }}
                 />
-            {/* </SafeAreaView> */}
+            </SafeAreaView>
         </>
     )
 }

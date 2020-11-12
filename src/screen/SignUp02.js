@@ -30,7 +30,7 @@ const SignUp02 = (props) =>{
             Axios.post('/users/register',{id:id,name:name,phone:phone,pw:password2,email:mail})
             .then((response)=>{
                 if(response.data.result==="success") {
-                    Alert.alert("알림","회원가입이 완료되었습니다.",[{text:"확인",onPress:()=>props.navigation.goBack()}])
+                    Alert.alert("알림","회원가입이 완료되었습니다.",[{text:"확인",onPress:()=>props.navigation.navigate("Login")}])
                 } else if(response.data.result==="fail"){
                     Alert.alert("알림",response.data.msg,[{text:"확인"}])
                 }
