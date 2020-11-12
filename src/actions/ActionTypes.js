@@ -14,3 +14,7 @@ export const FAIL_REQUEST_STAT = "FAIL_REQUEST_STAT";
 // SPINNER
 export const SHOW_SPINNER = "SHOW_SPINNER"
 export const HIDE_SPINNER = "HIDE_SPINNER"
+
+// DIALOG
+export const OPEN_DIALOG = "OPEN_DIALOG";
+export const CLOSE_DIALOG = "CLOSE_DIALOG";

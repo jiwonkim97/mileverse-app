@@ -1,13 +1,23 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Image,View,SafeAreaView,StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { RegularText, ExtraBoldText, BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 
+import * as dialog from '../actions/dialog';
 
 const ChangeScreen = (props) =>{
+    const dispatch = useDispatch();
     const doBuyCard = (target)=>{
-        const _item = target === "10" ? "1만원권" : "5천원권";
-        alert(_item+" 구매!")
+        const _item = target === "M10" ? "1만원권" : "5천원권";
+        dispatch(dialog.openDialog("confirm",(
+            <>
+                <BoldText text={`MVP ${_item} 을 구매하시겠습니까?`}/>
+            </>
+        ),()=>{
+            dispatch(dialog.closeDialog());
+            props.navigation.navigate("DanalPg",{item:target});
+        }));
     }
     return (
         <>
@@ -26,7 +36,7 @@ const ChangeScreen = (props) =>{
                 <View style={{backgroundColor:"#FFFFFF",paddingHorizontal:16,paddingTop:26,height:"100%"}}>
                     <BoldText text={"MVP 상품권 구매"} customStyle={styles.itemTitle}/>
                     <View style={{marginTop:16,flexDirection:'row'}}>
-                        <TouchableWithoutFeedback onPress={()=>doBuyCard("10")}>
+                        <TouchableWithoutFeedback onPress={()=>doBuyCard("M10")}>
                             <View style={[styles.cardWrap,styles.shadow]}>
                                 <View style={styles.cardImgWrap}>
                                     <Image source={require("../../assets/img/mvp_gift_10.png")} style={styles.cardImg}/>
@@ -43,7 +53,7 @@ const ChangeScreen = (props) =>{
                             </View>
                         </TouchableWithoutFeedback>
                         <View style={{width:16}} />
-                        <TouchableWithoutFeedback onPress={()=>doBuyCard("05")}>
+                        <TouchableWithoutFeedback onPress={()=>doBuyCard("M05")}>
                             <View style={[styles.cardWrap,styles.shadow]}>
                                 <View style={styles.cardImgWrap}>
                                     <Image source={require("../../assets/img/mvp_gift_05.png")} style={styles.cardImg}/>

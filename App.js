@@ -14,6 +14,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import CustomDrawerContent from './src/components/Drawer'
 import { RootSiblingParent } from 'react-native-root-siblings';
+import DialogComponent from './src/components/Dialog';
 
 import HomeScreen from './src/screen/Home';
 import LoginScreen from './src/screen/Login';
@@ -32,7 +33,7 @@ import MileVerseScreen from './src/changeScreen/MileVerse';
 import MileVerseGiftScreen from './src/gifticon/MileVerse';
 import SplashScreen from 'react-native-splash-screen';
 import NiceCheck from './src/screen/NiceCheck';
-
+import DanalPg from './src/screen/DanalPg';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -133,10 +134,7 @@ const App: () => React$Node = () => {
 				<SpinnerComponent />
 				<NavigationContainer>
 					<Stack.Navigator screenOptions={{headerShown:false,cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS}} mode='card'>
-						<Stack.Screen
-							name="Drawer"
-							component={DrawerScreen}
-						/>
+						<Stack.Screen name="Drawer"component={DrawerScreen} />
 						<Stack.Screen name="Pay" component={BarcodeScreen} />
 						<Stack.Screen name="MyMvp" component={MymvpScreen} />
 						<Stack.Screen name="FAQ" component={FaqScreen} />
@@ -151,8 +149,10 @@ const App: () => React$Node = () => {
 						{/* <Stack.Screen name="GifticonList" component={GifticonList} /> */}
 						<Stack.Screen name="SignUp01" component={SignUp01} />
 						<Stack.Screen name="NiceCheck" component={NiceCheck} />
+						<Stack.Screen name="DanalPg" component={DanalPg} />
 					</Stack.Navigator>
 				</NavigationContainer>
+				<DialogComponent />
 			</Provider>
 		</RootSiblingParent>
 	);
