@@ -1,7 +1,8 @@
 import React from 'react';
-import { Alert,LogBox,SafeAreaView,StyleSheet,Linking, Platform } from 'react-native';
+import { Alert,LogBox,SafeAreaView,StyleSheet,Linking, Platform,View,Text } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useDispatch } from 'react-redux';
+import CommonStatusbar from '../components/CommonStatusbar';
 
 import SendIntentAndroid from "react-native-send-intent";
 import { BoldText } from '../components/customComponents';
@@ -12,11 +13,19 @@ LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
     'WebView'
 ])
+const Loading = ()=>{
+    return (
+        <View style={{width:"100%",height:"100%",justifyContent:"center",alignItems:"center"}}>
+            <Text>잠시만 기다려주세요...</Text>
+        </View>
+    )
+}
 
 const DanalPg = ({navigation,route})=>{
     const dispatch = useDispatch();
     return (
         <>
+            <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
                 <WebView
                     source={{uri: 'http://13.209.142.239:3010/api/danal/pg',method:"POST",
@@ -25,7 +34,8 @@ const DanalPg = ({navigation,route})=>{
                     }}
                     originWhitelist={['*']}
                     javaScriptEnabled={true}
-                    style={{marginTop:16}}
+                    startInLoadingState={true}
+                    renderLoading={Loading}
                     onMessage={(event)=>{
                         const {result,mvp} = JSON.parse(event.nativeEvent.data);
                         if(result === "success") dispatch(auth.udpateMvp(mvp));
@@ -41,10 +51,8 @@ const DanalPg = ({navigation,route})=>{
                     onShouldStartLoadWithRequest={(evt)=>{
                         const { url } = evt;
                         if(url.startsWith('http://') || url.startsWith('https://') || url.startsWith('about:blank')) {
-                            console.log(url);
                             return true;
                         } else {
-                            console.log(url);
                             if (Platform.OS === 'android') {
                                 SendIntentAndroid.openAppWithUri(url)
                                 .then(isOpened => {
@@ -68,46 +76,5 @@ const DanalPg = ({navigation,route})=>{
         </>
     )
 }
-const styles = StyleSheet.create({
-    header:{
-        height:60,
-        borderColor:"#CCCCCC",
-        justifyContent:'center',
-        alignItems:'center',
-        flexDirection:'row',
-        zIndex:1
-    },
-    shadow:{
-        elevation:2,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22,
-        backgroundColor:"white"
-    },
-    label:{
-        color:"#707070",
-        fontSize:12
-    },
-    input:{
-        color:"#000000",
-        textAlign:"right"
-    },
-    inputBox:{
-        flexDirection:"row",
-        justifyContent:"space-between",
-        alignItems:"center",
-        padding:16
-    },
-    btnBox:{
-        backgroundColor:"#8D3981",
-        justifyContent:"center",
-        alignItems:"center",
-        borderRadius:6
-    }
-});
 
 export default DanalPg;
