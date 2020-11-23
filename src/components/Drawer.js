@@ -1,79 +1,126 @@
-import React,{useCallback} from 'react';
-import { Image,View,SafeAreaView,TouchableOpacity,StyleSheet,Platform,Pressable } from 'react-native';
+import React,{useCallback,useState,useEffect} from 'react';
+import { Image,View,SafeAreaView,StyleSheet,TouchableWithoutFeedback } from 'react-native';
 import { useSelector, useDispatch  } from 'react-redux';
 import * as actions from '../actions/authentication'
-import { RegularText } from '../components/customComponents';
+import { BoldText, ExtraBoldText, RegularText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 
 
-const CustomDrawerContent : () => React$Node = (props) =>{
+const CustomDrawerContent = (props) =>{
     const dispatch = useDispatch();
+    const _ver = useSelector(state => state.global.version);
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
-    const user_name = useSelector(state => state.authentication.userInfo.currentUser);
-    const height = Platform.OS === 'ios' ? 5 : 35;
-    const margin = Platform.OS === 'ios' ? 0 : 30;
+    const {mvp,currentUser:user_name} = useSelector(state => state.authentication.userInfo);
+    const [commaMvp,setCommaMvp] = useState(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+    useEffect(()=>{
+        setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+    },[mvp]);
+
     const logout = useCallback(()=>{
         dispatch(actions.logoutRequest()).then(rst=>{
             if(rst === 'INIT') {
-                props.navigation.closeDrawer()
+                props.navigation.closeDrawer();
                 props.navigation.navigate("Home");
             }
         });
-        
     },[dispatch]);
+
+    const onNavigate = (_target,_auth)=>{
+        if(!_auth){
+            props.navigation.navigate(_target)
+        } 
+        else {
+            stat ? props.navigation.navigate(_target) : props.navigation.navigate("Login");
+        }
+    }
     return (
         <>
-            {Platform.OS === 'ios'? <CommonStatusbar backgroundColor="#8D3981"/> : null  }
+            <CommonStatusbar backgroundColor="#FFFFFF"/>
             <SafeAreaView style={{flex:1,backgroundColor:'#F2F2F2'}}>
-                <View style={{flex:5, alignItems:'center', justifyContent:'center', backgroundColor:'#8D3981',width:'100%'}}>
-                    <TouchableOpacity onPress={()=>props.navigation.closeDrawer()} style={{position:'absolute',right:10,top:height}}>
-                        <Image source={require('../../assets/img/ico_close_w.png')} style={{width:15,height:15,resizeMode:"contain"}}></Image>
-                    </TouchableOpacity>
-                    <View>
-                        <Image source={require('../../assets/img/mileverse_letter.png')} style={{marginTop:margin,height:50,width:170,resizeMode:"contain"}} />
-                        {stat ?
-                            <RegularText customStyle={styles.loginText} text={user_name+"님 반갑습니다!"} />
+                <View style={{flex:4,backgroundColor:'#FFFFFF',paddingHorizontal:20,paddingTop:20,borderBottomWidth:1,borderBottomColor:"#ECECEC"}}>
+                    <View style={{flexDirection:"row",justifyContent:"space-between"}}>
+                        <TouchableWithoutFeedback onPress={()=>props.navigation.closeDrawer()}>
+                            <Image source={require('../../assets/img/ico_config.png')} style={styles.headerIco}></Image>
+                        </TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback onPress={()=>props.navigation.closeDrawer()}>
+                            <Image source={require('../../assets/img/ico_close_bl.png')} style={styles.headerIco}></Image>
+                        </TouchableWithoutFeedback>
+                    </View>
+                    <View style={{paddingVertical:40}}>
+                        {
+                            stat?
+                            <>
+                                <View style={{flexDirection:"row"}}>
+                                    <ExtraBoldText text={user_name} customStyle={{fontSize:13,color:"#8D3981"}}/>
+                                    <BoldText text={"님 환영합니다!"} customStyle={{fontSize:13}}/>
+                                </View>
+                                <View style={{flexDirection:"row",marginTop:16,alignItems:"center"}}>
+                                    <ExtraBoldText text={commaMvp+" MVP"} customStyle={{fontSize:20,color:"#8D3981"}}/>
+                                    <Image source={require('../../assets/img/ico_bracket.png')} style={{resizeMode:"contain",width:8,height:20,marginLeft:10}}/>
+                                </View>
+                            </>
                             :
-                            <Pressable onPress={()=>{props.navigation.navigate("Login")}}>
-                                <RegularText customStyle={styles.loginText} text={"로그인이 필요합니다."} />    
-                            </Pressable>
+                            <>
+                                <View style={{flexDirection:"row"}}>
+                                    <BoldText text={"로그인이 필요합니다."} customStyle={{fontSize:13}}/>
+                                </View>
+                                <View style={{flexDirection:"row",marginTop:16,alignItems:"center"}}>
+                                    <ExtraBoldText text={"-"} customStyle={{fontSize:20,color:"#8D3981"}}/>
+                                </View>
+                            </>
                         }
                     </View>
                 </View>
-                <View style={{flex:12, backgroundColor:'white',paddingLeft:10,paddingRight:10}}>
-                    <TouchableOpacity disabled={true} onPress={()=> props.navigation.navigate("Home")} style={styles.drawerItem}>
-                        <RegularText text={"내 정보"} customStyle={styles.drawerDisableText} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> {
-                        stat ? props.navigation.navigate("MyMvp") : props.navigation.navigate("Login")
-                        
-                    }} style={styles.drawerItem}>
-                        <RegularText text={"나의 MVP"} customStyle={styles.drawerText} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> props.navigation.navigate("Notice")} style={styles.drawerItem}>
-                        <RegularText text={"공지사항"} customStyle={styles.drawerText} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> props.navigation.navigate("Contact")} style={styles.drawerItem}>
-                        <RegularText text={"문의하기"} customStyle={styles.drawerText} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=> props.navigation.navigate("FAQ")} style={styles.drawerItem}>
-                        <RegularText text={"FAQ"} customStyle={styles.drawerText} />
-                    </TouchableOpacity>
-                    <TouchableOpacity disabled={true} onPress={()=> props.navigation.navigate("Home")} style={styles.drawerItem}>
-                        <RegularText text={"설정"} customStyle={styles.drawerDisableText} />
-                    </TouchableOpacity>
+                <View style={{flex:12, backgroundColor:'white',paddingHorizontal:16}}>
+                    <TouchableWithoutFeedback onPress={()=> onNavigate("Profile",true)}>
+                        <View style={styles.drawerItem}>
+                            <Image source={require("../../assets/img/ico_profile.png")} style={styles.drawerIco}/>
+                            <BoldText text={"내 정보"} customStyle={styles.drawerItemTxt}/>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={()=> onNavigate("MyMvp",true)}>
+                        <View style={styles.drawerItem}>
+                            <Image source={require("../../assets/img/ico_my_mvp.png")} style={styles.drawerIco}/>
+                            <BoldText text={"나의 MVP"} customStyle={styles.drawerItemTxt}/>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={()=> onNavigate("Notice")}>
+                        <View style={styles.drawerItem}>
+                            <Image source={require("../../assets/img/ico_notice.png")} style={styles.drawerIco}/>
+                            <BoldText text={"공지사항"} customStyle={styles.drawerItemTxt}/>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={()=> onNavigate("Contact")}>
+                        <View style={styles.drawerItem}>
+                            <Image source={require("../../assets/img/ico_mail.png")} style={styles.drawerIco}/>
+                            <BoldText text={"문의하기"} customStyle={styles.drawerItemTxt}/>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={()=> onNavigate("FAQ")}>
+                        <View style={styles.drawerItem}>
+                            <Image source={require("../../assets/img/ico_faq.png")} style={styles.drawerIco}/>
+                            <BoldText text={"FAQ"} customStyle={styles.drawerItemTxt}/>
+                        </View>
+                    </TouchableWithoutFeedback>
                     {stat? (
-                        <TouchableOpacity onPress={logout} style={styles.drawerItem}>
-                            <RegularText text={"로그아웃"} customStyle={styles.drawerText} />
-                        </TouchableOpacity>
+                        <TouchableWithoutFeedback onPress={logout}>
+                            <View style={styles.drawerItem}>
+                                <Image source={require("../../assets/img/ico_logout.png")} style={styles.drawerIco}/>
+                                <BoldText text={"로그아웃"} customStyle={styles.drawerItemTxt}/>
+                            </View>
+                        </TouchableWithoutFeedback>
                         ) : (
-                        <TouchableOpacity onPress={()=> props.navigation.navigate("Login")} style={styles.drawerItem}>
-                            <RegularText text={"로그인"} customStyle={styles.drawerText} />
-                        </TouchableOpacity>
-                    )}
+                        <TouchableWithoutFeedback onPress={()=> onNavigate("Login")}>
+                            <View style={styles.drawerItem}>
+                                <Image source={require("../../assets/img/ico_login.png")} style={styles.drawerIco}/>
+                                <BoldText text={"로그인"} customStyle={styles.drawerItemTxt}/>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    )} 
                 </View>
-                <View style={{justifyContent:'center', backgroundColor:'#F2F2F2',flex:1}}>
-                    <RegularText text={"MileVerse proto type"} customStyle={{paddingLeft:16,color:"#707070"}} />
+                <View style={{justifyContent:'center', backgroundColor:'#8D3981',flex:1}}>
+                    <RegularText text={"Mileverse v."+_ver} customStyle={{paddingLeft:16,color:"#C9C9C9"}} />
                 </View>
             </SafeAreaView>
         </>
@@ -85,29 +132,24 @@ export default CustomDrawerContent;
 
 const styles = StyleSheet.create({
     drawerItem:{
-        paddingTop:10,
-        paddingRight:15,
-        paddingLeft:15,
-        paddingBottom:10,
+        paddingVertical:13,
+        paddingLeft:3,
+        flexDirection:"row",
+        alignItems:"center",
         borderBottomWidth:1,
-        borderBottomColor:"#ddd"
+        borderBottomColor:"#ECECEC"
     },
-    drawerText:{
-        fontSize:16,
-        color:"#333"
+    drawerIco:{
+        width:20,
+        height:20,
+        resizeMode:"stretch"
     },
-    drawerDisableText:{
-      fontSize:16,
-      color:"#cccccc"
+    drawerItemTxt:{
+        marginLeft:10
     },
-    loginText:{
-        backgroundColor:"rgba(190,190,190,0.5)",
-        color:"white",
-        fontSize:14,
-        paddingVertical:6,
-        paddingHorizontal:10,
-        borderRadius:7,
-        overflow:'hidden',
-        textAlign:'center'
+    headerIco:{
+        width:20,
+        height:20,
+        resizeMode:"contain"
     }
 });
