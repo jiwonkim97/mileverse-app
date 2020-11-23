@@ -27,7 +27,8 @@ import ContactScreen from './src/screen/Contact';
 import SignUp02 from './src/screen/SignUp02';
 import ChangeScreen from './src/screen/Change';
 import GifticonCategory from './src/screen/GifticonCategory';
-// import GifticonList from './src/screen/GifticonList';
+import GifticonList from './src/screen/GifticonList';
+import GifticonDetail from './src/screen/GifticonDetail';
 import SignUp01 from './src/screen/SignUp01';
 import MileVerseScreen from './src/changeScreen/MileVerse';
 import MileVerseGiftScreen from './src/gifticon/MileVerse';
@@ -146,7 +147,8 @@ const App: () => React$Node = () => {
 						<Stack.Screen name="MileVerseGiftScreen" component={MileVerseGiftScreen} />
 
 						<Stack.Screen name="GifticonCategory" component={GifticonCategory} />
-						{/* <Stack.Screen name="GifticonList" component={GifticonList} /> */}
+						<Stack.Screen name="GifticonList" component={GifticonList} />
+						<Stack.Screen name="GifticonDetail" component={GifticonDetail} />
 						<Stack.Screen name="SignUp01" component={SignUp01} />
 						<Stack.Screen name="NiceCheck" component={NiceCheck} />
 						<Stack.Screen name="DanalPg" component={DanalPg} />

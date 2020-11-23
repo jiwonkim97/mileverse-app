@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
-import { Image,View,SafeAreaView,StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image,View,SafeAreaView,StyleSheet, TouchableWithoutFeedback, ImageBackground } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { RegularText, ExtraBoldText, BoldText } from '../components/customComponents';
 import Modal from 'react-native-modal';
 import CommonStatusbar from '../components/CommonStatusbar';
+import Axios from '../modules/Axios';
 
-
-const ChangeScreen = (props) =>{
+const imagePrefix = "https://mv-image.s3.ap-northeast-2.amazonaws.com";
+const GificonCategory = (props) =>{
     const [iconSize,setIconSize] = useState(0);
     const [visible,setVisible] = useState(false);
+    const [categories,setCategories] = useState([]);
+    const navigateBrand = (_code,_name)=>{
+        props.navigation.navigate('GifticonList',{ctgr_code:_code,ctgr_name:_name});
+    }
+    useEffect(()=>{
+        Axios.get("/api/gifticon/categories").then(response=>{
+            setCategories(response.data.rows);
+        });
+    },[]);
+
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
@@ -19,60 +30,36 @@ const ChangeScreen = (props) =>{
                         <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14,position:'absolute',right:20}}/>
                     </TouchableWithoutFeedback>
                 </View>
-                <ScrollView style={{marginTop:6}}>
-                       <View>
-                           <TouchableWithoutFeedback onPress={()=>setVisible(!visible)}>
-                               <Image source={require("../../assets/img/gifticon_banner.png")} style={{width:"100%",height:104,resizeMode:"stretch"}}/>
-                           </TouchableWithoutFeedback>
-                       </View>
-                       <View style={{marginTop:6,backgroundColor:"#FFFFFF",padding:16}}>
-                            <View style={[styles.categoryCardWrap]}>
-                                <View style={[styles.categoryCard,styles.shadow]} onLayout={(event)=>{
-                                    setIconSize(event.nativeEvent.layout.width *0.38);
-                                }}>
-                                      <View style={{alignItems:"center",justifyContent:"flex-start"}}>
-                                            <Image source={require("../../assets/img/ico_mart.png")} style={{width:iconSize,height:iconSize,marginBottom:24}}/>
-                                            <BoldText text={"편의점"} customStyle={styles.categoryText}/>
-                                      </View>
-                                </View>
-                                <View style={{width:16}}/>
-                                <View style={[styles.categoryCard,styles.shadow]}>
-                                    <View style={{alignItems:"center",justifyContent:"flex-start"}}>
-                                        <Image source={require("../../assets/img/ico_coffee.png")} style={{width:iconSize,height:iconSize,marginBottom:24}}/>
-                                        <BoldText text={"커피"} customStyle={styles.categoryText}/>
-                                    </View>
-                                </View>
-                            </View>
-                            <View style={[styles.categoryCardWrap,{marginTop:16}]}>
-                                <View style={[styles.categoryCard,styles.shadow]}>
-                                      <View style={{alignItems:"center",justifyContent:"flex-start"}}>
-                                            <Image source={require("../../assets/img/ico_chicken.png")} style={{width:iconSize,height:iconSize,marginBottom:24}}/>
-                                            <BoldText text={"치킨/피자"} customStyle={styles.categoryText}/>
-                                      </View>
-                                </View>
-                                <View style={{width:16}}/>
-                                <View style={[styles.categoryCard,styles.shadow]}>
-                                    <View style={{alignItems:"center",justifyContent:"flex-start"}}>
-                                        <Image source={require("../../assets/img/ico_icecream.png")} style={{width:iconSize,height:iconSize,marginBottom:24}}/>
-                                        <BoldText text={" 베이커리\n아이스크림"} customStyle={styles.categoryText}/>
-                                    </View>
-                                </View>
-                            </View>
-                            <View style={[styles.categoryCardWrap,{marginTop:16}]}>
-                                <View style={[styles.categoryCard,styles.shadow]}>
-                                      <View style={{alignItems:"center",justifyContent:"flex-start"}}>
-                                            <Image source={require("../../assets/img/ico_movie.png")} style={{width:iconSize,height:iconSize,marginBottom:24}}/>
-                                            <BoldText text={"영화"} customStyle={styles.categoryText}/>
-                                      </View>
-                                </View>
-                                <View style={{width:16}}/>
-                                <View style={[styles.categoryCard,styles.shadow]}>
-                                    <View style={{alignItems:"center",justifyContent:"flex-start"}}>
-                                        <Image source={require("../../assets/img/ico_beauty.png")} style={{width:iconSize,height:iconSize,marginBottom:24}}/>
-                                        <BoldText text={"뷰티"} customStyle={styles.categoryText}/>
-                                    </View>
-                                </View>
-                            </View>
+                <ScrollView style={{marginTop:6,backgroundColor:"#FFFFFF"}}>
+                       <TouchableWithoutFeedback onPress={()=>setVisible(!visible)}>
+                           <ImageBackground source={require("../../assets/img/gifticon_notice_banner_bg.png")} style={{width:"100%",height:104,resizeMode:"stretch"}}>
+                               <View style={{paddingLeft:24,paddingTop:30}}>
+                                   <BoldText text={"기프티콘 사용 공지"} customStyle={{color:"#F3C839",fontSize:18}}/>
+                                   <RegularText text={"기프티콘 사용 가이드 & 안내사항을 확인해주세요!"} customStyle={{color:"#FFFFFF",fontSize:11,marginTop:12}}/>
+                               </View>
+                           </ImageBackground>
+                       </TouchableWithoutFeedback>
+                       <View style={{paddingBottom:6,paddingHorizontal:8,flex:1,borderTopWidth:6,borderTopColor:"#F2F2F2"}}>
+                           <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:"space-between"}}>
+                               {
+                                   categories.map((item,index)=>{
+                                       return (
+                                           <TouchableWithoutFeedback onPress={()=>{navigateBrand(item.CTGR_CODE,item.CTGR_NAME)}} key={index}>
+                                                <View style={{width:"50%",marginTop:10,marginBottom:6,paddingHorizontal:8}}>
+                                                    <View style={[styles.categoryCard,styles.shadow]} onLayout={(event)=>{
+                                                        setIconSize(event.nativeEvent.layout.width * 0.38);
+                                                    }}>
+                                                        <View style={{alignItems:"center",justifyContent:"flex-start"}}>
+                                                            <Image source={{uri:imagePrefix+item.CTGR_ICO}} style={{width:iconSize,height:iconSize,marginBottom:24}}/>
+                                                            <BoldText text={item.CTGR_NAME.replace(",",'/\n')} customStyle={styles.categoryText}/>
+                                                        </View>
+                                                    </View>
+                                                </View>
+                                           </TouchableWithoutFeedback>
+                                       )
+                                   })
+                               }
+                           </View>
                        </View>
                 </ScrollView>
             </SafeAreaView>
@@ -102,7 +89,7 @@ const ChangeScreen = (props) =>{
 }
 
 
-export default ChangeScreen;
+export default GificonCategory;
 
 const styles = StyleSheet.create({
     header:{

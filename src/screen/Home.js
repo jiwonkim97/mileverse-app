@@ -40,8 +40,8 @@ const HomeScreen : () => React$Node = (props) =>{
         checkNotice();
     },[])
 
-    const navigateScreen = (_target) =>{
-        stat ? alert(_target+" 이동 !") : props.navigation.navigate("Login")
+    const navigateScreen = (_code,_name) =>{
+        stat ? props.navigation.navigate('GifticonList',{ctgr_code:_code,ctgr_name:_name}) : props.navigation.navigate("Login")
     }
     
     const onVerifyRequest = async() =>{
@@ -60,14 +60,14 @@ const HomeScreen : () => React$Node = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1}}>
                 <View style={styles.header}>
-                    <Image source={require('../../assets/img/header_logo.png')} style={{width:150,resizeMode:"contain"}}></Image>
+                    <Image source={require('../../assets/img/mileverse_letter_2.png')} style={{width:150,resizeMode:"contain"}}></Image>
                 </View>
                 <ScrollView>
                     <View style={{paddingVertical:6}}>
                         <TouchableWithoutFeedback onPress={()=>{
                             stat?props.navigation.navigate("GifticonCategory"):props.navigation.navigate("Login")
                         }}>
-                            <Image source={require("../../assets/img/main_banner.png")} style={{resizeMode:"stretch",width:"100%",height:154}}/>
+                        <Image source={require("../../assets/img/main_banner.png")} style={{resizeMode:"stretch",width:"100%",height:150}}/>
                         </TouchableWithoutFeedback>
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",width:"100%",paddingHorizontal:16,paddingTop:16 ,paddingBottom:16}}>
@@ -116,19 +116,19 @@ const HomeScreen : () => React$Node = (props) =>{
                             </View>
                             <View style={{marginTop:40}}>
                                 <View style={{flexDirection:"row",justifyContent:"space-around"}}>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("mart")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_01","편의점")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_mart.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={"편의점"} style={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("coffee")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_02","커피")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_coffee.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={"커피"} style={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("chicken")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_03","치킨/피자")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_chicken.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={"치킨/피자"} style={styles.gifticonTxt}/>
@@ -136,19 +136,19 @@ const HomeScreen : () => React$Node = (props) =>{
                                     </TouchableWithoutFeedback>
                                 </View>
                                 <View style={{flexDirection:"row",justifyContent:"space-around",marginTop:36}}>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("icecream")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_04","베이커리,아이스크림")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_icecream.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={" 베이커리/\n아이스크림"} style={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("movie")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_05","영화")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_movie.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={"영화"} style={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("beauty")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_06","뷰티")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_beauty.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={"뷰티"} style={styles.gifticonTxt}/>
