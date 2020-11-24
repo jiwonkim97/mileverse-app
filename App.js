@@ -37,6 +37,7 @@ import NiceCheck from './src/screen/NiceCheck';
 import DanalPg from './src/screen/DanalPg';
 import Profile from './src/screen/Profile';
 import ChangePassword from './src/screen/ChangePassword';
+import WithDraw from './src/screen/WithDraw';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -128,7 +129,7 @@ const SpinnerComponent = () =>{
 		/>
 	)
 }
-const App: () => React$Node = () => {
+const App = () => {
 	useEffect(()=>{
 		setTimeout(()=>{
 			SplashScreen.hide();
@@ -153,6 +154,7 @@ const App: () => React$Node = () => {
 						<Stack.Screen name="MileVerseGiftScreen" component={MileVerseGiftScreen} />
 						<Stack.Screen name="Profile" component={Profile} />
 						<Stack.Screen name="ChangePassword" component={ChangePassword} />
+						<Stack.Screen name="WithDraw" component={WithDraw} />
 						<Stack.Screen name="GifticonCategory" component={GifticonCategory} />
 						<Stack.Screen name="GifticonList" component={GifticonList} />
 						<Stack.Screen name="GifticonDetail" component={GifticonDetail} />

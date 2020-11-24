@@ -22,18 +22,18 @@ const Profile = (props) =>{
         if(password===""){
             setCurrentError("#FF3B3B");
         } else if(newPassword==="" || newConfirmPassword==="") {
-            setNewErrorTxt("비밀번호가 일치하지 않습니다.");
+            setNewErrorTxt("* 비밀번호가 일치하지 않습니다.");
             setNewError("#FF3B3B");
         } else if(newPassword !== newConfirmPassword) {
-            setNewErrorTxt("비밀번호가 일치하지 않습니다.");
+            setNewErrorTxt("* 비밀번호가 일치하지 않습니다.");
             setNewError("#FF3B3B");
         } else if(!regex.test(newPassword)) {
-            setNewErrorTxt("8~16자 영문, 숫자, 특수문자를 사용하세요.");
+            setNewErrorTxt("* 8~16자 영문, 숫자, 특수문자를 사용하세요.");
             setNewError("#FF3B3B");
         } else {
             Keyboard.dismiss();
             Axios.put("/users/passwords",{password:password,newPassword:newPassword}).then(({data})=>{
-                if(data.result) {
+                if(data.result === "success") {
                     if(data.code === "S1") {
                         dispatch(dialog.openDialog("alert",(
                             <>
@@ -73,10 +73,10 @@ const Profile = (props) =>{
                         <TextInput placeholder={"비밀번호를 입력해주세요."} onChangeText={text=>setPassword(text)}
                             secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" style={styles.input}/>
                     </View>
-                    <View style={{paddingLeft:16,paddingTop:10}}>
-                        <BoldText text={"비밀번호가 일치하지 않습니다."} customStyle={{color:currentError,fontSize:10}}/>
+                    <View style={{paddingLeft:16,paddingTop:8}}>
+                        <BoldText text={"* 비밀번호가 일치하지 않습니다."} customStyle={{color:currentError,fontSize:10}}/>
                     </View>
-                    <View style={{marginTop:16,borderRadius:6,borderColor:"#E5E5E5",borderWidth:1}}>
+                    <View style={{marginTop:10,borderRadius:6,borderColor:"#E5E5E5",borderWidth:1}}>
                         <View style={{borderBottomColor:"#E5E5E5",borderBottomWidth:1,padding:16,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
                             <BoldText text={"새로운 비밀번호 확인"} customStyle={styles.itemLabel}/>
                             <TextInput placeholder={"비밀번호를 입력해주세요."} onChangeText={text=>setNewPassword(text)}
@@ -88,11 +88,11 @@ const Profile = (props) =>{
                                 secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" style={styles.input}/>
                         </View>
                     </View>
-                    <View style={{paddingLeft:16,paddingTop:10}}>
+                    <View style={{paddingLeft:16,paddingTop:8}}>
                         <BoldText text={newErrorTxt} customStyle={{color:newError,fontSize:10}}/>
                     </View>
                     <TouchableWithoutFeedback onPress={onChangePassword}>
-                        <View style={{marginTop:16,borderRadius:6,justifyContent:"center",alignItems:"center",height:44,backgroundColor:"#8D3981"}}>
+                        <View style={{marginTop:10,borderRadius:6,justifyContent:"center",alignItems:"center",height:44,backgroundColor:"#8D3981"}}>
                             <BoldText text={"확인"} customStyle={{color:"#FFFFFF",fontSize:14}}/>
                         </View>
                     </TouchableWithoutFeedback>
@@ -127,10 +127,12 @@ const styles = StyleSheet.create({
     input:{
         textAlign:"right",
         height:20,
-        paddingVertical:0
+        paddingVertical:0,
+        fontFamily:"NanumSquareB",
+        fontSize:13
     },
     itemLabel:{
         color:"#707070",
-        fontSize:12
+        fontSize:13
     }
 });

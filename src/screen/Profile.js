@@ -57,7 +57,11 @@ const Profile = (props) =>{
                         </View>
                     </View>
                     <View style={[styles.border,{marginTop:16,padding:16}]}>
-                        <BoldText text={"회원탈퇴"} customStyle={{color:"#A2A2A2",fontSize:12}}/>
+                        <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("WithDraw")}>
+                            <View>
+                                <BoldText text={"회원탈퇴"} customStyle={{color:"#A2A2A2",fontSize:12}}/>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
                 </View>
             </SafeAreaView>
