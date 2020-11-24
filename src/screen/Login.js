@@ -84,7 +84,7 @@ const LoginScreen : () => React$Node = (props) =>{
                     value={id} 
                     onFocus={()=>setFocusColor('#8D3981')} 
                     onBlur={()=>setFocusColor('#A9A9A9')}/>
-                <TextInput placeholder="비밀번호를 입력해주세요." style={[styles.inputForm,{color:focusColor2,borderColor:focusColor2,marginTop:20}]} 
+                <TextInput placeholder="비밀번호를 입력해주세요." style={[styles.inputForm,{color:focusColor2,borderColor:focusColor2,marginTop:20,fontFamily:"NanumSquareR"}]} 
                     onChangeText={(text)=>setPw(text)} 
                     secureTextEntry={true} 
                     value={pw} 
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     inputForm:{
         height:40,
         borderRadius:6,
-        backgroundColor:"#F2F2F2",
+        backgroundColor:"#FFFFFF",
         paddingLeft:10,
         borderWidth:1
     }

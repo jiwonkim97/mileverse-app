@@ -208,7 +208,6 @@ const MymvpScreen : () => React$Node = (props) =>{
                         <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
                         <View style={{marginTop:12,flexDirection:"row"}}>
                             <ExtraBoldText text={mvp+" MVP"} customStyle={{color:"#8D3981",fontSize:20}}/>
-                            <Image source={require('../../assets/img/ico_bracket.png')} style={{resizeMode:"contain",width:8,height:20,marginLeft:6}}/>
                         </View>
                     </View>
                     <View style={[styles.shodow,styles.contentsCard]}>

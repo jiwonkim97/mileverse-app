@@ -35,6 +35,8 @@ import MileVerseGiftScreen from './src/gifticon/MileVerse';
 import SplashScreen from 'react-native-splash-screen';
 import NiceCheck from './src/screen/NiceCheck';
 import DanalPg from './src/screen/DanalPg';
+import Profile from './src/screen/Profile';
+import ChangePassword from './src/screen/ChangePassword';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -80,11 +82,15 @@ const TabScreen = ({navigation}) =>{
 					<Image source={focused ? require('./assets/img/mvp_active.png') : require('./assets/img/mvp.png')} style={styles.dockIcon}/>
 				)
 			}}} listeners={()=>({tabPress:event=>LoginGuard(event,navigation,stat,"Change")})}/>
-			<Tab.Screen name="Branch" component={BranchScreen} options={{title:"스토어",tabBarIcon:({focused})=>{
+			<Tab.Screen name="Branch" component={BranchScreen} options={{title:"가맹점",tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/branch_active.png') : require('./assets/img/branch.png')} style={styles.dockIcon}/>
 				)
-			}}} listeners={()=>({tabPress:event=>LoginGuard(event,navigation,stat,"Branch")})}/>
+			}}} listeners={()=>(
+				{tabPress:event=>{
+				  event.preventDefault();
+				}}
+			)}/>
 			<Tab.Screen name="Menu" component={HomeScreen} options={{title:"메뉴",tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/menu_active.png') : require('./assets/img/menu.png')} style={styles.dockIcon}/>
@@ -145,7 +151,8 @@ const App: () => React$Node = () => {
 						<Stack.Screen name="SignUp02" component={SignUp02} />
 						<Stack.Screen name="MileVerse" component={MileVerseScreen} />
 						<Stack.Screen name="MileVerseGiftScreen" component={MileVerseGiftScreen} />
-
+						<Stack.Screen name="Profile" component={Profile} />
+						<Stack.Screen name="ChangePassword" component={ChangePassword} />
 						<Stack.Screen name="GifticonCategory" component={GifticonCategory} />
 						<Stack.Screen name="GifticonList" component={GifticonList} />
 						<Stack.Screen name="GifticonDetail" component={GifticonDetail} />
@@ -165,5 +172,4 @@ export default App;
 
 const styles = StyleSheet.create({
     dockIcon:{width:24,height:24,resizeMode:"contain"}
-    
 });
