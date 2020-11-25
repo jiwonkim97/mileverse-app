@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import * as actions from '../actions/authentication'
 import AsyncStorage from '@react-native-community/async-storage';
 import * as spinner from '../actions/spinner'
-import * as toast from '../components/Toast'
 import {BoldText, RegularText} from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 
@@ -109,11 +108,15 @@ const LoginScreen = (props) =>{
                 </View>
                 <View style={{marginTop:16,flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
                     <TouchableWithoutFeedback onPress={()=> props.navigation.navigate("SignUp01")}>
-                        <RegularText text={"회원가입"} customStyle={{color:'#676767',fontSize:12}} />
+                        <View>
+                            <RegularText text={"회원가입"} customStyle={{color:'#676767',fontSize:12}} />
+                        </View>
                     </TouchableWithoutFeedback>
                     <RegularText text={"|"} customStyle={{color:'#676767',fontSize:12,marginHorizontal:8}} />
                     <TouchableWithoutFeedback onPress={()=> props.navigation.navigate("Contact")}>
-                        <RegularText text={"가맹점 문의"} customStyle={{color:'#676767',fontSize:12}} />
+                        <View>
+                            <RegularText text={"가맹점 문의"} customStyle={{color:'#676767',fontSize:12}} />
+                        </View>
                     </TouchableWithoutFeedback>
                 </View>
             </View>

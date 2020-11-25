@@ -2,10 +2,10 @@ import React, {useState,useEffect} from 'react';
 import { View,SafeAreaView,TextInput,StyleSheet,ScrollView,Image, Alert,TouchableWithoutFeedback } from 'react-native';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
-import * as toast from '../components/Toast';
 import Axios from '../modules/Axios';
 
 const SignUp02 = (props) =>{
+    const regex = /^.*(?=^.{8,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
     const [id,setId] = useState("")
     const [phone,setPhone] = useState("")
     const [password,setPassword] = useState("")
@@ -14,6 +14,10 @@ const SignUp02 = (props) =>{
     const [mail,setMail] = useState("")
     const [doubleChk,setDoubleChk] = useState(false)
 
+    const [errText,setErrorText] = useState({txt:"-",color:"#FFFFFF"});
+    const [errText2,setErrorText2] = useState({txt:"-",color:"#FFFFFF"});
+    const [errText3,setErrorText3] = useState({txt:"-",color:"#FFFFFF"});
+
     useEffect(()=>{
         const {name,mobileno} = props.route.params.data;
         setName(name)
@@ -21,11 +25,9 @@ const SignUp02 = (props) =>{
     },[])
 
     const doSignUp = ()=>{
-        if(doubleChk === false) toast.error('아이디 중복확인을 해주세요.')
-        else if(password !== password2) toast.error("비밀번호를 확인하여 주세요.")
-        else if(name === "") toast.error('이름을 확인하여 주세요.')
-        else if(phone === "") toast.error('휴대폰 번호를 확인하여 주세요.')
-        else if(mail === "") toast.error('이메일을 확인하여 주세요.')
+        if(doubleChk === false) setErrorText({txt:"* 중복확인을 진행해주세요.",color:"#EE1818"});
+        else if(password !== password2) setErrorText2({txt:"* 입력하신 비밀번호가 일치하지 않습니다.",color:"#FF3B3B"});
+        else if(mail === "") setErrorText3({txt:"* 이메일을 입력해주세요.",color:"#FF3B3B"});
         else {
             Axios.post('/users/register',{id:id,name:name,phone:phone,pw:password2,email:mail})
             .then((response)=>{
@@ -40,25 +42,24 @@ const SignUp02 = (props) =>{
         }
     }
     const doDoubleCheck = () =>{
+        setErrorText({txt:"-",color:"#FFFFFF"});
         if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(id)) {
-            Alert.alert("알림","아이디에 한글을 사용할 수 없습니다.",[{text:"확인"}]);
-            return;
+            setErrorText({txt:"* 아이디에 한글을 사용할 수 없습니다.",color:"#EE1818"})
         }else if(id === "") {
-            Alert.alert("알림","아이디를 입력해주세요.",[{text:"확인"}]);
-            return;
+            setErrorText({txt:"* 아이디를 입력해주세요.",color:"#EE1818"})
+        } else {
+            Axios.post('/users/doubleCheck',{id:id})
+            .then((response)=>{
+                if(response.data.result==="success") {
+                    setDoubleChk(true)
+                } else {
+                    setErrorText({txt:"* 중복된 아이디가 있습니다.",color:"#EE1818"});
+                    setDoubleChk(false)
+                }
+            }).catch((error)=>{
+                console.log(error)
+            })
         }
-        Axios.post('/users/doubleCheck',{id:id})
-        .then((response)=>{
-            if(response.data.result==="success") {
-                toast.info('사용 가능한 아이디입니다.')
-                setDoubleChk(true)
-            } else {
-                toast.error(response.data.msg)
-                setDoubleChk(false)
-            }
-        }).catch((error)=>{
-            console.log(error)
-        })
     }
 
     const onChangeId = (_text) =>{
@@ -96,44 +97,62 @@ const SignUp02 = (props) =>{
                                 </TouchableWithoutFeedback>
                             </View>
                         </View>
-                        <View style={{marginTop:26,borderRadius:6,borderWidth:1,borderColor:"#E5E5E5"}}>
+                        <View style={{paddingTop:8,paddingBottom:10,paddingLeft:4}}>
+                            <BoldText text={errText.txt} customStyle={{fontSize:10,color:errText.color}}/>
+                        </View>
+                        <View style={{borderRadius:6,borderWidth:1,borderColor:"#E5E5E5"}}>
                             <View style={[styles.inputBox,{borderBottomWidth:1,borderBottomColor:"#ECECEC"}]}>
                                 <BoldText text={"비밀번호"} customStyle={styles.label}/>
                                 <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <TextInput placeholder="비밀번호를 입력해주세요." secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" onChangeText={text=>setPassword(text)} style={styles.input}/>
+                                    <TextInput placeholder="비밀번호를 입력해주세요." secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" onChangeText={text=>setPassword(text)} style={styles.input} onBlur={()=>{
+                                        setErrorText2({txt:"-",color:"#FFFFFF"})
+                                        if(!regex.test(password) && password!=="") setErrorText2({txt:"* 8~16자 영문, 숫자, 특수문자를 사용하세요.",color:"#FF3B3B"});
+                                    }}/>
                                 </View>
                             </View>
                             <View style={styles.inputBox}>
                                 <BoldText text={"비밀번호 확인"} customStyle={styles.label}/>
                                 <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <TextInput placeholder="비밀번호를 다시 한 번 입력해주세요." secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" onChangeText={text=>setPassword2(text)} style={styles.input}/>
+                                    <TextInput placeholder="비밀번호를 다시 한 번 입력해주세요." secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" onChangeText={text=>setPassword2(text)} style={styles.input} onBlur={()=>{
+                                        setErrorText2({txt:"-",color:"#FFFFFF"})
+                                        if(!regex.test(password2) && password2!=="") setErrorText2({txt:"* 8~16자 영문, 숫자, 특수문자를 사용하세요.",color:"#FF3B3B"});
+                                        else if(password !== password2) setErrorText2({txt:"* 입력하신 비밀번호가 일치하지 않습니다.",color:"#FF3B3B"});
+                                    }}/>
                                 </View>
                             </View>
                         </View>
-                        <View style={{marginTop:20,borderRadius:6,borderWidth:1,borderColor:"#E5E5E5"}}>
+                        <View style={{paddingTop:8,paddingBottom:10,paddingLeft:4}}>
+                            <BoldText text={errText2.txt} customStyle={{fontSize:10,color:errText2.color}}/>
+                        </View>
+                        <View style={{borderRadius:6,borderWidth:1,borderColor:"#E5E5E5"}}>
                             <View style={[styles.inputBox,{borderBottomWidth:1,borderBottomColor:"#ECECEC"}]}>
                                 <BoldText text={"이름"} customStyle={styles.label}/>
                                 <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <TextInput placeholder="이름을 입력해주세요." maxLength={10} placeholderTextColor="#D5C2D3" value={name} onChangeText={text=>setName(text)} style={styles.input}/>
+                                    <TextInput placeholder="이름을 입력해주세요." editable={false} maxLength={10} placeholderTextColor="#D5C2D3" value={name} onChangeText={text=>setName(text)} style={styles.input}/>
                                 </View>
                             </View>
                             <View style={[styles.inputBox,{borderBottomWidth:1,borderBottomColor:"#ECECEC"}]}>
                                 <BoldText text={"휴대폰 번호"} customStyle={styles.label}/>
                                 <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <TextInput placeholder="휴대폰 번호를 입력해주세요." maxLength={13} keyboardType={'numeric'} value={phone} placeholderTextColor="#D5C2D3" onChangeText={(text)=>onChangePhoneText(text)} style={styles.input}/>
+                                    <TextInput placeholder="휴대폰 번호를 입력해주세요." editable={false} maxLength={13} keyboardType={'numeric'} value={phone} placeholderTextColor="#D5C2D3" onChangeText={(text)=>onChangePhoneText(text)} style={styles.input}/>
                                 </View>
                             </View>
                             <View style={styles.inputBox}>
                                 <BoldText text={"이메일"} customStyle={styles.label}/>
                                 <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <TextInput placeholder="이메일을 입력해주세요." autoCompleteType={'email'} keyboardType={'email-address'} placeholderTextColor="#D5C2D3" onChangeText={text=>setMail(text)} style={styles.input}/>
+                                    <TextInput placeholder="이메일을 입력해주세요." autoCompleteType={'email'} keyboardType={'email-address'} placeholderTextColor="#D5C2D3" onChangeText={text=>setMail(text)} style={styles.input} onBlur={()=>{
+                                        if(mail !== "") setErrorText3({txt:"-",color:"#FFFFFF"})
+                                    }}/>
                                 </View>
                             </View>
                         </View>
+                        <View style={{marginTop:8,paddingLeft:4}}>
+                            <BoldText text={errText3.txt} customStyle={{fontSize:10,color:errText3.color}}/>
+                        </View>
                     </View>
-                    <View style={{paddingHorizontal:16,justifyContent:"flex-end"}}>
+                    <View style={{justifyContent:"flex-end"}}>
                         <TouchableWithoutFeedback onPress={doSignUp}>
-                            <View style={[styles.btnBox,{height:44}]}>
+                            <View style={[styles.btnBox,{height:46}]}>
                                 <BoldText text={"회원가입 완료 "} customStyle={{fontSize:12,color:"#FFFFFF"}}/>
                             </View>
                         </TouchableWithoutFeedback>
