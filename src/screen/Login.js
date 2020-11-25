@@ -1,9 +1,8 @@
 import React, { useEffect, useCallback,useState } from 'react';
-import { Image,View,SafeAreaView,TextInput,StyleSheet,Alert } from 'react-native';
+import { Image,View,SafeAreaView,TextInput,StyleSheet,Alert,TouchableWithoutFeedback,TouchableOpacity } from 'react-native';
 import CheckBox from 'react-native-check-box'
 import { useDispatch } from 'react-redux';
 import * as actions from '../actions/authentication'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
 import * as spinner from '../actions/spinner'
 import * as toast from '../components/Toast'
@@ -12,122 +11,110 @@ import CommonStatusbar from '../components/CommonStatusbar';
 
 
 
-const LoginScreen : () => React$Node = (props) =>{
+const LoginScreen = (props) =>{
     const dispatch = useDispatch();
-    const [saveId, setsaveId] = useState(false);
     const [autoLogin, setautoLogin] = useState(false);
     const [id,setId] = useState("");
     const [pw,setPw] = useState("");
     const [focusColor, setFocusColor] = useState("#A9A9A9");
     const [focusColor2, setFocusColor2] = useState("#A9A9A9");
+    const [erorText,setErrorText] = useState("#FFFFFF");
 
     useEffect(() => {
+        const storageGetData = async() =>{
+            await AsyncStorage.getItem("@loginStorage").then(value=>{
+                if(value !== null) {
+                    let _data = JSON.parse(value);
+                    setautoLogin(_data.autoLogin)
+                    if(_data.autoLogin === true) {
+                        setId(_data.id)
+                        setPw(_data.password)
+                    }
+                }
+            })
+        }
         storageGetData()
     },[]);
     
     const requestLogin = useCallback((_id,_pw)=>{
-        if(_id === '') {
-            toast.error("아이디를 입력해 주세요.")
-        } else if (_pw === '') {
-            toast.error("비밀번호를 입력해 주세요.")
+        setErrorText("#FFFFFF");
+        if(_id === '' || _pw === '') {
+            setErrorText("#EE1818");
         } else {
             dispatch(spinner.showSpinner());
             dispatch(actions.loginRequest(_id,_pw)).then((result)=>{
                 if(result.stat === "SUCCESS"){
+                    AsyncStorage.mergeItem("@loginStorage",JSON.stringify({id:_id,password:_pw}));
                     dispatch(spinner.hideSpinner());
                     props.navigation.goBack();
                 } else {
-                    Alert.alert("알림",result.msg,[{text:"확인",onPress:()=>dispatch(spinner.hideSpinner())}])
+                    dispatch(spinner.hideSpinner());
+                    setErrorText("#EE1818");
                 }
             })
         }
     },[dispatch]);
 
-    const storageGetData = async() =>{
-        await AsyncStorage.getItem("@loginStorage").then(value=>{
-            if(value !== null) {
-                let _data = JSON.parse(value);
-                setId(_data.id)
-                setPw(_data.password)
-                setautoLogin(_data.autoLogin)
-                setsaveId(_data.saveId)
-            }
-        })
-    }
-
-    const storageSetData = async () =>{
-        let loginData = {
-            autoLogin : autoLogin,
-            saveId : saveId,
-            id : saveId || autoLogin ? id : '',
-            password : autoLogin ? pw : ''
-        }
-        await AsyncStorage.setItem("@loginStorage",JSON.stringify(loginData))
-    }
-
     return (
         <SafeAreaView style={{flex:1,backgroundColor:"#FFF"}}>
             <CommonStatusbar backgroundColor="#FFFFFF"/>
             <View style={{position:"absolute",top:20,right:20}}>
-                <TouchableOpacity onPress={()=>{
+                <TouchableWithoutFeedback onPress={()=>{
                     props.navigation.goBack()
                 }}>
                     <Image source={require('../../assets/img/ico_close_bl.png')} style={{resizeMode:"contain",width:20}} />    
-                </TouchableOpacity>   
+                </TouchableWithoutFeedback>   
             </View>
-            <View style={{marginTop:55,justifyContent:"center",alignItems:"center"}}>
+            <View style={{marginTop:60,justifyContent:"center",alignItems:"center"}}>
                 <Image source={require('../../assets/img/mileverse_letter_2.png')} style={{resizeMode:'contain',height:25}} />
             </View>
-            <View style={{marginTop:53,paddingHorizontal:30}}>
+            <View style={{marginTop:50,paddingHorizontal:30}}>
                 <TextInput placeholder="아이디를 입력해주세요." style={[styles.inputForm,{color:focusColor,borderColor:focusColor,fontFamily:"NanumSquareR"}]} 
                     onChangeText={(text)=>setId(text)} 
                     value={id} 
                     onFocus={()=>setFocusColor('#8D3981')} 
                     onBlur={()=>setFocusColor('#A9A9A9')}/>
-                <TextInput placeholder="비밀번호를 입력해주세요." style={[styles.inputForm,{color:focusColor2,borderColor:focusColor2,marginTop:20,fontFamily:"NanumSquareR"}]} 
+                <TextInput placeholder="비밀번호를 입력해주세요." style={[styles.inputForm,{color:focusColor2,borderColor:focusColor2,marginTop:10,fontFamily:"NanumSquareR"}]} 
                     onChangeText={(text)=>setPw(text)} 
                     secureTextEntry={true} 
                     value={pw} 
                     onFocus={()=>setFocusColor2('#8D3981')} 
                     onBlur={()=>setFocusColor2('#A9A9A9')}/>
-                <TouchableOpacity onPress={()=>{
-                            requestLogin(id,pw);
-                            storageSetData();
-                        }}>
-                    <View style={{marginTop:20,width:"100%",height:40,backgroundColor:"#8D3981",borderRadius:8,justifyContent:"center",alignItems:"center"}}>
+                <View style={{marginTop:8,paddingLeft:4}}>
+                    <BoldText text={"* 아이디 및 비밀번호를 확인해주세요."} customStyle={{fontSize:10,color:erorText}}/>
+                </View>
+                <TouchableWithoutFeedback onPress={()=>{requestLogin(id,pw);}}>
+                    <View style={{marginTop:10,width:"100%",height:46,backgroundColor:"#8D3981",borderRadius:8,justifyContent:"center",alignItems:"center"}}>
                         <BoldText text={"로그인"} customStyle={{color:"#FFF",fontWeight:'bold'}}/>
                     </View>
-                </TouchableOpacity>
-                <View style={{marginTop:20,paddingBottom:18,borderBottomWidth:1,borderBottomColor:"#D8D8D8",flexDirection:"row"}}>
+                </TouchableWithoutFeedback>
+                <View style={{marginTop:12,paddingBottom:16,borderBottomWidth:1,borderBottomColor:"#D8D8D8",flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
                     <View style={{flexDirection:"row"}}>
-                        <CheckBox
-                            isChecked={saveId}
-                            checkedCheckBoxColor={'#8D3981'}
-                            uncheckedCheckBoxColor={"#999999"}
-                            style={{marginHorizontal:4}}
-                            onClick={() => saveId ? setsaveId(false) : setsaveId(true)}
-                        />
-                        <BoldText text={"아이디 저장"} customStyle={{color:'#444444',lineHeight:25,fontSize:12}}/>
-                    </View>
-                    <View style={{flexDirection:"row",marginLeft:20}}>
                         <CheckBox
                             isChecked={autoLogin}
                             checkedCheckBoxColor={'#8D3981'}
                             uncheckedCheckBoxColor={"#999999"}
-                            style={{marginHorizontal:4}}
-                            onClick={() => autoLogin ? setautoLogin(false) : setautoLogin(true)}
+                            onClick={() => {
+                                setautoLogin(!autoLogin);
+                                AsyncStorage.mergeItem("@loginStorage",JSON.stringify({autoLogin:!autoLogin}));
+                            }}
                         />
                         <BoldText text={"자동 로그인"} customStyle={{color:'#444444',lineHeight:25,fontSize:12}}/>
                     </View>
+                    <TouchableWithoutFeedback>
+                        <View>
+                            <BoldText text={"아이디/비밀번호 찾기"} customStyle={{color:'#444444',fontSize:12}}/>
+                        </View>
+                    </TouchableWithoutFeedback>
                 </View>
                 <View style={{marginTop:16,flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
-                    <TouchableOpacity onPress={()=> props.navigation.navigate("SignUp01")}>
+                    <TouchableWithoutFeedback onPress={()=> props.navigation.navigate("SignUp01")}>
                         <RegularText text={"회원가입"} customStyle={{color:'#676767',fontSize:12}} />
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
                     <RegularText text={"|"} customStyle={{color:'#676767',fontSize:12,marginHorizontal:8}} />
-                    <TouchableOpacity onPress={()=> props.navigation.navigate("Contact")}>
+                    <TouchableWithoutFeedback onPress={()=> props.navigation.navigate("Contact")}>
                         <RegularText text={"가맹점 문의"} customStyle={{color:'#676767',fontSize:12}} />
-                    </TouchableOpacity>
+                    </TouchableWithoutFeedback>
                 </View>
             </View>
         </SafeAreaView>
@@ -137,10 +124,11 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
     inputForm:{
-        height:40,
+        height:46,
         borderRadius:6,
         backgroundColor:"#FFFFFF",
-        paddingLeft:10,
-        borderWidth:1
+        borderWidth:1,
+        paddingVertical:16,
+        paddingHorizontal:18
     }
 });

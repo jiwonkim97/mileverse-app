@@ -1,7 +1,7 @@
 import React, {useState,useEffect,useRef} from 'react';
 import { useDispatch } from 'react-redux';
 import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TextInput, Keyboard } from 'react-native';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Axios from '../modules/Axios';
@@ -22,6 +22,7 @@ const WithDraw = (props) =>{
                 ),()=>{
                     dispatch(actions.logoutRequest()).then(rst=>{
                         if(rst === 'INIT') {
+                            AsyncStorage.multiRemove(["@loginStorage","@configStorage"])
                             dispatch(dialog.closeDialog());
                             props.navigation.navigate("Home");
                         }

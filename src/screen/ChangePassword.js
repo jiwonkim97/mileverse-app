@@ -1,6 +1,7 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
 import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TextInput, Keyboard } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Axios from '../modules/Axios';
@@ -40,7 +41,8 @@ const Profile = (props) =>{
                                 <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
                             </>
                         ),()=>{
-                            dispatch(dialog.closeDialog())
+                            AsyncStorage.mergeItem("@loginStorage",JSON.stringify({password:newPassword}));
+                            dispatch(dialog.closeDialog());
                             props.navigation.goBack();
                         }));
                     } else if(data.code === "E1") {
