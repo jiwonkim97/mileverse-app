@@ -40,7 +40,7 @@ const CustomDrawerContent = (props) =>{
             <SafeAreaView style={{flex:1,backgroundColor:'#F2F2F2'}}>
                 <View style={{flex:4,backgroundColor:'#FFFFFF',paddingHorizontal:20,paddingTop:20,borderBottomWidth:1,borderBottomColor:"#ECECEC"}}>
                     <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                        <TouchableWithoutFeedback onPress={()=>props.navigation.closeDrawer()}>
+                        <TouchableWithoutFeedback onPress={()=>onNavigate("Config",true)}>
                             <Image source={require('../../assets/img/ico_config.png')} style={styles.headerIco}></Image>
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={()=>props.navigation.closeDrawer()}>

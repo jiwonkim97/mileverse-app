@@ -38,6 +38,7 @@ import DanalPg from './src/screen/DanalPg';
 import Profile from './src/screen/Profile';
 import ChangePassword from './src/screen/ChangePassword';
 import WithDraw from './src/screen/WithDraw';
+import Config from './src/screen/Config'
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -153,6 +154,7 @@ const App = () => {
 						<Stack.Screen name="MileVerse" component={MileVerseScreen} />
 						<Stack.Screen name="MileVerseGiftScreen" component={MileVerseGiftScreen} />
 						<Stack.Screen name="Profile" component={Profile} />
+						<Stack.Screen name="Config" component={Config} />
 						<Stack.Screen name="ChangePassword" component={ChangePassword} />
 						<Stack.Screen name="WithDraw" component={WithDraw} />
 						<Stack.Screen name="GifticonCategory" component={GifticonCategory} />
