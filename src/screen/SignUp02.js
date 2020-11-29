@@ -13,6 +13,7 @@ const SignUp02 = (props) =>{
     const [name,setName] = useState("")
     const [mail,setMail] = useState("")
     const [doubleChk,setDoubleChk] = useState(false)
+    const [pin,setPin] = useState("");
 
     const [errText,setErrorText] = useState({txt:"-",color:"#FFFFFF"});
     const [errText2,setErrorText2] = useState({txt:"-",color:"#FFFFFF"});
@@ -24,12 +25,9 @@ const SignUp02 = (props) =>{
         setPhone(mobileno)
     },[])
 
-    const doSignUp = ()=>{
-        if(doubleChk === false) setErrorText({txt:"* 중복확인을 진행해주세요.",color:"#EE1818"});
-        else if(password !== password2) setErrorText2({txt:"* 입력하신 비밀번호가 일치하지 않습니다.",color:"#FF3B3B"});
-        else if(mail === "") setErrorText3({txt:"* 이메일을 입력해주세요.",color:"#FF3B3B"});
-        else {
-            Axios.post('/users/register',{id:id,name:name,phone:phone,pw:password2,email:mail})
+    useEffect(()=>{
+        if(pin !== "") {
+            Axios.post('/users/register',{id:id,name:name,phone:phone,pw:password2,email:mail,pin:pin})
             .then((response)=>{
                 if(response.data.result==="success") {
                     Alert.alert("알림","회원가입이 완료되었습니다.",[{text:"확인",onPress:()=>props.navigation.navigate("Login")}])
@@ -39,6 +37,18 @@ const SignUp02 = (props) =>{
             }).catch((error)=>{
                 console.log(error)
             })
+        }
+    },[pin])
+
+    const doSignUp = ()=>{
+        if(doubleChk === false) setErrorText({txt:"* 중복확인을 진행해주세요.",color:"#EE1818"});
+        else if(password !== password2) setErrorText2({txt:"* 입력하신 비밀번호가 일치하지 않습니다.",color:"#FF3B3B"});
+        else if(mail === "") setErrorText3({txt:"* 이메일을 입력해주세요.",color:"#FF3B3B"});
+        else {
+            navigation.navigate("PinCode",{
+                mode:"init",
+                onGoBack:(_value)=>{setPin(_value)}
+            });
         }
     }
     const doDoubleCheck = () =>{

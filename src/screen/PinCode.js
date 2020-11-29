@@ -31,7 +31,7 @@ const PinCode = ({navigation,route})=>{
 
     useEffect(()=>{
         if(pin.length === 6) {
-            if(route.params.mode === 'set' && firstChk === false) {
+            if(route.params.mode === 'set' || route.params.mode === 'init' && firstChk === false) {
                 setConfirm(true);
                 setFirstChk(true);
                 setFirstPin(pin);
@@ -53,7 +53,18 @@ const PinCode = ({navigation,route})=>{
                     setPin("");
                     clearDots();
                 }
-            } else {
+            } else if(route.params.mode === 'init' && firstChk === true){
+                if(pin === firstPin) {
+                    route.params.onGoBack(pin);
+                    navigation.goBack();
+                } else {
+                    setConfirm(false);
+                    setFirstChk(false);
+                    setError(true);
+                    setPin("");
+                    clearDots();
+                }
+            }else {
                 if(pin === auth_pin) {
                     route.params.onGoBack(true);
                     navigation.goBack();
