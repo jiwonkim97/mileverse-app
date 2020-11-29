@@ -27,7 +27,7 @@ const SignUp02 = (props) =>{
 
     useEffect(()=>{
         if(pin !== "") {
-            Axios.post('/users/register',{id:id,name:name,phone:phone,pw:password2,email:mail,pin:pin})
+            Axios.post('/users/insert',{id:id,name:name,phone:phone,pw:password2,email:mail,pin:pin})
             .then((response)=>{
                 if(response.data.result==="success") {
                     Alert.alert("알림","회원가입이 완료되었습니다.",[{text:"확인",onPress:()=>props.navigation.navigate("Login")}])
@@ -37,6 +37,7 @@ const SignUp02 = (props) =>{
             }).catch((error)=>{
                 console.log(error)
             })
+            setPin("");
         }
     },[pin])
 

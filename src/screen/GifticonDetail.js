@@ -29,6 +29,7 @@ const GifticonDetail = ({route,navigation}) =>{
 
     useEffect(()=>{
         if(pinChk) {
+            setPinChk(false)
             dispatch(spinner.showSpinner());
             dispatch(actions.buyGiftConByMVP(route.params.pdt_code)).then((result)=>{
                 dispatch(spinner.hideSpinner());
@@ -84,7 +85,7 @@ const GifticonDetail = ({route,navigation}) =>{
                 </>
             ),()=>{
                 dispatch(dialog.closeDialog());
-                if(auth_pin === "" || auth_pin === undefined || auth_pin === "null") {
+                if(auth_pin === "" || auth_pin === undefined || auth_pin === null) {
                     dispatch(dialog.openDialog("alert",(
                         <>
                             <BoldText text={"PINCODE를 먼저 설정해주세요.\n메뉴->내정보->PinCode 변경"} customStyle={{textAlign:"center",lineHeight:20}}/>
@@ -97,8 +98,7 @@ const GifticonDetail = ({route,navigation}) =>{
                     });
                 }
             }));
-        }
-        
+        }   
     }
 
     return (

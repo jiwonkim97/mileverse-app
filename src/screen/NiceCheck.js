@@ -33,7 +33,6 @@ const NiceCheck = (props)=>{
                     source={{uri: 'http://13.209.142.239:3010/api/nice/encrypt'}}
                     originWhitelist={['*']}
                     javaScriptEnabled={true}
-                    style={{marginTop:16}}
                     onMessage={(event)=>{
                         const data = JSON.parse(event.nativeEvent.data);
                         if(data.success === "true") {
@@ -44,13 +43,9 @@ const NiceCheck = (props)=>{
                     }}
                     onShouldStartLoadWithRequest={(evt)=>{
                         const { url } = evt;
-                        if(url.startsWith("Intent://")||
-                            url.startsWith("https://play.google.com/store")||
-                            url.startsWith("https://itunes.apple.com") || 
-                            url.startsWith("tauthlink://")||
-                            url.startsWith("ktauthexternalcall://")||
-                            url.startsWith("upluscorporation://")
-                        ){
+                        if(url.indexOf('https://nice.checkplus.co.kr') !==-1  ) {
+                            return true;
+                        } else {
                             if (Platform.OS === 'android') {
                                 SendIntentAndroid.openAppWithUri(url)
                                 .then(isOpened => {
@@ -67,8 +62,7 @@ const NiceCheck = (props)=>{
                                 });
                             }
                             return false;
-                        } else 
-                            return true;
+                        }
                     }}
                 />
             </SafeAreaView>

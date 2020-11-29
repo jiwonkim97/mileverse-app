@@ -83,7 +83,7 @@ const MymvpScreen : () => React$Node = (props) =>{
                             <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
                             <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={_item.C_NAME}/>
                         </View>
-                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={_item.COMP_NAME+" "+_item.CORE+ " -> "+_item.AMOUNT+" MVP"} />
+                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={_item.BRD_NAME+" "+_item.CORE+ " -> "+_item.AMOUNT+" MVP"} />
                     </View>
                     <View style={[styles.listIconWrap]}>
                         <Image source={require('../../assets/img/ico_change.png')} style={{resizeMode:"contain",height:28,width:40}}></Image>
@@ -98,7 +98,7 @@ const MymvpScreen : () => React$Node = (props) =>{
                             <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
                             <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={_item.C_NAME}/>
                         </View>
-                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={_item.COMP_NAME +" "+_item.AMOUNT+" MVP"}/>
+                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={_item.BRD_NAME +" "+_item.AMOUNT+" MVP"}/>
                         <BoldText text={_item.CORE} customStyle={{color:"#707070",marginTop:4}}/>
                     </View>
                     <View style={[styles.listIconWrap]}>

@@ -31,7 +31,7 @@ const PinCode = ({navigation,route})=>{
 
     useEffect(()=>{
         if(pin.length === 6) {
-            if(route.params.mode === 'set' || route.params.mode === 'init' && firstChk === false) {
+            if((route.params.mode === 'set' || route.params.mode === 'init') && firstChk === false) {
                 setConfirm(true);
                 setFirstChk(true);
                 setFirstPin(pin);
