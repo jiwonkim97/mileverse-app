@@ -40,6 +40,7 @@ import ChangePassword from './src/screen/ChangePassword';
 import WithDraw from './src/screen/WithDraw';
 import Config from './src/screen/Config';
 import FindAccount from './src/screen/FindAccount';
+import PinCode from './src/screen/PinCode';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -165,6 +166,7 @@ const App = () => {
 						<Stack.Screen name="SignUp01" component={SignUp01} />
 						<Stack.Screen name="NiceCheck" component={NiceCheck} />
 						<Stack.Screen name="DanalPg" component={DanalPg} />
+						<Stack.Screen name="PinCode" component={PinCode} />
 					</Stack.Navigator>
 				</NavigationContainer>
 				<DialogComponent />

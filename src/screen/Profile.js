@@ -51,10 +51,13 @@ const Profile = (props) =>{
                                 <Image source={require('../../assets/img/ico_bracket.png')} style={styles.bracket}/>
                             </View>
                         </TouchableWithoutFeedback>
-                        <View style={{padding:16,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-                            <BoldText text={"PinCode 변경"} customStyle={styles.itemLabel}/>
-                            <Image source={require('../../assets/img/ico_bracket.png')} style={styles.bracket}/>
-                        </View>
+                        <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("PinCode",{mode:"set"})}>
+                            <View style={{padding:16,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+                                <BoldText text={"PinCode 변경"} customStyle={styles.itemLabel}/>
+                                <Image source={require('../../assets/img/ico_bracket.png')} style={styles.bracket}/>
+                            </View>
+                        </TouchableWithoutFeedback>
+                        
                     </View>
                     <View style={[styles.border,{marginTop:16,padding:16}]}>
                         <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("WithDraw")}>

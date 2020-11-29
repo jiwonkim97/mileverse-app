@@ -4,18 +4,20 @@ import {
     AUTH_LOGIN_SUCCESS,
     AUTH_LOGIN_FAILURE,
     AUTH_UPDATE_MVP,
+    AUTH_UPDATE_PIN,
     INIT_REQUEST_STAT,
     FAIL_REQUEST_STAT
 } from './ActionTypes';
 import Axios from '../modules/Axios';
+import { exp } from 'react-native-reanimated';
 
 export function loginRequest(id, password) {
     return (dispatch,getState) =>{
         dispatch(login());
         return Axios.post('/users/login',{id:id,password:password})
             .then(response=>{
-                var _response = response.data
-                _response.result === "success" ? dispatch(loginSuccess(_response.username,_response.mvp,_response.code)) : dispatch(loginFailure())
+                const _response = response.data;
+                _response.result === "success" ? dispatch(loginSuccess(_response.username,_response.mvp,_response.code,_response.pin)) : dispatch(loginFailure())
                 return _response
             }).catch((error)=>{
                 dispatch(loginFailure());
@@ -75,6 +77,17 @@ export function buyGiftConByMVP(_item,_comp) {
     }
 }
 
+export function changePinRequest(_pin) {
+    return (dispatch,getState) =>{
+        dispatch(initRequest());
+        return Axios.put("/users/pin",{pin:_pin}).then(({data})=>{
+            data.result === "success" ? dispatch(udpatePin(_pin)) : dispatch(failureRequest(_response.msg));
+        }).then(()=>{
+             return {stat:getState().authentication.request.status,msg:getState().authentication.request.msg}
+        })
+    }
+}
+
 export function login() {
     return {
         type: AUTH_LOGIN
@@ -87,12 +100,13 @@ export function logout() {
     };
 }
 
-export function loginSuccess(username,mvp,code) {
+export function loginSuccess(username,mvp,code,pin) {
     return {
         type: AUTH_LOGIN_SUCCESS,
         username,
         mvp,
-        code
+        code,
+        pin
     };
 }
 
@@ -119,5 +133,11 @@ export function udpateMvp(mvp) {
     return {
         type: AUTH_UPDATE_MVP,
         mvp
+    }
+}
+export function udpatePin(pin) {
+    return {
+        type: AUTH_UPDATE_PIN,
+        pin
     }
 }
