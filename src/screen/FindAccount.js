@@ -30,7 +30,7 @@ const FindAccount = (props)=>{
                     <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
                         <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
                     </TouchableWithoutFeedback>
-                    <ExtraBoldText text="아이디/비밀번호 찾기" customStyle={{color:"#2B2B2B",fontSize:16}}/>
+                    <ExtraBoldText text="아이디/비밀번호 찾기" customStyle={{fontSize:16}}/>
                 </View>
                 <View style={{padding:16,flex:1}}>
                     <View style={{flexDirection:"row"}}>

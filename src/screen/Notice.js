@@ -1,6 +1,6 @@
 import React from 'react';
 import { View,SafeAreaView,StyleSheet, ImageBackground,TouchableOpacity,Image } from 'react-native';
-import {BoldText, RegularText} from '../components/customComponents';
+import {ExtraBoldText,BoldText, RegularText} from '../components/customComponents';
 import { ScrollView } from 'react-native-gesture-handler';
 import CommonStatusbar from '../components/CommonStatusbar';
 
@@ -10,7 +10,7 @@ const NoticeScreen : () => React$Node = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView>
                 <View style={styles.header}>
-                    <BoldText text={"공지사항"} customStyle={{fontWeight:'bold',color:"#707070"}} />
+                    <ExtraBoldText text={"공지사항"} customStyle={{fontSize:16}} />
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
                         <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
                     </TouchableOpacity>

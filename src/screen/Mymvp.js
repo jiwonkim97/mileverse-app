@@ -198,7 +198,7 @@ const MymvpScreen : () => React$Node = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView>
                 <View style={[styles.shodow,styles.header]}>
-                    <ExtraBoldText text={"나의 MVP"} customStyle={{color:"#707070",fontSize:16}} />
+                    <ExtraBoldText text={"나의 MVP"} customStyle={{fontSize:16}} />
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
                         <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
                     </TouchableOpacity>

@@ -24,7 +24,7 @@ const ChangeScreen = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView>
                 <View style={[styles.shadow,styles.header]}>
-                    <ExtraBoldText text="마일리지 교환" customStyle={{color:"#707070",fontSize:16}}/>
+                    <ExtraBoldText text="마일리지 교환" customStyle={{fontSize:16}}/>
                 </View>
                 <View style={{marginVertical:6,backgroundColor:"#394054",width:"100%",padding:24}}>
                     <BoldText text={"[필수공지]"} customStyle={styles.bannerTitle}/>

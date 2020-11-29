@@ -46,7 +46,7 @@ const WithDraw = (props) =>{
                     <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
                         <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
                     </TouchableWithoutFeedback>
-                    <ExtraBoldText text="회원탈퇴" customStyle={{color:"#707070"}}/>
+                    <ExtraBoldText text="회원탈퇴" customStyle={{fontSize:16}}/>
                 </View>
                 <View style={{padding:16}}>
                     <View style={{borderRadius:6,borderColor:"#E5E5E5",borderWidth:1,padding:16,flexDirection:'row',justifyContent:"space-between",alignItems:"center"}}>

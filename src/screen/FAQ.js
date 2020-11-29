@@ -1,17 +1,17 @@
 import React from 'react';
 import { Image,View,SafeAreaView,StyleSheet, ImageBackground,TouchableOpacity } from 'react-native';
-import {BoldText,RegularText} from '../components/customComponents';
+import {ExtraBoldText,RegularText,BoldText} from '../components/customComponents';
 import { ScrollView } from 'react-native-gesture-handler';
 import CommonStatusbar from '../components/CommonStatusbar';
 
 
-const FaqScreen : () => React$Node = (props) =>{
+const FaqScreen = (props) =>{
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView>
                 <View style={styles.header}>
-                    <BoldText text={"FAQ"} customStyle={{fontWeight:'bold',color:"#707070"}}></BoldText>
+                    <ExtraBoldText text={"FAQ"} customStyle={{fontSize:16}}></ExtraBoldText>
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
                         <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
                     </TouchableOpacity>

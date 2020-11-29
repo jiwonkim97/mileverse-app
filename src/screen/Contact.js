@@ -4,7 +4,7 @@ import { Image,View,SafeAreaView,TextInput,StyleSheet, TouchableOpacity, Alert }
 import * as toast from '../components/Toast';
 import ImagePicker from 'react-native-image-picker';
 import DocumentPicker from 'react-native-document-picker';
-import {BoldText} from '../components/customComponents';
+import {ExtraBoldText,BoldText} from '../components/customComponents';
 
 import Axios from '../modules/Axios';
 import * as spinner from '../actions/spinner';
@@ -133,7 +133,7 @@ const ContactScreen : () => React$Node = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView>
                 <View style={styles.header}>
-                    <BoldText text={"문의 하기"} customStyle={{fontWeight:'bold',color:"#707070"}} />
+                    <ExtraBoldText text={"문의 하기"} customStyle={{fontSize:16}} />
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
                         <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
                     </TouchableOpacity>

@@ -18,7 +18,7 @@ const GifticonList = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <ExtraBoldText text={props.route.params.ctgr_name.replace(',','/')} customStyle={{color:"#707070",fontSize:16}}/>
+                    <ExtraBoldText text={props.route.params.ctgr_name.replace(',','/')} customStyle={{fontSize:16}}/>
                     <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()} >
                         <Image source={require('../../assets/img/ico_back.png')} style={{position:'absolute',resizeMode:"contain", width:10,left:20}}></Image>
                     </TouchableWithoutFeedback>

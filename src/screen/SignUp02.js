@@ -88,7 +88,7 @@ const SignUp02 = (props) =>{
                     <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
                         <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
                     </TouchableWithoutFeedback>
-                    <ExtraBoldText text="회원가입" customStyle={{color:"#707070"}}/>
+                    <ExtraBoldText text="회원가입" customStyle={{fontSize:16}}/>
                 </View>
                 <ScrollView style={{padding:16,flex:1}} contentContainerStyle={{justifyContent:"space-between",flexGrow:1}}>
                     <View style={{flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>

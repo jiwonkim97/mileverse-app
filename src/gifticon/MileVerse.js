@@ -69,7 +69,7 @@ const MileVerseGiftScreen : () => React$Node = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView>
                 <View style={[styles.header,styles.shadow]}>
-                    <ExtraBoldText text="마일벌스" customStyle={{color:"#707070"}}/>
+                    <ExtraBoldText text="마일벌스" customStyle={{fontSize:16}}/>
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
                         <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
                     </TouchableOpacity>

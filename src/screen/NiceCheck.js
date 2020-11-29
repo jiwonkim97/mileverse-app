@@ -27,7 +27,7 @@ const NiceCheck = (props)=>{
                     <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
                         <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
                     </TouchableWithoutFeedback>
-                    <ExtraBoldText text="본인인증" customStyle={{color:"#707070"}}/>
+                    <ExtraBoldText text="본인인증" customStyle={{fontSize:16}}/>
                 </View>
                 <WebView
                     source={{uri: 'http://13.209.142.239:3010/api/nice/encrypt'}}

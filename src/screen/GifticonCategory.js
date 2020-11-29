@@ -25,7 +25,7 @@ const GificonCategory = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <ExtraBoldText text="기프티콘" customStyle={{color:"#707070",fontSize:16}}/>
+                    <ExtraBoldText text="기프티콘" customStyle={{fontSize:16}}/>
                     <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
                         <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14,position:'absolute',right:20}}/>
                     </TouchableWithoutFeedback>
