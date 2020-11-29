@@ -43,8 +43,28 @@ const NiceCheck = (props)=>{
                     }}
                     onShouldStartLoadWithRequest={(evt)=>{
                         const { url } = evt;
-                        if(url.indexOf('https://nice.checkplus.co.kr') !==-1  ) {
-                            return true;
+                        if(url.startsWith('http://') || url.startsWith('https://') || url.startsWith('about:blank')) {
+                            if(url.startsWith("https://play.google.com/store/apps") === true) {
+                                if (Platform.OS === 'android') {
+                                    SendIntentAndroid.openAppWithUri(url)
+                                    .then(isOpened => {
+                                        if (!isOpened) {
+                                            Alert.alert("알림","본인인증 앱 실행에 실패했습니다.",[{text:"확인"}]);
+                                        }
+                                    })
+                                    .catch(err => {
+                                        console.log(err);
+                                    });
+                                }
+                                return false;
+                            } else if(url.startsWith("https://itunes.apple.co.kr") === true){
+                                Linking.openURL(url).catch(err => {
+                                    Alert.alert("알림","앱 실행에 실패했습니다. 설치가 되어있지 않은 경우 설치하기 버튼을 눌러주세요.",[{text:"확인"}]);
+                                });
+                                return false;
+                            }else {
+                                return true;
+                            }
                         } else {
                             if (Platform.OS === 'android') {
                                 SendIntentAndroid.openAppWithUri(url)

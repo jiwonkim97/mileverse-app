@@ -59,6 +59,7 @@
 		<string>Fonts/NanumSquareEB.ttf</string>
 		<string>Fonts/NanumSquareL.ttf</string>
 		<string>Fonts/NanumSquareR.ttf</string>
+		<string>Fonts/NotoSans-Regular.ttf</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

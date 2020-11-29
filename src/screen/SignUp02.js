@@ -46,7 +46,7 @@ const SignUp02 = (props) =>{
         else if(password !== password2) setErrorText2({txt:"* 입력하신 비밀번호가 일치하지 않습니다.",color:"#FF3B3B"});
         else if(mail === "") setErrorText3({txt:"* 이메일을 입력해주세요.",color:"#FF3B3B"});
         else {
-            navigation.navigate("PinCode",{
+            props.navigation.navigate("PinCode",{
                 mode:"init",
                 onGoBack:(_value)=>{setPin(_value)}
             });
@@ -63,6 +63,7 @@ const SignUp02 = (props) =>{
             .then((response)=>{
                 if(response.data.result==="success") {
                     setDoubleChk(true)
+                    setErrorText({txt:"* 사용가능한 아이디 입니다.",color:"#021AEE"});
                 } else {
                     setErrorText({txt:"* 중복된 아이디가 있습니다.",color:"#EE1818"});
                     setDoubleChk(false)

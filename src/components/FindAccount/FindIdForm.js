@@ -131,10 +131,10 @@ const FindIdForm = (props)=>{
             </View>
             <View>
                 <View style={{borderWidth:1,borderColor:"#B6B6B6",padding:16,borderRadius:6}}>
-                    <TextInput placeholderTextColor={"#A7A7A7"} placeholder={"이름을 입력해주세요"} onChangeText={text=>setName(text)} style={{padding:0,fontSize:13,color:"#2B2B2B",height:14,fontFamily:"NotoSans-Regular"}}/>
+                    <TextInput placeholderTextColor={"#A7A7A7"} placeholder={"이름을 입력해주세요"} onChangeText={text=>setName(text)} style={{padding:0,fontSize:13,color:"#2B2B2B",height:20,fontFamily:"NotoSans-Regular"}}/>
                 </View>
                 <View style={{borderWidth:1,borderColor:"#B6B6B6",padding:8,paddingLeft:16,borderRadius:6,marginTop:10,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-                    <TextInput placeholderTextColor={"#A7A7A7"} placeholder={placeText} onChangeText={text=>setTarget(text)} keyboardType="default" style={{padding:0,fontSize:13,color:"#2B2B2B",height:14,fontFamily:"NotoSans-Regular"}}/>
+                    <TextInput placeholderTextColor={"#A7A7A7"} placeholder={placeText} onChangeText={text=>setTarget(text)} keyboardType="default" style={{padding:0,fontSize:13,color:"#2B2B2B",height:20,fontFamily:"NotoSans-Regular"}}/>
                     <TouchableWithoutFeedback onPress={onRequest} disabled={requestBtn.active}>
                         <View style={{justifyContent:"center",alignItems:'center',backgroundColor:requestBtn.bgColor,width:90,height:30,borderRadius:6}}>
                             <BoldText text={requestBtn.text} customStyle={{fontSize:13,color:requestBtn.textColor}}/>
