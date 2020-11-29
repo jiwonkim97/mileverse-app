@@ -55,7 +55,8 @@ const PinCode = ({navigation,route})=>{
                 }
             } else {
                 if(pin === auth_pin) {
-                    alert("인증완료.")
+                    route.params.onGoBack(true);
+                    navigation.goBack();
                 }else {
                     setError(true);
                     setPin("");

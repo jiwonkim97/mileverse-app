@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { Image,View,SafeAreaView,StyleSheet,TouchableWithoutFeedback,Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ExtraBoldText, BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios';
 import CheckBox from 'react-native-check-box'
+import * as actions from '../actions/authentication'
 import * as dialog from '../actions/dialog';
+import * as spinner from '../actions/spinner'
 
 const imagePrefix = "https://mv-image.s3.ap-northeast-2.amazonaws.com";
 const GifticonDetail = ({route,navigation}) =>{
+    const {pin:auth_pin} = useSelector(state => state.authentication.userInfo);
     const [detail,setDetail] = useState({});
     const [amount,setAmount] = useState(0);
     const [agree,setAgree] = useState(false);
+    const [pinChk,setPinChk] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -22,6 +26,49 @@ const GifticonDetail = ({route,navigation}) =>{
             setAmount(detail.PDT_AMOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
         });
     },[]);
+
+    useEffect(()=>{
+        if(pinChk) {
+            dispatch(spinner.showSpinner());
+            dispatch(actions.buyGiftConByMVP(route.params.pdt_code)).then((result)=>{
+                dispatch(spinner.hideSpinner());
+                if(result.stat === "SUCCESS") {
+                    dispatch(dialog.openDialog("alert",(
+                        <>
+                                <View style={{width:'100%',height:150,justifyContent:"center",alignItems:"center"}}>
+                                    <Image source={{uri:imagePrefix+detail.PDT_IMAGE}} style={{resizeMode:"contain",width:120,height:120}}/>
+                                </View>
+                            <BoldText text={detail.PDT_NAME} customStyle={{textAlign:"center",lineHeight:20}}/>
+                            <View style={{flexDirection:"row"}}>
+                                <BoldText text={"구매가"} customStyle={{textAlign:"center",lineHeight:20}}/>
+                                <ExtraBoldText text={"완료"} customStyle={{marginLeft:4,lineHeight:20}}/>
+                                <BoldText text={"되었습니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
+                            </View>
+                        </>         
+                    ),()=>{
+                        dispatch(dialog.closeDialog());
+                        navigation.goBack();
+                    }));
+                } else {
+                    dispatch(dialog.openDialog("alert",(
+                        <>
+                            <View style={{width:'100%',height:150,justifyContent:"center",alignItems:"center"}}>
+                                <Image source={{uri:imagePrefix+detail.PDT_IMAGE}} style={{resizeMode:"contain",width:120,height:120}}/>
+                            </View>
+                            <BoldText text={result.msg} customStyle={{textAlign:"center",fontSize:16,color:"#F22D2D"}}/>
+                            <BoldText text={detail.PDT_NAME} customStyle={{textAlign:"center",marginTop:20}}/>
+                            <View style={{flexDirection:"row",marginTop:6}}>
+                                <BoldText text={"구매가"} customStyle={{textAlign:"center"}}/>
+                                <ExtraBoldText text={"취소"} customStyle={{marginLeft:4,color:"#F22D2D"}}/>
+                                <BoldText text={"되었습니다."} customStyle={{textAlign:"center"}}/>
+                            </View>
+                        </>      
+                    )))
+                }
+            })
+        }
+    },[pinChk])
+
 
     const onBuyBtn = ()=>{
         if(!agree){
@@ -37,7 +84,18 @@ const GifticonDetail = ({route,navigation}) =>{
                 </>
             ),()=>{
                 dispatch(dialog.closeDialog());
-                Alert.alert("알림","기프티콘 모듈 연결 필요 ",[{text:"확인"}])
+                if(auth_pin === "" || auth_pin === undefined || auth_pin === "null") {
+                    dispatch(dialog.openDialog("alert",(
+                        <>
+                            <BoldText text={"PINCODE를 먼저 설정해주세요.\n메뉴->내정보->PinCode 변경"} customStyle={{textAlign:"center",lineHeight:20}}/>
+                        </>
+                    )));
+                }else {
+                    navigation.navigate("PinCode",{
+                        mode:"confirm",
+                        onGoBack:(_value)=>{setPinChk(_value)}
+                    });
+                }
             }));
         }
         

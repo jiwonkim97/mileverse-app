@@ -44,7 +44,7 @@ export function verifyRequest(_parmas) {
         return Axios.post('/users/verify',_parmas)
             .then((response)=>{
                 var _response = response.data
-                _response.status === "login" ?  dispatch(loginSuccess(_response.username,_response.mvp,_response.code)) : dispatch(logout())
+                _response.status === "login" ?  dispatch(loginSuccess(_response.username,_response.mvp,_response.code,_response.pin)) : dispatch(logout())
             }).catch((error)=>{
                 dispatch(logout())
             }).then(()=> { return getState().authentication.login.status });
@@ -64,10 +64,10 @@ export function convertMVPRequest(_amount) {
     }
 }
 
-export function buyGiftConByMVP(_item,_comp) {
+export function buyGiftConByMVP(_item) {
     return (dispatch,getState) =>{
         dispatch(initRequest());
-        return Axios.post('/api/point/useMvp',{item:_item,comp:_comp})
+        return Axios.post('/api/gifticon/sending',{item:_item})
             .then((response)=>{
                 var _response = response.data
                 _response.result === "success" ? dispatch(udpateMvp(_response.mvp)) : dispatch(failureRequest(_response.msg))
