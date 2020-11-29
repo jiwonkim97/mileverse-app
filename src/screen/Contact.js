@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
         color:"#555",
         paddingLeft:10,
         marginTop:8,
-        fontFamily:"NanumSquareR"
+        fontFamily:"NotoSans-Regular"
     },
     btnText:{
         flex:1,

@@ -132,13 +132,13 @@ const FindPwForm = (props)=>{
             </View>
             <View>
                 <View style={{borderWidth:1,borderColor:"#B6B6B6",padding:16,borderRadius:6}}>
-                    <TextInput placeholderTextColor={"#A7A7A7"} placeholder={"아이디를 입력해주세요"} onChangeText={text=>setUserId(text)} style={{padding:0,fontSize:13,color:"#2B2B2B",height:14}}/>
+                    <TextInput placeholderTextColor={"#A7A7A7"} placeholder={"아이디를 입력해주세요"} onChangeText={text=>setUserId(text)} style={{padding:0,fontSize:13,color:"#2B2B2B",height:14,fontFamily:"NotoSans-Regular"}}/>
                 </View>
                 <View style={{borderWidth:1,borderColor:"#B6B6B6",padding:16,borderRadius:6,marginTop:10}}>
-                    <TextInput placeholderTextColor={"#A7A7A7"} placeholder={"이름을 입력해주세요"} onChangeText={text=>setName(text)} style={{padding:0,fontSize:13,color:"#2B2B2B",height:14}}/>
+                    <TextInput placeholderTextColor={"#A7A7A7"} placeholder={"이름을 입력해주세요"} onChangeText={text=>setName(text)} style={{padding:0,fontSize:13,color:"#2B2B2B",height:14,fontFamily:"NotoSans-Regular"}}/>
                 </View>
                 <View style={{borderWidth:1,borderColor:"#B6B6B6",padding:8,paddingLeft:16,borderRadius:6,marginTop:10,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-                    <TextInput placeholderTextColor={"#A7A7A7"} placeholder={placeText} onChangeText={text=>setTarget(text)} keyboardType="default" style={{padding:0,fontSize:13,color:"#2B2B2B",height:14}}/>
+                    <TextInput placeholderTextColor={"#A7A7A7"} placeholder={placeText} onChangeText={text=>setTarget(text)} keyboardType="default" style={{padding:0,fontSize:13,color:"#2B2B2B",height:14,fontFamily:"NotoSans-Regular"}}/>
                     <TouchableWithoutFeedback onPress={onRequest} disabled={requestBtn.active}>
                         <View style={{justifyContent:"center",alignItems:'center',backgroundColor:requestBtn.bgColor,width:90,height:30,borderRadius:6}}>
                             <BoldText text={requestBtn.text} customStyle={{fontSize:13,color:requestBtn.textColor}}/>
@@ -153,7 +153,7 @@ const FindPwForm = (props)=>{
             {request?
                 <>
                     <View style={{marginTop:10,borderRadius:6,borderWidth:1,borderColor:"#A9A9A9",flexDirection:"row", paddingLeft:16,paddingRight:8,paddingVertical:8,justifyContent:"space-between",alignItems:"center"}}>
-                        <TextInput onChangeText={text=>activeCheckBtn(text)} value={certNum} placeholderTextColor={"#A7A7A7"} placeholder={"인증번호를 입력해주세요"} keyboardType="numeric" maxLength={6} style={{padding:0,fontSize:13,color:"#2B2B2B",height:14}} />
+                        <TextInput onChangeText={text=>activeCheckBtn(text)} value={certNum} placeholderTextColor={"#A7A7A7"} placeholder={"인증번호를 입력해주세요"} keyboardType="numeric" maxLength={6} style={{padding:0,fontSize:13,color:"#2B2B2B",height:14,fontFamily:"NotoSans-Regular"}} />
                         <TouchableWithoutFeedback onPress={onCheck} disabled={checkBtn.active}>
                             <View style={{justifyContent:"center",alignItems:'center',backgroundColor:checkBtn.bgColor,width:90,height:30, borderRadius:6}}>
                                 <BoldText text={"확인"} customStyle={{fontSize:13,color:checkBtn.textColor}}/>
@@ -176,4 +176,9 @@ const FindPwForm = (props)=>{
     )
 }
 
+const styles = StyleSheet.create({
+    inputForm:{
+        fontFamily:"NotoSans-Regular"
+    }
+})
 export default FindPwForm;

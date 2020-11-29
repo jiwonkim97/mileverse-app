@@ -204,7 +204,8 @@ const styles = StyleSheet.create({
         color:"#000000",
         textAlign:"right",
         height:20,
-        paddingVertical:0
+        paddingVertical:0,
+        fontFamily:"NotoSans-Regular"
     },
     inputBox:{
         flexDirection:"row",

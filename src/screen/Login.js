@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback,useState } from 'react';
-import { Image,View,SafeAreaView,TextInput,StyleSheet,Alert,TouchableWithoutFeedback,TouchableOpacity } from 'react-native';
+import { Image,View,SafeAreaView,TextInput,StyleSheet,TouchableWithoutFeedback } from 'react-native';
 import CheckBox from 'react-native-check-box'
 import { useDispatch } from 'react-redux';
 import * as actions from '../actions/authentication'
@@ -68,12 +68,12 @@ const LoginScreen = (props) =>{
                 <Image source={require('../../assets/img/mileverse_letter_2.png')} style={{resizeMode:'contain',height:25}} />
             </View>
             <View style={{marginTop:50,paddingHorizontal:30}}>
-                <TextInput placeholder="아이디를 입력해주세요." style={[styles.inputForm,{color:focusColor,borderColor:focusColor,fontFamily:"NanumSquareR"}]} 
+                <TextInput placeholder="아이디를 입력해주세요." style={[styles.inputForm,{color:focusColor,borderColor:focusColor}]} 
                     onChangeText={(text)=>setId(text)} 
                     value={id} 
                     onFocus={()=>setFocusColor('#8D3981')} 
                     onBlur={()=>setFocusColor('#A9A9A9')}/>
-                <TextInput placeholder="비밀번호를 입력해주세요." style={[styles.inputForm,{color:focusColor2,borderColor:focusColor2,marginTop:10,fontFamily:"NanumSquareR"}]} 
+                <TextInput placeholder="비밀번호를 입력해주세요." style={[styles.inputForm,{color:focusColor2,borderColor:focusColor2,marginTop:10}]} 
                     onChangeText={(text)=>setPw(text)} 
                     secureTextEntry={true} 
                     value={pw} 
@@ -131,7 +131,8 @@ const styles = StyleSheet.create({
         borderRadius:6,
         backgroundColor:"#FFFFFF",
         borderWidth:1,
-        paddingVertical:16,
-        paddingHorizontal:18
+        paddingVertical:12,
+        paddingHorizontal:18,
+        fontFamily:"NotoSans-Regular"
     }
 });

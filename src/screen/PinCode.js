@@ -148,7 +148,7 @@ const PinCode = ({navigation,route})=>{
                         confirm ? <BoldText text={"한 번 더 입력해 주세요."}  customStyle={{color:"#021AEE"}} /> : null
                     }
                 </View>
-                <TextInput value={pin} ref={inputRef} autoFocus={true} keyboardType={"numeric"} maxLength={6} style={{width:0,height:0}} onChangeText={text=>{onSetDots(text)}}/>
+                <TextInput value={pin} ref={inputRef} autoFocus={true} keyboardType={"numeric"} maxLength={6} style={{width:0,height:0,fontFamily:"NotoSans-Regular"}} onChangeText={text=>{onSetDots(text)}}/>
             </SafeAreaView>
         </>
     )

@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         fontSize:13,
         color:"#2B2B2B",
         height:14,
-        fontFamily:"NanumSquareB"
+        fontFamily:"NotoSans-Regular"
     }
 });
 export default FindPwResult;

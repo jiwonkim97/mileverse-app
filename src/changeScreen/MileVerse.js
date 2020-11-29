@@ -142,13 +142,13 @@ const MileVerseScreen : () => React$Node = (props) =>{
                             <View style={{padding:5,borderBottomWidth:1,borderColor:"#A9A9A9",flexDirection:'row',alignItems:'center',height:50}}>
                                 <RegularText text="전환할 포인트" customStyle={styles.boxText} />
                                 <View style={{alignItems:'center',justifyContent:'center',height:30,flex:3}}>
-                                    <TextInput returnKeyType='done' returnKeyLabel="" onBlur={beforePointOut} onChangeText={text=> beforePoint (text)} keyboardType={'numeric'} style={{borderWidth:1,borderRadius:5,borderColor:"#A9A9A9",width:'100%',color:'#8D3981',height:38,textAlign:'center'}}/>
+                                    <TextInput returnKeyType='done' returnKeyLabel="" onBlur={beforePointOut} onChangeText={text=> beforePoint (text)} keyboardType={'numeric'} style={{borderWidth:1,borderRadius:5,borderColor:"#A9A9A9",width:'100%',color:'#8D3981',height:38,textAlign:'center',fontFamily:"NotoSans-Regular"}}/>
                                 </View>
                             </View>
                             <View style={{padding:5,flexDirection:'row',alignItems:'center',height:50}}>
                                 <RegularText text="전환되는 MVP" customStyle={styles.boxText} />
                                 <View style={{alignItems:'center',justifyContent:'center',height:30,flex:3}}>
-                                    <TextInput value={String(toMvp)} editable={false} style={{backgroundColor:"#F8EDF6",borderWidth:1,borderRadius:5,borderColor:"#A9A9A9",width:'100%',color:'#8D3981',height:38,textAlign:'center'}}/>
+                                    <TextInput value={String(toMvp)} editable={false} style={{backgroundColor:"#F8EDF6",borderWidth:1,borderRadius:5,borderColor:"#A9A9A9",width:'100%',color:'#8D3981',height:38,textAlign:'center',fontFamily:"NotoSans-Regular"}}/>
                                 </View>
                             </View>
                         </View>

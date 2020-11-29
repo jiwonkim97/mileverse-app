@@ -90,6 +90,6 @@ const styles = StyleSheet.create({
         height:20,
         paddingVertical:0,
         flex:1,
-        fontFamily:"NanumSquareB"
+        fontFamily:"NotoSans-Regular"
     }
 });

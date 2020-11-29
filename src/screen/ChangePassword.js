@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         textAlign:"right",
         height:20,
         paddingVertical:0,
-        fontFamily:"NanumSquareB",
+        fontFamily:"NotoSans-Regular",
         fontSize:13
     },
     itemLabel:{
