@@ -32,7 +32,6 @@ const Profile = (props) =>{
             setNewErrorTxt("* 8~16자 영문, 숫자, 특수문자를 사용하세요.");
             setNewError("#FF3B3B");
         } else {
-            Keyboard.dismiss();
             Axios.put("/users/passwords",{password:password,newPassword:newPassword}).then(({data})=>{
                 if(data.result === "success") {
                     if(data.code === "S1") {

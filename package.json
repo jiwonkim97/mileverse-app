@@ -19,6 +19,7 @@
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
     "axios": "^0.19.2",
+    "radio-buttons-react-native": "^1.0.4",
     "react": "16.13.1",
     "react-addons-update": "^15.6.2",
     "react-native": "0.63.2",

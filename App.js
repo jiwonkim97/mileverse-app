@@ -38,7 +38,8 @@ import DanalPg from './src/screen/DanalPg';
 import Profile from './src/screen/Profile';
 import ChangePassword from './src/screen/ChangePassword';
 import WithDraw from './src/screen/WithDraw';
-import Config from './src/screen/Config'
+import Config from './src/screen/Config';
+import FindAccount from './src/screen/FindAccount';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -160,6 +161,7 @@ const App = () => {
 						<Stack.Screen name="GifticonCategory" component={GifticonCategory} />
 						<Stack.Screen name="GifticonList" component={GifticonList} />
 						<Stack.Screen name="GifticonDetail" component={GifticonDetail} />
+						<Stack.Screen name="FindAccount" component={FindAccount} />
 						<Stack.Screen name="SignUp01" component={SignUp01} />
 						<Stack.Screen name="NiceCheck" component={NiceCheck} />
 						<Stack.Screen name="DanalPg" component={DanalPg} />

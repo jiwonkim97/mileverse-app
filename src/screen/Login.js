@@ -84,7 +84,7 @@ const LoginScreen = (props) =>{
                 </View>
                 <TouchableWithoutFeedback onPress={()=>{requestLogin(id,pw);}}>
                     <View style={{marginTop:10,width:"100%",height:46,backgroundColor:"#8D3981",borderRadius:8,justifyContent:"center",alignItems:"center"}}>
-                        <BoldText text={"로그인"} customStyle={{color:"#FFF",fontWeight:'bold'}}/>
+                        <BoldText text={"로그인"} customStyle={{color:"#FFF",fontWeight:'bold',fontSize:14}}/>
                     </View>
                 </TouchableWithoutFeedback>
                 <View style={{marginTop:12,paddingBottom:16,borderBottomWidth:1,borderBottomColor:"#D8D8D8",flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
@@ -98,9 +98,9 @@ const LoginScreen = (props) =>{
                                 AsyncStorage.mergeItem("@loginStorage",JSON.stringify({autoLogin:!autoLogin}));
                             }}
                         />
-                        <BoldText text={"자동 로그인"} customStyle={{color:'#444444',lineHeight:25,fontSize:12}}/>
+                        <BoldText text={"자동 로그인"} customStyle={{color:'#444444',lineHeight:25,fontSize:12,marginLeft:4}}/>
                     </View>
-                    <TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("FindAccount")}>
                         <View>
                             <BoldText text={"아이디/비밀번호 찾기"} customStyle={{color:'#444444',fontSize:12}}/>
                         </View>

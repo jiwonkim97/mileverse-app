@@ -3,6 +3,7 @@ import spinner from './spinner';
 import load from './load';
 import global from './global';
 import dialog from './dialog';
+import timer from './timer';
 
 import { combineReducers } from 'redux';
 
@@ -11,5 +12,6 @@ export default combineReducers({
     spinner,
     load,
     global,
-    dialog
+    dialog,
+    timer
 });

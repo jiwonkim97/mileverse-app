@@ -18,3 +18,7 @@ export const HIDE_SPINNER = "HIDE_SPINNER"
 // DIALOG
 export const OPEN_DIALOG = "OPEN_DIALOG";
 export const CLOSE_DIALOG = "CLOSE_DIALOG";
+
+// TIMER
+export const TIME_REQUEST = "TIME_REQUEST";
+export const TIME_RESET = "TIME_RESET";

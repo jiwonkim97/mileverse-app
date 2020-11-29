@@ -3,14 +3,14 @@ import { Text,StyleSheet } from 'react-native';
 
 export function RegularText(props){
     return (
-        <Text style={[styles.regular,props.customStyle]}>
+        <Text style={[styles.base,styles.regular,props.customStyle]}>
             {props.text}
         </Text>
     )
 }
 export function BoldText(props){
     return (
-        <Text style={[styles.bold,props.customStyle]}>
+        <Text style={[styles.base,styles.bold,props.customStyle]}>
             {props.text}
         </Text>
     )
@@ -18,13 +18,17 @@ export function BoldText(props){
 
 export function ExtraBoldText(props){
     return (
-        <Text style={[styles.extrabold,props.customStyle]}>
+        <Text style={[styles.base,styles.extrabold,props.customStyle]}>
             {props.text}
         </Text>
     )
 }
 
 const styles = StyleSheet.create({
+    base:{
+        color:"#2B2B2B",
+        fontSize:13
+    },
     regular:{
         fontFamily:"NanumSquareR"
     },

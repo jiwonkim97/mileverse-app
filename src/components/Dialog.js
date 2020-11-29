@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import { StyleSheet,View,Dimensions,TouchableWithoutFeedback,Image, BackHandler} from 'react-native';
+import { StyleSheet,View,Dimensions,TouchableWithoutFeedback,Image, BackHandler,Keyboard} from 'react-native';
 import { RegularText, ExtraBoldText, BoldText } from './customComponents';
 import * as dialog from '../actions/dialog';
 
@@ -20,7 +20,11 @@ export default ()=>{
                 
             });
             return ()=> backHandler.remove();
-        },[stat]);
+    },[stat]);
+    
+    useEffect(()=>{
+        Keyboard.dismiss();
+    });
     return (
         <View style={[styles.container,{width:stat?"100%":0}]} >
             <View style={{backgroundColor:"#fff",borderRadius:8,overflow:"hidden",width:"80%"}}>
