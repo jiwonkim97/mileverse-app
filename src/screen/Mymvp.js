@@ -206,7 +206,7 @@ const MymvpScreen : () => React$Node = (props) =>{
                 <View style={{paddingHorizontal:16}}>
                     <View style={[styles.shodow,styles.headerCard]}>
                         <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
-                        <View style={{marginTop:12,flexDirection:"row"}}>
+                        <View style={{marginTop:8,flexDirection:"row"}}>
                             <ExtraBoldText text={mvp+" MVP"} customStyle={{color:"#8D3981",fontSize:20}}/>
                         </View>
                     </View>
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
         backgroundColor:"#fff",
         marginTop:16,
         borderRadius:10,
-        paddingVertical:16,
+        paddingVertical:20,
         paddingLeft:16
     },
     contentsCard:{
