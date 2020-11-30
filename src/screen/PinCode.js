@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import {View,SafeAreaView,TextInput,StyleSheet,TouchableWithoutFeedback,Keyboard,BackHandler} from 'react-native';
+import {View,SafeAreaView,TextInput,StyleSheet,TouchableWithoutFeedback,Keyboard,Platform,Image} from 'react-native';
 import CommonStatusbar from '../components/CommonStatusbar';
 import {ExtraBoldText,BoldText} from '../components/customComponents';
 import * as actions from '../actions/authentication'
@@ -109,8 +109,8 @@ const PinCode = ({navigation,route})=>{
 
     return (
         <>
-            <CommonStatusbar backgroundColor="#F9F9F9"/>
-            <SafeAreaView style={{flex:1}}>
+            <CommonStatusbar backgroundColor="#EEEEEE"/>
+            <SafeAreaView style={{flex:1,backgroundColor:"#EEEEEE"}}>
                 <View style={{paddingLeft:40,paddingTop:70}}>
                     <View style={{flexDirection:"row"}}>
                         <ExtraBoldText text={"PIN번호"} customStyle={{fontSize:30}}/>
@@ -118,6 +118,13 @@ const PinCode = ({navigation,route})=>{
                     </View>
                     <BoldText text={"입력해주세요."} customStyle={{fontSize:30,marginTop:8}}/>
                 </View>
+                {
+                    Platform.OS === "ios" ? 
+                    <TouchableWithoutFeedback onPress={()=>navigation.goBack()}>
+                        <Image source={require('../../assets/img/ico_close_bl.png')} style={{position:"absolute",right:15,top:15,width:30,height:30}}></Image>
+                    </TouchableWithoutFeedback>
+                    : null
+                }
                 <TouchableWithoutFeedback onPress={onKeyboardToggle}>
                     <View style={{marginTop:20,flexDirection:'row',justifyContent:"space-around",paddingHorizontal:20,height:35}}>
                         <View style={styles.dotsWrap}>
