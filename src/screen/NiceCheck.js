@@ -12,7 +12,7 @@ LogBox.ignoreLogs([
 
 const NiceCheck = (props)=>{
     const checkSuccess = (_data)=>{
-        props.route.params.onGoBack(true);
+        props.route.params.onGoBack(_data);
         props.navigation.navigate({
             name: 'SignUp01',
             params: _data,

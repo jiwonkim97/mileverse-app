@@ -59,9 +59,7 @@ const FindPwResult = (props)=>{
                     <View style={{marginTop:8}}>
                         <BoldText text={errorText.text} customStyle={{color:errorText.color,fontSize:10}}/>
                     </View>
-                    <View style={[styles.inputBox,{marginTop:10
-                    
-                    }]}>
+                    <View style={[styles.inputBox,{marginTop:10}]}>
                         <TextInput placeholderTextColor={"#A7A7A7"} onChangeText={(text)=>{setPassword2(text)}} secureTextEntry={true} placeholder={"비밀번호를 다시 한 번 입력해주세요"} style={styles.input}/>
                     </View>
                     <View style={{marginTop:8}}>
@@ -89,7 +87,7 @@ const styles = StyleSheet.create({
         padding:0,
         fontSize:13,
         color:"#2B2B2B",
-        height:14,
+        height:20,
         fontFamily:"NotoSans-Regular"
     }
 });

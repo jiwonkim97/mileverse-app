@@ -149,7 +149,7 @@ const FindIdForm = (props)=>{
             {request?
                 <>
                     <View style={{marginTop:10,borderRadius:6,borderWidth:1,borderColor:"#A9A9A9",flexDirection:"row", paddingLeft:16,paddingRight:8,paddingVertical:8,justifyContent:"space-between",alignItems:"center"}}>
-                        <TextInput onChangeText={text=>activeCheckBtn(text)} value={certNum} placeholderTextColor={"#A7A7A7"} placeholder={"인증번호를 입력해주세요"} keyboardType="numeric" maxLength={6} style={{padding:0,fontSize:13,color:"#2B2B2B",height:14,fontFamily:"NotoSans-Regular"}} />
+                        <TextInput onChangeText={text=>activeCheckBtn(text)} value={certNum} placeholderTextColor={"#A7A7A7"} placeholder={"인증번호를 입력해주세요"} keyboardType="numeric" maxLength={6} style={{padding:0,fontSize:13,color:"#2B2B2B",height:20,fontFamily:"NotoSans-Regular"}} />
                         <TouchableWithoutFeedback onPress={onCheck} disabled={checkBtn.active}>
                             <View style={{justifyContent:"center",alignItems:'center',backgroundColor:checkBtn.bgColor,width:90,height:30, borderRadius:6}}>
                                 <BoldText text={"확인"} customStyle={{fontSize:13,color:checkBtn.textColor}}/>

@@ -1,19 +1,22 @@
 import React, {useState,useEffect} from 'react';
+import { useDispatch } from 'react-redux';
 import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,ScrollView, Alert } from 'react-native';
 import CheckBox from 'react-native-check-box'
 import CommonStatusbar from '../components/CommonStatusbar';
 import { RegularText, ExtraBoldText,BoldText } from '../components/customComponents';
 import Axios from '../modules/Axios';
 import Modal from 'react-native-modal';
+import * as dialog from '../actions/dialog';
 import * as toast from '../components/Toast';
 
 const SignUp01 = (props) =>{
-
+    const dispatch = useDispatch();
     const [checkAll,setCheckAll] = useState(false);
     const [checkTerms,setCheckTerms] = useState(false);
     const [checkprivacy,setCheckPrivacy] = useState(false);
     const [checkLogin,setCheckLogin] = useState(false);
     const [modal,setModal] = useState(false);
+    const [authBtn,setAuthBtn] = useState({disabled:false,bgColor:"#8D3981",textColor:"#FFFFFF"})
     const [modalMode,setModalMode] = useState("");
     const [terms,setTerms] = useState("");
     const [privacy,setPrivacy] = useState("");
@@ -63,17 +66,53 @@ const SignUp01 = (props) =>{
             toast.info("본인인증을 완료하였습니다.");
         } else {
             props.navigation.navigate("NiceCheck",{
-                onGoBack:(_value)=>{setCheckIdentify(_value)}
+                onGoBack:async(_data)=>{
+                    if(_data.success === "true") {
+                        const {data} = await Axios.get("/users/exists",{params:{name:_data.name,mobileno:_data.mobileno}});
+                        if(data.result === "success") {
+                            if(data.exists === true) {
+                                dispatch(dialog.openDialog("alert",(
+                                    <>
+                                        <BoldText text={"이미 가입된 회원입니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
+                                    </>
+                                ))); 
+                            } else {
+                                setAuthBtn({disabled:true,textColor:"#A7A7A7",bgColor:"#E5E5E5"});
+                                setCheckIdentify(true);
+                            }
+                        } else {
+                            dispatch(dialog.openDialog("alert",(
+                                <>
+                                    <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
+                                </>
+                            ))); 
+                        }
+                    } else {
+                        dispatch(dialog.openDialog("alert",(
+                            <>
+                                <BoldText text={"본인 인증에 실패하였습니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
+                            </>
+                        ))); 
+                    }
+                }
             });
         }
         
     }
 
     const onNextStep = ()=>{
-        if(checkIdentify !== true) toast.error("본인인증을 완료해주세요.");
-        else if(checkTerms !== true) toast.error("이용약관에 동의해주세요.");
-        else if(checkprivacy !== true) toast.error("개인정보 처리방침에 동의해주세요.");
-        else {
+        let msg = "";
+        if(checkIdentify !== true) msg = "본인인증을 완료해주세요.";
+        else if(checkTerms !== true) msg = "이용약관에 동의해주세요.";
+        else if(checkprivacy !== true) msg = "개인정보 처리방침에 동의해주세요.";
+
+        if(msg !== "") {
+            dispatch(dialog.openDialog("alert",(
+                <>
+                    <BoldText text={msg} customStyle={{textAlign:"center",lineHeight:20}}/>
+                </>
+            )));
+        } else {
             props.navigation.navigate("SignUp02",{
                 data:props.route.params
             });
@@ -104,9 +143,9 @@ const SignUp01 = (props) =>{
                                 <RegularText text={"이용하여 본인인증을"} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:10}}/>
                                 <RegularText text={"진행합니다."} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:10}}/>
                             </View>
-                            <TouchableWithoutFeedback onPress={onIdentifyCheck}>
-                                <View style={{marginTop:25,backgroundColor:"#8D3981",paddingHorizontal:32,paddingVertical:8,borderRadius:6}}>
-                                    <BoldText text={"인증하기"} customStyle={{fontSize:12,color:'#FFFFFF'}}/>
+                            <TouchableWithoutFeedback onPress={onIdentifyCheck} disabled={authBtn.disabled}>
+                                <View style={{marginTop:25,backgroundColor:authBtn.bgColor,paddingHorizontal:32,paddingVertical:8,borderRadius:6}}>
+                                    <BoldText text={"인증하기"} customStyle={{fontSize:12,color:authBtn.textColor}}/>
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
