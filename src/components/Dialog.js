@@ -39,19 +39,19 @@ export default ()=>{
                             }
                             else dispatch(dialog.closeDialog())
                         }}>
-                            <View style={{backgroundColor:"#8D3981",width:"100%",height:40, justifyContent:"center",alignItems:"center"}}>
+                            <View style={{backgroundColor:"#8D3981",width:"100%",height:46, justifyContent:"center",alignItems:"center"}}>
                                 <BoldText text={"확인"} customStyle={{color:"#ffffff",fontSize:14}}/>
                             </View>
                         </TouchableWithoutFeedback>
                     :
                         <View style={{flexDirection:"row"}}>
                             <TouchableWithoutFeedback onPress={()=>dispatch(dialog.closeDialog())}>
-                                <View style={{backgroundColor:"#C4C4C4",flex:1,height:50, justifyContent:"center",alignItems:"center"}}>
+                                <View style={{backgroundColor:"#C4C4C4",flex:1,height:46, justifyContent:"center",alignItems:"center"}}>
                                     <BoldText text={"취소"} customStyle={{color:"#ffffff",fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback onPress={callback}>
-                                <View style={{backgroundColor:"#8D3981",flex:1,height:50, justifyContent:"center",alignItems:"center"}}>
+                                <View style={{backgroundColor:"#8D3981",flex:1,height:46, justifyContent:"center",alignItems:"center"}}>
                                     <BoldText text={"확인"} customStyle={{color:"#ffffff",fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
