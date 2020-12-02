@@ -41,6 +41,12 @@ import WithDraw from './src/screen/WithDraw';
 import Config from './src/screen/Config';
 import FindAccount from './src/screen/FindAccount';
 import PinCode from './src/screen/PinCode';
+import WalletScreen from './src/screen/Wallet';
+import WalletDetail from "./src/screen/WalletDetail";
+import WalletReceipt from './src/screen/WalletReceipt';
+import WalletDeposit from './src/screen/WalletDeposit';
+import WalletWithDraw from './src/screen/WalletWithDraw';
+import WalletResult from './src/screen/WalletResult';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -81,11 +87,6 @@ const TabScreen = ({navigation}) =>{
 					<Image source={focused ? require('./assets/img/home_active.png') : require('./assets/img/home.png')} style={styles.dockIcon}/>
 				)
 			}}}/>
-			<Tab.Screen name="Change" component={ChangeScreen} options={{title:"교환",tabBarIcon:({focused})=>{
-				return (
-					<Image source={focused ? require('./assets/img/mvp_active.png') : require('./assets/img/mvp.png')} style={styles.dockIcon}/>
-				)
-			}}} listeners={()=>({tabPress:event=>LoginGuard(event,navigation,stat,"Change")})}/>
 			<Tab.Screen name="Branch" component={BranchScreen} options={{title:"가맹점",tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/branch_active.png') : require('./assets/img/branch.png')} style={styles.dockIcon}/>
@@ -95,6 +96,16 @@ const TabScreen = ({navigation}) =>{
 				  event.preventDefault();
 				}}
 			)}/>
+			<Tab.Screen name="Change" component={ChangeScreen} options={{title:"교환",tabBarIcon:({focused})=>{
+				return (
+					<Image source={focused ? require('./assets/img/mvp_active.png') : require('./assets/img/mvp.png')} style={styles.dockIcon}/>
+				)
+			}}} listeners={()=>({tabPress:event=>LoginGuard(event,navigation,stat,"Change")})}/>
+			<Tab.Screen name="Wallet" component={WalletScreen} options={{title:"내 지갑",tabBarIcon:({focused})=>{
+				return (
+					<Image source={focused ? require('./assets/img/wallet_active.png') : require('./assets/img/wallet.png')} style={styles.dockIcon}/>
+				)
+			}}} listeners={()=>({tabPress:event=>LoginGuard(event,navigation,stat,"Wallet")})}/>
 			<Tab.Screen name="Menu" component={HomeScreen} options={{title:"메뉴",tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/menu_active.png') : require('./assets/img/menu.png')} style={styles.dockIcon}/>
@@ -167,6 +178,11 @@ const App = () => {
 						<Stack.Screen name="NiceCheck" component={NiceCheck} />
 						<Stack.Screen name="DanalPg" component={DanalPg} />
 						<Stack.Screen name="PinCode" component={PinCode} />
+						<Stack.Screen name="WalletDetail" component={WalletDetail} />
+						<Stack.Screen name="WalletReceipt" component={WalletReceipt} />
+						<Stack.Screen name="WalletDeposit" component={WalletDeposit} />
+						<Stack.Screen name="WalletWithDraw" component={WalletWithDraw} />
+						<Stack.Screen name="WalletResult" component={WalletResult} />
 					</Stack.Navigator>
 				</NavigationContainer>
 				<DialogComponent />

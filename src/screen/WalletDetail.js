@@ -1,5 +1,5 @@
 import React, { useEffect, useState,useRef } from 'react';
-import { Image,View,Alert,SafeAreaView,StyleSheet,TouchableOpacity,FlatList,TouchableWithoutFeedback,useWindowDimensions,Animated } from 'react-native';
+import { Image,View,Alert,SafeAreaView,StyleSheet,FlatList,TouchableWithoutFeedback,useWindowDimensions,Animated } from 'react-native';
 import { useSelector } from 'react-redux';
 import Axios from '../modules/Axios';
 import { RegularText, BoldText,ExtraBoldText } from '../components/customComponents';
@@ -8,7 +8,7 @@ import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
 
 
-const MymvpScreen : () => React$Node = (props) =>{
+const WalletDetail = ({navigation,route}) =>{
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
     const mvp = useSelector(state => state.authentication.userInfo.mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g,","));
     const name = useSelector(state => state.authentication.userInfo.currentUser);
@@ -17,7 +17,7 @@ const MymvpScreen : () => React$Node = (props) =>{
     const [modal,setModal] = useState(false);
     const [type,setType] = useState("all"); 
     const dimentionHeight = useWindowDimensions().height;
-    const [listHeight,setListHeight] = useState(dimentionHeight-323.6);
+    const [listHeight,setListHeight] = useState(dimentionHeight-378.6);
     const [toggle,setToggle] = useState(false)
     const animatedController = useRef(new Animated.Value(0)).current;
     const bodyHeight = animatedController.interpolate({
@@ -61,14 +61,14 @@ const MymvpScreen : () => React$Node = (props) =>{
                 toValue:0,
                 useNativeDriver:false
             }).start();
-            setListHeight(dimentionHeight-323.6)
+            setListHeight(dimentionHeight-378.6)
         } else {
             Animated.timing(animatedController,{
                 duration:200,
                 toValue:1,
                 useNativeDriver:false
             }).start()
-            setListHeight(dimentionHeight-436.9)
+            setListHeight(dimentionHeight-491.8)
         }
         setToggle(!toggle)
     }
@@ -77,34 +77,31 @@ const MymvpScreen : () => React$Node = (props) =>{
         let _item = item.item
         if(_item.C_CODE === 'D1') {
             return (
-                <View style={[styles.listRowWrap]}>
-                    <View style={{flex:2}}>
-                        <View style={{flexDirection:"row"}}>
-                            <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
-                            <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={_item.C_NAME}/>
+                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt")}>
+                    <View style={[styles.listRowWrap]}>
+                        <View>
+                            <BoldText text={"01x123123....123"} customStyle={{color:"#707070",fontSize:12}}/>
+                            <BoldText text={_item.CREA_DT} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
                         </View>
-                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={_item.BRD_NAME +" "+_item.AMOUNT+" MVP"}/>
-                        <BoldText text={_item.CORE} customStyle={{color:"#707070",marginTop:4}}/>
+                        <View>
+                            <BoldText text={"+ 100,000 MVC"} customStyle={{color:"#021AEE",fontSize:12}}/>
+                        </View>
                     </View>
-                    <View style={[styles.listIconWrap]}>
-                        <Image source={require('../../assets/img/ico_use.png')} style={{resizeMode:"contain",height:25,width:40}} />
-                    </View>
-                </View>
+                </TouchableWithoutFeedback>
             );
         } else {
             return (
-                <View style={[styles.listRowWrap]}>
-                    <View style={{flex:2}}>
-                        <View style={{flexDirection:"row"}}>
-                            <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
-                            <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={_item.C_NAME}/>
+                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt")}>
+                    <View style={[styles.listRowWrap]}>
+                        <View>
+                            <BoldText text={"01x123123....456"} customStyle={{color:"#707070",fontSize:12}}/>
+                            <BoldText text={_item.CREA_DT} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
                         </View>
-                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={_item.BRD_NAME+" "+_item.CORE+ " -> "+_item.AMOUNT+" MVP"} />
+                        <View>
+                            <BoldText text={"- 100,000 MVC"} customStyle={{color:"#EE1818",fontSize:12}}/>
+                        </View>
                     </View>
-                    <View style={[styles.listIconWrap]}>
-                        <Image source={require('../../assets/img/ico_change.png')} style={{resizeMode:"contain",height:28,width:40}}></Image>
-                    </View>
-                </View>
+                </TouchableWithoutFeedback>
             );
         }
     }
@@ -198,17 +195,29 @@ const MymvpScreen : () => React$Node = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView>
                 <View style={[styles.shodow,styles.header]}>
-                    <ExtraBoldText text={"나의 MVP"} customStyle={{fontSize:16}} />
-                    <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
-                    </TouchableOpacity>
+                    <ExtraBoldText text={route.params.header} customStyle={{fontSize:16}} />
+                    <TouchableWithoutFeedback onPress={()=>navigation.navigate("Wallet")}>
+                        <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14,position:'absolute',right:20}}/>
+                    </TouchableWithoutFeedback>
                 </View>
                 <View style={{paddingHorizontal:16}}>
-                    <View style={[styles.shodow,styles.headerCard]}>
-                        <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
-                        <View style={{marginTop:8,flexDirection:"row"}}>
-                            <ExtraBoldText text={mvp+" MVP"} customStyle={{color:"#8D3981",fontSize:20}}/>
+                    <View style={[styles.shodow,{borderRadius:12,backgroundColor:"#FFFFFF",marginTop:16}]}>
+                        <View style={{paddingVertical:36,justifyContent:"center",alignItems:"center"}}>
+                            <ExtraBoldText text={"1,000,000 BTC"}/>
+                            <BoldText text={"1,000,000 KRW"} customStyle={{color:"#707070",fontSize:10,marginTop:6}}/>
                         </View>
+                            <View style={{height:40,borderTopWidth:2,borderTopColor:"#F2F2F2",flexDirection:"row"}}>
+                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDeposit" )}>
+                                    <View style={{flex:1,justifyContent:"center",alignItems:"center",borderRightWidth:1,borderRightColor:"#F2F2F2"}}>
+                                        <BoldText text={"입금"} customStyle={{fontSize:14}}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletWithDraw" )}>
+                                    <View style={{flex:1,justifyContent:"center",alignItems:"center",borderLeftWidth:1,borderLeftColor:"#F2F2F2"}}>
+                                        <BoldText text={"출금"} customStyle={{fontSize:14}}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
                     </View>
                     <View style={[styles.shodow,styles.contentsCard]}>
                         <View style={{paddingHorizontal:16,paddingTop:16,flexDirection:"row",justifyContent:"space-between"}}>
@@ -219,12 +228,12 @@ const MymvpScreen : () => React$Node = (props) =>{
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback onPress={()=>{setType("use")}}>
                             <View style={[styles.typeBtn,{borderBottomColor:type==="use"?"#8D3981":"white"}]}>
-                                    <BoldText text={"사용"} customStyle={{fontSize:14}}/>
+                                    <BoldText text={"입금"} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback onPress={()=>{setType("change")}}>
                                 <View style={[styles.typeBtn,{borderBottomColor:type==="change"?"#8D3981":"white"}]}>
-                                    <BoldText text={"교환"} customStyle={{fontSize:14}}/>
+                                    <BoldText text={"출금"} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
@@ -279,6 +288,10 @@ const MymvpScreen : () => React$Node = (props) =>{
                             renderItem={renderItem}
                             keyExtractor={(item) =>item.CREA_DT}
                             style={{flexGrow:0,maxHeight:listHeight,backgroundColor:"#FFFFFF"}}
+                            onEndReached={(aa)=>{
+                                console.log(aa)
+                                console.log(aa)
+                            }}
                         />
                     </View>
                 </View>
@@ -378,7 +391,7 @@ const MymvpScreen : () => React$Node = (props) =>{
         
     )
 }
-export default MymvpScreen;
+export default WalletDetail;
 
 const styles = StyleSheet.create({
     header:{
@@ -387,13 +400,6 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
     },
-    headerCard:{
-        backgroundColor:"#fff",
-        marginTop:16,
-        borderRadius:10,
-        paddingVertical:20,
-        paddingLeft:16
-    },
     contentsCard:{
         marginTop:16,
         backgroundColor:"#FFFFFF",
@@ -401,7 +407,7 @@ const styles = StyleSheet.create({
         overflow:"hidden"
     },
     shodow:{
-        elevation:2,
+        elevation:5,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -450,11 +456,11 @@ const styles = StyleSheet.create({
     },
     listRowWrap:{
         flexDirection:'row',
-        paddingVertical:16,
-        paddingLeft:16,
-        paddingRight:12,
+        padding:16,
         borderBottomWidth:1,
-        borderColor:"#CCCCCC"
+        borderColor:"#CCCCCC",
+        justifyContent:"space-between",
+        alignItems:"center"
     },
     listIconWrap:{
         justifyContent:"center",

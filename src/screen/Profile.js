@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react';
 import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image, } from 'react-native';
 import CommonStatusbar from '../components/CommonStatusbar';
-import { RegularText, ExtraBoldText,BoldText } from '../components/customComponents';
+import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Axios from '../modules/Axios';
 
 const Profile = (props) =>{
