@@ -17,7 +17,7 @@ const WalletDetail = ({navigation,route}) =>{
     const [modal,setModal] = useState(false);
     const [type,setType] = useState("all"); 
     const dimentionHeight = useWindowDimensions().height;
-    const [listHeight,setListHeight] = useState(dimentionHeight-378.6);
+    const [listHeight,setListHeight] = useState(dimentionHeight-388.6);
     const [toggle,setToggle] = useState(false)
     const animatedController = useRef(new Animated.Value(0)).current;
     const bodyHeight = animatedController.interpolate({
@@ -61,14 +61,14 @@ const WalletDetail = ({navigation,route}) =>{
                 toValue:0,
                 useNativeDriver:false
             }).start();
-            setListHeight(dimentionHeight-378.6)
+            setListHeight(dimentionHeight-388.6)
         } else {
             Animated.timing(animatedController,{
                 duration:200,
                 toValue:1,
                 useNativeDriver:false
             }).start()
-            setListHeight(dimentionHeight-491.8)
+            setListHeight(dimentionHeight-501.8)
         }
         setToggle(!toggle)
     }
@@ -203,10 +203,10 @@ const WalletDetail = ({navigation,route}) =>{
                 <View style={{paddingHorizontal:16}}>
                     <View style={[styles.shodow,{borderRadius:12,backgroundColor:"#FFFFFF",marginTop:16}]}>
                         <View style={{paddingVertical:36,justifyContent:"center",alignItems:"center"}}>
-                            <ExtraBoldText text={"1,000,000 BTC"}/>
+                            <ExtraBoldText text={"1,000,000 BTC"} customStyle={{fontSize:16}}/>
                             <BoldText text={"1,000,000 KRW"} customStyle={{color:"#707070",fontSize:10,marginTop:6}}/>
                         </View>
-                            <View style={{height:40,borderTopWidth:2,borderTopColor:"#F2F2F2",flexDirection:"row"}}>
+                            <View style={{height:50,borderTopWidth:2,borderTopColor:"#F2F2F2",flexDirection:"row"}}>
                                 <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDeposit" )}>
                                     <View style={{flex:1,justifyContent:"center",alignItems:"center",borderRightWidth:1,borderRightColor:"#F2F2F2"}}>
                                         <BoldText text={"입금"} customStyle={{fontSize:14}}/>

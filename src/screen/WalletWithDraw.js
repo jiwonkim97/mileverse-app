@@ -30,21 +30,31 @@ const WalletWithDraw = ({navigation,route}) =>{
                                 <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"금액을 입력해주세요"} style={styles.input}/>
                                 <BoldText text={"MVC"}/>
                             </View>
-                            <View style={{marginTop:7,flexDirection:"row",justifyContent:"space-between"}}>
-                                <View style={styles.percentBox}>
-                                    <BoldText text="10%" customStyle={styles.percentText}/>
+                            <View style={{marginTop:10,flexDirection:"row"}}>
+                                <View style={{flex:1,paddingRight:5}}>
+                                    <View style={styles.percentBox}>
+                                        <BoldText text="10%" customStyle={styles.percentText}/>
+                                    </View>
                                 </View>
-                                <View style={styles.percentBox}>
-                                    <BoldText text="25%" customStyle={styles.percentText}/>
+                                <View style={{flex:1,paddingHorizontal:5}}>
+                                    <View style={styles.percentBox}>
+                                        <BoldText text="25%" customStyle={styles.percentText}/>
+                                    </View>
                                 </View>
-                                <View style={styles.percentBox}>
-                                    <BoldText text="50%" customStyle={styles.percentText}/>
+                                <View style={{flex:1,paddingHorizontal:5}}>
+                                    <View style={styles.percentBox}>
+                                        <BoldText text="50%" customStyle={styles.percentText}/>
+                                    </View>
                                 </View>
-                                <View style={styles.percentBox}>
-                                    <BoldText text="75%" customStyle={styles.percentText}/>
+                                <View style={{flex:1,paddingHorizontal:5}}>
+                                    <View style={styles.percentBox}>
+                                        <BoldText text="75%" customStyle={styles.percentText}/>
+                                    </View>
                                 </View>
-                                <View style={styles.percentBox}>
-                                    <BoldText text="100%" customStyle={styles.percentText}/>
+                                <View style={{flex:1,paddingLeft:5}}>
+                                    <View style={styles.percentBox}>
+                                        <BoldText text="100%" customStyle={styles.percentText}/>
+                                    </View>
                                 </View>
                             </View>
                             <BoldText text="* 수량을 입력해주세요" customStyle={{color:"#EE1818",fontSize:10,marginTop:8}}/>
@@ -158,11 +168,12 @@ const styles = StyleSheet.create({
         height:46
     },
     percentBox:{
-        borderWidth:1,
+        height:36,
         borderRadius:6,
+        borderWidth:1,
         borderColor:"#E5E5E5",
-        paddingVertical:11,
-        paddingHorizontal:12 
+        justifyContent:"center",
+        alignItems:"center"
     },
     percentText:{
         color:"#707070"
