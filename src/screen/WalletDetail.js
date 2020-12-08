@@ -79,7 +79,6 @@ const WalletDetail = ({navigation,route}) =>{
     const renderItem = low =>{
         const {item} = low;
         const amount = symbol ==="ETH" ? parseFloat((parseInt(item.ETH_AMOUNT,16)*ethRatio).toFixed(12)):parseFloat((parseInt(item.MVC_AMOUNT,16)*ethRatio).toFixed(12));
-        console.log(commaFormat(amount))
         if(item.transferType === 'DEPOSIT') {
             return (
                 <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`+ ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,symbol:symbol,member:item.ETH_MEMBER})} >

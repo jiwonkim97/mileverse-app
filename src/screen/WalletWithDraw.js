@@ -77,17 +77,14 @@ const WalletWithDraw = ({navigation,route}) =>{
             else if(route.params.symbol === "BTC") url = "/api/henesis/btc/wallets/users";
             const {data} = await Axios.get(url,{params:{address:address}});
             if(data.result === "success") {
-                console.log((route.params.symbol === "ETH" || route.params.symbol === "MVC"))
                 if(data.check === true) {
                     setFee("회원 간 수수료 면제");
                     setSendAmount(inputAmount)
                     member.current = true;
                 } else if(data.check === false && route.params.symbol === "BTC") {
                     setFee("0.0002 BTC");
-                    console.log(inputAmount)
                     setSendAmount(parseFloat((inputAmount - 0.0002).toFixed(8)))
                 } else if(data.check === false && (route.params.symbol === "ETH" || route.params.symbol === "MVC")) {
-                    console.log(inputAmount)
                     setFee(`0.005 ${route.params.symbol}`);
                     setSendAmount(inputAmount - 0.005)
                 }

@@ -7,7 +7,8 @@ target 'MileVerse' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
-
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
 
   target 'MileVerseTests' do
     inherit! :complete
