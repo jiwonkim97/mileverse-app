@@ -221,12 +221,16 @@ const SignUp01 = (props) =>{
                     </TouchableWithoutFeedback>
                 </View>
                 <Modal isVisible={modal} backdropTransitionOutTiming={0} style={{margin: 0,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
-                    <ScrollView style={{backgroundColor:"#FFFFFF",borderRadius:6,paddingVertical:28,paddingHorizontal:16,width:"90%",maxHeight:"80%"}}>
-                        <BoldText text={modalMode==="terms"? terms : privacy} customStyle={{fontSize:12,color:'#3D3D3D',lineHeight:23}}/>
-                        <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
-                            <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:12,height:12,resizeMode:'contain',position:"absolute",right:0,top:0}}/>
-                        </TouchableWithoutFeedback>
-                    </ScrollView>
+                    <View style={{backgroundColor:"#FFFFFF",borderRadius:6,width:"90%",maxHeight:"80%",flex:1,overflow:"hidden"}}>
+                        <View style={{alignItems:'flex-end',paddingRight:16,paddingTop:16}}>
+                            <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
+                                <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:16,height:16,resizeMode:'contain'}}/>
+                            </TouchableWithoutFeedback>
+                        </View>
+                        <ScrollView style={{paddingHorizontal:20}}>
+                            <BoldText text={modalMode==="terms"? terms : privacy} customStyle={{fontSize:12,color:'#3D3D3D',lineHeight:23}}/>
+                        </ScrollView>
+                    </View>
                 </Modal>
             </SafeAreaView>
         </>
