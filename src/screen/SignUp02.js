@@ -20,9 +20,9 @@ const SignUp02 = (props) =>{
     const [errText3,setErrorText3] = useState({txt:"-",color:"#FFFFFF"});
 
     useEffect(()=>{
-        const {name,mobileno} = props.route.params.data;
-        setName(name)
-        setPhone(mobileno)
+        // const {name,mobileno} = props.route.params.data;
+        // setName(name)
+        // setPhone(mobileno)
     },[])
 
     useEffect(()=>{
@@ -42,9 +42,12 @@ const SignUp02 = (props) =>{
     },[pin])
 
     const doSignUp = ()=>{
+        const mail_regex= /^[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.]*[.]{1}[A-Za-z]{1,5}$/;
+        
         if(doubleChk === false) setErrorText({txt:"* 중복확인을 진행해주세요.",color:"#EE1818"});
         else if(password !== password2) setErrorText2({txt:"* 입력하신 비밀번호가 일치하지 않습니다.",color:"#FF3B3B"});
         else if(mail === "") setErrorText3({txt:"* 이메일을 입력해주세요.",color:"#FF3B3B"});
+        else if(!mail_regex.test(mail)) setErrorText3({txt:"* 이메일 형식이 잘못되었습니다.",color:"#FF3B3B"});
         else {
             props.navigation.navigate("PinCode",{
                 mode:"init",
