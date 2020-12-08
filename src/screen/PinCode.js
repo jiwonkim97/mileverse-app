@@ -19,6 +19,7 @@ const PinCode = ({navigation,route})=>{
     });
     const [error,setError] = useState(false);
     const [confirm,setConfirm] = useState(false);
+    const [numCheck,setNumCheck] = useState(false);
     const [firstChk,setFirstChk] = useState(false);
     const [firstPin,setFirstPin] = useState("");
 
@@ -93,18 +94,27 @@ const PinCode = ({navigation,route})=>{
     }
 
     const onSetDots = (text)=>{
+        const regexp = /^[0-9]*$/
+
         error ? setError(!error) :null;
         confirm ? setConfirm(!confirm) :null;
+        numCheck ? setNumCheck(!numCheck) :null;
         let _dots = {};
-        for(let i = 1 ; i<=6 ; i++) {
-            if(i<=text.length) {
-                _dots["dots"+i] = {active:true}
-            } else {
-                _dots["dots"+i] = {active:false}
+        if(regexp.test(text)) {
+            for(let i = 1 ; i<=6 ; i++) {
+                if(i<=text.length) {
+                    _dots["dots"+i] = {active:true}
+                } else {
+                    _dots["dots"+i] = {active:false}
+                }
             }
+            setPin(text);
+            setDots(_dots);
+        } else {
+            setNumCheck(true)
+            setPin(text.slice(0,-1))
         }
-        setPin(text);
-        setDots(_dots);
+        
     }
 
     return (
@@ -153,6 +163,9 @@ const PinCode = ({navigation,route})=>{
                     }
                     {
                         confirm ? <BoldText text={"한 번 더 입력해 주세요."}  customStyle={{color:"#021AEE"}} /> : null
+                    }
+                    {
+                        numCheck ? <BoldText text={"숫자만 입력 가능합니다."}  customStyle={{color:"#EE1818"}} /> : null
                     }
                 </View>
                 <TextInput value={pin} ref={inputRef} autoFocus={true} keyboardType={"numeric"} maxLength={6} style={{width:0,height:0,fontFamily:"NotoSans-Regular"}} onChangeText={text=>{onSetDots(text)}}/>
