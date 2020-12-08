@@ -14,16 +14,21 @@ const WalletReceipt = ({navigation,route}) =>{
                 if(route.params.transactionId !== undefined) {
                     const {data} = await Axios.get('/api/henesis/eth/tx/gas',{params:{txId:route.params.transactionId}});
                     if(data.result === "success") {
-                        setGas(parseFloat(data.gas))
+                        setGas(`${parseFloat(data.gas)} ${route.params.symbol}`)
                     }
                  }
             }
         }
-        if(route.params.hash === null) {
-            setGas("수수료 면제")
-        } else {
-            getGasFee()
-        }
+        // if(route.params.member === 'Y') {
+        //     setGas("수수료 면제")
+        // } else {
+        //     getGasFee()
+        //     if(route.params.symbol === "ETH" || route.params.symbol === "MVC") {
+        //         setGas(`0.005 ETH`);
+        //     }else if(route.params.symbol === "BTC") {
+        //         setGas(`0.0002 ${route.params.symbol}`);
+        //     }
+        // }
     },[])
     const openWebBrowser = async()=>{
         if (route.params.symbol === "BTC") {
@@ -69,7 +74,7 @@ const WalletReceipt = ({navigation,route}) =>{
                             <View style={styles.item}>
                                 <BoldText text={"전송 수수료"}/>
                                 <View style={styles.boxWrap}>
-                                    <BoldText text={`${gas} ETH`} customStyle={styles.contentText}/>
+                                    <BoldText text={`${gas}`} customStyle={styles.contentText}/>
                                 </View>
                             </View>
                         :

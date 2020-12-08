@@ -78,12 +78,12 @@ const WalletDetail = ({navigation,route}) =>{
 
     const renderItem = low =>{
         const {item} = low;
-        const amount = symbol ==="ETH" ? parseFloat((parseInt(item.ETH_AMOUNT,16)*ethRatio).toFixed(12)):parseFloat((parseInt(item.MVC_AMOUNT,16)*ethRatio).toFixed(12))
+        const amount = symbol ==="ETH" ? parseFloat((parseInt(item.ETH_AMOUNT,16)*ethRatio).toFixed(12)):parseFloat((parseInt(item.MVC_AMOUNT,16)*ethRatio).toFixed(12));
+        console.log(commaFormat(amount))
         if(item.transferType === 'DEPOSIT') {
             return (
-                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`+ ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,symbol:symbol})} 
-                    key={low.index} >
-                    <View style={[styles.listRowWrap]}>
+                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`+ ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,symbol:symbol,member:item.ETH_MEMBER})} >
+                    <View style={[styles.listRowWrap]} key={low.index}>
                         <View>
                             <BoldText text={implyAddr(item.ETH_FROM)} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.ETH_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
@@ -96,9 +96,8 @@ const WalletDetail = ({navigation,route}) =>{
             );
         } else {
             return (
-                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`+ ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,transactionId:item.TR_ID,symbol:route.params.symbol})} 
-                    key={low.index}>
-                    <View style={[styles.listRowWrap]}>
+                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`- ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,transactionId:item.TR_ID,symbol:route.params.symbol,member:item.ETH_MEMBER})} >
+                    <View style={[styles.listRowWrap]} key={low.index}>
                         <View>
                             <BoldText text={implyAddr(item.ETH_TO)} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.ETH_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>

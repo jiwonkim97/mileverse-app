@@ -85,10 +85,10 @@ const WalletWithDraw = ({navigation,route}) =>{
                 } else if(data.check === false && route.params.symbol === "BTC") {
                     setFee("0.0002 BTC");
                     console.log(inputAmount)
-                    setSendAmount(inputAmount - 0.0002)
+                    setSendAmount(parseFloat((inputAmount - 0.0002).toFixed(8)))
                 } else if(data.check === false && (route.params.symbol === "ETH" || route.params.symbol === "MVC")) {
-                    console.log(123)
-                    setFee(`0.0002 ${route.params.symbol}`);
+                    console.log(inputAmount)
+                    setFee(`0.005 ${route.params.symbol}`);
                     setSendAmount(inputAmount - 0.005)
                 }
                 setModal(!modal)

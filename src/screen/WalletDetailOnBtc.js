@@ -75,13 +75,13 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
     }
 
     const renderItem = low =>{
-        const {item} = low        
+        const {item} = low
         if(item.BTC_TYPE === 'DEPOSIT') {
             return (
                 <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{
-                    trTime:dateFormatByUnixTime(item.BTC_TIME),symbol:"BTC",amount:commaFormat(changeBtc(item.BTC_AMOUNT)),fromAddr:item.BTC_FROM,toAddr:item.BTC_TO||item.BTC_RECV,hash:item.BTC_HASH})} 
-                    key={low.index} >
-                    <View style={[styles.listRowWrap]}>
+                    trTime:dateFormatByUnixTime(item.BTC_TIME),symbol:"BTC",amount:parseFloat(commaFormat(changeBtc(item.BTC_AMOUNT))),fromAddr:item.BTC_FROM,toAddr:item.BTC_TO||item.BTC_RECV,hash:item.BTC_HASH,member:item.BTC_MEMBER})} 
+                     >
+                    <View style={[styles.listRowWrap]} key={low.index}>
                         <View>
                             <BoldText text={item.from!==undefined?implyAddr(item.from):"외부 지갑"} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.BTC_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
@@ -95,9 +95,9 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
         } else {
             return (
                 <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{
-                    trTime:dateFormatByUnixTime(item.BTC_TIME),symbol:"BTC",amount:commaFormat(changeBtc(item.BTC_AMOUNT)),fromAddr:item.BTC_FROM,toAddr:item.BTC_TO,hash:item.BTC_HASH})}
-                    key={low.index}>
-                    <View style={[styles.listRowWrap]}>
+                    trTime:dateFormatByUnixTime(item.BTC_TIME),symbol:"BTC",amount:parseFloat(commaFormat(changeBtc(item.BTC_AMOUNT))),fromAddr:item.BTC_FROM,toAddr:item.BTC_TO,hash:item.BTC_HASH,member:item.BTC_MEMBER})}
+                    >
+                    <View style={[styles.listRowWrap]} key={low.index}> 
                         <View>
                             <BoldText text={implyAddr(item.BTC_TO)} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.BTC_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
@@ -129,7 +129,7 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
             const {data} = await Axios.get("/api/henesis/btc/balance")
             if(data.result === "success") {
                 setBalance(commaFormat(String(data.btc.balance)));
-                setAmount(commaFormat(String(Number(data.btc.amount).toFixed(8))));
+                setAmount(commaFormat(parseFloat(String(Number(data.btc.amount).toFixed(8)))));
             }
         }
         setSymbol(route.params.symbol)
