@@ -5,6 +5,7 @@ import {
     AUTH_LOGIN_FAILURE,
     AUTH_UPDATE_MVP,
     AUTH_UPDATE_PIN,
+    AUTH_UPDATE_WALLET,
     INIT_REQUEST_STAT,
     FAIL_REQUEST_STAT
 } from './ActionTypes';
@@ -17,7 +18,7 @@ export function loginRequest(id, password) {
         return Axios.post('/users/login',{id:id,password:password})
             .then(response=>{
                 const _response = response.data;
-                _response.result === "success" ? dispatch(loginSuccess(_response.username,_response.mvp,_response.code,_response.pin)) : dispatch(loginFailure())
+                _response.result === "success" ? dispatch(loginSuccess(_response.username,_response.mvp,_response.code,_response.pin,_response.wallet)) : dispatch(loginFailure())
                 return _response
             }).catch((error)=>{
                 dispatch(loginFailure());
@@ -44,7 +45,7 @@ export function verifyRequest(_parmas) {
         return Axios.post('/users/verify',_parmas)
             .then((response)=>{
                 var _response = response.data
-                _response.status === "login" ?  dispatch(loginSuccess(_response.username,_response.mvp,_response.code,_response.pin)) : dispatch(logout())
+                _response.status === "login" ?  dispatch(loginSuccess(_response.username,_response.mvp,_response.code,_response.pin,_response.wallet)) : dispatch(logout())
             }).catch((error)=>{
                 dispatch(logout())
             }).then(()=> { return getState().authentication.login.status });
@@ -100,13 +101,14 @@ export function logout() {
     };
 }
 
-export function loginSuccess(username,mvp,code,pin) {
+export function loginSuccess(username,mvp,code,pin,wallet) {
     return {
         type: AUTH_LOGIN_SUCCESS,
         username,
         mvp,
         code,
-        pin
+        pin,
+        wallet
     };
 }
 
@@ -139,5 +141,10 @@ export function udpatePin(pin) {
     return {
         type: AUTH_UPDATE_PIN,
         pin
+    }
+}
+export function updateWallet() {
+    return {
+        type: AUTH_UPDATE_WALLET
     }
 }

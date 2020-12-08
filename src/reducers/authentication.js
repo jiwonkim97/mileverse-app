@@ -12,7 +12,8 @@ const initialState = {
         mvp:"",
         currentUser:'',
         code:"",
-        pin:""
+        pin:"",
+        wallet:false
     },request:{
         status:"INIT",
         msg:''
@@ -41,7 +42,8 @@ export default function authentication(state, action) {
                     currentUser : {$set: ""},
                     mvp: {$set : ""},
                     code: {$set : ""},
-                    pin : {$set : ""}
+                    pin : {$set : ""},
+                    wallet : {$set : false}
                 }
             });
         case types.AUTH_LOGIN_SUCCESS:
@@ -55,7 +57,8 @@ export default function authentication(state, action) {
                     currentUser : {$set: action.username},
                     mvp: {$set : action.mvp},
                     code: {$set : action.code},
-                    pin: {$set : action.pin}
+                    pin: {$set : action.pin},
+                    wallet: {$set : action.wallet}
                 }
             });
         case types.AUTH_LOGIN_FAILURE:
@@ -95,6 +98,12 @@ export default function authentication(state, action) {
                 request:{
                     status: { $set: 'SUCCESS' },
                     msg: { $set: '' },
+                }
+            });
+        case types.AUTH_UPDATE_WALLET:
+            return update(state, {
+                userInfo:{
+                    wallet: {$set : "true"}
                 }
             });
         default:

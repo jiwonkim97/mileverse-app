@@ -1,6 +1,6 @@
-import React, {useState,useEffect,useRef} from 'react';
+import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TextInput, Keyboard } from 'react-native';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TextInput, Keyboard,TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
@@ -8,7 +8,7 @@ import Axios from '../modules/Axios';
 import * as dialog from '../actions/dialog';
 import * as actions from '../actions/authentication'
 
-const WithDraw = (props) =>{
+const WithDraw = ({navigation,route}) =>{
     const dispatch = useDispatch();
     const [password,setPassword] = useState("");
     const onWithDraw = ()=>{
@@ -24,7 +24,7 @@ const WithDraw = (props) =>{
                         if(rst === 'INIT') {
                             AsyncStorage.multiRemove(["@loginStorage","@configStorage"])
                             dispatch(dialog.closeDialog());
-                            props.navigation.navigate("Home");
+                            navigation.navigate("Home");
                         }
                     });
                 }));
@@ -43,10 +43,19 @@ const WithDraw = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{backgroundColor:"#FFFFFF",flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
-                    </TouchableWithoutFeedback>
-                    <ExtraBoldText text="회원탈퇴" customStyle={{fontSize:16}}/>
+                    <TouchableOpacity onPress={()=>navigation.goBack()}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require('../../assets/img/ico_back.png')} style={{width:8,height:16}} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text="회원탈퇴" customStyle={{fontSize:16}}/>
+                    </View>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={{padding:16}}>
                     <View style={{borderRadius:6,borderColor:"#E5E5E5",borderWidth:1,padding:16,flexDirection:'row',justifyContent:"space-between",alignItems:"center"}}>
@@ -68,12 +77,17 @@ export default WithDraw;
 
 const styles = StyleSheet.create({
     header:{
-        height:60,
-        borderColor:"#CCCCCC",
-        justifyContent:'center',
+        backgroundColor:"white",
+        height:50,
         alignItems:'center',
-        flexDirection:'row',
-        zIndex:1
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    headerIcoWrap:{
+        width:50,
+        height:50,
+        justifyContent:'center',
+        alignItems:'center'
     },
     shadow:{
         elevation:2,

@@ -1,5 +1,5 @@
 
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import { useWindowDimensions,Image,StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -43,10 +43,13 @@ import FindAccount from './src/screen/FindAccount';
 import PinCode from './src/screen/PinCode';
 import WalletScreen from './src/screen/Wallet';
 import WalletDetail from "./src/screen/WalletDetail";
+import WalletDetailOnBtc from "./src/screen/WalletDetailOnBtc";
 import WalletReceipt from './src/screen/WalletReceipt';
 import WalletDeposit from './src/screen/WalletDeposit';
 import WalletWithDraw from './src/screen/WalletWithDraw';
 import WalletResult from './src/screen/WalletResult';
+import WalletAgree from './src/screen/WalletAgree';
+import ScanScreen from './src/screen/ScanScreen';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -59,7 +62,7 @@ const LoginGuard = (event,navigation,_stat,_target) =>{
 }
 const TabScreen = ({navigation}) =>{
 	const stat = useSelector(state => state.authentication.status.isLoggedIn);
-
+	const wallet = useSelector(state => state.authentication.userInfo.wallet);
 	return (
 		<Tab.Navigator
 			initialRouteName="Home"
@@ -87,13 +90,13 @@ const TabScreen = ({navigation}) =>{
 					<Image source={focused ? require('./assets/img/home_active.png') : require('./assets/img/home.png')} style={styles.dockIcon}/>
 				)
 			}}}/>
-			<Tab.Screen name="Branch" component={BranchScreen} options={{title:"가맹점",tabBarIcon:({focused})=>{
+			<Tab.Screen name="GifticonCategory" component={GifticonCategory} options={{title:"사용처",tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/branch_active.png') : require('./assets/img/branch.png')} style={styles.dockIcon}/>
 				)
 			}}} listeners={()=>(
 				{tabPress:event=>{
-				  event.preventDefault();
+					LoginGuard(event,navigation,stat,"GifticonCategory")
 				}}
 			)}/>
 			<Tab.Screen name="Change" component={ChangeScreen} options={{title:"교환",tabBarIcon:({focused})=>{
@@ -105,7 +108,16 @@ const TabScreen = ({navigation}) =>{
 				return (
 					<Image source={focused ? require('./assets/img/wallet_active.png') : require('./assets/img/wallet.png')} style={styles.dockIcon}/>
 				)
-			}}} listeners={()=>({tabPress:event=>LoginGuard(event,navigation,stat,"Wallet")})}/>
+			}}} listeners={()=>({tabPress:event=>{
+				event.preventDefault();
+				if(stat && wallet === "true") {
+					navigation.navigate("Wallet")
+				} else if(stat){
+					navigation.navigate("WalletAgree")
+				} else {
+					navigation.navigate("Login")
+				}
+			}})}/>
 			<Tab.Screen name="Menu" component={HomeScreen} options={{title:"메뉴",tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/menu_active.png') : require('./assets/img/menu.png')} style={styles.dockIcon}/>
@@ -170,7 +182,6 @@ const App = () => {
 						<Stack.Screen name="Config" component={Config} />
 						<Stack.Screen name="ChangePassword" component={ChangePassword} />
 						<Stack.Screen name="WithDraw" component={WithDraw} />
-						<Stack.Screen name="GifticonCategory" component={GifticonCategory} />
 						<Stack.Screen name="GifticonList" component={GifticonList} />
 						<Stack.Screen name="GifticonDetail" component={GifticonDetail} />
 						<Stack.Screen name="FindAccount" component={FindAccount} />
@@ -179,10 +190,13 @@ const App = () => {
 						<Stack.Screen name="DanalPg" component={DanalPg} />
 						<Stack.Screen name="PinCode" component={PinCode} />
 						<Stack.Screen name="WalletDetail" component={WalletDetail} />
+						<Stack.Screen name="WalletDetailOnBtc" component={WalletDetailOnBtc} />
 						<Stack.Screen name="WalletReceipt" component={WalletReceipt} />
 						<Stack.Screen name="WalletDeposit" component={WalletDeposit} />
 						<Stack.Screen name="WalletWithDraw" component={WalletWithDraw} />
 						<Stack.Screen name="WalletResult" component={WalletResult} />
+						<Stack.Screen name="WalletAgree" component={WalletAgree} />
+						<Stack.Screen name="ScanScreen" component={ScanScreen} />
 					</Stack.Navigator>
 				</NavigationContainer>
 				<DialogComponent />

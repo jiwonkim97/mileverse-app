@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image,View,SafeAreaView,StyleSheet, TouchableWithoutFeedback,SectionList, ImageBackground } from 'react-native';
+import { Image,View,SafeAreaView,StyleSheet, TouchableWithoutFeedback,SectionList, ImageBackground,TouchableOpacity } from 'react-native';
 import { RegularText, ExtraBoldText, BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios';
@@ -16,28 +16,30 @@ const GifticonList = (props) =>{
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
-            <SafeAreaView style={{flex:1}}>
+            <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <ExtraBoldText text={props.route.params.ctgr_name.replace(',','/')} customStyle={{fontSize:16}}/>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()} >
-                        <Image source={require('../../assets/img/ico_back.png')} style={{position:'absolute',resizeMode:"contain", width:10,left:20}}></Image>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("Home")}>
-                        <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14,position:'absolute',right:20}}/>
-                    </TouchableWithoutFeedback>
+                    <View style={{width:50}}></View>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={props.route.params.ctgr_name.replace(',','/')} customStyle={{fontSize:16}}/>
+                    </View>
+                    <TouchableOpacity onPress={()=>props.navigation.navigate("GifticonCategory")}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <SectionList
-                    style={{marginTop:6}}
+                    style={{}}
                     sections={gifticonList}
                     keyExtractor={({index}) => index}
                     ListHeaderComponent={
                         <>
-                            <ImageBackground style={{marginBottom:6}} source={require("../../assets/img/gifticon_banner_bg.png")} style={{width:"100%",height:80,resizeMode:"stretch"}}>
+                            <ImageBackground style={{marginBottom:6}} source={require("../../assets/img/gifticon_banner_bg.png")} style={{width:"100%",height:80,resizeMode:"stretch",marginTop:6}}>
                                 <View style={{paddingTop:32,paddingLeft:26}}>
                                     <BoldText text={"다양한 기프티콘을 만나보세요!"} customStyle={{color:"#F3C839",fontSize:14}}/>
                                 </View>
                             </ImageBackground>
-                            <View style={{height:16,backgroundColor:"#FFFFFF"}}></View>
+                            <View style={{height:6,backgroundColor:"#F2F2F2",marginBottom:16}}></View>
                         </>
                     }
                     renderItem={({item}) => {
@@ -56,13 +58,12 @@ const GifticonList = (props) =>{
                                                             <RegularText text={item.PDT_NAME} customStyle={{color:"#2B2B2B",lineHeight:20,fontSize:14}}/>
                                                             <View style={{marginTop:7,flexDirection:"row",alignItems:"center"}}>
                                                                 <ExtraBoldText text={item.PDT_AMOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} customStyle={{fontSize:15}}/>
-                                                                <RegularText text={"원"} customStyle={{marginLeft:1,fontSize:13}}/>
+                                                                <RegularText text={"MVP"} customStyle={{marginLeft:1,fontSize:13}}/>
                                                             </View>
                                                         </View>
                                                     </View>
                                                 </View>
                                             </TouchableWithoutFeedback>
-                                            
                                         );
                                     })
                                 }
@@ -88,6 +89,13 @@ export default GifticonList;
 const styles = StyleSheet.create({
     header:{
         backgroundColor:"white",
+        height:50,
+        alignItems:'center',
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    headerIcoWrap:{
+        width:50,
         height:50,
         justifyContent:'center',
         alignItems:'center'

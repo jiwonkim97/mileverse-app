@@ -1,57 +1,77 @@
-import React, {useState,useEffect, useRef} from 'react';
+import React, {useState,useEffect,useRef,useCallback} from 'react';
 import { useDispatch } from 'react-redux';
 import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TextInput,ScrollView,TouchableOpacity } from 'react-native';
+import EthFees from '../components/WalletFees/EthFees';
+import BtcFees from '../components/WalletFees/BtcFees';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Modal from 'react-native-modal';
+import OriginAxios from 'axios';
 import Axios from '../modules/Axios';
 import * as spinner from '../actions/spinner';
 
 const WalletWithDraw = ({navigation,route}) =>{
     const dispatch = useDispatch();    
     const [type,setType] = useState(0);
+    const [amount,setAmount] = useState(0);
     const [inputAmount,setInputAmount] = useState("");
-    const [sendAmount,setSendAmount] = useState(0);
     const [amountFromDB,setAmountFromDB] = useState(0);
     const [fromAddr,setFromAddr] = useState("");
     const [amountError,setAmountError] = useState({text:"-",color:"#FFFFFF"});
     const [address,setAddress] = useState("");
     const [verifiedAddr,setVerifiedAddr] = useState(false);
     const [addressError,setAddressError] = useState({text:"-",color:"#FFFFFF"});
-    const [fee,setFee] = useState("");
+    const totalGasFee = useRef(0);
+    const gasprice = useRef(0);
+    const gasLimit = useRef(0);
     const [modal,setModal] = useState(false);
-    const member = useRef(false);
 
+    const [bitGasFees,setBitGasFees] = useState({});
+
+    
     useEffect(()=>{
         const defaultSetting = async()=>{
             dispatch(spinner.showSpinner());
             if(route.params.symbol === "BTC") {
+                // const {data:btcGasApiResult} = await OriginAxios.get("https://bitcoinfees.earn.com/api/v1/fees/recommended");
+                // setBitGasFees(btcGasApiResult);
                 const {data} = await Axios.get("/api/henesis/btc/balance");
-                setAmountFromDB(data.btc.amount)
-                setFromAddr(data.btc.address)
+                setAmountFromDB(data.balance)
+                setFromAddr(data.address)
             } else {
-                const {data} = await Axios.get("/api/henesis/eth/balance");
-                if(route.params.symbol === "ETH") {
-                    setAmountFromDB(data.eth.amount)
-                    setFromAddr(data.eth.address)
-                } else if(route.params.symbol === "MVC") {
-                    setAmountFromDB(data.mvc.amount)
-                    setFromAddr(data.mvc.address)
-                }
+                const {data} = await Axios.get("/api/henesis/eth/balance",{params:{symbol:route.params.symbol}});
+                setAmountFromDB(data.balance)
+                setFromAddr(data.address)
             }
             dispatch(spinner.hideSpinner());
         }
         defaultSetting();
     },[]);
 
+    const calcAmount = (_amount)=>{
+        if(route.params.symbol === "BTC") {
+            setInputAmount(String(Number(amount).toFixed(8)))
+        } else {
+            if(amount !== 0 && type !== 0) {
+                const _calcRst = (amount-totalGasFee.current).toFixed(6);
+                if(_calcRst>0) setInputAmount(String(_calcRst))
+            }
+        }
+    }
+
     const onPercentPress = (num)=>{
         if(num !== type) {
-            setInputAmount(String(parseFloat((amountFromDB * num / 100).toFixed(8))));
+            setAmount(String(amountFromDB * num / 100));
             setType(num);
         } else {
             setType(0)
         }
     }
+    useEffect(()=>{
+        if(type !== 0) {
+            calcAmount();
+        }
+    },[type])
 
     const selectBg = (num)=>{
         return num === type ? {backgroundColor:"#8D3981",borderColor:"#8D3981"} : {backgroundColor:"#FFFFFF",borderColor:"#E5E5E5"}
@@ -59,10 +79,10 @@ const WalletWithDraw = ({navigation,route}) =>{
     const selectText = (num)=>{
         return num === type ? {color:"#FFFFFF"} : {color:"#707070"}
     }
-    const onConfirm = async()=>{
+    const onConfirm = ()=>{
         if(inputAmount === "") {
             setAmountError({text:"* 수량을 입력해주세요.",color:"#EE1818"});
-        } else if(route.params.symbol === "ETH" && inputAmount>amountFromDB){
+        } else if(route.params.symbol === "ETH" && inputAmount+totalGasFee>amountFromDB){
             setAmountError({text:"* 잔액이 부족합니다.",color:"#EE1818"});
         } else if(route.params.symbol === "MVC" && inputAmount>amountFromDB) {
             setAmountError({text:"* 수량이 부족합니다.",color:"#EE1818"});
@@ -71,30 +91,7 @@ const WalletWithDraw = ({navigation,route}) =>{
         } else if(address === "" || verifiedAddr === false) {
             setAddressError({text:"* 주소가 유효하지 않습니다.",color:"#EE1818"});
         } else {
-            let url = "";
-            member.current = false;
-            if(route.params.symbol === "ETH" || route.params.symbol === "MVC") url = "/api/henesis/eth/wallets/users";
-            else if(route.params.symbol === "BTC") url = "/api/henesis/btc/wallets/users";
-            const {data} = await Axios.get(url,{params:{address:address}});
-            if(data.result === "success") {
-                console.log((route.params.symbol === "ETH" || route.params.symbol === "MVC"))
-                if(data.check === true) {
-                    setFee("회원 간 수수료 면제");
-                    setSendAmount(inputAmount)
-                    member.current = true;
-                } else if(data.check === false && route.params.symbol === "BTC") {
-                    setFee("0.0002 BTC");
-                    console.log(inputAmount)
-                    setSendAmount(inputAmount - 0.0002)
-                } else if(data.check === false && (route.params.symbol === "ETH" || route.params.symbol === "MVC")) {
-                    console.log(123)
-                    setFee(`0.0002 ${route.params.symbol}`);
-                    setSendAmount(inputAmount - 0.005)
-                }
-                setModal(!modal)
-            } else {
-                Alert.alert("알림",data.msg,[{text:'확인'}]);
-            }
+            setModal(!modal)
         }
     }
     const onSendToken = async()=>{
@@ -103,10 +100,9 @@ const WalletWithDraw = ({navigation,route}) =>{
             const {data} = await Axios.post("/api/henesis/eth/transfer",{
                 symbol:route.params.symbol,
                 toAddr:address,
-                fromAddr:fromAddr,
-                input_amount:inputAmount,
-                send_amount:sendAmount,
-                member:member.current
+                gasPrice:String(gasprice.current),
+                gasLimit:String(gasLimit.current),
+                amount:String(inputAmount)
             });
             data.result === "success" ? _flag = true : null; 
         } else {
@@ -114,9 +110,7 @@ const WalletWithDraw = ({navigation,route}) =>{
                 symbol:route.params.symbol,
                 toAddr:address,
                 fromAddr:fromAddr,
-                input_amount:inputAmount,
-                send_amount:sendAmount,
-                member:member.current
+                amount:String(inputAmount)
             });
             data.result === "success" ? _flag = true : null; 
         }
@@ -150,6 +144,18 @@ const WalletWithDraw = ({navigation,route}) =>{
     useEffect(()=>{
         setAmountError({text:"* -",color:"#FFFFFF"})
     },[inputAmount]);
+
+    const rederETHFees = useCallback(()=>{
+        return (
+            <EthFees symbol={route.params.symbol} toGasFee={({total,limit,price})=>{
+                totalGasFee.current = total;
+                gasLimit.current = limit;
+                gasprice.current = price;
+                calcAmount()
+            }}/>
+        )
+    },[amount,type])
+
 
     return (
         <>
@@ -244,18 +250,11 @@ const WalletWithDraw = ({navigation,route}) =>{
                                 <BoldText text={addressError.text} customStyle={{color:addressError.color,fontSize:10,marginTop:8}}/>
                             </View>
                             <View style={[styles.item,{marginTop:16}]}>
-                            <View style={{marginTop:16,borderWidth:1,borderColor:"#F2F2F2"}} />
                                 {
                                     route.params.symbol === "BTC" ? 
-                                    <View style={{marginTop:26,marginBottom:100}}>
-                                        <BoldText text={"[유의사항]"} customStyle={styles.noticeText}/>
-                                        <BoldText text={"잘못 전송한 경우 취소가 불가능합니다.\n전송 시 전송 수수료(0.0002 BTC)가 발생합니다."} customStyle={[styles.noticeText,{marginTop:9,lineHeight:18}]}/>
-                                    </View>
+                                        <BtcFees />
                                     :
-                                    <View style={{marginTop:44,marginBottom:100}}>
-                                        <BoldText text={"[유의사항]"} customStyle={styles.noticeText}/>
-                                        <BoldText text={"잘못 전송한 경우 취소가 불가능합니다.\n전송 시 이더리움 가스비가 발생합니다.\n전송 시 전송 수수료가 발생합니다.\n퍼센티지 버튼은 수수료를 제외한 수량으로 입력됩니다."} customStyle={[styles.noticeText,{marginTop:9,lineHeight:18}]}/>
-                                    </View>
+                                        rederETHFees()
                                 }
                             </View>
                         </View>
@@ -274,15 +273,20 @@ const WalletWithDraw = ({navigation,route}) =>{
                             <View style={styles.modalItemGap}>
                                 <BoldText text={"출금 수량"}/>
                                 <View style={styles.modalItemBox}>
-                                    <BoldText text={`${sendAmount} ${route.params.symbol}`} customStyle={styles.modalItemText}/>
+                                    <BoldText text={`${inputAmount} ${route.params.symbol}`} customStyle={styles.modalItemText}/>
                                 </View>
                             </View>
-                            <View style={styles.modalItemGap}>
-                                <BoldText text={"전송 수수료"}/>
-                                <View style={styles.modalItemBox}>
-                                    <BoldText text={fee} customStyle={styles.modalItemText}/>
-                                </View>
-                            </View>
+                            {
+                                route.params.symbol !== "BTC" ?
+                                    <View style={styles.modalItemGap}>
+                                        <BoldText text={"전송 수수료"}/>
+                                        <View style={styles.modalItemBox}>
+                                            <BoldText text={`${totalGasFee.current} ETH`} customStyle={styles.modalItemText}/>
+                                        </View>
+                                    </View>
+                                :
+                                    null
+                            }
                             <View style={styles.modalItemGap}>
                                 <BoldText text={"보낸 사람"}/>
                                 <View style={styles.modalItemBox}>
@@ -393,9 +397,5 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent:"center",
         alignItems:"center"
-    },
-    noticeText:{
-        color:"#3A3A3A",
-        fontSize:12
     }
 });

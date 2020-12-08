@@ -1,40 +1,83 @@
 import React, {useState,useEffect} from 'react';
-import { useSelector } from 'react-redux';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image, Alert,TouchableOpacity } from 'react-native';
 import Clipboard from '@react-native-community/clipboard';
 import * as toast from '../components/Toast';
+import * as spinner from '../actions/spinner'
 import QRCode from 'react-native-qrcode-generator';
 
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
-
+import Axios from '../modules/Axios';
 
 const WalletDeposit = ({navigation,route}) =>{
-    
+    const dispatch = useDispatch();    
+    const [addr,setAddr] = useState("");
+
     const copyToClipboard = ()=>{
-        Clipboard.setString("0xe5497a0463a617588210979ae669ab2f757efb0a");
+        Clipboard.setString(addr);
         toast.info("주소가 복사 되었습니다.")
     }
+
+    useEffect(()=>{
+        const setData = async()=>{
+            let url = "";
+            const symbol = route.params.symbol;
+            if(symbol === "ETH" || symbol === "MVC") url = "/api/henesis/eth/balance";
+            else if(symbol === "BTC") url = "/api/henesis/btc/balance";
+            else {
+                Alert.alert("알림","시스템 오류입니다.",[{
+                    text:'확인',
+                    onPress:()=>navigation.goBack()
+                }]);
+            }
+            dispatch(spinner.showSpinner());
+            const {data} = await Axios.get(url);
+            if(data.result === "success") {
+                if(symbol === "ETH" || symbol === "MVC" ) {
+                    setAddr(data.eth.address);
+                } else if(symbol === "BTC") {
+                    setAddr(data.btc.address);
+                }
+            } else {
+                Alert.alert("알림",data.msg,[{text:'확인'}]);
+            }
+            dispatch(spinner.hideSpinner());
+        };
+        setData();
+    },[])
      
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{backgroundColor:"#FFFFFF",flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <TouchableWithoutFeedback onPress={()=>navigation.goBack()}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
-                    </TouchableWithoutFeedback>
-                    <ExtraBoldText text="MVC 입금" customStyle={{fontSize:16}}/>
-                    <TouchableWithoutFeedback onPress={()=>navigation.navigate("Wallet")}>
-                        <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14,position:'absolute',right:20}}/>
-                    </TouchableWithoutFeedback>
+                    <TouchableOpacity onPress={()=>navigation.goBack()}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require('../../assets/img/ico_back.png')} style={{width:8,height:16}} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={`${route.params.symbol} 입금`} customStyle={{fontSize:16}}/>
+                    </View>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Wallet")}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={{paddingTop:60,paddingBottom:40,justifyContent:"center",alignItems:"center"}}>
-                    <QRCode
-                        value={"0xe5497a0463a617588210979ae669ab2f757efb0a"}
-                        size={120}
-                        bgColor='black'
-                        fgColor='white'/>
+                    {
+                        addr !== "" ?  
+                            <QRCode
+                                value={addr}
+                                size={120}
+                                bgColor='black'
+                                fgColor='white'/> 
+                        : 
+                            null
+                    }
+                    
                 </View>
                 <View style={{paddingHorizontal:16}}>
                     <View style={{flexDirection:"row",alignItems:"center"}}>
@@ -44,7 +87,7 @@ const WalletDeposit = ({navigation,route}) =>{
                         </TouchableWithoutFeedback>
                     </View>
                     <View style={{marginTop:16,borderRadius:6,backgroundColor:"#F3F3F3",borderWidth:1,borderColor:"#E5E5E5",padding:16}}>
-                        <BoldText text={"0xe5497a0463a617588210979ae669ab2f757efb0a"} customStyle={{color:"#707070",fontSize:12}}/>
+                        <BoldText text={addr} customStyle={{color:"#707070",fontSize:12}}/>
                     </View>
                 </View>
             </SafeAreaView>
@@ -56,12 +99,17 @@ export default WalletDeposit;
 
 const styles = StyleSheet.create({
     header:{
-        height:60,
-        borderColor:"#CCCCCC",
-        justifyContent:'center',
+        backgroundColor:"white",
+        height:50,
         alignItems:'center',
-        flexDirection:'row',
-        zIndex:1
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    headerIcoWrap:{
+        width:50,
+        height:50,
+        justifyContent:'center',
+        alignItems:'center'
     },
     shadow:{
         elevation:2,

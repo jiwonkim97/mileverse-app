@@ -11,7 +11,7 @@ import * as spinner from '../actions/spinner';
 import CommonStatusbar from '../components/CommonStatusbar';
 
 
-const ContactScreen : () => React$Node = (props) =>{
+const ContactScreen = (props) =>{
     const dispatch = useDispatch()
     const [mail, setMail] = useState("")
     const [title, setTitle] = useState("")
@@ -131,32 +131,43 @@ const ContactScreen : () => React$Node = (props) =>{
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
-            <SafeAreaView>
-                <View style={styles.header}>
-                    <ExtraBoldText text={"문의 하기"} customStyle={{fontSize:16}} />
-                    <TouchableOpacity onPress={()=>props.navigation.goBack()}style={{position:'absolute',top:-10,left:20}}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10}}></Image>
+            <SafeAreaView style={{flex:1}}>
+                <View style={[styles.header,styles.shadow]}>
+                    <View style={{width:50}}></View>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={"문의하기"} customStyle={{fontSize:16}}/>
+                    </View>
+                    <TouchableOpacity onPress={()=>props.navigation.goBack()}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                        </View>
                     </TouchableOpacity>
                 </View>
-                <View style={{backgroundColor:"white",height:"100%",padding:20}}>
-                    <View>
-                        <BoldText text={"이메일"} customStyle={styles.inputLabel}/>
-                        <TextInput placeholder="이메일을 입력해주세요." style={styles.inputForm} onChangeText={text=>setMail(text)}/>
+                <View style={{backgroundColor:"white",padding:20,marginTop:6,flex:1}}>
+                    <View style={{marginTop:26}}>
+                        <BoldText text={"주소 입력"}/>
+                        <View style={[styles.boxWrap]}>
+                            <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"이메일을 입력해주세요"} style={[styles.input]} onChangeText={text=>setMail(text)}/>
+                        </View>
                     </View>
-                    <View style={{marginTop:20}}>
-                        <BoldText text={"제목"} customStyle={styles.inputLabel}/>
-                        <TextInput placeholder="제목을 입력해주세요." style={styles.inputForm} onChangeText={text=>setTitle(text)}/>
+                    <View style={{marginTop:26}}>
+                        <BoldText text={"제목"}/>
+                        <View style={[styles.boxWrap]}>
+                            <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"제목을 입력해주세요"} style={[styles.input]} onChangeText={text=>setTitle(text)}/>
+                        </View>
                     </View>
-                    <View style={{marginTop:20}}>
-                    <BoldText text={"내용"} customStyle={styles.inputLabel}/>
-                        <TextInput placeholder="내용을 입력해주세요." blurOnSubmit={true} maxLength={150} multiline={true} numberOfLines={6} style={[styles.inputForm,{height:160,textAlignVertical:'top'}]} onChangeText={text=>{onChangeContents(text);}}/>
+                    <View style={{marginTop:26}}>
+                        <BoldText text={"내용"}/>
+                        <View style={[styles.boxWrap,{height:160,paddingTop:16}]}>
+                            <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"내용을 입력해주세요."} style={[styles.input,{height:160,textAlignVertical:'top'}]} onChangeText={text=>onChangeContents(text)} numberOfLines={6}/>
+                        </View>
                     </View>
                     <View style={{alignItems:'flex-end',marginTop:4}}>
                         <BoldText text={"("+limitLength+"/150)"} style={{color:"#2D2D2D"}} />
                     </View>
                     <View style={{margiTop:40}}>
                         <View style={{flexDirection:'row',alignItems:"center"}}>
-                            <BoldText text={"첨부파일"} customStyle={styles.inputLabel}/>
+                            <BoldText text={"첨부파일"}/>
                             <BoldText text={"*JPG, PNG, PDF만 첨부가능합니다."} customStyle={{color:"#EC6E6E",paddingLeft:6,fontSize:10}}/>
                         </View>
                         <View style={{marginTop:6,padding:6,borderWidth:1,borderColor:"#CCCCCC",flexDirection:'row',alignItems:'center',borderRadius:5}}>
@@ -170,13 +181,13 @@ const ContactScreen : () => React$Node = (props) =>{
                     </View>
                     <View style={{flexDirection:'row', alignItems:'center',justifyContent:"center",paddingBottom:20,marginTop:10,width:"100%",marginTop:40}}>
                         <TouchableOpacity onPress={()=>props.navigation.goBack()} style={{flex:1}}>
-                            <View style={{backgroundColor:"#B6B6B6",height:50,borderTopLeftRadius:5,borderBottomLeftRadius:5,alignItems:"center",justifyContent:"center"}}>
-                                <BoldText text={"취소"} customStyle={{color:"white",fontSize:16,fontWeight:"bold"}}/>
+                            <View style={{backgroundColor:"#EBEBEB",height:50,borderTopLeftRadius:5,borderBottomLeftRadius:5,alignItems:"center",justifyContent:"center"}}>
+                                <BoldText text={"취소"} customStyle={{color:"#8B8B8B",fontSize:16}}/>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={sendMail} style={{flex:1}}>
                             <View style={{backgroundColor:"#8D3981",height:50,borderTopRightRadius:5,borderBottomRightRadius:5,alignItems:"center",justifyContent:"center"}}>
-                                <BoldText text={"보내기"} customStyle={{color:"white",fontSize:16,fontWeight:"bold"}}/>
+                                <BoldText text={"보내기"} customStyle={{color:"white",fontSize:16}}/>
                             </View>
                         </TouchableOpacity>
                     </View>
@@ -192,40 +203,31 @@ export default ContactScreen;
 const styles = StyleSheet.create({
     header:{
         backgroundColor:"white",
-        height:60,
-        borderColor:"#CCCCCC",
-        justifyContent:'center',
+        height:50,
         alignItems:'center',
-        flexDirection:'row',
-        elevation:2,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22,
-        zIndex:1
+        flexDirection:"row",
+        justifyContent:"space-between"
     },
-    inputLabel:{
-        color:"#2D2D2D"
+    headerIcoWrap:{
+        width:50,
+        height:50,
+        justifyContent:'center',
+        alignItems:'center'
     },
-    inputForm:{
-        height:40,
+    boxWrap:{
+        marginTop:16,
+        borderRadius:6,
+        borderColor:"#E5E5E5",
         borderWidth:1,
-        borderRadius:10,
-        borderColor:"#CCCCCC",
-        backgroundColor:"rgba(255,255,255,0.3)",
-        color:"#555",
-        paddingLeft:10,
-        marginTop:8,
+        paddingHorizontal:16,
+        height:46,
+        justifyContent:"center"
+    },
+    input:{
+        padding:0,
         fontFamily:"NotoSans-Regular"
     },
-    btnText:{
-        flex:1,
-        height:40,
-        borderRadius:10,
-        justifyContent:"center",
-        alignItems:"center"
+    inputLabel:{
+        color:"#FFFFFF"
     }
 });

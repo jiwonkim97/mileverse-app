@@ -1,18 +1,50 @@
 import React, { useState,useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image } from 'react-native';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,ScrollView } from 'react-native';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Axios from '../modules/Axios';
-import { ScrollView } from 'react-native-gesture-handler';
+import * as spinner from '../actions/spinner'
+import * as dialog from '../actions/dialog';
 
 const Wallet = ({navigation,route}) =>{
     const dispatch = useDispatch();
     const {mvp} = useSelector(state => state.authentication.userInfo);
     const [commaMvp,setCommaMvp] = useState(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    const [eth,setEth] = useState({amount:0,balance:0});
+    const [btc,setBtc] = useState({amount:0,balance:0});
+    const [mvc,setMvc] = useState({amount:0,balance:0});
+    const [total,setTotal] = useState(0);
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
-    },[mvp])
+    },[mvp]);
+
+    const commaFormat = (num)=>{
+        const parts = String(num).split(".")
+        return parts[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +(parts[1] ? "."+parts[1] : "");
+    }
+
+    useEffect(()=>{
+        const unsubscribe = navigation.addListener('focus', async() => {
+            dispatch(spinner.showSpinner());
+            const {data} = await Axios.get("/api/henesis/assets");
+            dispatch(spinner.hideSpinner());
+            if(data.result === 'success') {
+                setEth({amount:commaFormat(parseFloat(Number(data.eth.amount).toFixed(8))),balance:commaFormat(data.eth.balance)});
+                setBtc({amount:commaFormat(parseFloat(Number(data.btc.amount).toFixed(8))),balance:commaFormat(data.btc.balance)});
+                setMvc({amount:commaFormat(parseFloat(Number(data.mvc.amount).toFixed(8))),balance:commaFormat(data.mvc.balance)});
+                setTotal(commaFormat(Number(data.eth.balance)+Number(data.btc.balance)+Number(data.mvc.balance)+Number(mvp)));
+            } else {
+                dispatch(dialog.openDialog("alert",(
+                    <BoldText text={"시스템 오류입니다. 다시 시도하여 주세요."} customStyle={{textAlign:"center",lineHeight:20}}/>
+                ),()=>{
+                    dispatch(dialog.closeDialog());
+                    navigation.navigate("Home");
+                }));    
+            }
+        });
+          return unsubscribe;
+    },[navigation])
 
     return (
         <>
@@ -25,7 +57,7 @@ const Wallet = ({navigation,route}) =>{
                     <View style={{paddingHorizontal:16,paddingVertical:20}}>
                         <View style={[styles.shadow,{borderRadius:12,alignItems:"center",paddingVertical:22}]}>
                             <BoldText text={"총 자산"} />
-                            <ExtraBoldText text={"1,000,000 원"} customStyle={{marginTop:12,fontSize:14}}/>
+                            <ExtraBoldText text={`${total} 원`} customStyle={{marginTop:12,fontSize:16}}/>
                         </View>
                         <View style={{marginTop:26}}>
                             <BoldText text={"마일벌스"} />
@@ -36,19 +68,21 @@ const Wallet = ({navigation,route}) =>{
                                             <Image source={require("../../assets/img/symbol_mvp.png")} style={styles.symbolIco}/>
                                             <BoldText text={"MVP"} />
                                         </View>
-                                        <BoldText text={commaMvp} />
+                                        <BoldText text={`${commaMvp} MVP`} />
                                     </View>
                                 </TouchableWithoutFeedback>
-                                <View style={[styles.itemOffset,{borderTopWidth:1,borderTopColor:"#ECECEC"}]}>
-                                    <View style={styles.symbolWrap}>
-                                        <Image source={require("../../assets/img/symbol_mvc.png")} style={styles.symbolIco}/>
-                                        <BoldText text={"MVC"} />
+                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDetail",{header:"Mileverse",symbol:"MVC"})}>
+                                    <View style={[styles.itemOffset,{borderTopWidth:1,borderTopColor:"#ECECEC"}]}>
+                                        <View style={styles.symbolWrap}>
+                                            <Image source={require("../../assets/img/symbol_mvc.png")} style={styles.symbolIco}/>
+                                            <BoldText text={"MVC"} />
+                                        </View>
+                                        <View style={styles.priceWrap}>
+                                            <BoldText text={`${mvc.amount} MVC`} />
+                                            <BoldText text={`${mvc.balance} KRW`} customStyle={styles.textKrw}/>
+                                        </View>
                                     </View>
-                                    <View style={styles.priceWrap}>
-                                        <BoldText text={"100,000 MVC"} />
-                                        <BoldText text={"100,000,000 KRW"} customStyle={styles.textKrw}/>
-                                    </View>
-                                </View>
+                                </TouchableWithoutFeedback>
                             </View>
                         </View>
                         <View style={{marginTop:10,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center",borderRadius:6,height:46}}>
@@ -57,27 +91,27 @@ const Wallet = ({navigation,route}) =>{
                         <View style={{marginTop:27}}>
                             <BoldText text={"자산"} />
                             <View style={{marginTop:16}}>
-                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDetail",{header:"Bitcoin"})}>
+                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDetailOnBtc",{header:"Bitcoin",symbol:"BTC"})}>
                                     <View style={[styles.itemOffset,styles.itemBorder]}>
                                         <View style={styles.symbolWrap}>
                                             <Image source={require("../../assets/img/symbol_btc.png")} style={styles.symbolIco}/>
                                             <BoldText text={"BTC"} />
                                         </View>
                                         <View style={styles.priceWrap}>
-                                            <BoldText text={"100,000 BTC"} />
-                                            <BoldText text={"100,000,000 KRW"} customStyle={styles.textKrw}/>
+                                            <BoldText text={`${btc.amount} BTC`} />
+                                            <BoldText text={`${btc.balance } KRW`} customStyle={styles.textKrw}/>
                                         </View>
                                     </View>
                                 </TouchableWithoutFeedback>
-                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDetail",{header:"Ethereum"})}>
+                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDetail",{header:"Ethereum",symbol:"ETH"})}>
                                     <View style={[styles.itemOffset,styles.itemBorder,{marginTop:10}]}>
                                         <View style={styles.symbolWrap}>
                                             <Image source={require("../../assets/img/symbol_eth.png")} style={styles.symbolIco}/>
                                             <BoldText text={"ETH"} />
                                         </View>
                                         <View style={styles.priceWrap}>
-                                            <BoldText text={"100,000 ETH"} />
-                                            <BoldText text={"100,000,000 KRW"} customStyle={styles.textKrw}/>
+                                            <BoldText text={`${eth.amount} ETH`} />
+                                            <BoldText text={`${eth.balance} KRW`} customStyle={styles.textKrw}/>
                                         </View>
                                     </View>
                                 </TouchableWithoutFeedback>
@@ -129,7 +163,9 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     symbolIco:{
-        marginRight:10
+        marginRight:10,
+        width:24,
+        height:24
     },
     priceWrap:{
         alignItems:"flex-end"

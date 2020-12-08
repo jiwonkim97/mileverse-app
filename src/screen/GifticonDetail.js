@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import { Image,View,SafeAreaView,StyleSheet,TouchableWithoutFeedback,Alert } from 'react-native';
+import { Image,View,SafeAreaView,StyleSheet,TouchableWithoutFeedback,TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { ExtraBoldText, BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
@@ -36,9 +36,9 @@ const GifticonDetail = ({route,navigation}) =>{
                 if(result.stat === "SUCCESS") {
                     dispatch(dialog.openDialog("alert",(
                         <>
-                                <View style={{width:'100%',height:150,justifyContent:"center",alignItems:"center"}}>
-                                    <Image source={{uri:imagePrefix+detail.PDT_IMAGE}} style={{resizeMode:"contain",width:120,height:120}}/>
-                                </View>
+                            <View style={{width:'100%',height:150,justifyContent:"center",alignItems:"center"}}>
+                                <Image source={{uri:imagePrefix+detail.PDT_IMAGE}} style={{resizeMode:"contain",width:120,height:120}}/>
+                            </View>
                             <BoldText text={detail.PDT_NAME} customStyle={{textAlign:"center",lineHeight:20}}/>
                             <View style={{flexDirection:"row"}}>
                                 <BoldText text={"구매가"} customStyle={{textAlign:"center",lineHeight:20}}/>
@@ -106,13 +106,19 @@ const GifticonDetail = ({route,navigation}) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <ExtraBoldText text={detail.PDT_NAME} customStyle={{fontSize:16}}/>
-                    <TouchableWithoutFeedback onPress={()=>navigation.goBack()} >
-                        <Image source={require('../../assets/img/ico_back.png')} style={{position:'absolute',resizeMode:"contain", width:10,left:20}}></Image>
-                    </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={()=>navigation.navigate("Home")}>
-                        <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14,position:'absolute',right:20}}/>
-                    </TouchableWithoutFeedback>
+                    <TouchableOpacity onPress={()=>navigation.goBack()}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require('../../assets/img/ico_back.png')} style={{width:8,height:16}} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={detail.PDT_NAME} customStyle={{fontSize:16}}/>
+                    </View>
+                    <TouchableOpacity onPress={()=>navigation.navigate("GifticonCategory")}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <ScrollView>
                     <View style={{width:'100%',height:280,justifyContent:"center",alignItems:"center",backgroundColor:"#FFFFFF",borderBottomColor:"#ECECEC",borderBottomWidth:2}}>
@@ -167,19 +173,14 @@ const styles = StyleSheet.create({
     header:{
         backgroundColor:"white",
         height:50,
+        alignItems:'center',
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    headerIcoWrap:{
+        width:50,
+        height:50,
         justifyContent:'center',
         alignItems:'center'
     },
-    shadow:{
-        backgroundColor:"white",
-        elevation:2,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22,
-        zIndex:1
-    }
 });

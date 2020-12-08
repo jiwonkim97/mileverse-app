@@ -1,5 +1,5 @@
-import React, { useEffect,useState } from 'react';
-import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback } from 'react-native';
+import React, { useEffect,useState,useRef } from 'react';
+import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 import Barcode from "react-native-barcode-builder";
@@ -13,7 +13,7 @@ import Axios from '../modules/Axios'
 
 import noticeAlert from '../components/NoticeAlert';
 
-const HomeScreen : () => React$Node = (props) =>{
+const HomeScreen = (props) =>{
     const dispatch = useDispatch();
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
     const {mvp,currentUser:name,code} = useSelector(state => state.authentication.userInfo);
@@ -21,6 +21,7 @@ const HomeScreen : () => React$Node = (props) =>{
     const [modal,setModal] = useState(false)
     const [codeNum,setCodeNum] = useState("");
     const [commaMvp,setCommaMvp] = useState(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    const bannerHeight = useRef(Dimensions.get("screen").width*643/1500)
     
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -67,7 +68,7 @@ const HomeScreen : () => React$Node = (props) =>{
                         <TouchableWithoutFeedback onPress={()=>{
                             stat?props.navigation.navigate("GifticonCategory"):props.navigation.navigate("Login")
                         }}>
-                        <Image source={require("../../assets/img/main_banner.png")} style={{resizeMode:"stretch",width:"100%",height:150}}/>
+                        <Image source={require("../../assets/img/main_banner.png")} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}/>
                         </TouchableWithoutFeedback>
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",width:"100%",paddingHorizontal:16,paddingTop:16 ,paddingBottom:16}}>
@@ -78,10 +79,16 @@ const HomeScreen : () => React$Node = (props) =>{
                                     :
                                     <BoldText text={"로그인이 필요합니다."} customStyle={{fontSize:15,color:"#2B2B2B"}}/>
                                 }
-                                <View style={{flexDirection:"row",alignItems:"center",marginTop:12}}>
-                                    <ExtraBoldText text={mvp===""? "-": commaMvp+" MVP"} customStyle={{fontSize:20,color:"#8D3981"}}/>
-                                    <Image source={require('../../assets/img/ico_bracket.png')} style={styles.icoBracket}/>
-                                </View>
+                                <TouchableWithoutFeedback onPress={()=>stat?props.navigation.navigate("MyMvp"):props.navigation.navigate("Login")}>
+                                    <View style={{flexDirection:"row",alignItems:"center",marginTop:12,alignSelf:"flex-start"}}>
+                                        <ExtraBoldText text={mvp===""? "-": commaMvp+" MVP"} customStyle={{fontSize:20,color:"#8D3981"}}/>
+                                        {stat?
+                                            <Image source={require('../../assets/img/ico_bracket.png')} style={styles.icoBracket}/>
+                                            :
+                                            null
+                                        }
+                                    </View>
+                                </TouchableWithoutFeedback>
                             </View>
                             <View style={{paddingVertical:30,justifyContent:"center",alignItems:"center"}}>
                                 <TouchableWithoutFeedback onPress={()=>{
@@ -175,10 +182,15 @@ const HomeScreen : () => React$Node = (props) =>{
                 <View style={{backgroundColor:"#ffffff",borderBottomRightRadius:50,borderBottomLeftRadius:50,paddingBottom:60}}>
                     <View style={{paddingTop:50,paddingLeft:54}}>
                         <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
-                        <View style={{flexDirection:"row",alignItems:"center",marginTop:14}}>
-                            <ExtraBoldText text={mvp===""? "-": commaMvp+" MVP"} customStyle={{fontSize:18,color:"#8D3981"}}/>
-                            <Image source={require('../../assets/img/ico_bracket.png')} style={styles.icoBracket}/>
-                        </View>
+                        <TouchableWithoutFeedback onPress={()=>{
+                            setModal(!modal)
+                            props.navigation.navigate("MyMvp")
+                        }}>
+                            <View style={{flexDirection:"row",alignItems:"center",marginTop:14}}>
+                                <ExtraBoldText text={mvp===""? "-": commaMvp+" MVP"} customStyle={{fontSize:18,color:"#8D3981"}}/>
+                                <Image source={require('../../assets/img/ico_bracket.png')} style={styles.icoBracket}/>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
                     <View style={{marginTop:36,alignItems:"center",justifyContent:"center"}}>
                         <Barcode value={code? code : "0000"} format="CODE128" height={77}/>

@@ -38,6 +38,7 @@ const DanalPg = ({navigation,route})=>{
                     renderLoading={Loading}
                     onMessage={(event)=>{
                         const {result,mvp} = JSON.parse(event.nativeEvent.data);
+                        console.log(result)
                         if(result === "success") dispatch(auth.udpateMvp(mvp));
                         dispatch(dialog.openDialog("alert",(
                             <>

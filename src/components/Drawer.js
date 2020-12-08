@@ -39,9 +39,9 @@ const CustomDrawerContent = (props) =>{
             <CommonStatusbar backgroundColor="#FFFFFF"/>
             <SafeAreaView style={{flex:1,backgroundColor:'#F2F2F2'}}>
                 <View style={{flex:4,backgroundColor:'#FFFFFF',paddingHorizontal:20,paddingTop:20,borderBottomWidth:1,borderBottomColor:"#ECECEC"}}>
-                    <View style={{flexDirection:"row",justifyContent:"space-between"}}>
+                    <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
                         <TouchableWithoutFeedback onPress={()=>onNavigate("Config",true)}>
-                            <Image source={require('../../assets/img/ico_config.png')} style={styles.headerIco}></Image>
+                            <Image source={require('../../assets/img/ico_config.png')} style={[styles.headerIco,{width:22,height:22}]}></Image>
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={()=>props.navigation.closeDrawer()}>
                             <Image source={require('../../assets/img/ico_close_bl.png')} style={styles.headerIco}></Image>
@@ -52,22 +52,27 @@ const CustomDrawerContent = (props) =>{
                             stat?
                             <>
                                 <View style={{flexDirection:"row"}}>
-                                    <ExtraBoldText text={user_name} customStyle={{fontSize:13,color:"#8D3981"}}/>
-                                    <BoldText text={"님 환영합니다!"} customStyle={{fontSize:13}}/>
+                                    <ExtraBoldText text={user_name} customStyle={{fontSize:14,color:"#8D3981"}}/>
+                                    <BoldText text={"님 환영합니다!"} customStyle={{fontSize:14}}/>
                                 </View>
-                                <View style={{flexDirection:"row",marginTop:16,alignItems:"center"}}>
-                                    <ExtraBoldText text={commaMvp+" MVP"} customStyle={{fontSize:20,color:"#8D3981"}}/>
-                                    <Image source={require('../../assets/img/ico_bracket.png')} style={{resizeMode:"contain",width:8,height:20,marginLeft:10}}/>
-                                </View>
+                                <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("MyMvp")}>
+                                    <View style={{flexDirection:"row",marginTop:16,alignItems:"center",alignSelf:"flex-start"}}>
+                                        <ExtraBoldText text={commaMvp+" MVP"} customStyle={{fontSize:20,color:"#8D3981"}}/>
+                                        <Image source={require('../../assets/img/ico_bracket.png')} style={{resizeMode:"contain",width:8,height:20,marginLeft:10}}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
                             </>
                             :
                             <>
                                 <View style={{flexDirection:"row"}}>
-                                    <BoldText text={"로그인이 필요합니다."} customStyle={{fontSize:13}}/>
+                                    <BoldText text={"로그인이 필요합니다."} customStyle={{fontSize:14}}/>
                                 </View>
-                                <View style={{flexDirection:"row",marginTop:16,alignItems:"center"}}>
-                                    <ExtraBoldText text={"-"} customStyle={{fontSize:20,color:"#8D3981"}}/>
-                                </View>
+                                <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("Login")}>
+                                    <View style={{flexDirection:"row",marginTop:16,alignItems:"center",alignSelf:"flex-start"}}>
+                                        <ExtraBoldText text={"-"} customStyle={{fontSize:20,color:"#8D3981"}}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                
                             </>
                         }
                     </View>
@@ -140,12 +145,13 @@ const styles = StyleSheet.create({
         borderBottomColor:"#ECECEC"
     },
     drawerIco:{
-        width:20,
-        height:20,
+        width:22,
+        height:22,
         resizeMode:"stretch"
     },
     drawerItemTxt:{
-        marginLeft:10
+        marginLeft:10,
+        fontSize:14
     },
     headerIco:{
         width:20,

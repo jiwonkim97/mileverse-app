@@ -84,7 +84,7 @@ const LoginScreen = (props) =>{
                 </View>
                 <TouchableWithoutFeedback onPress={()=>{requestLogin(id,pw);}}>
                     <View style={{marginTop:10,width:"100%",height:46,backgroundColor:"#8D3981",borderRadius:8,justifyContent:"center",alignItems:"center"}}>
-                        <BoldText text={"로그인"} customStyle={{color:"#FFF",fontWeight:'bold',fontSize:14}}/>
+                        <BoldText text={"로그인"} customStyle={{color:"#FFF",fontSize:14}}/>
                     </View>
                 </TouchableWithoutFeedback>
                 <View style={{marginTop:12,paddingBottom:16,borderBottomWidth:1,borderBottomColor:"#D8D8D8",flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>

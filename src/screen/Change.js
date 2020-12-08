@@ -42,12 +42,12 @@ const ChangeScreen = (props) =>{
                                     <Image source={require("../../assets/img/mvp_gift_10.png")} style={styles.cardImg}/>
                                 </View>
                                 <View style={styles.cardTextWrap}>
-                                    <BoldText text={"MVP 1만원권"} customStyle={styles.salesTitle}/>
+                                    <RegularText text={"MVP 1만원권"} customStyle={styles.salesTitle}/>
                                     <View style={styles.salesWrap}>
                                         <ExtraBoldText text={"10%"} customStyle={styles.sales}/>
                                         <ExtraBoldText text={"9,000"} customStyle={styles.salesPrice}/>
-                                        <RegularText text={"원"} customStyle={{fontSize:8}}/>
-                                        <BoldText text={"10,000원"} customStyle={styles.price}/>
+                                        <RegularText text={"원"} customStyle={{fontSize:13}}/>
+                                        {/* <BoldText text={"10,000원"} customStyle={styles.price}/> */}
                                     </View>
                                 </View>
                             </View>
@@ -59,11 +59,12 @@ const ChangeScreen = (props) =>{
                                     <Image source={require("../../assets/img/mvp_gift_05.png")} style={styles.cardImg}/>
                                 </View>
                                 <View style={styles.cardTextWrap}>
-                                    <BoldText text={"MVP 5천원권"} customStyle={styles.salesTitle}/>
+                                    <RegularText text={"MVP 5천원권"} customStyle={styles.salesTitle}/>
                                     <View style={styles.salesWrap}>
                                         <ExtraBoldText text={"5%"} customStyle={styles.sales}/>
-                                        <ExtraBoldText text={"4,750원"} customStyle={styles.salesPrice}/>
-                                        <BoldText text={"5,000원"} customStyle={styles.price}/>
+                                        <ExtraBoldText text={"4,750"} customStyle={styles.salesPrice}/>
+                                        <RegularText text={"원"} customStyle={{fontSize:13}}/>
+                                        {/* <BoldText text={"5,000원"} customStyle={styles.price}/> */}
                                     </View>
                                 </View>
                             </View>
@@ -113,8 +114,7 @@ const styles = StyleSheet.create({
         marginTop:10
     },
     itemTitle:{
-        fontSize:13,
-        color:"#2B2B2B"
+        fontSize:15
     },
     cardWrap:{
         flex:1,
@@ -141,21 +141,20 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     salesTitle:{
-        fontSize:10
+        fontSize:14
     },
     sales:{
-        fontSize:12,
+        fontSize:15,
         color:"#EE1818"
     },
     price:{
-        fontSize:8,
+        fontSize:10,
         color:"#858585",
         marginLeft:4,
         textDecorationLine: 'line-through'
     },
     salesPrice:{
-        fontSize:12,
-        color:"#2B2B2B",
+        fontSize:15,
         marginLeft:4
     },
     mask:{

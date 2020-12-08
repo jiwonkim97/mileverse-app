@@ -26,13 +26,10 @@ const GificonCategory = (props) =>{
             <SafeAreaView style={{flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
                     <ExtraBoldText text="기프티콘" customStyle={{fontSize:16}}/>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
-                        <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14,position:'absolute',right:20}}/>
-                    </TouchableWithoutFeedback>
                 </View>
-                <ScrollView style={{marginTop:6,backgroundColor:"#FFFFFF"}}>
+                <ScrollView style={{backgroundColor:"#FFFFFF"}}>
                        <TouchableWithoutFeedback onPress={()=>setVisible(!visible)}>
-                           <ImageBackground source={require("../../assets/img/gifticon_notice_banner_bg.png")} style={{width:"100%",height:104,resizeMode:"stretch"}}>
+                           <ImageBackground source={require("../../assets/img/gifticon_notice_banner_bg.png")} style={{width:"100%",height:104,resizeMode:"stretch",borderTopWidth:6,borderTopColor:"#F2F2F2"}}>
                                <View style={{paddingLeft:24,paddingTop:30}}>
                                    <BoldText text={"기프티콘 사용 공지"} customStyle={{color:"#F3C839",fontSize:18}}/>
                                    <RegularText text={"기프티콘 사용 가이드 & 안내사항을 확인해주세요!"} customStyle={{color:"#FFFFFF",fontSize:11,marginTop:12}}/>
@@ -40,7 +37,7 @@ const GificonCategory = (props) =>{
                            </ImageBackground>
                        </TouchableWithoutFeedback>
                        <View style={{paddingBottom:6,paddingHorizontal:8,flex:1,borderTopWidth:6,borderTopColor:"#F2F2F2"}}>
-                           <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:"space-between"}}>
+                           <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:"space-between",marginVertical:6}}>
                                {
                                    categories.map((item,index)=>{
                                        return (

@@ -1,21 +1,21 @@
 import React, { useEffect, useState,useRef } from 'react';
-import { Image,View,Alert,SafeAreaView,StyleSheet,FlatList,TouchableWithoutFeedback,useWindowDimensions,Animated } from 'react-native';
+import { Image,View,Alert,SafeAreaView,StyleSheet,FlatList,TouchableWithoutFeedback,useWindowDimensions,Animated,TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import Axios from '../modules/Axios';
 import { RegularText, BoldText,ExtraBoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
+import moment from "moment";
 
-
+const ethRatio = 0.000000000000000001
 const WalletDetail = ({navigation,route}) =>{
-    const stat = useSelector(state => state.authentication.status.isLoggedIn);
-    const mvp = useSelector(state => state.authentication.userInfo.mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g,","));
-    const name = useSelector(state => state.authentication.userInfo.currentUser);
+    const [page,setPage] = useState(0);
+    const [nextPage,setNextPage] = useState(false);
     const [data,setData] = useState([]);
     const [count,setCount] = useState(0);
     const [modal,setModal] = useState(false);
-    const [type,setType] = useState("all"); 
+    const [type,setType] = useState("ALL"); 
     const dimentionHeight = useWindowDimensions().height;
     const [listHeight,setListHeight] = useState(dimentionHeight-388.6);
     const [toggle,setToggle] = useState(false)
@@ -53,7 +53,10 @@ const WalletDetail = ({navigation,route}) =>{
         return _arr;
     });
     const [dayArr,setDayArr] = useState([]);
-
+    const [symbol,setSymbol] = useState("");
+    const [balance,setBalance] = useState("");
+    const [amount,setAmount] = useState("");
+    const isFirstRun = useRef(true);
     const toggleFilter = () =>{
         if(toggle) {
             Animated.timing(animatedController,{
@@ -73,43 +76,75 @@ const WalletDetail = ({navigation,route}) =>{
         setToggle(!toggle)
     }
 
-    const renderItem = item =>{
-        let _item = item.item
-        if(_item.C_CODE === 'D1') {
+    const renderItem = low =>{
+        const {item} = low;
+        const amount = symbol ==="ETH" ? parseFloat((parseInt(item.ETH_AMOUNT,16)*ethRatio).toFixed(12)):parseFloat((parseInt(item.MVC_AMOUNT,16)*ethRatio).toFixed(12))
+        if(item.transferType === 'DEPOSIT') {
             return (
-                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt")}>
+                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`+ ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,symbol:symbol})} 
+                    key={low.index} >
                     <View style={[styles.listRowWrap]}>
                         <View>
-                            <BoldText text={"01x123123....123"} customStyle={{color:"#707070",fontSize:12}}/>
-                            <BoldText text={_item.CREA_DT} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
+                            <BoldText text={implyAddr(item.ETH_FROM)} customStyle={{color:"#707070",fontSize:12}}/>
+                            <BoldText text={dateFormatByUnixTime(item.ETH_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
                         </View>
                         <View>
-                            <BoldText text={"+ 100,000 MVC"} customStyle={{color:"#021AEE",fontSize:12}}/>
+                            <BoldText text={`+ ${commaFormat(amount)} ${symbol}`} customStyle={{color:"#021AEE",fontSize:12}}/>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
             );
         } else {
             return (
-                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt")}>
+                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`+ ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,transactionId:item.TR_ID,symbol:route.params.symbol})} 
+                    key={low.index}>
                     <View style={[styles.listRowWrap]}>
                         <View>
-                            <BoldText text={"01x123123....456"} customStyle={{color:"#707070",fontSize:12}}/>
-                            <BoldText text={_item.CREA_DT} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
+                            <BoldText text={implyAddr(item.ETH_TO)} customStyle={{color:"#707070",fontSize:12}}/>
+                            <BoldText text={dateFormatByUnixTime(item.ETH_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
                         </View>
                         <View>
-                            <BoldText text={"- 100,000 MVC"} customStyle={{color:"#EE1818",fontSize:12}}/>
+                            <BoldText text={`- ${commaFormat(amount)} ${symbol}`} customStyle={{color:"#EE1818",fontSize:12}}/>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
             );
         }
     }
-
+    const dateFormatByUnixTime = (unix) =>{
+        const _date = new Date(Number(unix));
+        return `${_date.getFullYear()}-${addZero(_date.getMonth()+1)}-${addZero(_date.getDate())} ${addZero(_date.getHours())}:${addZero(_date.getMinutes())}:${addZero(_date.getSeconds())}`
+    }
+    const implyAddr = (addr)=>{
+        return `${addr.slice(0,10)}....${addr.slice(-10)}`
+    }
+    const commaFormat = (num)=>{
+        const parts = String(num).split(".")
+        return parts[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +(parts[1] ? "."+parts[1] : "");
+    }
     useEffect(()=>{
+        const setCardData = async()=>{
+            const {data} = await Axios.get("/api/henesis/eth/balance")
+            if(data.result === "success") {
+                if(route.params.symbol === "ETH") {
+                    setBalance(commaFormat(String(data.eth.balance)));
+                    setAmount(commaFormat(String(parseFloat(Number(data.eth.amount).toFixed(12)))));
+                } else if(route.params.symbol === "MVC"){
+                    setBalance(commaFormat(String(data.mvc.balance)));
+                    setAmount(commaFormat(String(parseFloat(Number(data.mvc.amount).toFixed(12)))));
+                }
+                
+            }
+        }
+        setSymbol(route.params.symbol)
+        setCardData();
         updateDateByBtn('1w')
     },[])
     useEffect(()=>{
+        if(isFirstRun.current) {
+            isFirstRun.current = false;
+            return;
+        }
         getHistory();
     },[type])
 
@@ -144,30 +179,29 @@ const WalletDetail = ({navigation,route}) =>{
         }
         getHistory();
     }
+    const addZero = (_num)=>{
+        return parseInt(_num, 10) < 10 ? "0" + _num : _num;
+    }
     const getFormatDate = ()=>{
-        const addZero = (_num)=>{
-            return parseInt(_num, 10) < 10 ? "0" + _num : _num;
-        }
         return {
             formatedToDate : toYear.current+"-"+addZero(toMonth.current)+"-"+addZero(toDay.current),
             formatedFromDate : fromYear.current+"-"+addZero(fromMonth.current)+"-"+addZero(fromDay.current)
         }
     }
-    const getHistory = ()=>{
-        const {formatedToDate,formatedFromDate} = getFormatDate();
-        if(stat){
-            Axios.post('/api/point/filtered-history',{start:formatedFromDate,end:formatedToDate,type:type})
-            .then((response)=>{
-                var _response = response.data
-                if(_response.result === "success") {
-                    setData(_response.data);
-                    setCount(_response.data.length)
-                } else {
-                    alert("사용기록을 불러오는데 실패했습니다.")
-                }
-            }).catch((error)=>{
-                alert("사용기록을 불러오는데 실패했습니다.")
-            });
+    const getUnixTime = ({formatedToDate,formatedFromDate})=>{
+        return {
+            unixToDate:Number(moment(`${formatedToDate} 23:59:59`).unix()*1000),
+            unixFromDate:Number(moment(`${formatedFromDate} 00:00:00`).unix()*1000)
+        }
+    }
+    const getHistory = async()=>{
+        const {unixToDate,unixFromDate} =getUnixTime(getFormatDate());
+        const {data:low} = await Axios.get('/api/henesis/eth/history',{params:{start:unixFromDate,end:unixToDate,type:type,symbol:route.params.symbol}});
+        if(low.result === "success") {
+            setData(low.history);
+            setCount(low.history.length);
+        } else {
+            alert("사용기록을 불러오는데 실패했습니다.")
         }
     }
     const openDateModal = (when)=>{
@@ -194,25 +228,30 @@ const WalletDetail = ({navigation,route}) =>{
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView>
-                <View style={[styles.shodow,styles.header]}>
-                    <ExtraBoldText text={route.params.header} customStyle={{fontSize:16}} />
-                    <TouchableWithoutFeedback onPress={()=>navigation.navigate("Wallet")}>
-                        <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14,position:'absolute',right:20}}/>
-                    </TouchableWithoutFeedback>
+                <View style={[styles.header,styles.shadow]}>
+                    <View style={{width:50}}></View>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={route.params.header} customStyle={{fontSize:16}}/>
+                    </View>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Wallet")}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={{paddingHorizontal:16}}>
                     <View style={[styles.shodow,{borderRadius:12,backgroundColor:"#FFFFFF",marginTop:16}]}>
                         <View style={{paddingVertical:36,justifyContent:"center",alignItems:"center"}}>
-                            <ExtraBoldText text={"1,000,000 BTC"} customStyle={{fontSize:16}}/>
-                            <BoldText text={"1,000,000 KRW"} customStyle={{color:"#707070",fontSize:10,marginTop:6}}/>
+                            <ExtraBoldText text={`${amount} ${symbol}`} customStyle={{fontSize:16}}/>
+                            <BoldText text={`${balance} KRW`} customStyle={{color:"#707070",fontSize:10,marginTop:6}}/>
                         </View>
                             <View style={{height:50,borderTopWidth:2,borderTopColor:"#F2F2F2",flexDirection:"row"}}>
-                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDeposit" )}>
+                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDeposit",{symbol:symbol})}>
                                     <View style={{flex:1,justifyContent:"center",alignItems:"center",borderRightWidth:1,borderRightColor:"#F2F2F2"}}>
                                         <BoldText text={"입금"} customStyle={{fontSize:14}}/>
                                     </View>
                                 </TouchableWithoutFeedback>
-                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletWithDraw" )}>
+                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletWithDraw",{symbol:symbol})}>
                                     <View style={{flex:1,justifyContent:"center",alignItems:"center",borderLeftWidth:1,borderLeftColor:"#F2F2F2"}}>
                                         <BoldText text={"출금"} customStyle={{fontSize:14}}/>
                                     </View>
@@ -221,18 +260,18 @@ const WalletDetail = ({navigation,route}) =>{
                     </View>
                     <View style={[styles.shodow,styles.contentsCard]}>
                         <View style={{paddingHorizontal:16,paddingTop:16,flexDirection:"row",justifyContent:"space-between"}}>
-                            <TouchableWithoutFeedback onPress={()=>{setType("all")}}>
-                            <View style={[styles.typeBtn,{borderBottomColor:type==="all"?"#8D3981":"white"}]}>
+                            <TouchableWithoutFeedback onPress={()=>{setType("ALL")}}>
+                            <View style={[styles.typeBtn,{borderBottomColor:type==="ALL"?"#8D3981":"white"}]}>
                                     <BoldText text={"전체"} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback onPress={()=>{setType("use")}}>
-                            <View style={[styles.typeBtn,{borderBottomColor:type==="use"?"#8D3981":"white"}]}>
+                            <TouchableWithoutFeedback onPress={()=>{setType("DEPOSIT")}}>
+                            <View style={[styles.typeBtn,{borderBottomColor:type==="DEPOSIT"?"#8D3981":"white"}]}>
                                     <BoldText text={"입금"} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback onPress={()=>{setType("change")}}>
-                                <View style={[styles.typeBtn,{borderBottomColor:type==="change"?"#8D3981":"white"}]}>
+                            <TouchableWithoutFeedback onPress={()=>{setType("WITHDRAW")}}>
+                                <View style={[styles.typeBtn,{borderBottomColor:type==="WITHDRAW"?"#8D3981":"white"}]}>
                                     <BoldText text={"출금"} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
@@ -288,10 +327,7 @@ const WalletDetail = ({navigation,route}) =>{
                             renderItem={renderItem}
                             keyExtractor={(item) =>item.CREA_DT}
                             style={{flexGrow:0,maxHeight:listHeight,backgroundColor:"#FFFFFF"}}
-                            onEndReached={(aa)=>{
-                                console.log(aa)
-                                console.log(aa)
-                            }}
+                            onEndReached={()=>{}}
                         />
                     </View>
                 </View>
@@ -388,7 +424,6 @@ const WalletDetail = ({navigation,route}) =>{
                 </Modal>
             </SafeAreaView>
         </>
-        
     )
 }
 export default WalletDetail;
@@ -396,7 +431,14 @@ export default WalletDetail;
 const styles = StyleSheet.create({
     header:{
         backgroundColor:"white",
-        height:60,
+        height:50,
+        alignItems:'center',
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    headerIcoWrap:{
+        width:50,
+        height:50,
         justifyContent:'center',
         alignItems:'center'
     },

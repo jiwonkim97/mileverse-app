@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import { useSelector } from 'react-redux';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,Platform,ScrollView } from 'react-native';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,Platform,ScrollView,TouchableOpacity} from 'react-native';
 import ToggleSwitch from 'toggle-switch-react-native'
 
 import CommonStatusbar from '../components/CommonStatusbar';
@@ -50,10 +50,16 @@ const Config = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{backgroundColor:"#FFFFFF",flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
-                    </TouchableWithoutFeedback>
-                    <ExtraBoldText text="설정" customStyle={{fontSize:16}}/>
+                        <View style={{width:50}}>
+                        </View>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={`설정`} customStyle={{fontSize:16}}/>
+                    </View>
+                    <TouchableOpacity onPress={()=>props.navigation.goBack()}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={{padding:16,justifyContent:"space-between",flex:1}}>
                     <View>
@@ -146,12 +152,17 @@ export default Config;
 
 const styles = StyleSheet.create({
     header:{
-        height:60,
-        borderColor:"#CCCCCC",
-        justifyContent:'center',
+        backgroundColor:"white",
+        height:50,
         alignItems:'center',
-        flexDirection:'row',
-        zIndex:1
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    headerIcoWrap:{
+        width:50,
+        height:50,
+        justifyContent:'center',
+        alignItems:'center'
     },
     shadow:{
         elevation:2,

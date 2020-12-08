@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image, } from 'react-native';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TouchableOpacity } from 'react-native';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Axios from '../modules/Axios';
@@ -24,10 +24,15 @@ const Profile = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{backgroundColor:"#EEEEEE",flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
-                    </TouchableWithoutFeedback>
-                    <ExtraBoldText text="내 정보" customStyle={{fontSize:16}}/>
+                    <View style={{width:50}}></View>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={"내 정보"} customStyle={{fontSize:16}}/>
+                    </View>
+                    <TouchableOpacity onPress={()=>props.navigation.goBack()}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={{padding:16,backgroundColor:"#FFFFFF"}}>
                     <View style={styles.border}>
@@ -76,12 +81,17 @@ export default Profile;
 
 const styles = StyleSheet.create({
     header:{
-        height:60,
-        borderColor:"#CCCCCC",
-        justifyContent:'center',
+        backgroundColor:"white",
+        height:50,
         alignItems:'center',
-        flexDirection:'row',
-        zIndex:1
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    headerIcoWrap:{
+        width:50,
+        height:50,
+        justifyContent:'center',
+        alignItems:'center'
     },
     shadow:{
         elevation:2,
@@ -104,6 +114,7 @@ const styles = StyleSheet.create({
         borderWidth:1
     },
     bracket:{
+        resizeMode:"stretch",
         width:8,
         height:16
     },

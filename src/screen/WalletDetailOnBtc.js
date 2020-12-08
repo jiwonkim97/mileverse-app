@@ -1,23 +1,21 @@
 import React, { useEffect, useState,useRef } from 'react';
-import { Image,View,Alert,SafeAreaView,StyleSheet,TouchableOpacity,FlatList,TouchableWithoutFeedback,useWindowDimensions,Animated} from 'react-native';
-import { useSelector } from 'react-redux';
+import { Image,View,Alert,SafeAreaView,StyleSheet,FlatList,TouchableWithoutFeedback,useWindowDimensions,Animated,TouchableOpacity } from 'react-native';
 import Axios from '../modules/Axios';
 import { RegularText, BoldText,ExtraBoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
+import moment from "moment";
 
-
-const MymvpScreen = (props) =>{
-    const stat = useSelector(state => state.authentication.status.isLoggedIn);
-    const mvp = useSelector(state => state.authentication.userInfo.mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g,","));
-    const name = useSelector(state => state.authentication.userInfo.currentUser);
+const WalletDetailOnBtc = ({navigation,route}) =>{
+    const [page,setPage] = useState(0);
+    const [nextPage,setNextPage] = useState(false);
     const [data,setData] = useState([]);
     const [count,setCount] = useState(0);
     const [modal,setModal] = useState(false);
-    const [type,setType] = useState("all"); 
+    const [type,setType] = useState("ALL"); 
     const dimentionHeight = useWindowDimensions().height;
-    const [listHeight,setListHeight] = useState(dimentionHeight-323.6);
+    const [listHeight,setListHeight] = useState(dimentionHeight-388.6);
     const [toggle,setToggle] = useState(false)
     const animatedController = useRef(new Animated.Value(0)).current;
     const bodyHeight = animatedController.interpolate({
@@ -53,7 +51,10 @@ const MymvpScreen = (props) =>{
         return _arr;
     });
     const [dayArr,setDayArr] = useState([]);
-
+    const [symbol,setSymbol] = useState("");
+    const [balance,setBalance] = useState("");
+    const [amount,setAmount] = useState("");
+    const isFirstRun = useRef(true);
     const toggleFilter = () =>{
         if(toggle) {
             Animated.timing(animatedController,{
@@ -61,58 +62,85 @@ const MymvpScreen = (props) =>{
                 toValue:0,
                 useNativeDriver:false
             }).start();
-            setListHeight(dimentionHeight-323.6)
+            setListHeight(dimentionHeight-388.6)
         } else {
             Animated.timing(animatedController,{
                 duration:200,
                 toValue:1,
                 useNativeDriver:false
             }).start()
-            setListHeight(dimentionHeight-436.9)
+            setListHeight(dimentionHeight-501.8)
         }
         setToggle(!toggle)
     }
 
-    const renderItem = item =>{
-        let _item = item.item
-        if(_item.C_CODE === 'D1') {
+    const renderItem = low =>{
+        const {item} = low        
+        if(item.BTC_TYPE === 'DEPOSIT') {
             return (
-                <View style={[styles.listRowWrap]}>
-                    <View style={{flex:2}}>
-                        <View style={{flexDirection:"row"}}>
-                            <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
-                            <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={_item.C_NAME}/>
+                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{
+                    trTime:dateFormatByUnixTime(item.BTC_TIME),symbol:"BTC",amount:commaFormat(changeBtc(item.BTC_AMOUNT)),fromAddr:item.BTC_FROM,toAddr:item.BTC_TO||item.BTC_RECV,hash:item.BTC_HASH})} 
+                    key={low.index} >
+                    <View style={[styles.listRowWrap]}>
+                        <View>
+                            <BoldText text={item.from!==undefined?implyAddr(item.from):"외부 지갑"} customStyle={{color:"#707070",fontSize:12}}/>
+                            <BoldText text={dateFormatByUnixTime(item.BTC_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
                         </View>
-                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={_item.BRD_NAME +" "+_item.AMOUNT+" MVP"}/>
-                        <BoldText text={_item.CORE} customStyle={{color:"#707070",marginTop:4}}/>
+                        <View>
+                            <BoldText text={`+ ${parseFloat(commaFormat(changeBtc(item.BTC_AMOUNT)))} BTC`} customStyle={{color:"#021AEE",fontSize:12}}/>
+                        </View>
                     </View>
-                    <View style={[styles.listIconWrap]}>
-                        <Image source={require('../../assets/img/ico_use.png')} style={{resizeMode:"contain",height:25,width:40}} />
-                    </View>
-                </View>
+                </TouchableWithoutFeedback>
             );
         } else {
             return (
-                <View style={[styles.listRowWrap]}>
-                    <View style={{flex:2}}>
-                        <View style={{flexDirection:"row"}}>
-                            <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
-                            <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={_item.C_NAME}/>
+                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{
+                    trTime:dateFormatByUnixTime(item.BTC_TIME),symbol:"BTC",amount:commaFormat(changeBtc(item.BTC_AMOUNT)),fromAddr:item.BTC_FROM,toAddr:item.BTC_TO,hash:item.BTC_HASH})}
+                    key={low.index}>
+                    <View style={[styles.listRowWrap]}>
+                        <View>
+                            <BoldText text={implyAddr(item.BTC_TO)} customStyle={{color:"#707070",fontSize:12}}/>
+                            <BoldText text={dateFormatByUnixTime(item.BTC_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
                         </View>
-                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={_item.BRD_NAME+" "+_item.CORE+ " -> "+_item.AMOUNT+" MVP"} />
+                        <View>
+                            <BoldText text={`- ${parseFloat(commaFormat(changeBtc(item.BTC_AMOUNT)))} BTC`} customStyle={{color:"#EE1818",fontSize:12}}/>
+                        </View>
                     </View>
-                    <View style={[styles.listIconWrap]}>
-                        <Image source={require('../../assets/img/ico_change.png')} style={{resizeMode:"contain",height:28,width:40}}></Image>
-                    </View>
-                </View>
+                </TouchableWithoutFeedback>
             );
         }
     }
-
+    const dateFormatByUnixTime = (unix) =>{
+        const _date = new Date(Number(unix));
+        return `${_date.getFullYear()}-${addZero(_date.getMonth()+1)}-${addZero(_date.getDate())} ${addZero(_date.getHours())}:${addZero(_date.getMinutes())}:${addZero(_date.getSeconds())}`
+    }
+    const changeBtc = (num)=>{
+        return Number(parseInt(num, 16) * 0.00000001).toFixed(8)
+    }
+    const implyAddr = (addr)=>{
+        return `${addr.slice(0,10)}....${addr.slice(-10)}`
+    }
+    const commaFormat = (num)=>{
+        const parts = String(num).split(".")
+        return parts[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +(parts[1] ? "."+parts[1] : "");
+    }
     useEffect(()=>{
+        const setCardData = async()=>{
+            const {data} = await Axios.get("/api/henesis/btc/balance")
+            if(data.result === "success") {
+                setBalance(commaFormat(String(data.btc.balance)));
+                setAmount(commaFormat(String(Number(data.btc.amount).toFixed(8))));
+            }
+        }
+        setSymbol(route.params.symbol)
+        setCardData();
         updateDateByBtn('1w')
     },[])
     useEffect(()=>{
+        if(isFirstRun.current) {
+            isFirstRun.current = false;
+            return;
+        }
         getHistory();
     },[type])
 
@@ -147,30 +175,29 @@ const MymvpScreen = (props) =>{
         }
         getHistory();
     }
+    const addZero = (_num)=>{
+        return parseInt(_num, 10) < 10 ? "0" + _num : _num;
+    }
     const getFormatDate = ()=>{
-        const addZero = (_num)=>{
-            return parseInt(_num, 10) < 10 ? "0" + _num : _num;
-        }
         return {
             formatedToDate : toYear.current+"-"+addZero(toMonth.current)+"-"+addZero(toDay.current),
             formatedFromDate : fromYear.current+"-"+addZero(fromMonth.current)+"-"+addZero(fromDay.current)
         }
     }
-    const getHistory = ()=>{
-        const {formatedToDate,formatedFromDate} = getFormatDate();
-        if(stat){
-            Axios.post('/api/point/filtered-history',{start:formatedFromDate,end:formatedToDate,type:type})
-            .then((response)=>{
-                var _response = response.data
-                if(_response.result === "success") {
-                    setData(_response.data);
-                    setCount(_response.data.length)
-                } else {
-                    alert("사용기록을 불러오는데 실패했습니다.")
-                }
-            }).catch((error)=>{
-                alert("사용기록을 불러오는데 실패했습니다.")
-            });
+    const getUnixTime = ({formatedToDate,formatedFromDate})=>{
+        return {
+            unixToDate:Number(moment(`${formatedToDate} 23:59:59`).unix()*1000),
+            unixFromDate:Number(moment(`${formatedFromDate} 00:00:00`).unix()*1000)
+        }
+    }
+    const getHistory = async()=>{
+        const {unixToDate,unixFromDate} =getUnixTime(getFormatDate());
+        const {data:low} = await Axios.get('/api/henesis/btc/history',{params:{start:unixFromDate,end:unixToDate,type:type}});
+        if(low.result === "success") {
+            setData(low.history);
+            setCount(low.history.length);
+        } else {
+            alert("사용기록을 불러오는데 실패했습니다.")
         }
     }
     const openDateModal = (when)=>{
@@ -200,36 +227,48 @@ const MymvpScreen = (props) =>{
                 <View style={[styles.header,styles.shadow]}>
                     <View style={{width:50}}></View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={"나의 MVP"} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={route.params.header} customStyle={{fontSize:16}}/>
                     </View>
-                    <TouchableOpacity onPress={()=>props.navigation.goBack()}>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Wallet")}>
                         <View style={styles.headerIcoWrap}>
                             <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
                         </View>
                     </TouchableOpacity>
                 </View>
                 <View style={{paddingHorizontal:16}}>
-                    <View style={[styles.shodow,styles.headerCard]}>
-                        <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
-                        <View style={{marginTop:8,flexDirection:"row"}}>
-                            <ExtraBoldText text={mvp+" MVP"} customStyle={{color:"#8D3981",fontSize:20}}/>
+                    <View style={[styles.shodow,{borderRadius:12,backgroundColor:"#FFFFFF",marginTop:16}]}>
+                        <View style={{paddingVertical:36,justifyContent:"center",alignItems:"center"}}>
+                            <ExtraBoldText text={`${amount} ${symbol}`} customStyle={{fontSize:16}}/>
+                            <BoldText text={`${balance} KRW`} customStyle={{color:"#707070",fontSize:10,marginTop:6}}/>
                         </View>
+                            <View style={{height:50,borderTopWidth:2,borderTopColor:"#F2F2F2",flexDirection:"row"}}>
+                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDeposit",{symbol:symbol})}>
+                                    <View style={{flex:1,justifyContent:"center",alignItems:"center",borderRightWidth:1,borderRightColor:"#F2F2F2"}}>
+                                        <BoldText text={"입금"} customStyle={{fontSize:14}}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletWithDraw",{symbol:symbol})}>
+                                    <View style={{flex:1,justifyContent:"center",alignItems:"center",borderLeftWidth:1,borderLeftColor:"#F2F2F2"}}>
+                                        <BoldText text={"출금"} customStyle={{fontSize:14}}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
                     </View>
                     <View style={[styles.shodow,styles.contentsCard]}>
                         <View style={{paddingHorizontal:16,paddingTop:16,flexDirection:"row",justifyContent:"space-between"}}>
-                            <TouchableWithoutFeedback onPress={()=>{setType("all")}}>
-                            <View style={[styles.typeBtn,{borderBottomColor:type==="all"?"#8D3981":"white"}]}>
+                            <TouchableWithoutFeedback onPress={()=>{setType("ALL")}}>
+                            <View style={[styles.typeBtn,{borderBottomColor:type==="ALL"?"#8D3981":"white"}]}>
                                     <BoldText text={"전체"} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback onPress={()=>{setType("use")}}>
-                            <View style={[styles.typeBtn,{borderBottomColor:type==="use"?"#8D3981":"white"}]}>
-                                    <BoldText text={"사용"} customStyle={{fontSize:14}}/>
+                            <TouchableWithoutFeedback onPress={()=>{setType("DEPOSIT")}}>
+                            <View style={[styles.typeBtn,{borderBottomColor:type==="DEPOSIT"?"#8D3981":"white"}]}>
+                                    <BoldText text={"입금"} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback onPress={()=>{setType("change")}}>
-                                <View style={[styles.typeBtn,{borderBottomColor:type==="change"?"#8D3981":"white"}]}>
-                                    <BoldText text={"교환"} customStyle={{fontSize:14}}/>
+                            <TouchableWithoutFeedback onPress={()=>{setType("WITHDRAW")}}>
+                                <View style={[styles.typeBtn,{borderBottomColor:type==="WITHDRAW"?"#8D3981":"white"}]}>
+                                    <BoldText text={"출금"} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
@@ -284,13 +323,14 @@ const MymvpScreen = (props) =>{
                             renderItem={renderItem}
                             keyExtractor={(item) =>item.CREA_DT}
                             style={{flexGrow:0,maxHeight:listHeight,backgroundColor:"#FFFFFF"}}
+                            onEndReached={()=>{}}
                         />
                     </View>
                 </View>
                 <Modal isVisible={modal} backdropTransitionOutTiming={0} style={{margin: 0}} useNativeDriver={true}>
                     <View style={{justifyContent:"center",alignItems:"center"}}>
-                        <View style={{backgroundColor:"#FFFFFF",padding:16,borderRadius:10}}>
-                            <View style={{flexDirection:"row"}}>
+                        <View style={{backgroundColor:"#FFFFFF",padding:16,borderRadius:10,width:"90%"}}>
+                            <View style={{flexDirection:"row",justifyContent:"center"}}>
                                 <View style={[styles.datePickerWrap]}>
                                     <RNPickerSelect
                                         onValueChange={(value) => {
@@ -383,7 +423,7 @@ const MymvpScreen = (props) =>{
         
     )
 }
-export default MymvpScreen;
+export default WalletDetailOnBtc;
 
 const styles = StyleSheet.create({
     header:{
@@ -399,13 +439,6 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
     },
-    headerCard:{
-        backgroundColor:"#fff",
-        marginTop:16,
-        borderRadius:10,
-        paddingVertical:20,
-        paddingLeft:16
-    },
     contentsCard:{
         marginTop:16,
         backgroundColor:"#FFFFFF",
@@ -413,7 +446,7 @@ const styles = StyleSheet.create({
         overflow:"hidden"
     },
     shodow:{
-        elevation:2,
+        elevation:5,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -448,7 +481,7 @@ const styles = StyleSheet.create({
     datePickerWrap:{
         backgroundColor:"#F7F7F7",
         height:40,
-        width:110,
+        width:100,
         borderRadius:8,
         alignItems:"center",
         justifyContent:"center"
@@ -462,11 +495,11 @@ const styles = StyleSheet.create({
     },
     listRowWrap:{
         flexDirection:'row',
-        paddingVertical:16,
-        paddingLeft:16,
-        paddingRight:12,
+        padding:16,
         borderBottomWidth:1,
-        borderColor:"#CCCCCC"
+        borderColor:"#CCCCCC",
+        justifyContent:"space-between",
+        alignItems:"center"
     },
     listIconWrap:{
         justifyContent:"center",

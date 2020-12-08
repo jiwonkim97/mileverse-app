@@ -1,31 +1,40 @@
-import React, {useState,useEffect} from 'react';
-import { useSelector } from 'react-redux';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TextInput } from 'react-native';
+import React from 'react';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TouchableOpacity } from 'react-native';
 
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
-import Modal from 'react-native-modal';
 
 
 const WalletResult = ({navigation,route}) =>{
-
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{backgroundColor:"#FFFFFF",flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <ExtraBoldText text="MVC 출금" customStyle={{fontSize:16}}/>
-                    <TouchableWithoutFeedback onPress={()=>navigation.navigate("Wallet")}>
-                        <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14,position:'absolute',right:20}}/>
-                    </TouchableWithoutFeedback>
+                    <TouchableOpacity onPress={()=>navigation.goBack()}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require('../../assets/img/ico_back.png')} style={{width:8,height:16}} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={`${route.params.symbol} 출금`} customStyle={{fontSize:16}}/>
+                    </View>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Wallet")}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <View style={{flex:1,justifyContent:"space-between"}}>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                        <ExtraBoldText text={"100 MVC/BTC/ETH전송이\n성공하였습니다."} customStyle={{fontSize:18,lineHeight:26,textAlign:"center"}}/>
+                        <ExtraBoldText text={`${route.params.amount} ${route.params.symbol} 전송이\n성공하였습니다.`} customStyle={{fontSize:18,lineHeight:26,textAlign:"center"}}/>
                     </View>
-                    <View style={{height:50,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center"}}>
-                        <BoldText text={"확인"} customStyle={{color:"#FFFFFF",fontSize:16}}/>
-                    </View>
+                    <TouchableWithoutFeedback onPress={()=>navigation.navigate("Wallet")}>
+                        <View style={{height:50,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center"}}>
+                            <BoldText text={"확인"} customStyle={{color:"#FFFFFF",fontSize:16}}/>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    
                 </View>
             </SafeAreaView>
         </>
@@ -36,12 +45,17 @@ export default WalletResult;
 
 const styles = StyleSheet.create({
     header:{
-        height:60,
-        borderColor:"#CCCCCC",
-        justifyContent:'center',
+        backgroundColor:"white",
+        height:50,
         alignItems:'center',
-        flexDirection:'row',
-        zIndex:1
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+    headerIcoWrap:{
+        width:50,
+        height:50,
+        justifyContent:'center',
+        alignItems:'center'
     },
     shadow:{
         elevation:2,
