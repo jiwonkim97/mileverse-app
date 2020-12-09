@@ -29,8 +29,8 @@ const GificonCategory = (props) =>{
                 </View>
                 <ScrollView style={{backgroundColor:"#FFFFFF"}}>
                        <TouchableWithoutFeedback onPress={()=>setVisible(!visible)}>
-                           <ImageBackground source={require("../../assets/img/gifticon_notice_banner_bg.png")} style={{width:"100%",height:104,resizeMode:"stretch",borderTopWidth:6,borderTopColor:"#F2F2F2"}}>
-                               <View style={{paddingLeft:24,paddingTop:30}}>
+                           <ImageBackground source={require("../../assets/img/gifticon_notice_banner_bg.png")} style={{width:"100%",height:104,resizeMode:"stretch",borderTopWidth:6,borderTopColor:"#F2F2F2",justifyContent:"center"}}>
+                               <View style={{paddingLeft:24}}>
                                    <BoldText text={"기프티콘 사용 공지"} customStyle={{color:"#F3C839",fontSize:18}}/>
                                    <RegularText text={"기프티콘 사용 가이드 & 안내사항을 확인해주세요!"} customStyle={{color:"#FFFFFF",fontSize:11,marginTop:12}}/>
                                </View>
@@ -39,7 +39,7 @@ const GificonCategory = (props) =>{
                        <View style={{paddingBottom:6,paddingHorizontal:8,flex:1,borderTopWidth:6,borderTopColor:"#F2F2F2"}}>
                            <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:"space-between",marginVertical:6}}>
                                {
-                                   categories.map((item,index)=>{
+                                   categories.map((item,index)=>{ 
                                        return (
                                            <TouchableWithoutFeedback onPress={()=>{navigateBrand(item.CTGR_CODE,item.CTGR_NAME)}} key={index}>
                                                 <View style={{width:"50%",marginTop:10,marginBottom:6,paddingHorizontal:8}}>
@@ -64,18 +64,18 @@ const GificonCategory = (props) =>{
                 style={{margin: 0,flex:1,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
                 <View style={{backgroundColor:"#ffffff",borderRadius:10,width:"85%"}}>
                     <View style={styles.noticeHeaderWrap}>
-                        <BoldText text={"기프티콘 사용 공지"} customStyle={{color:"#3D3D3D",fontSize:18}}/>
+                        <BoldText text={"기프티콘 사용 공지"} customStyle={{fontSize:15}}/>
                         <TouchableWithoutFeedback onPress={()=>setVisible(!visible)}>
                             <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
                         </TouchableWithoutFeedback>
                     </View>
-                    <View style={{paddingTop:26,paddingLeft:26,paddingBottom:60}}>
+                    <View style={{paddingTop:26,paddingBottom:60,paddingHorizontal:26}}>
                         <BoldText text={"[기프티콘 구매 이용 가이드]"} customStyle={styles.noticeTextHeader}/>
-                        <RegularText text={"1. 사용하기 > 기프티콘 구매하기를 선택해 주세요."} customStyle={styles.noticeText}/>
+                        <RegularText text={"1. 사용하기 > 기프티콘 구매하기를 선택해 주세요."} customStyle={[styles.noticeText,{marginTop:20}]}/>
                         <RegularText text={"2. 구매할 기프티콘을 선택해 주세요."} customStyle={styles.noticeText}/>
                         <RegularText text={"3. 구매한 기프티콘은 MMS(문자메세지)로 전송됩니다."} customStyle={styles.noticeText}/>
-                        <BoldText text={"[기프티콘 구매 이용 가이드]"} customStyle={[styles.noticeTextHeader,{marginTop:36}]}/>
-                        <RegularText text={"1. 각 기프티콘별로 상품 사용 기간 및 방법이 상이합니다.\n구매 전 꼭 상품 별 유의사항을 확인하여 주세요."} customStyle={[styles.noticeText,{lineHeight:18}]}/>
+                        <BoldText text={"[기프티콘 구매시 주의사항]"} customStyle={[styles.noticeTextHeader,{marginTop:36}]}/>
+                        <RegularText text={"1. 각 기프티콘별로 상품 사용 기간 및 방법이 상이 합니다. 구매 전 꼭 상품 별 유의사항을 확인하여 주세요."} customStyle={[styles.noticeText,{lineHeight:18,marginTop:20}]}/>
                         <RegularText text={"2. 구매한 기프티콘의 사용기한은 연장 되지 않습니다."} customStyle={styles.noticeText}/>
                         <RegularText text={"3. 구매한 기프티콘은 취소/환불이 불가능합니다."} customStyle={styles.noticeText}/>
                     </View>
@@ -131,12 +131,10 @@ const styles = StyleSheet.create({
         borderBottomColor:"#ECECEC"
     },
     noticeTextHeader:{
-        fontSize:12,
-        color:"#3D3D3D"
+        fontSize:14,
     },
     noticeText:{
-        fontSize:10,
-        color:"#3D3D3D",
-        marginTop:12
+        fontSize:13,
+        marginTop:10
     }
 });

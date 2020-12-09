@@ -85,8 +85,8 @@ const Wallet = ({navigation,route}) =>{
                                 </TouchableWithoutFeedback>
                             </View>
                         </View>
-                        <View style={{marginTop:10,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center",borderRadius:6,height:46}}>
-                            <BoldText text={"MVP/ MVC 교환"} customStyle={{fontSize:14,color:"#FFFFFF"}}/>
+                        <View style={{marginTop:10,backgroundColor:"#EBEBEB",justifyContent:"center",alignItems:"center",borderRadius:6,height:46}}>
+                            <BoldText text={"MVP/ MVC 교환"} customStyle={{fontSize:14,color:"#C4C4C4"}}/>
                         </View>
                         <View style={{marginTop:27}}>
                             <BoldText text={"자산"} />

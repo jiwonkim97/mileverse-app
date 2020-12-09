@@ -35,8 +35,8 @@ const ChangeScreen = (props) =>{
                         <RegularText text={"MVP는 1원의 가치를 지니고 있습니다."} customStyle={styles.bannerText}/>
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",paddingHorizontal:16,paddingTop:26}}>
-                        <BoldText text={"MVP 상품권 구매"} customStyle={styles.itemTitle}/>
-                        <View style={{marginTop:16,flexDirection:'row'}}>
+                        {/* <BoldText text={"MVP 상품권 구매"} customStyle={styles.itemTitle}/> */}
+                        {/* <View style={{marginTop:16,flexDirection:'row'}}>
                             <TouchableWithoutFeedback onPress={()=>doBuyCard("M10")}>
                                 <View style={[styles.cardWrap,styles.shadow]}>
                                     <View style={styles.cardImgWrap}>
@@ -68,16 +68,9 @@ const ChangeScreen = (props) =>{
                                     </View>
                                 </View>
                             </TouchableWithoutFeedback>
-                        </View>
+                        </View> */}
                         <View style={{marginVertical:26}}>
                             <BoldText text={"MVP 교환"} customStyle={[styles.itemTitle]}/>
-                            <View style={{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center",overflow:"hidden"}}>
-                                <View style={{marginVertical:13}}>
-                                    <Image source={require("../../assets/img/logo_healthPick.png")} />
-                                </View>
-                                <View style={styles.mask} />
-                                <ExtraBoldText text={"Coming soon"} customStyle={{fontSize:20,color:"#FFFFFF",position:"absolute"}}/>
-                            </View>
                             <View style={{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center",overflow:"hidden"}}>
                                 <View style={{marginVertical:13}}>
                                     <Image source={require("../../assets/img/logo_healthPick.png")} />

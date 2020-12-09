@@ -20,9 +20,9 @@ const SignUp02 = (props) =>{
     const [errText3,setErrorText3] = useState({txt:"-",color:"#FFFFFF"});
 
     useEffect(()=>{
-        // const {name,mobileno} = props.route.params.data;
-        // setName(name)
-        // setPhone(mobileno)
+        const {name,mobileno} = props.route.params.data;
+        setName(name)
+        setPhone(mobileno)
     },[])
 
     useEffect(()=>{

@@ -58,7 +58,7 @@ const GifticonList = (props) =>{
                                                             <RegularText text={item.PDT_NAME} customStyle={{color:"#2B2B2B",lineHeight:20,fontSize:14}}/>
                                                             <View style={{marginTop:7,flexDirection:"row",alignItems:"center"}}>
                                                                 <ExtraBoldText text={item.PDT_AMOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} customStyle={{fontSize:15}}/>
-                                                                <RegularText text={"MVP"} customStyle={{marginLeft:1,fontSize:13}}/>
+                                                                <RegularText text={"MVP"} customStyle={{marginLeft:5,fontSize:13}}/>
                                                             </View>
                                                         </View>
                                                     </View>

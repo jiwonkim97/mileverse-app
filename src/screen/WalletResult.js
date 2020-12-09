@@ -1,25 +1,41 @@
-import React from 'react';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TouchableOpacity } from 'react-native';
+import React,{useEffect} from 'react';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TouchableOpacity,BackHandler } from 'react-native';
 
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 
 
 const WalletResult = ({navigation,route}) =>{
+    useEffect(()=>{
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            ()=>{
+                return true;
+            });
+            return ()=> backHandler.remove();
+    },[]);
+
+    const navigateWallet = ()=>{
+        if(route.params.symbol === "MVC") {
+            navigation.navigate("WalletDetail",{header:"Mileverse",symbol:"MVC"})
+        } else if(route.params.symbol === "ETH") {
+            navigation.navigate("WalletDetail",{header:"Ethereum",symbol:"ETH"})
+        } else if(route.params.symbol === "BTC") {
+            navigation.navigate("WalletDetailOnBtc",{header:"Bitcoin",symbol:"BTC"})
+        }
+    }
+
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{backgroundColor:"#FFFFFF",flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <TouchableOpacity onPress={()=>navigation.goBack()}>
-                        <View style={styles.headerIcoWrap}>
-                            <Image source={require('../../assets/img/ico_back.png')} style={{width:8,height:16}} />
-                        </View>
-                    </TouchableOpacity>
+                    <View style={{width:50}}>
+                    </View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
                         <ExtraBoldText text={`${route.params.symbol} 출금`} customStyle={{fontSize:16}}/>
                     </View>
-                    <TouchableOpacity onPress={()=>navigation.navigate("Wallet")}>
+                    <TouchableOpacity onPress={navigateWallet}>
                         <View style={styles.headerIcoWrap}>
                             <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
                         </View>
@@ -29,7 +45,7 @@ const WalletResult = ({navigation,route}) =>{
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                         <ExtraBoldText text={`${route.params.amount} ${route.params.symbol} 전송이\n성공하였습니다.`} customStyle={{fontSize:18,lineHeight:26,textAlign:"center"}}/>
                     </View>
-                    <TouchableWithoutFeedback onPress={()=>navigation.navigate("Wallet")}>
+                    <TouchableWithoutFeedback onPress={navigateWallet}>
                         <View style={{height:50,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center"}}>
                             <BoldText text={"확인"} customStyle={{color:"#FFFFFF",fontSize:16}}/>
                         </View>

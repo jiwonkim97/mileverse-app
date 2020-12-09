@@ -13,6 +13,8 @@ import Axios from '../modules/Axios';
 const WalletDeposit = ({navigation,route}) =>{
     const dispatch = useDispatch();    
     const [addr,setAddr] = useState("");
+    const [infoText,setInfoText] = useState("");
+    const [infoText2,setInfoText2] = useState("");
 
     const copyToClipboard = ()=>{
         Clipboard.setString(addr);
@@ -44,6 +46,18 @@ const WalletDeposit = ({navigation,route}) =>{
             }
             dispatch(spinner.hideSpinner());
         };
+
+        if(route.params.symbol === "BTC") {
+            setInfoText("- 위 주소로는 BTC만 입금 가능합니다. 해당 주소로 다른 디지털 자산을 입금 시도할 경우에 발생 할 수 있는 오류/손실은 복구 불가능합니다.");
+            setInfoText2("- 0.00000001 BTC 미만부터 잔고에 반영되지 않습니다. 최소 입금금액 미만 입금시에는 잔고 반영 및 입금 취소가 불가능합니다.");
+        } else if(route.params.symbol === "ETH") {
+            setInfoText("- 위 주소로는 ETH만 입금 가능합니다. 해당 주소로 다른 디지털 자산을 입금 시도할 경우에 발생 할 수 있는 오류/손실은 복구 불가능합니다.");
+            setInfoText2("- 0.00000001 ETH 미만부터 잔고에 반영되지 않습니다. 최소 입금금액 미만 입금시에는 잔고 반영 및 입금 취소가 불가능합니다.");
+        } else if(route.params.symbol === "MVC") {
+            setInfoText("- 위 주소로는 MVC만 입금 가능합니다. 해당 주소로 다른 디지털 자산을 입금 시도할 경우에 발생 할 수 있는 오류/손실은 복구 불가능합니다.");
+            setInfoText2("- 0.00000001 MVC 미만은 잔고에 반영되지 않습니다. 최소 입금금액 미만 입금시에는 잔고 반영 및 입금 취소가 불가능합니다.");
+        }
+
         setData();
     },[])
      
@@ -88,6 +102,13 @@ const WalletDeposit = ({navigation,route}) =>{
                     </View>
                     <View style={{marginTop:16,borderRadius:6,backgroundColor:"#F3F3F3",borderWidth:1,borderColor:"#E5E5E5",padding:16}}>
                         <BoldText text={addr} customStyle={{color:"#707070",fontSize:12}}/>
+                    </View>
+                    <View style={{marginTop:26}}>
+                        <BoldText text={"입금주소"}/>
+                        <View style={{marginTop:10}}>
+                            <BoldText text={infoText} customStyle={{lineHeight:18}}/>
+                            <BoldText text={infoText2} customStyle={{lineHeight:18,marginTop:8}}/>
+                        </View>
                     </View>
                 </View>
             </SafeAreaView>

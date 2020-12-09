@@ -73,6 +73,11 @@ const MymvpScreen = (props) =>{
         setToggle(!toggle)
     }
 
+    const commaFormat = (num)=>{
+        const parts = String(num).split(".")
+        return parts[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +(parts[1] ? "."+parts[1] : "");
+    }
+
     const renderItem = item =>{
         let _item = item.item
         if(_item.C_CODE === 'D1') {
@@ -83,7 +88,7 @@ const MymvpScreen = (props) =>{
                             <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
                             <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={_item.C_NAME}/>
                         </View>
-                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={_item.BRD_NAME +" "+_item.AMOUNT+" MVP"}/>
+                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={`${_item.BRD_NAME} ${commaFormat(_item.AMOUNT)} MVP`}/>
                         <BoldText text={_item.CORE} customStyle={{color:"#707070",marginTop:4}}/>
                     </View>
                     <View style={[styles.listIconWrap]}>
@@ -99,7 +104,7 @@ const MymvpScreen = (props) =>{
                             <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
                             <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={_item.C_NAME}/>
                         </View>
-                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={_item.BRD_NAME+" "+_item.CORE+ " -> "+_item.AMOUNT+" MVP"} />
+                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={`${_item.BRD_NAME} ${_item.CORE} -> ${commaFormat(_item.AMOUNT)} MVP`} />
                     </View>
                     <View style={[styles.listIconWrap]}>
                         <Image source={require('../../assets/img/ico_change.png')} style={{resizeMode:"contain",height:28,width:40}}></Image>
@@ -399,6 +404,18 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
     },
+    shadow:{
+        backgroundColor:"white",
+        elevation:2,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 2.22,
+        zIndex:1
+    },
     headerCard:{
         backgroundColor:"#fff",
         marginTop:16,
@@ -411,16 +428,6 @@ const styles = StyleSheet.create({
         backgroundColor:"#FFFFFF",
         borderRadius:10,
         overflow:"hidden"
-    },
-    shodow:{
-        elevation:2,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22
     },
     simpleDateBtn:{
         justifyContent:"center",

@@ -1,12 +1,14 @@
 import React, { useEffect, useState,useRef } from 'react';
 import { Image,View,Alert,SafeAreaView,StyleSheet,FlatList,TouchableWithoutFeedback,useWindowDimensions,Animated,TouchableOpacity } from 'react-native';
-import { useSelector } from 'react-redux';
 import Axios from '../modules/Axios';
 import { RegularText, BoldText,ExtraBoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
 import moment from "moment";
+import {
+    useFocusEffect,
+  } from '@react-navigation/native';
 
 const ethRatio = 0.000000000000000001
 const WalletDetail = ({navigation,route}) =>{
@@ -37,6 +39,7 @@ const WalletDetail = ({navigation,route}) =>{
     const prevMonth = useRef(0);
     const prevDay = useRef(0);
     const [fake,setFake] = useState(true);
+    const firstInit = useRef(true)
     const thisYear = new Date().getFullYear();
     const [yearArr,setYearArr] = useState(()=>{
         const _arr = []
@@ -88,7 +91,7 @@ const WalletDetail = ({navigation,route}) =>{
                             <BoldText text={dateFormatByUnixTime(item.ETH_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
                         </View>
                         <View>
-                            <BoldText text={`+ ${commaFormat(amount)} ${symbol}`} customStyle={{color:"#021AEE",fontSize:12}}/>
+                            <BoldText text={`+ ${commaFormat(parseFloat(Number(amount).toFixed(8)))} ${symbol}`} customStyle={{color:"#021AEE",fontSize:12}}/>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
@@ -102,7 +105,7 @@ const WalletDetail = ({navigation,route}) =>{
                             <BoldText text={dateFormatByUnixTime(item.ETH_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
                         </View>
                         <View>
-                            <BoldText text={`- ${commaFormat(amount)} ${symbol}`} customStyle={{color:"#EE1818",fontSize:12}}/>
+                            <BoldText text={`- ${commaFormat(parseFloat(Number(amount).toFixed(8)))} ${symbol}`} customStyle={{color:"#EE1818",fontSize:12}}/>
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
@@ -126,10 +129,10 @@ const WalletDetail = ({navigation,route}) =>{
             if(data.result === "success") {
                 if(route.params.symbol === "ETH") {
                     setBalance(commaFormat(String(data.eth.balance)));
-                    setAmount(commaFormat(String(parseFloat(Number(data.eth.amount).toFixed(12)))));
+                    setAmount(commaFormat(String(parseFloat(Number(data.eth.amount).toFixed(8)))));
                 } else if(route.params.symbol === "MVC"){
                     setBalance(commaFormat(String(data.mvc.balance)));
-                    setAmount(commaFormat(String(parseFloat(Number(data.mvc.amount).toFixed(12)))));
+                    setAmount(commaFormat(String(parseFloat(Number(data.mvc.amount).toFixed(8)))));
                 }
                 
             }
@@ -137,14 +140,41 @@ const WalletDetail = ({navigation,route}) =>{
         setSymbol(route.params.symbol)
         setCardData();
         updateDateByBtn('1w')
-    },[])
+    },[]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if(firstInit.current) {
+                const setCardData = async()=>{
+                    const {data} = await Axios.get("/api/henesis/eth/balance")
+                    if(data.result === "success") {
+                        if(route.params.symbol === "ETH") {
+                            setBalance(commaFormat(String(data.eth.balance)));
+                            setAmount(commaFormat(String(parseFloat(Number(data.eth.amount).toFixed(8)))));
+                        } else if(route.params.symbol === "MVC"){
+                            setBalance(commaFormat(String(data.mvc.balance)));
+                            setAmount(commaFormat(String(parseFloat(Number(data.mvc.amount).toFixed(8)))));
+                        }
+                        
+                    }
+                }
+                setSymbol(route.params.symbol)
+                setCardData();
+                updateDateByBtn('1w')
+                firstInit.current = false
+            } else {
+                getHistory();
+            }
+        }, [])
+      );
+
     useEffect(()=>{
         if(isFirstRun.current) {
             isFirstRun.current = false;
             return;
         }
         getHistory();
-    },[type])
+    },[type]);
 
     const updateDateByBtn = (term) =>{
         const date = new Date();

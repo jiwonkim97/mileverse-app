@@ -30,7 +30,6 @@ import GifticonCategory from './src/screen/GifticonCategory';
 import GifticonList from './src/screen/GifticonList';
 import GifticonDetail from './src/screen/GifticonDetail';
 import SignUp01 from './src/screen/SignUp01';
-import MileVerseScreen from './src/changeScreen/MileVerse';
 import MileVerseGiftScreen from './src/gifticon/MileVerse';
 import SplashScreen from 'react-native-splash-screen';
 import NiceCheck from './src/screen/NiceCheck';
@@ -76,7 +75,7 @@ const TabScreen = ({navigation}) =>{
 					justifyContent:"center"
 				},
 				labelStyle:{
-					fontFamily:"NanumSquareR",
+					fontFamily:"NanumSquareB",
 					bottom:6
 				},
 				iconStyle:{
@@ -176,7 +175,6 @@ const App = () => {
 						<Stack.Screen name="Notice" component={NoticeScreen} />
 						<Stack.Screen name="Contact" component={ContactScreen} />
 						<Stack.Screen name="SignUp02" component={SignUp02} />
-						<Stack.Screen name="MileVerse" component={MileVerseScreen} />
 						<Stack.Screen name="MileVerseGiftScreen" component={MileVerseGiftScreen} />
 						<Stack.Screen name="Profile" component={Profile} />
 						<Stack.Screen name="Config" component={Config} />

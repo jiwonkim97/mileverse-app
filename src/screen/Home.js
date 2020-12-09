@@ -1,8 +1,11 @@
 import React, { useEffect,useState,useRef } from 'react';
-import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions } from 'react-native';
+import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions,BackHandler } from 'react-native';
+import RNExitApp from 'react-native-exit-app';
+
 import { useSelector,useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 import Barcode from "react-native-barcode-builder";
+import * as toast from '../components/Toast';
 
 import * as spinner from '../actions/spinner'
 import * as actions from '../actions/authentication'

@@ -83,7 +83,7 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
                      >
                     <View style={[styles.listRowWrap]} key={low.index}>
                         <View>
-                            <BoldText text={item.from!==undefined?implyAddr(item.from):"외부 지갑"} customStyle={{color:"#707070",fontSize:12}}/>
+                            <BoldText text={item.BTC_FROM!==null?implyAddr(item.BTC_FROM):"외부 지갑"} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.BTC_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
                         </View>
                         <View>
