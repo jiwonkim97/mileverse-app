@@ -9,6 +9,7 @@ import {ExtraBoldText,BoldText} from '../components/customComponents';
 import Axios from '../modules/Axios';
 import * as spinner from '../actions/spinner';
 import CommonStatusbar from '../components/CommonStatusbar';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const ContactScreen = (props) =>{
@@ -143,55 +144,57 @@ const ContactScreen = (props) =>{
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={{backgroundColor:"white",padding:20,marginTop:6,flex:1}}>
-                    <View style={{marginTop:26}}>
-                        <BoldText text={"주소 입력"}/>
-                        <View style={[styles.boxWrap]}>
-                            <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"이메일을 입력해주세요"} style={[styles.input]} onChangeText={text=>setMail(text)}/>
+                <ScrollView style={{flex:1}}>
+                    <View style={{backgroundColor:"white",padding:20,marginTop:6,flex:1}}>
+                        <View style={{marginTop:26}}>
+                            <BoldText text={"주소 입력"}/>
+                            <View style={[styles.boxWrap]}>
+                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"이메일을 입력해주세요"} style={[styles.input]} onChangeText={text=>setMail(text)}/>
+                            </View>
                         </View>
-                    </View>
-                    <View style={{marginTop:26}}>
-                        <BoldText text={"제목"}/>
-                        <View style={[styles.boxWrap]}>
-                            <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"제목을 입력해주세요"} style={[styles.input]} onChangeText={text=>setTitle(text)}/>
+                        <View style={{marginTop:26}}>
+                            <BoldText text={"제목"}/>
+                            <View style={[styles.boxWrap]}>
+                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"제목을 입력해주세요"} style={[styles.input]} onChangeText={text=>setTitle(text)}/>
+                            </View>
                         </View>
-                    </View>
-                    <View style={{marginTop:26}}>
-                        <BoldText text={"내용"}/>
-                        <View style={[styles.boxWrap,{height:160,paddingTop:16}]}>
-                            <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"내용을 입력해주세요."} style={[styles.input,{height:160,textAlignVertical:'top'}]} onChangeText={text=>onChangeContents(text)} numberOfLines={6}/>
+                        <View style={{marginTop:26}}>
+                            <BoldText text={"내용"}/>
+                            <View style={[styles.boxWrap,{height:160,paddingTop:16}]}>
+                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"내용을 입력해주세요."} style={[styles.input,{height:160,textAlignVertical:'top'}]} onChangeText={text=>onChangeContents(text)} numberOfLines={6}/>
+                            </View>
                         </View>
-                    </View>
-                    <View style={{alignItems:'flex-end',marginTop:4}}>
-                        <BoldText text={"("+limitLength+"/150)"} style={{color:"#2D2D2D"}} />
-                    </View>
-                    <View style={{margiTop:40}}>
-                        <View style={{flexDirection:'row',alignItems:"center"}}>
-                            <BoldText text={"첨부파일"}/>
-                            <BoldText text={"*JPG, PNG, PDF만 첨부가능합니다."} customStyle={{color:"#EC6E6E",paddingLeft:6,fontSize:10}}/>
+                        <View style={{alignItems:'flex-end',marginTop:4}}>
+                            <BoldText text={"("+limitLength+"/150)"} style={{color:"#2D2D2D"}} />
                         </View>
-                        <View style={{marginTop:6,padding:6,borderWidth:1,borderColor:"#CCCCCC",flexDirection:'row',alignItems:'center',borderRadius:5}}>
-                            <BoldText text={fileName} customStyle={{flex:9}}/>
-                            <TouchableOpacity style={{flex:3 }} onPress={showPicker}>
-                                <View style={{backgroundColor:"#AE7AA7",justifyContent:'center',alignItems:"center",padding:10,borderRadius:5}}>
-                                    <BoldText text={"첨부하기"} customStyle={{color:"white",fontSize:10}}/>
+                        <View style={{margiTop:40}}>
+                            <View style={{flexDirection:'row',alignItems:"center"}}>
+                                <BoldText text={"첨부파일"}/>
+                                <BoldText text={"*JPG, PNG, PDF만 첨부가능합니다."} customStyle={{color:"#EC6E6E",paddingLeft:6,fontSize:10}}/>
+                            </View>
+                            <View style={{marginTop:6,padding:6,borderWidth:1,borderColor:"#CCCCCC",flexDirection:'row',alignItems:'center',borderRadius:5}}>
+                                <BoldText text={fileName} customStyle={{flex:9}}/>
+                                <TouchableOpacity style={{flex:3 }} onPress={showPicker}>
+                                    <View style={{backgroundColor:"#AE7AA7",justifyContent:'center',alignItems:"center",padding:10,borderRadius:5}}>
+                                        <BoldText text={"첨부하기"} customStyle={{color:"white",fontSize:10}}/>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View style={{flexDirection:'row', alignItems:'center',justifyContent:"center",paddingBottom:20,marginTop:10,width:"100%",marginTop:40}}>
+                            <TouchableOpacity onPress={()=>props.navigation.goBack()} style={{flex:1}}>
+                                <View style={{backgroundColor:"#EBEBEB",height:50,borderTopLeftRadius:5,borderBottomLeftRadius:5,alignItems:"center",justifyContent:"center"}}>
+                                    <BoldText text={"취소"} customStyle={{color:"#8B8B8B",fontSize:16}}/>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={sendMail} style={{flex:1}}>
+                                <View style={{backgroundColor:"#8D3981",height:50,borderTopRightRadius:5,borderBottomRightRadius:5,alignItems:"center",justifyContent:"center"}}>
+                                    <BoldText text={"보내기"} customStyle={{color:"white",fontSize:16}}/>
                                 </View>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{flexDirection:'row', alignItems:'center',justifyContent:"center",paddingBottom:20,marginTop:10,width:"100%",marginTop:40}}>
-                        <TouchableOpacity onPress={()=>props.navigation.goBack()} style={{flex:1}}>
-                            <View style={{backgroundColor:"#EBEBEB",height:50,borderTopLeftRadius:5,borderBottomLeftRadius:5,alignItems:"center",justifyContent:"center"}}>
-                                <BoldText text={"취소"} customStyle={{color:"#8B8B8B",fontSize:16}}/>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={sendMail} style={{flex:1}}>
-                            <View style={{backgroundColor:"#8D3981",height:50,borderTopRightRadius:5,borderBottomRightRadius:5,alignItems:"center",justifyContent:"center"}}>
-                                <BoldText text={"보내기"} customStyle={{color:"white",fontSize:16}}/>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                </ScrollView>
             </SafeAreaView>
         </>
         
