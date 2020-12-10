@@ -340,7 +340,7 @@ const WalletWithDraw = ({navigation,route}) =>{
                                                 <BoldText text={"[유의사항]"} customStyle={styles.noticeText}/>
                                                 <BoldText text={"잘못 전송한 경우 취소가 불가능합니다."} customStyle={[styles.noticeText,{marginTop:9,lineHeight:18}]}/>
                                                 <BoldText text={"전송 시 가스 비(0.005 ETH)가 발생합니다."} customStyle={[styles.noticeText,{lineHeight:18}]}/>
-                                                <BoldText text={"0 MVC 이상부터 출금 가능합니다."} customStyle={[styles.noticeText,{lineHeight:18}]}/>
+                                                <BoldText text={"1 MVC 이상부터 출금 가능합니다."} customStyle={[styles.noticeText,{lineHeight:18}]}/>
                                             </View>
                                 }
                             </View>
