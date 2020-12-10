@@ -73,9 +73,6 @@ const WalletWithDraw = ({navigation,route}) =>{
     }
     const decimalCheck = (num)=>{
         const spl = String(num).split('.');
-        // if(spl.length>2) return false;
-        // else if(spl[1].length>5) return false;
-        // else return true;
         if(spl.length===1) return true;
          else if(spl.length>2) return false;
         else if(spl[1].length>5) return false;
@@ -109,9 +106,7 @@ const WalletWithDraw = ({navigation,route}) =>{
             member.current = false;
             if(symbol === "ETH" || symbol === "MVC") url = "/api/henesis/eth/wallets/users";
             else if(symbol === "BTC") url = "/api/henesis/btc/wallets/users";
-            dispatch(spinner.showSpinner());
             const {data} = await Axios.get(url,{params:{address:address}});
-            dispatch(spinner.hideSpinner());
             if(data.result === "success") {
                 if(data.check === true) {
                     setFee("회원 간 수수료 면제");
@@ -131,7 +126,7 @@ const WalletWithDraw = ({navigation,route}) =>{
                         setFee(`0.005 ETH`);
                         setSendAmount(inputAmount);
                     }
-                } 
+                }
                 setModal(true)
             } else {
                 Alert.alert("알림",data.msg,[{text:'확인'}]);
