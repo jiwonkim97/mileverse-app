@@ -80,7 +80,12 @@ const HomeScreen = (props) =>{
                                 {stat?
                                     <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15,color:"#2B2B2B"}}/>
                                     :
-                                    <BoldText text={"로그인이 필요합니다."} customStyle={{fontSize:15,color:"#2B2B2B"}}/>
+                                    <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("Login")}>
+                                        <View>
+                                            <BoldText text={"로그인이 필요합니다."} customStyle={{fontSize:15,color:"#2B2B2B"}}/>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    
                                 }
                                 <TouchableWithoutFeedback onPress={()=>stat?props.navigation.navigate("MyMvp"):props.navigation.navigate("Login")}>
                                     <View style={{flexDirection:"row",alignItems:"center",marginTop:12,alignSelf:"flex-start"}}>

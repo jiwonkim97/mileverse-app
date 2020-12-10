@@ -27,13 +27,13 @@ const ChangeScreen = (props) =>{
                     <ExtraBoldText text="마일리지 교환" customStyle={{fontSize:16}}/>
                 </View>
                 <ScrollView style={{flex:1}}>
-                    <View style={{backgroundColor:"#394054",padding:24,marginVertical:6}}>
+                    {/* <View style={{backgroundColor:"#394054",padding:24,marginVertical:6}}>
                         <BoldText text={"[필수공지]"} customStyle={styles.bannerTitle}/>
                         <RegularText text={"본 상품은 구매 후 환불이 불가능합니다."} customStyle={styles.bannerText}/>
                         <BoldText text={"[이용안내]"} customStyle={[styles.bannerTitle,{marginTop:20}]}/>
                         <RegularText text={"구매한 MVP는 앱에서 이용이 가능합니다."} customStyle={styles.bannerText}/>
                         <RegularText text={"MVP는 1원의 가치를 지니고 있습니다."} customStyle={styles.bannerText}/>
-                    </View>
+                    </View> */}
                     <View style={{backgroundColor:"#FFFFFF",paddingHorizontal:16,paddingTop:26}}>
                         {/* <BoldText text={"MVP 상품권 구매"} customStyle={styles.itemTitle}/> */}
                         {/* <View style={{marginTop:16,flexDirection:'row'}}>
@@ -74,6 +74,13 @@ const ChangeScreen = (props) =>{
                             <View style={{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center",overflow:"hidden"}}>
                                 <View style={{marginVertical:13}}>
                                     <Image source={require("../../assets/img/logo_healthPick.png")} />
+                                </View>
+                                <View style={styles.mask} />
+                                <ExtraBoldText text={"Coming soon"} customStyle={{fontSize:20,color:"#FFFFFF",position:"absolute"}}/>
+                            </View>
+                            <View style={{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center",overflow:"hidden"}}>
+                                <View style={{marginVertical:13}}>
+                                    <Image source={require("../../assets/img/logo_jjane.png")} style={{resizeMode:"stretch",width:60,height:57}}/>
                                 </View>
                                 <View style={styles.mask} />
                                 <ExtraBoldText text={"Coming soon"} customStyle={{fontSize:20,color:"#FFFFFF",position:"absolute"}}/>

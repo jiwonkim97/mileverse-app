@@ -19,8 +19,6 @@ import DialogComponent from './src/components/Dialog';
 import HomeScreen from './src/screen/Home';
 import LoginScreen from './src/screen/Login';
 import MymvpScreen from './src/screen/Mymvp';
-import BranchScreen from './src/screen/Branch';
-import BarcodeScreen from './src/screen/Barcode';
 import NoticeScreen from './src/screen/Notice';
 import FaqScreen from './src/screen/FAQ';
 import ContactScreen from './src/screen/Contact';
@@ -30,7 +28,6 @@ import GifticonCategory from './src/screen/GifticonCategory';
 import GifticonList from './src/screen/GifticonList';
 import GifticonDetail from './src/screen/GifticonDetail';
 import SignUp01 from './src/screen/SignUp01';
-import MileVerseGiftScreen from './src/gifticon/MileVerse';
 import SplashScreen from 'react-native-splash-screen';
 import NiceCheck from './src/screen/NiceCheck';
 import DanalPg from './src/screen/DanalPg';
@@ -168,14 +165,12 @@ const App = () => {
 				<NavigationContainer>
 					<Stack.Navigator screenOptions={{headerShown:false,cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS}} mode='card'>
 						<Stack.Screen name="Drawer"component={DrawerScreen} />
-						<Stack.Screen name="Pay" component={BarcodeScreen} />
 						<Stack.Screen name="MyMvp" component={MymvpScreen} />
 						<Stack.Screen name="FAQ" component={FaqScreen} />
 						<Stack.Screen name="Login" component={LoginScreen} />
 						<Stack.Screen name="Notice" component={NoticeScreen} />
 						<Stack.Screen name="Contact" component={ContactScreen} />
 						<Stack.Screen name="SignUp02" component={SignUp02} />
-						<Stack.Screen name="MileVerseGiftScreen" component={MileVerseGiftScreen} />
 						<Stack.Screen name="Profile" component={Profile} />
 						<Stack.Screen name="Config" component={Config} />
 						<Stack.Screen name="ChangePassword" component={ChangePassword} />
