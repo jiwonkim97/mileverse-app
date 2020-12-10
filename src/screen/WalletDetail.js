@@ -179,7 +179,7 @@ const WalletDetail = ({navigation,route}) =>{
                 getHistory();
             }
         }, [])
-      );
+    );
 
     useEffect(()=>{
         if(isFirstRun.current) {

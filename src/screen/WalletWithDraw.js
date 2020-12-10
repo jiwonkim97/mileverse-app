@@ -132,28 +132,28 @@ const WalletWithDraw = ({navigation,route}) =>{
                         setSendAmount(inputAmount);
                     }
                 } 
-                setModal(!modal)
+                setModal(true)
             } else {
                 Alert.alert("알림",data.msg,[{text:'확인'}]);
             }
         }
     }
     const onSendToken = async()=>{
-        setModal(!modal);
-        setTimeout(()=>{
-            if(auth_pin === "" || auth_pin === undefined || auth_pin === null) {
-                dispatch(dialog.openDialog("alert",(
-                    <>
-                        <BoldText text={"PINCODE를 먼저 설정해주세요.\n메뉴->내정보->PinCode 변경"} customStyle={{textAlign:"center",lineHeight:20}}/>
-                    </>
-                )));
-            }else {
+        setModal(false);       
+        if(auth_pin === "" || auth_pin === undefined || auth_pin === null) {
+            dispatch(dialog.openDialog("alert",(
+                <>
+                    <BoldText text={"PINCODE를 먼저 설정해주세요.\n메뉴->내정보->PinCode 변경"} customStyle={{textAlign:"center",lineHeight:20}}/>
+                </>
+            )));
+        }else {
+            setTimeout(()=>{
                 navigation.navigate("PinCode",{
                     mode:"confirm",
                     onGoBack:(_value)=>{requestSendToken(_value)}
                 });
-            }
-        },0)
+            },600)
+        }
     }
 
     const requestSendToken =async(pin)=>{
@@ -188,7 +188,7 @@ const WalletWithDraw = ({navigation,route}) =>{
             dispatch(spinner.hideSpinner());
             
             if(_flag) {
-                setModal(!modal);
+                // setModal(!modal);
                 navigation.navigate("WalletResult",{amount:inputAmount,symbol:symbol});
             } else {
                 alert("오류로 인해 전송이 취소되었습니다.")
@@ -383,7 +383,7 @@ const WalletWithDraw = ({navigation,route}) =>{
                             </View>
                         </View>
                         <View style={{flexDirection:'row',height:46}}>
-                            <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
+                            <TouchableWithoutFeedback onPress={()=>setModal(false)}>
                                 <View style={[styles.modalBottomBtn,{backgroundColor:"#EBEBEB"}]}>
                                     <BoldText text={"취소"} customStyle={{color:"#8B8B8B",fontSize:14}}/>
                                 </View>
