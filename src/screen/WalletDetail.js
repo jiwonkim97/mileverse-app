@@ -123,16 +123,29 @@ const WalletDetail = ({navigation,route}) =>{
         const parts = String(num).split(".")
         return parts[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +(parts[1] ? "."+parts[1] : "");
     }
+    const setBlanceFormat = (num) =>{
+        const _fixedNum = Number(num).toFixed(8);
+        const _floatNum = parseFloat(_fixedNum);
+        if(_floatNum<0.000001) {
+            const __str_FixedNum = String(_fixedNum);
+            console.log(_fixedNum)
+            if(__str_FixedNum.slice(-1) === "0") 
+                return __str_FixedNum.slice(0,-1);
+            else 
+                return __str_FixedNum;
+        }
+        else return _floatNum ;
+    }
     useEffect(()=>{
         const setCardData = async()=>{
             const {data} = await Axios.get("/api/henesis/eth/balance")
             if(data.result === "success") {
                 if(route.params.symbol === "ETH") {
                     setBalance(commaFormat(String(data.eth.balance)));
-                    setAmount(commaFormat(String(parseFloat(Number(data.eth.amount).toFixed(8)))));
+                    setAmount(commaFormat(setBlanceFormat(data.eth.amount)));
                 } else if(route.params.symbol === "MVC"){
                     setBalance(commaFormat(String(data.mvc.balance)));
-                    setAmount(commaFormat(String(parseFloat(Number(data.mvc.amount).toFixed(8)))));
+                    setAmount(commaFormat(setBlanceFormat(data.mvc.amount)));
                 }
                 
             }
@@ -150,10 +163,10 @@ const WalletDetail = ({navigation,route}) =>{
                     if(data.result === "success") {
                         if(route.params.symbol === "ETH") {
                             setBalance(commaFormat(String(data.eth.balance)));
-                            setAmount(commaFormat(String(parseFloat(Number(data.eth.amount).toFixed(8)))));
+                            setAmount(commaFormat(setBlanceFormat(data.eth.amount)));
                         } else if(route.params.symbol === "MVC"){
                             setBalance(commaFormat(String(data.mvc.balance)));
-                            setAmount(commaFormat(String(parseFloat(Number(data.mvc.amount).toFixed(8)))));
+                            setAmount(commaFormat(setBlanceFormat(data.mvc.amount)));
                         }
                         
                     }

@@ -24,15 +24,29 @@ const Wallet = ({navigation,route}) =>{
         return parts[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +(parts[1] ? "."+parts[1] : "");
     }
 
+    const setBlanceFormat = (num) =>{
+        const _fixedNum = Number(num).toFixed(8);
+        const _floatNum = parseFloat(_fixedNum);
+        if(_floatNum<0.000001) {
+            const __str_FixedNum = String(_fixedNum);
+            console.log(_fixedNum)
+            if(__str_FixedNum.slice(-1) === "0") 
+                return __str_FixedNum.slice(0,-1);
+            else 
+                return __str_FixedNum;
+        }
+        else return _floatNum ;
+    }
+
     useEffect(()=>{
         const unsubscribe = navigation.addListener('focus', async() => {
             dispatch(spinner.showSpinner());
             const {data} = await Axios.get("/api/henesis/assets");
             dispatch(spinner.hideSpinner());
             if(data.result === 'success') {
-                setEth({amount:commaFormat(parseFloat(Number(data.eth.amount).toFixed(8))),balance:commaFormat(data.eth.balance)});
-                setBtc({amount:commaFormat(parseFloat(Number(data.btc.amount).toFixed(8))),balance:commaFormat(data.btc.balance)});
-                setMvc({amount:commaFormat(parseFloat(Number(data.mvc.amount).toFixed(8))),balance:commaFormat(data.mvc.balance)});
+                setEth({amount:commaFormat(setBlanceFormat(data.eth.amount)),balance:commaFormat(data.eth.balance)});
+                setBtc({amount:commaFormat(setBlanceFormat(data.btc.amount)),balance:commaFormat(data.btc.balance)});
+                setMvc({amount:commaFormat(setBlanceFormat(data.mvc.amount)),balance:commaFormat(data.mvc.balance)});
                 setTotal(commaFormat(Number(data.eth.balance)+Number(data.btc.balance)+Number(data.mvc.balance)+Number(mvp)));
             } else {
                 dispatch(dialog.openDialog("alert",(
