@@ -14,20 +14,22 @@ const SignUp02 = (props) =>{
     const [mail,setMail] = useState("")
     const [doubleChk,setDoubleChk] = useState(false)
     const [pin,setPin] = useState("");
+    const [conninfo,setConnInfo] = useState("");
 
     const [errText,setErrorText] = useState({txt:"-",color:"#FFFFFF"});
     const [errText2,setErrorText2] = useState({txt:"-",color:"#FFFFFF"});
     const [errText3,setErrorText3] = useState({txt:"-",color:"#FFFFFF"});
 
     useEffect(()=>{
-        const {name,mobileno} = props.route.params.data;
+        const {name,mobileno,conninfo} = props.route.params.data;
         setName(name)
         setPhone(mobileno)
+        setConnInfo(conninfo)
     },[])
 
     useEffect(()=>{
         if(pin !== "") {
-            Axios.post('/users/insert',{id:id,name:name,phone:phone,pw:password2,email:mail,pin:pin})
+            Axios.post('/users/insert',{id:id,name:name,phone:phone,pw:password2,email:mail,pin:pin,conninfo:conninfo})
             .then((response)=>{
                 if(response.data.result==="success") {
                     Alert.alert("알림","회원가입이 완료되었습니다.",[{text:"확인",onPress:()=>props.navigation.navigate("Login")}])
