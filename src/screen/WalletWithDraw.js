@@ -1,13 +1,15 @@
 import React, {useState,useEffect, useRef} from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TextInput,ScrollView,TouchableOpacity } from 'react-native';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Modal from 'react-native-modal';
 import Axios from '../modules/Axios';
 import * as spinner from '../actions/spinner';
+import * as dialog from '../actions/dialog';
 
 const WalletWithDraw = ({navigation,route}) =>{
+    const {pin:auth_pin} = useSelector(state => state.authentication.userInfo);
     const dispatch = useDispatch();    
     const [type,setType] = useState(0);
     const [inputAmount,setInputAmount] = useState("");
@@ -23,7 +25,8 @@ const WalletWithDraw = ({navigation,route}) =>{
     const member = useRef(false);
     const [symbol,setSymbol] = useState(route.params.symbol);
     const [sendTokenFee,setSendTokenFee] = useState(0);
-    
+    // const [pinChk,setPinChk] = useState(false);
+
     useEffect(()=>{
         const defaultSetting = async()=>{
             dispatch(spinner.showSpinner());
@@ -136,36 +139,60 @@ const WalletWithDraw = ({navigation,route}) =>{
         }
     }
     const onSendToken = async()=>{
-        let _flag = false;
-        dispatch(spinner.showSpinner());
-        if(symbol !== "BTC") {
-            const {data} = await Axios.post("/api/henesis/eth/transfer",{
-                symbol:symbol,
-                toAddr:address,
-                fromAddr:fromAddr,
-                input_amount:inputAmount,
-                send_amount:sendAmount,
-                member:member.current
-            });
+        setModal(!modal);
+        setTimeout(()=>{
+            if(auth_pin === "" || auth_pin === undefined || auth_pin === null) {
+                dispatch(dialog.openDialog("alert",(
+                    <>
+                        <BoldText text={"PINCODE를 먼저 설정해주세요.\n메뉴->내정보->PinCode 변경"} customStyle={{textAlign:"center",lineHeight:20}}/>
+                    </>
+                )));
+            }else {
+                navigation.navigate("PinCode",{
+                    mode:"confirm",
+                    onGoBack:(_value)=>{requestSendToken(_value)}
+                });
+            }
+        },0)
+    }
+
+    const requestSendToken =async(pin)=>{
+        if(pin === true) {
+            let _flag = false;
+            dispatch(spinner.showSpinner());
+            if(symbol !== "BTC") {
+                const {data} = await Axios.post("/api/henesis/eth/transfer",{
+                    symbol:symbol,
+                    toAddr:address,
+                    fromAddr:fromAddr,
+                    input_amount:inputAmount,
+                    send_amount:sendAmount,
+                    member:member.current
+                });
+                data.result === "success" ? _flag = true : null; 
             data.result === "success" ? _flag = true : null; 
-        } else {
-            const {data} = await Axios.post("/api/henesis/btc/transfer",{
-                symbol:symbol,
-                toAddr:address,
-                fromAddr:fromAddr,
-                input_amount:inputAmount,
-                send_amount:sendAmount,
-                member:member.current
-            });
+                data.result === "success" ? _flag = true : null; 
+            } else {
+                const {data} = await Axios.post("/api/henesis/btc/transfer",{
+                    symbol:symbol,
+                    toAddr:address,
+                    fromAddr:fromAddr,
+                    input_amount:inputAmount,
+                    send_amount:sendAmount,
+                    member:member.current
+                });
+                data.result === "success" ? _flag = true : null; 
             data.result === "success" ? _flag = true : null; 
-        }
-        dispatch(spinner.hideSpinner());
-        
-        if(_flag) {
-            setModal(!modal);
-            navigation.navigate("WalletResult",{amount:inputAmount,symbol:symbol});
-        } else {
-            alert("오류로 인해 전송이 취소되었습니다.")
+                data.result === "success" ? _flag = true : null; 
+            }
+            dispatch(spinner.hideSpinner());
+            
+            if(_flag) {
+                setModal(!modal);
+                navigation.navigate("WalletResult",{amount:inputAmount,symbol:symbol});
+            } else {
+                alert("오류로 인해 전송이 취소되었습니다.")
+            }
         }
     }
 
@@ -287,7 +314,7 @@ const WalletWithDraw = ({navigation,route}) =>{
                                     </TouchableWithoutFeedback>
                                 </View>
                                 <View style={[styles.boxWrap,{justifyContent:'center'}]}>
-                                    <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"주소를 입력해주세요"} style={styles.input} value={address} onBlur={()=>onVerifiedAddr()} onChangeText={(text)=>setAddress(text)}/>
+                                    <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"주소를 입력해주세요"} style={[styles.input,{fontSize:12}]} value={address} onBlur={()=>onVerifiedAddr()} onChangeText={(text)=>setAddress(text)}/>
                                 </View>
                                 <BoldText text={addressError.text} customStyle={{color:addressError.color,fontSize:10,marginTop:8}}/>
                             </View>
