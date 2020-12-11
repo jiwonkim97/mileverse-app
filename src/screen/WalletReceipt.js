@@ -32,9 +32,10 @@ const WalletReceipt = ({navigation,route}) =>{
     },[])
     const openWebBrowser = ()=>{
         if (route.params.symbol === "BTC") {
-            Linking.openURL(`https://blockstream.info/testnet/tx/${route.params.hash}`);
+            Linking.openURL(`https://btc.com/${route.params.hash}`);
+            
         } else if(route.params.symbol === "ETH") {
-            Linking.openURL(`https://ropsten.etherscan.io/tx/${route.params.hash}`);
+            Linking.openURL(`https://etherscan.io/tx/${route.params.hash}`);
         }
     }
     return (
