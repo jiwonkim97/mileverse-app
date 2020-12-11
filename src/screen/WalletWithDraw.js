@@ -318,8 +318,16 @@ const WalletWithDraw = ({navigation,route}) =>{
                                 </View>
                                 <BoldText text={addressError.text} customStyle={{color:addressError.color,fontSize:10,marginTop:8}}/>
                             </View>
-                            <View style={[styles.item,{marginTop:16}]}>
-                            <View style={{marginTop:16,borderWidth:1,borderColor:"#F2F2F2"}} />
+                            <View style={[styles.item,{marginTop:16,paddingHorizontal:2}]}>
+                                <View style={{marginTop:16,borderWidth:1,borderColor:"#F2F2F2"}} >
+                                </View>
+                                <View style={{marginTop:26}}>
+                                    <BoldText text={"[필독]"} customStyle={[styles.noticeText,{color:'red'}]}/>
+                                    <View style={{flexDirection:"column",flexGrow:1}}>
+                                        <BoldText text={"※ 마일벌스 지갑에서 외부지갑으로 출금 시 Internal Txns(스마트 컨트랙트)으로 생성 됩니다. Internal Txns(스마트컨트랙트)으로 전송할 경우 일부 거래소에서 송금이 되지 않을 수 있습니다."} customStyle={[styles.noticeText,{marginTop:9,lineHeight:18}]}/>
+                                        <BoldText text={"- 거래소 정책 확인 후 거래소 혹은 탈중앙화 지갑으로 출금해주세요."} customStyle={[styles.noticeText,{lineHeight:18,color:"red"}]}/>
+                                    </View>
+                                </View>
                                 {
                                     symbol === "BTC" ? 
                                         <View style={{marginTop:26,marginBottom:100}}>
@@ -329,14 +337,14 @@ const WalletWithDraw = ({navigation,route}) =>{
                                             <BoldText text={"0.0002 BTC 이상부터 출금 가능합니다."} customStyle={[styles.noticeText,{lineHeight:18}]}/>
                                         </View>
                                         : symbol === "ETH" ? 
-                                            <View style={{marginTop:44,marginBottom:100}}>
+                                            <View style={{marginTop:26,marginBottom:100}}>
                                                 <BoldText text={"[유의사항]"} customStyle={styles.noticeText}/>
                                                 <BoldText text={"잘못 전송한 경우 취소가 불가능합니다."} customStyle={[styles.noticeText,{marginTop:9,lineHeight:18}]}/>
                                                 <BoldText text={"전송 시 가스 비(0.005 ETH)가 발생합니다."} customStyle={[styles.noticeText,{lineHeight:18}]}/>
                                                 <BoldText text={"0.005 ETH 이상부터 출금 가능합니다."} customStyle={[styles.noticeText,{lineHeight:18}]}/>
                                             </View>
                                             :
-                                            <View style={{marginTop:44,marginBottom:100}}>
+                                            <View style={{marginTop:26,marginBottom:100}}>
                                                 <BoldText text={"[유의사항]"} customStyle={styles.noticeText}/>
                                                 <BoldText text={"잘못 전송한 경우 취소가 불가능합니다."} customStyle={[styles.noticeText,{marginTop:9,lineHeight:18}]}/>
                                                 <BoldText text={"전송 시 가스 비(0.005 ETH)가 발생합니다."} customStyle={[styles.noticeText,{lineHeight:18}]}/>
