@@ -128,7 +128,7 @@ const GifticonDetail = ({route,navigation}) =>{
                         <BoldText text={detail.PDT_NAME} customStyle={{fontSize:15}}/>
                         <View style={{marginTop:11,flexDirection:"row",alignItems:"center"}}>
                             <ExtraBoldText text={amount} customStyle={{fontSize:15}}/>
-                            <BoldText text={"원"} customStyle={{marginLeft:4}}/>
+                            <BoldText text={"MVP"} customStyle={{marginLeft:4}}/>
                         </View>
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",paddingVertical:10,alignItems:"center",justifyContent:"center",borderBottomColor:"#ECECEC",borderBottomWidth:2}}>
