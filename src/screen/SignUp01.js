@@ -129,97 +129,99 @@ const SignUp01 = (props) =>{
                     </TouchableWithoutFeedback>
                     <ExtraBoldText text="회원가입" customStyle={{fontSize:16}}/>
                 </View>
-                <View style={{paddingHorizontal:16,paddingTop:16}}>
-                    <View style={{flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
-                        <Image source={require('../../assets/img/ico_progress_01.png')} style={{resizeMode:"stretch",width:20,height:20}}/>
-                        <Image source={require('../../assets/img/ico_progress_none.png')} style={{marginLeft:5,resizeMode:"stretch",width:10,height:10}}/>
-                    </View>
-                    <View style={{marginTop:14}}>
-                        <ExtraBoldText text={"본인 인증하기"} customStyle={{fontSize:14,color:"#707070"}}/>
-                        <View style={{marginTop:14,borderRadius:10,borderWidth:1,borderColor:'#E5E5E5',paddingHorizontal:16,justifyContent:"center",alignItems:"center",paddingTop:22,paddingBottom:16,width:150,backgroundColor:"#FFFFFF"}}>
-                            <ExtraBoldText text={"휴대폰 본인인증"} customStyle={{fontSize:12,color:"#707070"}}/>
-                            <View style={{marginTop:20,justifyContent:"center",alignItems:"center"}}>
-                                <RegularText text={"본인 명의의 휴대폰을"} customStyle={{color:'#707070',justifyContent:"center",fontSize:10}}/>
-                                <RegularText text={"이용하여 본인인증을"} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:10}}/>
-                                <RegularText text={"진행합니다."} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:10}}/>
-                            </View>
-                            <TouchableWithoutFeedback onPress={onIdentifyCheck} disabled={authBtn.disabled}>
-                                <View style={{marginTop:25,backgroundColor:authBtn.bgColor,paddingHorizontal:32,paddingVertical:8,borderRadius:6}}>
-                                    <BoldText text={"인증하기"} customStyle={{fontSize:12,color:authBtn.textColor}}/>
-                                </View>
-                            </TouchableWithoutFeedback>
+                <ScrollView style={{flex:1}}>
+                    <View style={{padding:16}}>
+                        <View style={{flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
+                            <Image source={require('../../assets/img/ico_progress_01.png')} style={{resizeMode:"stretch",width:20,height:20}}/>
+                            <Image source={require('../../assets/img/ico_progress_none.png')} style={{marginLeft:5,resizeMode:"stretch",width:10,height:10}}/>
                         </View>
-                    </View>
-                    <View style={{marginTop:14}}>
-                        <ExtraBoldText text={"약관동의"} customStyle={{fontSize:14,color:"#707070"}}/>
-                        <View style={{marginTop:14,borderRadius:4,borderColor:"#E5E5E5",borderWidth:1,overflow:"hidden"}}>
-                            <View style={{backgroundColor:"#F6F6F6",padding:12,flexDirection:"row",alignItems:"center",borderBottomWidth:1,borderBottomColor:'#E5E5E5'}}>
-                                <CheckBox
-                                    isChecked={checkAll}
-                                    checkedCheckBoxColor={'#8D3981'}
-                                    uncheckedCheckBoxColor={"#999999"}
-                                    onClick={() => onChangeCheckbox("all")}
-                                />
-                                <BoldText text={"모든 약관에 동의합니다."} customStyle={{fontSize:10,marginLeft:12}}/>
-                            </View>
-                            <View style={{padding:12,flexDirection:"row",alignItems:"center",borderBottomWidth:1,borderBottomColor:'#E5E5E5',justifyContent:"space-between",backgroundColor:"#FFFFFF"}}>
-                                <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <CheckBox
-                                        isChecked={checkTerms}
-                                        checkedCheckBoxColor={'#8D3981'}
-                                        uncheckedCheckBoxColor={"#999999"}
-                                        onClick={() => onChangeCheckbox("terms")}
-                                    />
-                                    <BoldText text={"이용약관 (필수)"} customStyle={{fontSize:10,marginLeft:12}}/>
+                        <View style={{marginTop:14}}>
+                            <ExtraBoldText text={"본인 인증하기"} customStyle={{fontSize:14,color:"#707070"}}/>
+                            <View style={{marginTop:14,borderRadius:10,borderWidth:1,borderColor:'#E5E5E5',paddingHorizontal:16,justifyContent:"center",alignItems:"center",paddingTop:22,paddingBottom:16,width:150,backgroundColor:"#FFFFFF"}}>
+                                <ExtraBoldText text={"휴대폰 본인인증"} customStyle={{fontSize:12,color:"#707070"}}/>
+                                <View style={{marginTop:20,justifyContent:"center",alignItems:"center"}}>
+                                    <RegularText text={"본인 명의의 휴대폰을"} customStyle={{color:'#707070',justifyContent:"center",fontSize:10}}/>
+                                    <RegularText text={"이용하여 본인인증을"} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:10}}/>
+                                    <RegularText text={"진행합니다."} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:10}}/>
                                 </View>
-                                <TouchableWithoutFeedback onPress={()=>{
-                                    setModalMode("terms");
-                                    setModal(!modal)
-                                }}>
-                                    <View style={{paddingHorizontal:12,paddingVertical:9,borderRadius:6,borderWidth:1,borderColor:"#E5E5E5"}}>
-                                        <BoldText text={"전문보기"} customStyle={{color:"#A8A8A8",fontSize:10}}/>
-                                    </View>
-                                </TouchableWithoutFeedback>
-                                
-                            </View>
-                            <View style={{padding:12,flexDirection:"row",alignItems:"center",borderBottomWidth:1,borderBottomColor:'#E5E5E5',justifyContent:"space-between",backgroundColor:"#FFFFFF"}}>
-                                <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <CheckBox
-                                        isChecked={checkprivacy}
-                                        checkedCheckBoxColor={'#8D3981'}
-                                        uncheckedCheckBoxColor={"#999999"}
-                                        onClick={() => onChangeCheckbox("privacy")}
-                                    />
-                                    <BoldText text={"개인정보 처리방침 (필수)"} customStyle={{fontSize:10,marginLeft:12}}/>
-                                </View>
-                                <TouchableWithoutFeedback onPress={()=>{
-                                    setModalMode("privacy");
-                                    setModal(!modal)
-                                }}>
-                                    <View style={{paddingHorizontal:12,paddingVertical:9,borderRadius:6,borderWidth:1,borderColor:"#E5E5E5"}}>
-                                        <BoldText text={"전문보기"} customStyle={{color:"#A8A8A8",fontSize:10}}/>
+                                <TouchableWithoutFeedback onPress={onIdentifyCheck} disabled={authBtn.disabled}>
+                                    <View style={{marginTop:25,backgroundColor:authBtn.bgColor,paddingHorizontal:32,paddingVertical:8,borderRadius:6}}>
+                                        <BoldText text={"인증하기"} customStyle={{fontSize:12,color:authBtn.textColor}}/>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
-                            <View style={{padding:12,flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"#FFFFFF"}}>
-                                <View style={{flexDirection:"row",alignItems:"center"}}>
+                        </View>
+                        <View style={{marginTop:14}}>
+                            <ExtraBoldText text={"약관동의"} customStyle={{fontSize:14,color:"#707070"}}/>
+                            <View style={{marginTop:14,borderRadius:4,borderColor:"#E5E5E5",borderWidth:1,overflow:"hidden"}}>
+                                <View style={{backgroundColor:"#F6F6F6",padding:12,flexDirection:"row",alignItems:"center",borderBottomWidth:1,borderBottomColor:'#E5E5E5'}}>
                                     <CheckBox
-                                        isChecked={checkLogin}
+                                        isChecked={checkAll}
                                         checkedCheckBoxColor={'#8D3981'}
                                         uncheckedCheckBoxColor={"#999999"}
-                                        onClick={() => onChangeCheckbox('login')}
+                                        onClick={() => onChangeCheckbox("all")}
                                     />
-                                    <BoldText text={"자동 로그인 동의 (선택)"} customStyle={{fontSize:10,marginLeft:12}}/>
+                                    <BoldText text={"모든 약관에 동의합니다."} customStyle={{fontSize:10,marginLeft:12}}/>
+                                </View>
+                                <View style={{padding:12,flexDirection:"row",alignItems:"center",borderBottomWidth:1,borderBottomColor:'#E5E5E5',justifyContent:"space-between",backgroundColor:"#FFFFFF"}}>
+                                    <View style={{flexDirection:"row",alignItems:"center"}}>
+                                        <CheckBox
+                                            isChecked={checkTerms}
+                                            checkedCheckBoxColor={'#8D3981'}
+                                            uncheckedCheckBoxColor={"#999999"}
+                                            onClick={() => onChangeCheckbox("terms")}
+                                        />
+                                        <BoldText text={"이용약관 (필수)"} customStyle={{fontSize:10,marginLeft:12}}/>
+                                    </View>
+                                    <TouchableWithoutFeedback onPress={()=>{
+                                        setModalMode("terms");
+                                        setModal(!modal)
+                                    }}>
+                                        <View style={{paddingHorizontal:12,paddingVertical:9,borderRadius:6,borderWidth:1,borderColor:"#E5E5E5"}}>
+                                            <BoldText text={"전문보기"} customStyle={{color:"#A8A8A8",fontSize:10}}/>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    
+                                </View>
+                                <View style={{padding:12,flexDirection:"row",alignItems:"center",borderBottomWidth:1,borderBottomColor:'#E5E5E5',justifyContent:"space-between",backgroundColor:"#FFFFFF"}}>
+                                    <View style={{flexDirection:"row",alignItems:"center"}}>
+                                        <CheckBox
+                                            isChecked={checkprivacy}
+                                            checkedCheckBoxColor={'#8D3981'}
+                                            uncheckedCheckBoxColor={"#999999"}
+                                            onClick={() => onChangeCheckbox("privacy")}
+                                        />
+                                        <BoldText text={"개인정보 처리방침 (필수)"} customStyle={{fontSize:10,marginLeft:12}}/>
+                                    </View>
+                                    <TouchableWithoutFeedback onPress={()=>{
+                                        setModalMode("privacy");
+                                        setModal(!modal)
+                                    }}>
+                                        <View style={{paddingHorizontal:12,paddingVertical:9,borderRadius:6,borderWidth:1,borderColor:"#E5E5E5"}}>
+                                            <BoldText text={"전문보기"} customStyle={{color:"#A8A8A8",fontSize:10}}/>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                </View>
+                                <View style={{padding:12,flexDirection:"row",alignItems:"center",justifyContent:"space-between",backgroundColor:"#FFFFFF"}}>
+                                    <View style={{flexDirection:"row",alignItems:"center"}}>
+                                        <CheckBox
+                                            isChecked={checkLogin}
+                                            checkedCheckBoxColor={'#8D3981'}
+                                            uncheckedCheckBoxColor={"#999999"}
+                                            onClick={() => onChangeCheckbox('login')}
+                                        />
+                                        <BoldText text={"자동 로그인 동의 (선택)"} customStyle={{fontSize:10,marginLeft:12}}/>
+                                    </View>
                                 </View>
                             </View>
                         </View>
+                        <TouchableWithoutFeedback onPress={onNextStep}>
+                            <View style={{height:44,backgroundColor:"#8D3981",justifyContent:"center",alignItems:'center',borderRadius:6,marginTop:14}}>
+                                <BoldText text={"다음"} customStyle={{fontSize:14,color:'#FFFFFF'}}/>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                    <TouchableWithoutFeedback onPress={onNextStep}>
-                        <View style={{height:44,backgroundColor:"#8D3981",justifyContent:"center",alignItems:'center',borderRadius:6,marginTop:14}}>
-                            <BoldText text={"다음"} customStyle={{fontSize:14,color:'#FFFFFF'}}/>
-                        </View>
-                    </TouchableWithoutFeedback>
-                </View>
+                </ScrollView>
                 <Modal isVisible={modal} backdropTransitionOutTiming={0} style={{margin: 0,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
                     <View style={{backgroundColor:"#FFFFFF",borderRadius:6,width:"90%",maxHeight:"80%",flex:1,overflow:"hidden"}}>
                         <View style={{alignItems:'flex-end',paddingRight:16,paddingTop:16}}>
