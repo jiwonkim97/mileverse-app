@@ -126,7 +126,6 @@ const WalletDetail = ({navigation,route}) =>{
         const _floatNum = parseFloat(_fixedNum);
         if(_floatNum<0.000001) {
             const __str_FixedNum = String(_fixedNum);
-            console.log(_fixedNum)
             if(__str_FixedNum.slice(-1) === "0") 
                 return __str_FixedNum.slice(0,-1);
             else 
