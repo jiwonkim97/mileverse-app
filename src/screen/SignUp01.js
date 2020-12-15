@@ -79,6 +79,7 @@ const SignUp01 = (props) =>{
                             } else {
                                 setAuthBtn({disabled:true,textColor:"#A7A7A7",bgColor:"#E5E5E5"});
                                 setCheckIdentify(true);
+                                toast.info("본인인증을 완료하였습니다.");
                             }
                         } else {
                             dispatch(dialog.openDialog("alert",(
@@ -136,7 +137,7 @@ const SignUp01 = (props) =>{
                             <Image source={require('../../assets/img/ico_progress_none.png')} style={{marginLeft:5,resizeMode:"stretch",width:10,height:10}}/>
                         </View>
                         <View style={{marginTop:14}}>
-                            <ExtraBoldText text={"본인 인증하기"} customStyle={{fontSize:14,color:"#707070"}}/>
+                            <ExtraBoldText text={"본인 인증하기"} customStyle={{fontSize:14}}/>
                             <View style={{marginTop:14,borderRadius:10,borderWidth:1,borderColor:'#E5E5E5',paddingHorizontal:16,justifyContent:"center",alignItems:"center",paddingTop:22,paddingBottom:16,width:150,backgroundColor:"#FFFFFF"}}>
                                 <ExtraBoldText text={"휴대폰 본인인증"} customStyle={{fontSize:12,color:"#707070"}}/>
                                 <View style={{marginTop:20,justifyContent:"center",alignItems:"center"}}>
@@ -151,8 +152,8 @@ const SignUp01 = (props) =>{
                                 </TouchableWithoutFeedback>
                             </View>
                         </View>
-                        <View style={{marginTop:14}}>
-                            <ExtraBoldText text={"약관동의"} customStyle={{fontSize:14,color:"#707070"}}/>
+                        <View style={{marginTop:26}}>
+                            <ExtraBoldText text={"약관동의"} customStyle={{fontSize:14}}/>
                             <View style={{marginTop:14,borderRadius:4,borderColor:"#E5E5E5",borderWidth:1,overflow:"hidden"}}>
                                 <View style={{backgroundColor:"#F6F6F6",padding:12,flexDirection:"row",alignItems:"center",borderBottomWidth:1,borderBottomColor:'#E5E5E5'}}>
                                     <CheckBox

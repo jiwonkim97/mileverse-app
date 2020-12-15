@@ -161,7 +161,7 @@ const ContactScreen = (props) =>{
                         <View style={{marginTop:26}}>
                             <BoldText text={"내용"}/>
                             <View style={[styles.boxWrap,{height:160,paddingTop:16}]}>
-                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"내용을 입력해주세요."} style={[styles.input,{height:160,textAlignVertical:'top'}]} onChangeText={text=>onChangeContents(text)} numberOfLines={6}/>
+                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"내용을 입력해주세요."} multiline={true} style={[styles.input,{height:160,textAlignVertical:'top'}]} onChangeText={text=>onChangeContents(text)} numberOfLines={6}/>
                             </View>
                         </View>
                         <View style={{alignItems:'flex-end',marginTop:4}}>

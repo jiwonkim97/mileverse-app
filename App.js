@@ -189,11 +189,11 @@ const App = () => {
 						<Stack.Screen name="WalletReceipt" component={WalletReceipt} />
 						<Stack.Screen name="WalletDeposit" component={WalletDeposit} />
 						<Stack.Screen name="WalletWithDraw" component={WalletWithDraw} />
-						<Stack.Screen name="WalletResult" component={WalletResult} />
+						<Stack.Screen name="WalletResult" component={WalletResult} options={{gestureEnabled:false}}/>
 						<Stack.Screen name="WalletAgree" component={WalletAgree} />
 						<Stack.Screen name="ScanScreen" component={ScanScreen} />
 						<Stack.Screen name="JhealthPick" component={HealthPick} />
-						<Stack.Screen name="HealthPickResult" component={HealthPickResult} />
+						<Stack.Screen name="HealthPickResult" component={HealthPickResult} options={{gestureEnabled:false}}/>
 					</Stack.Navigator>
 				</NavigationContainer>
 				<DialogComponent />

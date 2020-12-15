@@ -1,10 +1,13 @@
 import React, {useState,useEffect} from 'react';
+import { useDispatch } from 'react-redux';
 import { View,SafeAreaView,TextInput,StyleSheet,ScrollView,Image, Alert,TouchableWithoutFeedback } from 'react-native';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios';
+import * as dialog from '../actions/dialog';
 
 const SignUp02 = (props) =>{
+    const dispatch = useDispatch();
     const regex = /^.*(?=^.{8,16}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
     const [id,setId] = useState("")
     const [phone,setPhone] = useState("")
@@ -32,9 +35,20 @@ const SignUp02 = (props) =>{
             Axios.post('/users/insert',{id:id,name:name,phone:phone,pw:password2,email:mail,pin:pin,conninfo:conninfo})
             .then((response)=>{
                 if(response.data.result==="success") {
-                    Alert.alert("알림","회원가입이 완료되었습니다.",[{text:"확인",onPress:()=>props.navigation.navigate("Login")}])
+                    dispatch(dialog.openDialog("confirm",(
+                        <>
+                            <BoldText text={'회원가입이 완료되었습니다.'}/>
+                        </>
+                    ),()=>{
+                        dispatch(dialog.closeDialog());
+                        navigation.navigate("Login");
+                    }));
                 } else if(response.data.result==="fail"){
-                    Alert.alert("알림",response.data.msg,[{text:"확인"}])
+                    dispatch(dialog.openDialog("confirm",(
+                        <>
+                            <BoldText text={response.data.msg}/>
+                        </>
+                    )));
                 }
             }).catch((error)=>{
                 console.log(error)
