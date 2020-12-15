@@ -16,9 +16,6 @@ const HealthPick = ({navigation,route}) =>{
     const [type,setType] = useState(0);
     const [hasPoint,setHasPoint] = useState(route.params.available_points);
     const [changePoint,setChangePoint] = useState("");
-    useEffect(()=>{
-        console.log(route.params)
-    },[]);
 
     const selectBg = (num)=> {
         return num === type ? {backgroundColor:"#8D3981",borderColor:"#8D3981"} : {backgroundColor:"#FFFFFF",borderColor:"#E5E5E5"}
@@ -55,13 +52,31 @@ const HealthPick = ({navigation,route}) =>{
                     <BoldText text={"포인트를 입력해주세요."} customStyle={{textAlign:"center",lineHeight:20}}/>
                 </>
             ))); 
-        } else if(Number(changePoint) > Number(hasPoint)) {
+        } else if(Number(changePoint) < 1){
+            dispatch(dialog.openDialog("alert",(
+                <>
+                    <BoldText text={"1p 이상 교환 가능합니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
+                </>
+            ))); 
+        }else if(!(/^[0-9]*$/).test(changePoint)){
+            dispatch(dialog.openDialog("alert",(
+                <>
+                    <BoldText text={"1p 단위로 교환 가능합니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
+                </>
+            ))); 
+        }else if(Number(changePoint) > Number(hasPoint)) {
             dispatch(dialog.openDialog("alert",(
                 <>
                     <BoldText text={"보유한 포인트보다 전환하려는 포인트가 많습니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
                 </>
             ))); 
-        } else {
+        } else if(Number(changePoint) > 10000){
+            dispatch(dialog.openDialog("alert",(
+                <>
+                    <BoldText text={"1회 최대 10,000p를 초과할 수 없습니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
+                </>
+            )));
+        }else {
             dispatch(dialog.openDialog("confirm",(
                 <>
                     <BoldText text={"교환하시겠습니까?"} customStyle={{textAlign:"center",lineHeight:20}}/>
@@ -108,7 +123,7 @@ const HealthPick = ({navigation,route}) =>{
                 </View>
                 <View style={{justifyContent:"space-between",flex:1,backgroundColor:"#FFFFFF"}}>
                     <ScrollView style={{flex:1,paddingTop:26,paddingHorizontal:16}}>
-                        <View style={[styles.shadow,{borderRadius:10,justifyContent:"center",alignItems:"center",overflow:"hidden",height:82}]}>
+                        <View style={[styles.shadow,{borderRadius:10,justifyContent:"center",alignItems:"center",height:82}]}>
                             <Image source={require("../../../assets/img/logo_healthPick.png")} style={{resizeMode:"contain",width:300,height:60}}/>
                         </View>
                         <View style={{marginTop:30}}>
@@ -122,7 +137,7 @@ const HealthPick = ({navigation,route}) =>{
                             <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",marginTop:10}}>
                                 <BoldText text={"전환 포인트"} />
                                 <View style={{borderRadius:6,borderColor:'#E5E5E5',borderWidth:1,paddingHorizontal:16,alignItems:"center",justifyContent:"space-between",width:250,flexDirection:"row",height:46}}>
-                                    <TextInput onChangeText={(text)=>onChangeInput(text)} value={String(changePoint)} placeholder={"전환 할 포인트를 입력해주세요"} placeholderTextColor="#D5C2D3" keyboardType={"numeric"} style={{padding:0,fontFamily:"NotoSans-Regular",textAlign:'right',flex:1}}/>
+                                    <TextInput onChangeText={(text)=>onChangeInput(text)} value={String(changePoint)} placeholder={"전환 할 포인트를 입력해주세요"} placeholderTextColor="#D5C2D3" keyboardType={"phone-pad"} style={{padding:0,fontFamily:"NotoSans-Regular",textAlign:'right',flex:1}}/>
                                     <BoldText text={"원"} customStyle={{marginLeft:20}}/>
                                 </View>
                             </View>
@@ -143,10 +158,10 @@ const HealthPick = ({navigation,route}) =>{
                                 <BoldText text={"[포인트 전환 안내]"} customStyle={{color:"#3A3A3A"}}/>
                                 <View style={{marginTop:10}}>
                                     <BoldText text={
-                                        "- 제이헬스픽 1p는 1 MVP(1원)으로 전환됩니다.\n"+
+                                        "- 제이헬스픽 1P는 1 MVP(1원)으로 전환됩니다.\n"+
                                         "- 전환완료된 MVP는 현금영수증 발급대상이 아닙니다.\n"+
-                                        "- 1p 단위로 최소1p, 일 최대 50.000 MVP월 최대 500,000MVP 까지 전환 가능합니다.\n"+
-                                        "- 전환된 MVP는 바로 사용가능하며, 전환취소 및 출금, 타 포인트 전환을 불가합니다."} customStyle={{lineHeight:18}}/>
+                                        "- 1p 단위로 최소1p, 일 최대 10,000 MVP월 최대 100,000 MVP까지 전환가능합니다.\n"+
+                                        "- 전환된 MVP는 바로 사용가능하며, 전환취소 및 출금, 타포인트전환은 불가합니다."} customStyle={{lineHeight:18}}/>
                                 </View>
                             </View>
                         </View>

@@ -35,7 +35,7 @@ export default ({navigation,route})=>{
                 </View>
                 <View style={{flex:1,justifyContent:"space-between"}}>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                        <ExtraBoldText text={`${commaFormat(route.params.amount)} MVP\n교환 하였습니다..`} customStyle={{fontSize:18,lineHeight:26,textAlign:"center"}}/>
+                        <ExtraBoldText text={`${commaFormat(route.params.amount)} MVP\n교환 하였습니다.`} customStyle={{fontSize:18,lineHeight:26,textAlign:"center"}}/>
                     </View>
                     <TouchableOpacity onPress={()=>navigation.navigate("Change")}>
                         <View style={{height:50,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center"}}>

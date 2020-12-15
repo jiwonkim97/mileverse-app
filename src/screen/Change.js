@@ -65,7 +65,7 @@ const ChangeScreen = ({navigation,route}) =>{
                         <RegularText text={"구매한 MVP는 앱에서 이용이 가능합니다."} customStyle={styles.bannerText}/>
                         <RegularText text={"MVP는 1원의 가치를 지니고 있습니다."} customStyle={styles.bannerText}/>
                     </View> */}
-                    <View style={{backgroundColor:"#FFFFFF",paddingHorizontal:16,paddingTop:26}}>
+                    <View style={{backgroundColor:"#FFFFFF",paddingHorizontal:16,paddingTop:16}}>
                         {/* <BoldText text={"MVP 상품권 구매"} customStyle={styles.itemTitle}/> */}
                         {/* <View style={{marginTop:16,flexDirection:'row'}}>
                             <TouchableWithoutFeedback onPress={()=>doBuyCard("M10")}>
@@ -103,7 +103,7 @@ const ChangeScreen = ({navigation,route}) =>{
                         <View style={{marginVertical:26}}>
                             <BoldText text={"MVP 교환"} customStyle={[styles.itemTitle]}/>
                             <TouchableOpacity onPress={()=>setVisible(true)}>
-                                <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center",overflow:"hidden"}]}>
+                                <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
                                     <View style={{marginVertical:13}}>
                                         <Image source={require("../../assets/img/logo_healthPick.png")} style={{resizeMode:"contain",width:300,height:60}}/>
                                     </View>
@@ -138,7 +138,7 @@ const ChangeScreen = ({navigation,route}) =>{
                                         <BoldText text={
                                             "제공받는자: 제이헬스픽\n"+
                                             "제공목적: 제이헬스픽 포인트 조회 및 전환\n"+
-                                            "제공하는 항목: 개인 식별 정보\n"+
+                                            "제공하는 항목: 개인 식별 정보,제이헬스픽 포인트 잔액\n"+
                                             "보유 및 이용기간: 마일리지 전환 완료 후 파기\n\n"+
                                             "회원님은 동의를 거부할 권리가 있으나, 동의 거부 시 마일리지 전환서비스를 위한 최소한의 정보가 제공되지 않아 해당 서비스 이용이 불가능 합니다."} 
                                             customStyle={styles.modalContentsText}/>
