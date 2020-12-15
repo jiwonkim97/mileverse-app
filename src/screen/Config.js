@@ -57,7 +57,7 @@ const Config = (props) =>{
                     </View>
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
-                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -139,7 +139,7 @@ const Config = (props) =>{
                     <ScrollView style={{backgroundColor:"#FFFFFF",borderRadius:6,paddingVertical:28,paddingHorizontal:16,width:"90%",maxHeight:"80%"}}>
                         <BoldText text={modalMode==="terms"? terms : info} customStyle={{fontSize:12,color:'#3D3D3D',lineHeight:23}}/>
                         <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
-                            <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:12,height:12,resizeMode:'contain',position:"absolute",right:0,top:0}}/>
+                            <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:20,height:20,resizeMode:'contain',position:"absolute",right:0,top:0}}/>
                         </TouchableWithoutFeedback>
                     </ScrollView>
                 </Modal>

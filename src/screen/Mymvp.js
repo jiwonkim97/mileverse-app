@@ -209,7 +209,7 @@ const MymvpScreen = (props) =>{
                     </View>
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
-                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -294,7 +294,7 @@ const MymvpScreen = (props) =>{
                 </View>
                 <Modal isVisible={modal} backdropTransitionOutTiming={0} style={{margin: 0}} useNativeDriver={true}>
                     <View style={{justifyContent:"center",alignItems:"center"}}>
-                        <View style={{backgroundColor:"#FFFFFF",padding:16,borderRadius:10}}>
+                        <View style={{backgroundColor:"#FFFFFF",paddingVertical:16,borderRadius:10,width:"97%",alignItems:"center"}}>
                             <View style={{flexDirection:"row"}}>
                                 <View style={[styles.datePickerWrap]}>
                                     <RNPickerSelect
@@ -346,39 +346,41 @@ const MymvpScreen = (props) =>{
                                     />
                                 </View>
                             </View>
-                            <View style={{marginTop:24,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
-                                <TouchableWithoutFeedback onPress={()=>{
-                                    setModal(!modal);
-                                    setTimeout(()=>{
-                                        const _year = prevYear.current;
-                                        const _month = prevMonth.current;
-                                        const _day = prevDay.current;
-                                        _year !== 0 ? mode.current === "to" ? toYear.current = _year : fromYear.current = _year : null;
-                                        _month !== 0 ? mode.current === "to" ? toMonth.current = _month : fromMonth.current = _month : null;
-                                        _day !== 0 ? mode.current === "to" ? toDay.current = _day : fromDay.current = _day : null;    
-                                    },500)
-                                }}>
-                                    <View>
-                                        <BoldText text={"취소"} customStyle={{color:"#9E9E9E"}}/>
-                                    </View>
-                                </TouchableWithoutFeedback>
-                                <TouchableWithoutFeedback onPress={()=>{
-                                    const {formatedToDate,formatedFromDate} = getFormatDate();
-                                    const _from = new Date(formatedFromDate).getTime();
-                                    const _to = new Date(formatedToDate).getTime();
-                                    if (_from > _to) {
-                                        Alert.alert("알림",
-                                        "시작일이 종료일보다 클 수 없습니다.",
-                                        [{text:"확인"}])
-                                    } else {
-                                        setDateBox(mode.current);
+                            <View style={{width:'100%',paddingHorizontal:16}}>
+                                <View style={{marginTop:24,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
+                                    <TouchableWithoutFeedback onPress={()=>{
                                         setModal(!modal);
-                                    }
-                                }}>
-                                    <View>
-                                        <BoldText text={"확인"} customStyle={{color:"#8D3981",marginLeft:38}}/>
-                                    </View>
-                                </TouchableWithoutFeedback>
+                                        setTimeout(()=>{
+                                            const _year = prevYear.current;
+                                            const _month = prevMonth.current;
+                                            const _day = prevDay.current;
+                                            _year !== 0 ? mode.current === "to" ? toYear.current = _year : fromYear.current = _year : null;
+                                            _month !== 0 ? mode.current === "to" ? toMonth.current = _month : fromMonth.current = _month : null;
+                                            _day !== 0 ? mode.current === "to" ? toDay.current = _day : fromDay.current = _day : null;    
+                                        },500)
+                                    }}>
+                                        <View style={{height:20,justifyContent:"center"}}>
+                                            <BoldText text={"취소"} customStyle={{color:"#9E9E9E"}}/>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    <TouchableWithoutFeedback onPress={()=>{
+                                        const {formatedToDate,formatedFromDate} = getFormatDate();
+                                        const _from = new Date(formatedFromDate).getTime();
+                                        const _to = new Date(formatedToDate).getTime();
+                                        if (_from > _to) {
+                                            Alert.alert("알림",
+                                            "시작일이 종료일보다 클 수 없습니다.",
+                                            [{text:"확인"}])
+                                        } else {
+                                            setDateBox(mode.current);
+                                            setModal(!modal);
+                                        }
+                                    }}>
+                                        <View style={{height:20,justifyContent:"center"}}>
+                                            <BoldText text={"확인"} customStyle={{color:"#8D3981",marginLeft:38}}/>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                </View>
                             </View>
                         </View>
                     </View>

@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import { useDispatch } from 'react-redux';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,ScrollView, Alert } from 'react-native';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,ScrollView, } from 'react-native';
 import CheckBox from 'react-native-check-box'
 import CommonStatusbar from '../components/CommonStatusbar';
 import { RegularText, ExtraBoldText,BoldText } from '../components/customComponents';
@@ -226,7 +226,7 @@ const SignUp01 = (props) =>{
                     <View style={{backgroundColor:"#FFFFFF",borderRadius:6,width:"90%",maxHeight:"80%",flex:1,overflow:"hidden"}}>
                         <View style={{alignItems:'flex-end',paddingRight:16,paddingTop:16}}>
                             <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
-                                <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:16,height:16,resizeMode:'contain'}}/>
+                                <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:20,height:20,resizeMode:'contain'}}/>
                             </TouchableWithoutFeedback>
                         </View>
                         <ScrollView style={{paddingHorizontal:20}}>

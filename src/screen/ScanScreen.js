@@ -18,7 +18,7 @@ export default ({navigation,route})=>{
             topContent={
                 <TouchableWithoutFeedback onPress={()=>navigation.goBack()}>
                     <View style={{backgroundColor:"#FFFFFF",width:"100%",height:"100%",alignItems:"flex-end",paddingTop:20,paddingRight:20}}>
-                        <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:18,height:18}}/>
+                        <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
                     </View>
                 </TouchableWithoutFeedback>
             }

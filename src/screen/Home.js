@@ -24,7 +24,7 @@ const HomeScreen = (props) =>{
     const [modal,setModal] = useState(false)
     const [codeNum,setCodeNum] = useState("");
     const [commaMvp,setCommaMvp] = useState(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-    const bannerHeight = useRef(Dimensions.get("screen").width*643/1500)
+    const bannerHeight = useRef(Dimensions.get("screen").width*643/1501)
     
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))

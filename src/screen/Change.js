@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Image,View,SafeAreaView,StyleSheet, TouchableWithoutFeedback,ScrollView } from 'react-native';
+import { Image,View,SafeAreaView,StyleSheet, TouchableWithoutFeedback,ScrollView,TouchableOpacity,Alert } from 'react-native';
+import Modal from 'react-native-modal';
+import CheckBox from 'react-native-check-box'
 import { RegularText, ExtraBoldText, BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 
 import * as dialog from '../actions/dialog';
+import * as spinner from '../actions/spinner';
+import Axios from '../modules/Axios';
 
-const ChangeScreen = (props) =>{
+const ChangeScreen = ({navigation,route}) =>{
     const dispatch = useDispatch();
+    const [visible,setVisible] = useState(false);
+    const [agree,setAgree] = useState(false);
     const doBuyCard = (target)=>{
         const _item = target === "M10" ? "1만원권" : "5천원권";
         dispatch(dialog.openDialog("confirm",(
@@ -16,9 +22,34 @@ const ChangeScreen = (props) =>{
             </>
         ),()=>{
             dispatch(dialog.closeDialog());
-            props.navigation.navigate("DanalPg",{item:target});
+            navigation.navigate("DanalPg",{item:target});
         }));
     }
+
+    const onChangePoint = async()=>{
+        if(agree === false ) {
+            Alert.alert("알림","동의해주세요.",[{text:"확인"}])
+        } else {
+            dispatch(spinner.showSpinner());
+            const {data} = await Axios.get("/api/jHealthPick/users");
+            dispatch(spinner.hideSpinner());
+            console.log(data)
+            if(data.result === "success") {
+                if(data.customer) {
+                    setVisible(false);
+                    setTimeout(()=>{
+                        navigation.navigate("JhealthPick",data.customer)
+                    },500)
+                } else {
+                    Alert.alert("알림","제이헬스픽 회원이 아닙니다.",[{text:"확인"}]);    
+                }
+            } else {
+                Alert.alert("알림","시스템 오류입니다.\n다시 시도해주세요.",[{text:"확인"}]);
+            }
+            
+        }
+    };
+
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
@@ -71,13 +102,13 @@ const ChangeScreen = (props) =>{
                         </View> */}
                         <View style={{marginVertical:26}}>
                             <BoldText text={"MVP 교환"} customStyle={[styles.itemTitle]}/>
-                            <View style={{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center",overflow:"hidden"}}>
-                                <View style={{marginVertical:13}}>
-                                    <Image source={require("../../assets/img/logo_healthPick.png")} />
+                            <TouchableOpacity onPress={()=>setVisible(true)}>
+                                <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center",overflow:"hidden"}]}>
+                                    <View style={{marginVertical:13}}>
+                                        <Image source={require("../../assets/img/logo_healthPick.png")} style={{resizeMode:"contain",width:300,height:60}}/>
+                                    </View>
                                 </View>
-                                <View style={styles.mask} />
-                                <ExtraBoldText text={"Coming soon"} customStyle={{fontSize:20,color:"#FFFFFF",position:"absolute"}}/>
-                            </View>
+                            </TouchableOpacity>
                             <View style={{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center",overflow:"hidden"}}>
                                 <View style={{marginVertical:13}}>
                                     <Image source={require("../../assets/img/logo_jjane.png")} style={{resizeMode:"stretch",width:60,height:57}}/>
@@ -89,7 +120,59 @@ const ChangeScreen = (props) =>{
                         
                     </View>
                 </ScrollView>
-                
+                <Modal isVisible={visible} backdropTransitionOutTiming={0} style={{margin: 0,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
+                    <View style={{backgroundColor:"#FFFFFF",width:308,height:508,borderRadius:6,overflow:"hidden",justifyContent:"space-between"}}>
+                        <View style={{paddingHorizontal:16,paddingBottom:16,flex:1,justifyContent:"space-between"}}>
+                            <View>
+                                <View style={{height:54,justifyContent:"center",alignItems:"center"}}>
+                                    <BoldText text={"전환동의"} customStyle={{fontSize:14}}/>
+                                </View>
+                                <View style={{borderWidth:1,borderColor:"#F2F2F2"}} />
+                                <View style={{marginTop:26}}>
+                                    <BoldText text={"제이헬스픽 포인트를 MVP로 전환하기 위해 아래 사항에 동의해 주세요."} customStyle={{lineHeight:22}}/>
+                                </View>
+                                <View style={{marginTop:20,borderWidth:1,borderRadius:6,borderColor:"#E5E5E5",backgroundColor:"#F3F3F3",padding:16}}>
+                                    <BoldText text={"개인 정보 제3자 제공 동의"} customStyle={{fontSize:12}}/>
+                                    <View style={{borderWidth:1,borderColor:"#EBEBEB",marginTop:16}} />
+                                    <View style={{marginTop:16}}>
+                                        <BoldText text={
+                                            "제공받는자: 제이헬스픽\n"+
+                                            "제공목적: 제이헬스픽 포인트 조회 및 전환\n"+
+                                            "제공하는 항목: 개인 식별 정보\n"+
+                                            "보유 및 이용기간: 마일리지 전환 완료 후 파기\n\n"+
+                                            "회원님은 동의를 거부할 권리가 있으나, 동의 거부 시 마일리지 전환서비스를 위한 최소한의 정보가 제공되지 않아 해당 서비스 이용이 불가능 합니다."} 
+                                            customStyle={styles.modalContentsText}/>
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={{flexDirection:"row",alignItems:"center"}}>
+                                <CheckBox
+                                    isChecked={agree}
+                                    checkedCheckBoxColor={'#8D3981'}
+                                    uncheckedCheckBoxColor={"#999999"}
+                                    onClick={()=>setAgree(!agree)}
+                                />
+                                <TouchableWithoutFeedback onPress={()=>setAgree(!agree)}>
+                                    <View>
+                                        <BoldText text={"마일리지 교환에 동의합니다."} customStyle={{fontSize:10,marginLeft:10}}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
+                        </View>
+                        <View style={{flexDirection:'row',height:46}}>
+                            <TouchableWithoutFeedback onPress={()=>setVisible(false)}>
+                                <View style={[styles.modalBottomBtn,{backgroundColor:"#EBEBEB"}]}>
+                                    <BoldText text={"취소"} customStyle={{color:"#8B8B8B",fontSize:14}}/>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <TouchableWithoutFeedback onPress={onChangePoint}>
+                                <View style={[styles.modalBottomBtn,{backgroundColor:"#8D3981"}]}>
+                                    <BoldText text={"확인"} customStyle={{color:"#FFFFFF",fontSize:14}}/>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </View>
+                    </View>
+                </Modal>
             </SafeAreaView>
         </>
     )
@@ -177,5 +260,15 @@ const styles = StyleSheet.create({
         alignItems:"center",
         borderRadius:10,
         opacity:0.5
+    },
+    modalBottomBtn:{
+        flex:1,
+        justifyContent:"center",
+        alignItems:"center"
+    },
+    modalContentsText:{
+        fontSize:11,
+        color:"#3A3A3A",
+        lineHeight:18
     }
 });

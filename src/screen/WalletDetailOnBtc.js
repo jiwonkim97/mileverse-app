@@ -6,6 +6,7 @@ import CommonStatusbar from '../components/CommonStatusbar';
 import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
 import moment from "moment";
+import {useFocusEffect} from '@react-navigation/native';
 
 const WalletDetailOnBtc = ({navigation,route}) =>{
     const [page,setPage] = useState(0);
@@ -54,7 +55,6 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
     const [symbol,setSymbol] = useState("");
     const [balance,setBalance] = useState("");
     const [amount,setAmount] = useState("");
-    const isFirstRun = useRef(true);
     const toggleFilter = () =>{
         if(toggle) {
             Animated.timing(animatedController,{
@@ -124,23 +124,24 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
         const parts = String(num).split(".")
         return parts[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +(parts[1] ? "."+parts[1] : "");
     }
-    useEffect(()=>{
-        const setCardData = async()=>{
-            const {data} = await Axios.get("/api/henesis/btc/balance")
-            if(data.result === "success") {
-                setBalance(commaFormat(String(data.btc.balance)));
-                setAmount(commaFormat(parseFloat(String(Number(data.btc.amount).toFixed(8)))));
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const setCardData = async()=>{
+                const {data} = await Axios.get("/api/henesis/btc/balance")
+                if(data.result === "success") {
+                    setBalance(commaFormat(String(data.btc.balance)));
+                    setAmount(commaFormat(parseFloat(String(Number(data.btc.amount).toFixed(8)))));
+                }
             }
-        }
-        setSymbol(route.params.symbol)
-        setCardData();
-        updateDateByBtn('1w')
-    },[])
+            setType("ALL")
+            setSymbol(route.params.symbol)
+            setCardData();
+            updateDateByBtn('1w')
+        }, [])
+    );
+
     useEffect(()=>{
-        if(isFirstRun.current) {
-            isFirstRun.current = false;
-            return;
-        }
         getHistory();
     },[type])
 
@@ -231,7 +232,7 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
                     </View>
                     <TouchableOpacity onPress={()=>navigation.navigate("Wallet")}>
                         <View style={styles.headerIcoWrap}>
-                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -329,7 +330,7 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
                 </View>
                 <Modal isVisible={modal} backdropTransitionOutTiming={0} style={{margin: 0}} useNativeDriver={true}>
                     <View style={{justifyContent:"center",alignItems:"center"}}>
-                        <View style={{backgroundColor:"#FFFFFF",padding:16,borderRadius:10,width:"90%"}}>
+                        <View style={{backgroundColor:"#FFFFFF",paddingVertical:16,borderRadius:10,width:"97%",alignItems:"center"}}>
                             <View style={{flexDirection:"row",justifyContent:"center"}}>
                                 <View style={[styles.datePickerWrap]}>
                                     <RNPickerSelect
@@ -381,39 +382,41 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
                                     />
                                 </View>
                             </View>
-                            <View style={{marginTop:24,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
-                                <TouchableWithoutFeedback onPress={()=>{
-                                    setModal(!modal);
-                                    setTimeout(()=>{
-                                        const _year = prevYear.current;
-                                        const _month = prevMonth.current;
-                                        const _day = prevDay.current;
-                                        _year !== 0 ? mode.current === "to" ? toYear.current = _year : fromYear.current = _year : null;
-                                        _month !== 0 ? mode.current === "to" ? toMonth.current = _month : fromMonth.current = _month : null;
-                                        _day !== 0 ? mode.current === "to" ? toDay.current = _day : fromDay.current = _day : null;    
-                                    },500)
-                                }}>
-                                    <View>
-                                        <BoldText text={"취소"} customStyle={{color:"#9E9E9E"}}/>
-                                    </View>
-                                </TouchableWithoutFeedback>
-                                <TouchableWithoutFeedback onPress={()=>{
-                                    const {formatedToDate,formatedFromDate} = getFormatDate();
-                                    const _from = new Date(formatedFromDate).getTime();
-                                    const _to = new Date(formatedToDate).getTime();
-                                    if (_from > _to) {
-                                        Alert.alert("알림",
-                                        "시작일이 종료일보다 클 수 없습니다.",
-                                        [{text:"확인"}])
-                                    } else {
-                                        setDateBox(mode.current);
+                            <View style={{width:'100%',paddingHorizontal:16}}>
+                                <View style={{marginTop:24,flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
+                                    <TouchableWithoutFeedback onPress={()=>{
                                         setModal(!modal);
-                                    }
-                                }}>
-                                    <View>
-                                        <BoldText text={"확인"} customStyle={{color:"#8D3981",marginLeft:38}}/>
-                                    </View>
-                                </TouchableWithoutFeedback>
+                                        setTimeout(()=>{
+                                            const _year = prevYear.current;
+                                            const _month = prevMonth.current;
+                                            const _day = prevDay.current;
+                                            _year !== 0 ? mode.current === "to" ? toYear.current = _year : fromYear.current = _year : null;
+                                            _month !== 0 ? mode.current === "to" ? toMonth.current = _month : fromMonth.current = _month : null;
+                                            _day !== 0 ? mode.current === "to" ? toDay.current = _day : fromDay.current = _day : null;    
+                                        },500)
+                                    }}>
+                                        <View style={{height:20,justifyContent:"center"}}>
+                                            <BoldText text={"취소"} customStyle={{color:"#9E9E9E"}}/>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                    <TouchableWithoutFeedback onPress={()=>{
+                                        const {formatedToDate,formatedFromDate} = getFormatDate();
+                                        const _from = new Date(formatedFromDate).getTime();
+                                        const _to = new Date(formatedToDate).getTime();
+                                        if (_from > _to) {
+                                            Alert.alert("알림",
+                                            "시작일이 종료일보다 클 수 없습니다.",
+                                            [{text:"확인"}])
+                                        } else {
+                                            setDateBox(mode.current);
+                                            setModal(!modal);
+                                        }
+                                    }}>
+                                        <View style={{height:20,justifyContent:"center"}}>
+                                            <BoldText text={"확인"} customStyle={{color:"#8D3981",marginLeft:38}}/>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                </View>
                             </View>
                         </View>
                     </View>

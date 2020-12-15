@@ -61,7 +61,7 @@ const LoginScreen = (props) =>{
                 <TouchableWithoutFeedback onPress={()=>{
                     props.navigation.goBack()
                 }}>
-                    <Image source={require('../../assets/img/ico_close_bl.png')} style={{resizeMode:"contain",width:20}} />    
+                    <Image source={require('../../assets/img/ico_close_bl.png')} style={{resizeMode:"contain",width:20,height:20}} />    
                 </TouchableWithoutFeedback>   
             </View>
             <View style={{marginTop:60,justifyContent:"center",alignItems:"center"}}>

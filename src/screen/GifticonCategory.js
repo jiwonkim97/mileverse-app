@@ -67,7 +67,7 @@ const GificonCategory = (props) =>{
                         <BoldText text={"기프티콘 사용 공지"} customStyle={{fontSize:15}}/>
                         <TouchableWithoutFeedback onPress={()=>setVisible(!visible)}>
                             <View style={{width:50,height:50,justifyContent:"center",alignItems:"center"}}>
-                                <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                                <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>

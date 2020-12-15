@@ -16,7 +16,7 @@ const FaqScreen = (props) =>{
                     </View>
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
-                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
                         </View>
                     </TouchableOpacity>
                 </View>

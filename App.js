@@ -46,6 +46,8 @@ import WalletWithDraw from './src/screen/WalletWithDraw';
 import WalletResult from './src/screen/WalletResult';
 import WalletAgree from './src/screen/WalletAgree';
 import ScanScreen from './src/screen/ScanScreen';
+import HealthPick from './src/screen/changePoint/HealthPick';
+import HealthPickResult from './src/screen/changePoint/HealthPickResult';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -190,6 +192,8 @@ const App = () => {
 						<Stack.Screen name="WalletResult" component={WalletResult} />
 						<Stack.Screen name="WalletAgree" component={WalletAgree} />
 						<Stack.Screen name="ScanScreen" component={ScanScreen} />
+						<Stack.Screen name="JhealthPick" component={HealthPick} />
+						<Stack.Screen name="HealthPickResult" component={HealthPickResult} />
 					</Stack.Navigator>
 				</NavigationContainer>
 				<DialogComponent />

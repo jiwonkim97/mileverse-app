@@ -131,7 +131,7 @@ const PinCode = ({navigation,route})=>{
                 {
                     Platform.OS === "ios" ? 
                     <TouchableWithoutFeedback onPress={()=>navigation.goBack()}>
-                        <Image source={require('../../assets/img/ico_close_bl.png')} style={{position:"absolute",right:15,top:15,width:30,height:30}}></Image>
+                        <Image source={require('../../assets/img/ico_close_bl.png')} style={{position:"absolute",right:15,top:15,width:20,height:20}}></Image>
                     </TouchableWithoutFeedback>
                     : null
                 }

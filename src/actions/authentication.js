@@ -10,7 +10,6 @@ import {
     FAIL_REQUEST_STAT
 } from './ActionTypes';
 import Axios from '../modules/Axios';
-import { exp } from 'react-native-reanimated';
 
 export function loginRequest(id, password) {
     return (dispatch,getState) =>{

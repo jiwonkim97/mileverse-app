@@ -98,7 +98,7 @@ const WalletAgree = ({navigation,route}) =>{
                     </View>
                     <TouchableOpacity onPress={()=>navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
-                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:14,height:14}}/>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -166,7 +166,7 @@ const WalletAgree = ({navigation,route}) =>{
                     <View style={{backgroundColor:"#FFFFFF",borderRadius:6,width:"90%",maxHeight:"80%",flex:1,overflow:"hidden"}}>
                         <View style={{alignItems:'flex-end',paddingRight:16,paddingTop:16}}>
                             <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
-                                <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:16,height:16,resizeMode:'contain'}}/>
+                                <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:20,height:20,resizeMode:'contain'}}/>
                             </TouchableWithoutFeedback>
                         </View>
                         <ScrollView style={{paddingHorizontal:20}}>

@@ -1,11 +1,8 @@
-import React,{useEffect} from 'react';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TouchableOpacity,BackHandler } from 'react-native';
-
-import CommonStatusbar from '../components/CommonStatusbar';
-import { ExtraBoldText,BoldText } from '../components/customComponents';
-
-
-const WalletResult = ({navigation,route}) =>{
+import React, { useEffect } from 'react';
+import { Image,View,SafeAreaView,TouchableOpacity,StyleSheet,BackHandler} from 'react-native';
+import CommonStatusbar from '../../components/CommonStatusbar';
+import { ExtraBoldText, BoldText } from '../../components/customComponents';
+export default ({navigation,route})=>{
     useEffect(()=>{
         const backHandler = BackHandler.addEventListener(
             "hardwareBackPress",
@@ -15,14 +12,9 @@ const WalletResult = ({navigation,route}) =>{
             return ()=> backHandler.remove();
     },[]);
 
-    const navigateWallet = ()=>{
-        if(route.params.symbol === "MVC") {
-            navigation.navigate("WalletDetail",{header:"Mileverse",symbol:"MVC"})
-        } else if(route.params.symbol === "ETH") {
-            navigation.navigate("WalletDetail",{header:"Ethereum",symbol:"ETH"})
-        } else if(route.params.symbol === "BTC") {
-            navigation.navigate("WalletDetailOnBtc",{header:"Bitcoin",symbol:"BTC"})
-        }
+    const commaFormat = (num)=>{
+        const parts = String(num).split(".")
+        return parts[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     return (
@@ -33,31 +25,29 @@ const WalletResult = ({navigation,route}) =>{
                     <View style={{width:50}}>
                     </View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={`${route.params.symbol} 출금`} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={`제이헬스픽`} customStyle={{fontSize:16}}/>
                     </View>
-                    <TouchableOpacity onPress={navigateWallet}>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Change")}>
                         <View style={styles.headerIcoWrap}>
-                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
+                            <Image source={require("../../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
                         </View>
                     </TouchableOpacity>
                 </View>
                 <View style={{flex:1,justifyContent:"space-between"}}>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                        <ExtraBoldText text={`${route.params.amount} ${route.params.symbol} 전송이\n성공하였습니다.`} customStyle={{fontSize:18,lineHeight:26,textAlign:"center"}}/>
+                        <ExtraBoldText text={`${commaFormat(route.params.amount)} MVP\n교환 하였습니다..`} customStyle={{fontSize:18,lineHeight:26,textAlign:"center"}}/>
                     </View>
-                    <TouchableWithoutFeedback onPress={navigateWallet}>
+                    <TouchableOpacity onPress={()=>navigation.navigate("Change")}>
                         <View style={{height:50,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center"}}>
                             <BoldText text={"확인"} customStyle={{color:"#FFFFFF",fontSize:16}}/>
                         </View>
-                    </TouchableWithoutFeedback>
+                    </TouchableOpacity>
                     
                 </View>
             </SafeAreaView>
         </>
     )
 }
-        
-export default WalletResult;
 
 const styles = StyleSheet.create({
     header:{
