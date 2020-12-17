@@ -58,7 +58,7 @@ const LoginScreen = (props) =>{
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
-                <View style={{alignItems:"flex-end",paddingHorizontal:30,paddingTop:30}}>
+                <View style={{alignItems:"flex-end",paddingHorizontal:30,justifyContent:"center",height:50}}>
                     <TouchableWithoutFeedback onPress={()=>{
                         props.navigation.goBack()
                     }}>
