@@ -1,7 +1,5 @@
-import React, { useEffect,useState,useRef } from 'react';
-import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions,BackHandler } from 'react-native';
-import RNExitApp from 'react-native-exit-app';
-
+import React, { useEffect,useState,useRef,useCallback } from 'react';
+import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions,AppState } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 import Barcode from "react-native-barcode-builder";
@@ -15,6 +13,7 @@ import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios'
 
 import noticeAlert from '../components/NoticeAlert';
+import DeviceBrightness from 'react-native-device-brightness';
 
 const HomeScreen = (props) =>{
     const dispatch = useDispatch();
@@ -24,7 +23,8 @@ const HomeScreen = (props) =>{
     const [modal,setModal] = useState(false)
     const [codeNum,setCodeNum] = useState("");
     const [commaMvp,setCommaMvp] = useState(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-    const bannerHeight = useRef(Dimensions.get("screen").width*643/1501)
+    const bannerHeight = useRef(Dimensions.get("screen").width*643/1501);
+    const brightness = useRef(0)
     
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -33,6 +33,22 @@ const HomeScreen = (props) =>{
     useEffect(()=>{
         setCodeNum(code.substr(0,4)+" "+code.substr(4,4)+" "+code.substr(8,4)+" "+code.substr(12,4))
     },[code])
+
+    const handleAppState = async(netAppState)=>{
+        if ( netAppState === "active") {
+            brightness.current = await DeviceBrightness.getBrightnessLevel();
+            DeviceBrightness.setBrightnessLevel(brightness.current);
+        }
+    }
+
+    const modalToggle = (_flag)=>{
+        setModal(_flag)
+        if(_flag) {
+            DeviceBrightness.setBrightnessLevel(1);
+        } else {
+            DeviceBrightness.setBrightnessLevel(brightness.current);
+        }
+    }
     
     useEffect(()=>{
         const checkNotice = async() => {
@@ -41,6 +57,7 @@ const HomeScreen = (props) =>{
             const _notice = await noticeAlert(_response,_ver);
             if(_notice === true) onVerifyRequest();
         }
+        AppState.addEventListener("change",handleAppState);
         checkNotice();
     },[])
 
@@ -100,7 +117,7 @@ const HomeScreen = (props) =>{
                             </View>
                             <View style={{paddingVertical:30,justifyContent:"center",alignItems:"center"}}>
                                 <TouchableWithoutFeedback onPress={()=>{
-                                    stat?setModal(!modal):props.navigation.navigate("Login")
+                                    stat?modalToggle(true):props.navigation.navigate("Login")
                                 }}>
                                     <View style={{alignItems:"center"}}>
                                         <Image source={require("../../assets/img/pay_barcode.png")} style={{resizeMode:"stretch",width:178,height:51,opacity:stat?1:0.3}}/>
@@ -117,7 +134,7 @@ const HomeScreen = (props) =>{
                                     </View>    
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback onPress={()=>{
-                                    stat?setModal(!modal):props.navigation.navigate("Login")
+                                    stat?modalToggle(true):props.navigation.navigate("Login")
                                 }}>
                                     <View style={styles.btnWrap}>
                                         <BoldText text={"MVP 사용"} customStyle={styles.btnTxt}/>
@@ -184,14 +201,14 @@ const HomeScreen = (props) =>{
                 </ScrollView>
             </SafeAreaView>
             <Modal isVisible={modal} backdropTransitionOutTiming={0} 
-                onBackdropPress={()=>{setModal(!modal)}}
+                onBackdropPress={()=>{modalToggle(false)}}
                 style={{margin: 0,flex:1,justifyContent:"flex-start"}} useNativeDriver={true} animationIn={"slideInDown"} animationOut={"slideOutUp"}>
                 {Platform.OS === 'ios'? <CommonStatusbar backgroundColor="#FFFFFF"/> : null  }
                 <View style={{backgroundColor:"#ffffff",borderBottomRightRadius:50,borderBottomLeftRadius:50,paddingBottom:60}}>
                     <View style={{paddingTop:50,paddingLeft:54}}>
                         <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
                         <TouchableWithoutFeedback onPress={()=>{
-                            setModal(!modal)
+                            modalToggle(false)
                             props.navigation.navigate("MyMvp")
                         }}>
                             <View style={{flexDirection:"row",alignItems:"center",marginTop:14}}>
@@ -205,7 +222,7 @@ const HomeScreen = (props) =>{
                         <BoldText text={codeNum? codeNum : "0000"} customStyle={{fontSize:12,color:"#000000"}}/>
                     </View>
                     <View style={{position:"absolute",right:15,top:15}}>
-                        <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
+                        <TouchableWithoutFeedback onPress={()=>modalToggle(false)}>
                             <Image source={require('../../assets/img/ico_close_bl.png')} style={{resizeMode:"contain",width:20,height:20}} />    
                         </TouchableWithoutFeedback> 
                     </View>
