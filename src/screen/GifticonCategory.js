@@ -29,12 +29,13 @@ const GificonCategory = (props) =>{
                 </View>
                 <ScrollView style={{backgroundColor:"#FFFFFF"}}>
                        <TouchableWithoutFeedback onPress={()=>setVisible(!visible)}>
-                           <ImageBackground source={require("../../assets/img/gifticon_notice_banner_bg.png")} style={{width:"100%",height:104,resizeMode:"stretch",borderTopWidth:6,borderTopColor:"#F2F2F2",justifyContent:"center"}}>
-                               <View style={{paddingLeft:24}}>
+                           <View style={{backgroundColor:'#333F68',justifyContent:"space-between",flex:1,height:106,alignItems:"center",flexDirection:"row"}}>
+                                <View style={{paddingLeft:24}}>
                                    <BoldText text={"기프티콘 사용 공지"} customStyle={{color:"#F3C839",fontSize:18}}/>
                                    <RegularText text={"기프티콘 사용 가이드 & 안내사항을 확인해주세요!"} customStyle={{color:"#FFFFFF",fontSize:11,marginTop:12}}/>
                                </View>
-                           </ImageBackground>
+                               <Image source={require("../../assets/img/ico_speaker.png")} style={{resizeMode:"stretch",width:68,height:68,marginRight:16}}/>
+                           </View>
                        </TouchableWithoutFeedback>
                        <View style={{paddingBottom:6,paddingHorizontal:8,flex:1,borderTopWidth:6,borderTopColor:"#F2F2F2"}}>
                            <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:"space-between",marginVertical:6}}>
