@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     },
     question:{
         lineHeight:20,
-        fontWeight:"bold"
     },
     answer:{
         lineHeight:20,
