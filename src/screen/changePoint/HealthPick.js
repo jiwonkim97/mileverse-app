@@ -81,12 +81,17 @@ const HealthPick = ({navigation,route}) =>{
                 <>
                     <BoldText text={"교환하시겠습니까?"} customStyle={{textAlign:"center",lineHeight:20}}/>
                 </>
-            ),requestChangePoint));
+            ),()=>{
+                dispatch(dialog.closeDialog());
+                navigation.navigate("PinCode",{
+                    mode:"confirm",
+                    onGoBack:(_value)=>{if(_value) requestChangePoint();}
+                });
+            }));
         }
     }
 
     const requestChangePoint = async()=>{
-        dispatch(dialog.closeDialog());
         dispatch(spinner.showSpinner());
         const {data} =  await Axios.post("/api/jHealthPick/points",{amount:changePoint,member_id:route.params.member_id});
         dispatch(spinner.hideSpinner());
