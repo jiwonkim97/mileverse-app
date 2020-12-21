@@ -104,7 +104,7 @@ const WalletDeposit = ({navigation,route}) =>{
                         <BoldText text={addr} customStyle={{color:"#707070",fontSize:12}}/>
                     </View>
                     <View style={{marginTop:26}}>
-                        <BoldText text={"입금주소"}/>
+                        <BoldText text={"유의사항"}/>
                         <View style={{marginTop:10}}>
                             <BoldText text={infoText} customStyle={{lineHeight:18}}/>
                             <BoldText text={infoText2} customStyle={{lineHeight:18,marginTop:8}}/>
