@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import { useDispatch } from 'react-redux';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,ScrollView, } from 'react-native';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,ScrollView,TouchableOpacity } from 'react-native';
 import CheckBox from 'react-native-check-box'
 import CommonStatusbar from '../components/CommonStatusbar';
 import { RegularText, ExtraBoldText,BoldText } from '../components/customComponents';
@@ -125,10 +125,16 @@ const SignUp01 = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{backgroundColor:"#FFFFFF",flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
-                    </TouchableWithoutFeedback>
-                    <ExtraBoldText text="회원가입" customStyle={{fontSize:16}}/>
+                    <View style={{width:50}}>
+                    </View>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={"회원가입"} customStyle={{fontSize:16}}/>
+                    </View>
+                    <TouchableOpacity onPress={()=>props.navigation.navigate("Login")}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <ScrollView style={{flex:1}}>
                     <View style={{padding:16}}>
@@ -244,12 +250,18 @@ export default SignUp01;
 
 const styles = StyleSheet.create({
     header:{
-        height:60,
+        height:50,
         borderColor:"#CCCCCC",
         justifyContent:'center',
         alignItems:'center',
         flexDirection:'row',
         zIndex:1
+    },
+    headerIcoWrap:{
+        width:50,
+        height:50,
+        justifyContent:'center',
+        alignItems:'center'
     },
     shadow:{
         elevation:2,

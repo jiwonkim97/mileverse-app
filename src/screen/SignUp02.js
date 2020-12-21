@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import { useDispatch } from 'react-redux';
-import { View,SafeAreaView,TextInput,StyleSheet,ScrollView,Image, Alert,TouchableWithoutFeedback } from 'react-native';
+import { View,SafeAreaView,TextInput,StyleSheet,ScrollView,Image, TouchableOpacity,TouchableWithoutFeedback } from 'react-native';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios';
@@ -105,10 +105,19 @@ const SignUp02 = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{backgroundColor:"#FFFFFF",flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
-                    </TouchableWithoutFeedback>
-                    <ExtraBoldText text="회원가입" customStyle={{fontSize:16}}/>
+                    <TouchableOpacity onPress={()=>props.navigation.goBack()}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require('../../assets/img/ico_back.png')} style={{width:8,height:16}} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={"회원가입"} customStyle={{fontSize:16}}/>
+                    </View>
+                    <TouchableOpacity onPress={()=>props.navigation.navigate("Login")}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 <ScrollView style={{padding:16,flex:1}} contentContainerStyle={{justifyContent:"space-between",flexGrow:1}}>
                     <View style={{flexDirection:"row",justifyContent:"flex-end",alignItems:"center"}}>
@@ -119,7 +128,7 @@ const SignUp02 = (props) =>{
                         <ExtraBoldText text={"상세정보"} customStyle={{fontSize:14,color:"#707070"}}/>
                         <View style={{marginTop:14,borderRadius:6,borderWidth:1,borderColor:"#E5E5E5",paddingLeft:16,paddingRight:5,paddingVertical:5,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
                             <BoldText text={"아이디"} customStyle={styles.label}/>
-                            <View style={{flexDirection:"row",alignItems:"center"}}>
+                            <View style={{flexDirection:"row",alignItems:"center",flex:1}}>
                                 <TextInput placeholder="아이디를 입력해주세요." maxLength={20} placeholderTextColor="#D5C2D3" onChangeText={text => onChangeId(text)} style={[styles.input,{marginRight:15}]}/>
                                 <TouchableWithoutFeedback onPress={doDoubleCheck}>
                                     <View style={[styles.btnBox,{width:76,height:36}]}>
@@ -134,22 +143,18 @@ const SignUp02 = (props) =>{
                         <View style={{borderRadius:6,borderWidth:1,borderColor:"#E5E5E5"}}>
                             <View style={[styles.inputBox,{borderBottomWidth:1,borderBottomColor:"#ECECEC"}]}>
                                 <BoldText text={"비밀번호"} customStyle={styles.label}/>
-                                <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <TextInput placeholder="비밀번호를 입력해주세요." secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" onChangeText={text=>setPassword(text)} style={styles.input} onBlur={()=>{
+                                <TextInput placeholder="비밀번호를 입력해주세요." secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" onChangeText={text=>setPassword(text)} style={styles.input} onBlur={()=>{
                                         setErrorText2({txt:"-",color:"#FFFFFF"})
                                         if(!regex.test(password) && password!=="") setErrorText2({txt:"* 8~16자 영문, 숫자, 특수문자를 사용하세요.",color:"#FF3B3B"});
-                                    }}/>
-                                </View>
+                                }}/>
                             </View>
                             <View style={styles.inputBox}>
                                 <BoldText text={"비밀번호 확인"} customStyle={styles.label}/>
-                                <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <TextInput placeholder="비밀번호를 다시 한 번 입력해주세요." secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" onChangeText={text=>setPassword2(text)} style={styles.input} onBlur={()=>{
+                                <TextInput placeholder="비밀번호를 다시 한 번 입력해주세요." secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" onChangeText={text=>setPassword2(text)} style={styles.input} onBlur={()=>{
                                         setErrorText2({txt:"-",color:"#FFFFFF"})
                                         if(!regex.test(password2) && password2!=="") setErrorText2({txt:"* 8~16자 영문, 숫자, 특수문자를 사용하세요.",color:"#FF3B3B"});
                                         else if(password !== password2) setErrorText2({txt:"* 입력하신 비밀번호가 일치하지 않습니다.",color:"#FF3B3B"});
-                                    }}/>
-                                </View>
+                                }}/>
                             </View>
                         </View>
                         <View style={{paddingTop:8,paddingBottom:10,paddingLeft:4}}>
@@ -158,23 +163,17 @@ const SignUp02 = (props) =>{
                         <View style={{borderRadius:6,borderWidth:1,borderColor:"#E5E5E5"}}>
                             <View style={[styles.inputBox,{borderBottomWidth:1,borderBottomColor:"#ECECEC"}]}>
                                 <BoldText text={"이름"} customStyle={styles.label}/>
-                                <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <TextInput placeholder="이름을 입력해주세요." editable={false} maxLength={10} placeholderTextColor="#D5C2D3" value={name} onChangeText={text=>setName(text)} style={styles.input}/>
-                                </View>
+                                <TextInput placeholder="이름을 입력해주세요." editable={false} maxLength={10} placeholderTextColor="#D5C2D3" value={name} onChangeText={text=>setName(text)} style={styles.input}/>
                             </View>
                             <View style={[styles.inputBox,{borderBottomWidth:1,borderBottomColor:"#ECECEC"}]}>
                                 <BoldText text={"휴대폰 번호"} customStyle={styles.label}/>
-                                <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <TextInput placeholder="휴대폰 번호를 입력해주세요." editable={false} maxLength={13} keyboardType={'numeric'} value={phone} placeholderTextColor="#D5C2D3" onChangeText={(text)=>onChangePhoneText(text)} style={styles.input}/>
-                                </View>
+                                <TextInput placeholder="휴대폰 번호를 입력해주세요." editable={false} maxLength={13} keyboardType={'numeric'} value={phone} placeholderTextColor="#D5C2D3" onChangeText={(text)=>onChangePhoneText(text)} style={styles.input}/>
                             </View>
                             <View style={styles.inputBox}>
                                 <BoldText text={"이메일"} customStyle={styles.label}/>
-                                <View style={{flexDirection:"row",alignItems:"center"}}>
-                                    <TextInput placeholder="이메일을 입력해주세요." autoCompleteType={'email'} keyboardType={'email-address'} placeholderTextColor="#D5C2D3" onChangeText={text=>setMail(text)} style={styles.input} onBlur={()=>{
+                                <TextInput placeholder="이메일을 입력해주세요." autoCompleteType={'email'} keyboardType={'email-address'} placeholderTextColor="#D5C2D3" onChangeText={text=>setMail(text)} style={styles.input} onBlur={()=>{
                                         if(mail !== "") setErrorText3({txt:"-",color:"#FFFFFF"})
                                     }}/>
-                                </View>
                             </View>
                         </View>
                         <View style={{marginTop:8,paddingLeft:4}}>
@@ -198,12 +197,18 @@ export default SignUp02;
 
 const styles = StyleSheet.create({
     header:{
-        height:60,
+        height:50,
         borderColor:"#CCCCCC",
         justifyContent:'center',
         alignItems:'center',
         flexDirection:'row',
         zIndex:1
+    },
+    headerIcoWrap:{
+        width:50,
+        height:50,
+        justifyContent:'center',
+        alignItems:'center'
     },
     shadow:{
         elevation:2,
@@ -224,8 +229,10 @@ const styles = StyleSheet.create({
         color:"#000000",
         textAlign:"right",
         height:20,
+        fontSize:13,
         paddingVertical:0,
-        fontFamily:"NotoSans-Regular"
+        fontFamily:"NotoSans-Regular",
+        flex:1
     },
     inputBox:{
         flexDirection:"row",
