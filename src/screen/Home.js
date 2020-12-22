@@ -13,7 +13,7 @@ import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios'
 
 import noticeAlert from '../components/NoticeAlert';
-import DeviceBrightness from 'react-native-device-brightness';
+import DeviceBrightness from '@adrianso/react-native-device-brightness';
 
 const HomeScreen = (props) =>{
     const dispatch = useDispatch();
