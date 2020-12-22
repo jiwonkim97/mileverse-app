@@ -48,6 +48,10 @@ import WalletAgree from './src/screen/WalletAgree';
 import ScanScreen from './src/screen/ScanScreen';
 import HealthPick from './src/screen/changePoint/HealthPick';
 import HealthPickResult from './src/screen/changePoint/HealthPickResult';
+import SwapResult from './src/screen/swapPoint/SwapResult';
+import SwapMain from './src/screen/swapPoint/SwapMain';
+import MvpToMvc from './src/screen/swapPoint/MvpToMvc';
+import MvcToMvp from './src/screen/swapPoint/MvcToMvp';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -194,6 +198,10 @@ const App = () => {
 						<Stack.Screen name="ScanScreen" component={ScanScreen} />
 						<Stack.Screen name="JhealthPick" component={HealthPick} />
 						<Stack.Screen name="HealthPickResult" component={HealthPickResult} options={{gestureEnabled:false}}/>
+						<Stack.Screen name="MvcToMvp" component={MvcToMvp}/>
+						<Stack.Screen name="MvpToMvc" component={MvpToMvc}/>
+						<Stack.Screen name="SwapResult" component={SwapResult}/>
+						<Stack.Screen name="SwapMain" component={SwapMain}/>
 					</Stack.Navigator>
 				</NavigationContainer>
 				<DialogComponent />

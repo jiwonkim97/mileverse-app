@@ -29,7 +29,6 @@ const Wallet = ({navigation,route}) =>{
         const _floatNum = parseFloat(_fixedNum);
         if(_floatNum<0.000001) {
             const __str_FixedNum = String(_fixedNum);
-            console.log(_fixedNum)
             if(__str_FixedNum.slice(-1) === "0") 
                 return __str_FixedNum.slice(0,-1);
             else 
@@ -99,9 +98,11 @@ const Wallet = ({navigation,route}) =>{
                                 </TouchableWithoutFeedback>
                             </View>
                         </View>
-                        {/* <View style={{marginTop:10,backgroundColor:"#EBEBEB",justifyContent:"center",alignItems:"center",borderRadius:6,height:46}}>
-                            <BoldText text={"MVP/ MVC 교환"} customStyle={{fontSize:14,color:"#C4C4C4"}}/>
-                        </View> */}
+                        <TouchableWithoutFeedback onPress={()=>navigation.navigate("SwapMain")}>
+                            <View style={{marginTop:10,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center",borderRadius:6,height:46}}>
+                                <BoldText text={"MVP/ MVC 교환"} customStyle={{fontSize:14,color:"#FFFFFF"}}/>
+                            </View>
+                        </TouchableWithoutFeedback>
                         <View style={{marginTop:27}}>
                             <BoldText text={"자산"} />
                             <View style={{marginTop:16}}>
