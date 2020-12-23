@@ -144,8 +144,8 @@ const ContactScreen = (props) =>{
                         </View>
                     </TouchableOpacity>
                 </View>
-                <ScrollView style={{flex:1}}>
-                    <View style={{backgroundColor:"white",padding:20,marginTop:6,flex:1}}>
+                <ScrollView style={{flex:1,backgroundColor:"#FFFFFF",borderTopColor:"#ECECEC",borderTopWidth:6}}>
+                    <View style={{backgroundColor:"white",paddingHorizontal:16,marginTop:6,flex:1}}>
                         <View style={{marginTop:26}}>
                             <BoldText text={"주소 입력"}/>
                             <View style={[styles.boxWrap]}>
@@ -160,22 +160,22 @@ const ContactScreen = (props) =>{
                         </View>
                         <View style={{marginTop:26}}>
                             <BoldText text={"내용"}/>
-                            <View style={[styles.boxWrap,{height:160,paddingTop:16}]}>
-                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"내용을 입력해주세요."} multiline={true} style={[styles.input,{height:160,textAlignVertical:'top'}]} onChangeText={text=>onChangeContents(text)} numberOfLines={6}/>
+                            <View style={[styles.boxWrap,{height:120,paddingTop:16}]}>
+                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"내용을 입력해주세요."} multiline={true} style={[styles.input,{height:120,textAlignVertical:'top'}]} onChangeText={text=>onChangeContents(text)} numberOfLines={6}/>
+                            </View>
+                            <View style={{alignItems:'flex-end',marginTop:4}}>
+                                <BoldText text={"("+limitLength+"/150)"} customStyle={{color:"#707070",fontSize:10}} />
                             </View>
                         </View>
-                        <View style={{alignItems:'flex-end',marginTop:4}}>
-                            <BoldText text={"("+limitLength+"/150)"} style={{color:"#2D2D2D"}} />
-                        </View>
-                        <View style={{margiTop:40}}>
+                        <View style={{marginTop:12}}>
                             <View style={{flexDirection:'row',alignItems:"center"}}>
                                 <BoldText text={"첨부파일"}/>
                                 <BoldText text={"*JPG, PNG, PDF만 첨부가능합니다."} customStyle={{color:"#EC6E6E",paddingLeft:6,fontSize:10}}/>
                             </View>
-                            <View style={{marginTop:6,padding:6,borderWidth:1,borderColor:"#CCCCCC",flexDirection:'row',alignItems:'center',borderRadius:5}}>
+                            <View style={{marginTop:16,padding:6,borderWidth:1,borderColor:"#CCCCCC",flexDirection:'row',alignItems:'center',borderRadius:5}}>
                                 <BoldText text={fileName} customStyle={{flex:9}}/>
                                 <TouchableOpacity style={{flex:3 }} onPress={showPicker}>
-                                    <View style={{backgroundColor:"#AE7AA7",justifyContent:'center',alignItems:"center",padding:10,borderRadius:5}}>
+                                    <View style={{backgroundColor:"#8D3981",justifyContent:'center',alignItems:"center",padding:10,borderRadius:5}}>
                                         <BoldText text={"첨부하기"} customStyle={{color:"white",fontSize:10}}/>
                                     </View>
                                 </TouchableOpacity>
