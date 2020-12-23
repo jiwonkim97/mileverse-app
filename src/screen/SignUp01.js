@@ -236,7 +236,7 @@ const SignUp01 = (props) =>{
                                 <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:20,height:20,resizeMode:'contain'}}/>
                             </TouchableWithoutFeedback>
                         </View>
-                        <ScrollView style={{paddingHorizontal:20}}>
+                        <ScrollView style={{paddingHorizontal:20,marginBottom:20}}>
                             <BoldText text={modalMode==="terms"? terms : privacy} customStyle={{fontSize:12,color:'#3D3D3D',lineHeight:23}}/>
                         </ScrollView>
                     </View>
