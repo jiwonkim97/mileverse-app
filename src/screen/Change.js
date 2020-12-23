@@ -132,8 +132,8 @@ const ChangeScreen = ({navigation,route}) =>{
                     </View>
                 </ScrollView>
                 <Modal isVisible={visible} backdropTransitionOutTiming={0} style={{margin: 0,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
-                    <View style={{backgroundColor:"#FFFFFF",width:308,height:508,borderRadius:6,overflow:"hidden",justifyContent:"space-between"}}>
-                        <View style={{paddingHorizontal:16,paddingBottom:16,flex:1,justifyContent:"space-between"}}>
+                    <View style={{backgroundColor:"#FFFFFF",width:308,borderRadius:6,overflow:"hidden"}}>
+                        <View style={{paddingHorizontal:16}}>
                             <View>
                                 <View style={{height:54,justifyContent:"center",alignItems:"center"}}>
                                     <BoldText text={"전환동의"} customStyle={{fontSize:14}}/>
@@ -142,10 +142,10 @@ const ChangeScreen = ({navigation,route}) =>{
                                 <View style={{marginTop:25,marginBottom:19}}>
                                     <BoldText text={"제이헬스픽 포인트를 MVP로 전환하기 위해 아래 사항에 동의해 주세요."} customStyle={{lineHeight:22}}/>
                                 </View>
-                                <ScrollView style={{borderWidth:1,borderRadius:6,borderColor:"#E5E5E5",backgroundColor:"#F3F3F3",padding:16,height:250}}>
+                                <ScrollView style={{borderWidth:1,borderRadius:6,borderColor:"#E5E5E5",backgroundColor:"#F3F3F3",padding:16,height:250,paddingBottom:0}}>
                                     <BoldText text={"개인 정보 제3자 제공 동의"} customStyle={{fontSize:12}}/>
                                     <View style={{borderWidth:1,borderColor:"#EBEBEB",marginTop:16}} />
-                                    <View style={{marginTop:16,paddingBottom:16}}>
+                                    <View style={{marginTop:16,marginBottom:32}}>
                                         <BoldText text={
                                             "제공받는자: 제이헬스픽\n"+
                                             "제공목적: 제이헬스픽 포인트 조회 및 전환\n"+
@@ -156,7 +156,9 @@ const ChangeScreen = ({navigation,route}) =>{
                                     </View>
                                 </ScrollView>
                             </View>
-                            <View style={{flexDirection:"row",alignItems:"center"}}>
+                        </View>
+                        <View>
+                            <View style={{flexDirection:"row",alignItems:"center",marginVertical:16,paddingHorizontal:16}}>
                                 <CheckBox
                                     isChecked={agree}
                                     checkedCheckBoxColor={'#8D3981'}
@@ -169,18 +171,18 @@ const ChangeScreen = ({navigation,route}) =>{
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
-                        </View>
-                        <View style={{flexDirection:'row',height:46}}>
-                            <TouchableWithoutFeedback onPress={()=>setVisible(false)}>
-                                <View style={[styles.modalBottomBtn,{backgroundColor:"#EBEBEB"}]}>
-                                    <BoldText text={"취소"} customStyle={{color:"#8B8B8B",fontSize:14}}/>
-                                </View>
-                            </TouchableWithoutFeedback>
-                            <TouchableWithoutFeedback onPress={onChangePoint}>
-                                <View style={[styles.modalBottomBtn,{backgroundColor:"#8D3981"}]}>
-                                    <BoldText text={"확인"} customStyle={{color:"#FFFFFF",fontSize:14}}/>
-                                </View>
-                            </TouchableWithoutFeedback>
+                            <View style={{flexDirection:'row',height:46}}>
+                                <TouchableWithoutFeedback onPress={()=>setVisible(false)}>
+                                    <View style={[styles.modalBottomBtn,{backgroundColor:"#EBEBEB"}]}>
+                                        <BoldText text={"취소"} customStyle={{color:"#8B8B8B",fontSize:14}}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                                <TouchableWithoutFeedback onPress={onChangePoint}>
+                                    <View style={[styles.modalBottomBtn,{backgroundColor:"#8D3981"}]}>
+                                        <BoldText text={"확인"} customStyle={{color:"#FFFFFF",fontSize:14}}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>    
                         </View>
                     </View>
                 </Modal>
