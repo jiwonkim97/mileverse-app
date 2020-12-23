@@ -214,13 +214,13 @@ const MymvpScreen = (props) =>{
                     </TouchableOpacity>
                 </View>
                 <View style={{paddingHorizontal:16}}>
-                    <View style={[styles.shodow,styles.headerCard]}>
+                    <View style={[styles.shadow,styles.headerCard]}>
                         <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
                         <View style={{marginTop:8,flexDirection:"row"}}>
                             <ExtraBoldText text={mvp+" MVP"} customStyle={{color:"#8D3981",fontSize:20}}/>
                         </View>
                     </View>
-                    <View style={[styles.shodow,styles.contentsCard]}>
+                    <View style={[styles.shadow,styles.contentsCard]}>
                         <View style={{paddingHorizontal:16,paddingTop:16,flexDirection:"row",justifyContent:"space-between"}}>
                             <TouchableWithoutFeedback onPress={()=>{setType("all")}}>
                             <View style={[styles.typeBtn,{borderBottomColor:type==="all"?"#8D3981":"white"}]}>
@@ -288,7 +288,7 @@ const MymvpScreen = (props) =>{
                             data={data}
                             renderItem={renderItem}
                             keyExtractor={(item) =>item.CREA_DT}
-                            style={{flexGrow:0,maxHeight:listHeight,backgroundColor:"#FFFFFF"}}
+                            style={{flexGrow:0,maxHeight:listHeight,backgroundColor:"#FFFFFF",borderBottomRightRadius:10,borderBottomLeftRadius:10}}
                         />
                     </View>
                 </View>
@@ -407,19 +407,18 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     shadow:{
-        backgroundColor:"white",
-        elevation:2,
-        shadowColor: "#000",
+        backgroundColor:"#FFFFFF",
+        elevation:5,
+        shadowColor: "#000000",
         shadowOffset: {
             width: 0,
             height: 3,
         },
         shadowOpacity: 0.05,
-        shadowRadius: 2.22,
-        zIndex:1
+        shadowRadius: 2.22
     },
     headerCard:{
-        backgroundColor:"#fff",
+        backgroundColor:"#FFFFFF",
         marginTop:16,
         borderRadius:10,
         paddingVertical:20,
@@ -428,8 +427,7 @@ const styles = StyleSheet.create({
     contentsCard:{
         marginTop:16,
         backgroundColor:"#FFFFFF",
-        borderRadius:10,
-        overflow:"hidden"
+        borderRadius:10
     },
     simpleDateBtn:{
         justifyContent:"center",

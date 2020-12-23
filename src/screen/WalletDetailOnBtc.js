@@ -237,7 +237,7 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
                     </TouchableOpacity>
                 </View>
                 <View style={{paddingHorizontal:16}}>
-                    <View style={[styles.shodow,{borderRadius:12,backgroundColor:"#FFFFFF",marginTop:16}]}>
+                    <View style={[styles.shadow,{borderRadius:12,backgroundColor:"#FFFFFF",marginTop:16}]}>
                         <View style={{paddingVertical:36,justifyContent:"center",alignItems:"center"}}>
                             <ExtraBoldText text={`${amount} ${symbol}`} customStyle={{fontSize:16}}/>
                             <BoldText text={`${balance} KRW`} customStyle={{color:"#707070",fontSize:10,marginTop:6}}/>
@@ -255,7 +255,7 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
                                 </TouchableWithoutFeedback>
                             </View>
                     </View>
-                    <View style={[styles.shodow,styles.contentsCard]}>
+                    <View style={[styles.shadow,styles.contentsCard]}>
                         <View style={{paddingHorizontal:16,paddingTop:16,flexDirection:"row",justifyContent:"space-between"}}>
                             <TouchableWithoutFeedback onPress={()=>{setType("ALL")}}>
                             <View style={[styles.typeBtn,{borderBottomColor:type==="ALL"?"#8D3981":"white"}]}>
@@ -323,7 +323,7 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
                             data={data}
                             renderItem={renderItem}
                             keyExtractor={(item) =>item.CREA_DT}
-                            style={{flexGrow:0,maxHeight:listHeight,backgroundColor:"#FFFFFF"}}
+                            style={{flexGrow:0,maxHeight:listHeight,backgroundColor:"#FFFFFF",borderBottomRightRadius:10,borderBottomLeftRadius:10}}
                             onEndReached={()=>{}}
                         />
                     </View>
@@ -448,7 +448,7 @@ const styles = StyleSheet.create({
         borderRadius:10,
         overflow:"hidden"
     },
-    shodow:{
+    shadow:{
         elevation:5,
         shadowColor: "#000",
         shadowOffset: {

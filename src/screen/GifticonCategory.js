@@ -27,7 +27,7 @@ const GificonCategory = (props) =>{
                 <View style={[styles.header,styles.shadow]}>
                     <ExtraBoldText text="기프티콘" customStyle={{fontSize:16}}/>
                 </View>
-                <ScrollView style={{backgroundColor:"#FFFFFF"}}>
+                <ScrollView style={{backgroundColor:"#FFFFFF",marginTop:6}}>
                        <TouchableWithoutFeedback onPress={()=>setVisible(!visible)}>
                            <View style={{backgroundColor:'#333F68',justifyContent:"space-between",flex:1,height:106,alignItems:"center",flexDirection:"row"}}>
                                 <View style={{paddingLeft:24}}>
