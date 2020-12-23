@@ -25,7 +25,6 @@ const WalletWithDraw = ({navigation,route}) =>{
     const member = useRef(false);
     const [symbol,setSymbol] = useState(route.params.symbol);
     const [sendTokenFee,setSendTokenFee] = useState(0);
-    // const [pinChk,setPinChk] = useState(false);
 
     useEffect(()=>{
         const defaultSetting = async()=>{
@@ -356,9 +355,9 @@ const WalletWithDraw = ({navigation,route}) =>{
                     </View>
                 </TouchableWithoutFeedback>
                 <Modal isVisible={modal} backdropTransitionOutTiming={0} style={{margin: 0,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
-                    <View style={{backgroundColor:"#FFFFFF",width:308,height:508,borderRadius:6,overflow:"hidden",justifyContent:"space-between"}}>
+                    <View style={{backgroundColor:"#FFFFFF",width:308,borderRadius:6,overflow:"hidden",justifyContent:"space-between"}}>
                         <View style={{paddingHorizontal:16,paddingVertical:20}}>
-                            <BoldText text={"* 거래 전 아래 내용을 한번 더 확인해 주세요"}/>
+                            <BoldText text={"거래 전 아래 내용을 한번 더 확인해 주세요"}/>
                             <View style={{marginTop:20,borderWidth:1,borderColor:"#F2F2F2",marginBottom:10}} />
                             <View style={styles.modalItemGap}>
                                 <BoldText text={"출금 수량"}/>
@@ -480,6 +479,7 @@ const styles = StyleSheet.create({
     },
     modalBottomBtn:{
         flex:1,
+        height:46,
         justifyContent:"center",
         alignItems:"center"
     },
