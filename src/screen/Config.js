@@ -18,7 +18,7 @@ const Config = (props) =>{
     const [modal,setModal] = useState(false);
     const [modalMode,setModalMode] = useState("");
     const [terms,setTerms] = useState("");
-    const [info,setInfo] = useState("");
+    const [privacy,setPrivacy] = useState("");
 
     const _ver = useSelector(state => state.global.version);
 
@@ -38,10 +38,12 @@ const Config = (props) =>{
                     else setVersionText("최신버전이 아닙니다.")
                 }
             });
-            const {data:terms} = await Axios.get("/get/terms");
-            
-            const {data:privacy} = await Axios.get("/get/privacy");
-            setTerms(terms.content+"\n\n\n"+privacy.content);
+            Axios.get('/get/terms').then((response)=>{
+                setTerms(response.data.content);
+            });
+            Axios.get('/get/privacy').then((response)=>{
+                setPrivacy(response.data.content);
+            });
         }
         setToggle();
     },[]);
@@ -121,27 +123,31 @@ const Config = (props) =>{
                                 setModal(!modal)
                             }}>
                                 <View>
-                                    <RegularText text={"이용약관&개인정보취급방침"} customStyle={styles.rgText} />
+                                    <RegularText text={"이용약관"} customStyle={styles.rgText} />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback onPress={()=>{
-                                setModalMode("info");
+                                setModalMode("privacy");
                                 setModal(!modal)
                             }}>
                                 <View style={{marginTop:10}}>
-                                    <RegularText text={"제3자 정보이용 동의 약관"} customStyle={styles.rgText} />
+                                    <RegularText text={"개인정보처리방침"} customStyle={styles.rgText} />
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
                     </View>
                 </View>
                 <Modal isVisible={modal} backdropTransitionOutTiming={0} style={{margin: 0,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
-                    <ScrollView style={{backgroundColor:"#FFFFFF",borderRadius:6,paddingVertical:28,paddingHorizontal:16,width:"90%",maxHeight:"80%"}}>
-                        <BoldText text={modalMode==="terms"? terms : info} customStyle={{fontSize:12,color:'#3D3D3D',lineHeight:23}}/>
-                        <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
-                            <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:20,height:20,resizeMode:'contain',position:"absolute",right:0,top:0}}/>
-                        </TouchableWithoutFeedback>
-                    </ScrollView>
+                    <View style={{backgroundColor:"#FFFFFF",borderRadius:6,width:"90%",maxHeight:"80%",flex:1,overflow:"hidden"}}>
+                        <View style={{alignItems:'flex-end',paddingRight:16,paddingTop:16}}>
+                            <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
+                                <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:20,height:20,resizeMode:'contain'}}/>
+                            </TouchableWithoutFeedback>
+                        </View>
+                        <ScrollView style={{paddingHorizontal:20,marginBottom:20}}>
+                            <BoldText text={modalMode==="terms"? terms : privacy} customStyle={{fontSize:12,color:'#3D3D3D',lineHeight:23}}/>
+                        </ScrollView>
+                    </View>
                 </Modal>
             </SafeAreaView>
         </>
