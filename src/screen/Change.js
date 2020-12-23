@@ -139,13 +139,13 @@ const ChangeScreen = ({navigation,route}) =>{
                                     <BoldText text={"전환동의"} customStyle={{fontSize:14}}/>
                                 </View>
                                 <View style={{borderWidth:1,borderColor:"#F2F2F2"}} />
-                                <View style={{marginTop:26}}>
+                                <View style={{marginTop:25,marginBottom:19}}>
                                     <BoldText text={"제이헬스픽 포인트를 MVP로 전환하기 위해 아래 사항에 동의해 주세요."} customStyle={{lineHeight:22}}/>
                                 </View>
-                                <View style={{marginTop:20,borderWidth:1,borderRadius:6,borderColor:"#E5E5E5",backgroundColor:"#F3F3F3",padding:16}}>
+                                <ScrollView style={{borderWidth:1,borderRadius:6,borderColor:"#E5E5E5",backgroundColor:"#F3F3F3",padding:16,height:250}}>
                                     <BoldText text={"개인 정보 제3자 제공 동의"} customStyle={{fontSize:12}}/>
                                     <View style={{borderWidth:1,borderColor:"#EBEBEB",marginTop:16}} />
-                                    <View style={{marginTop:16}}>
+                                    <View style={{marginTop:16,paddingBottom:16}}>
                                         <BoldText text={
                                             "제공받는자: 제이헬스픽\n"+
                                             "제공목적: 제이헬스픽 포인트 조회 및 전환\n"+
@@ -154,7 +154,7 @@ const ChangeScreen = ({navigation,route}) =>{
                                             "회원님은 동의를 거부할 권리가 있으나, 동의 거부 시 마일리지 전환서비스를 위한 최소한의 정보가 제공되지 않아 해당 서비스 이용이 불가능 합니다."} 
                                             customStyle={styles.modalContentsText}/>
                                     </View>
-                                </View>
+                                </ScrollView>
                             </View>
                             <View style={{flexDirection:"row",alignItems:"center"}}>
                                 <CheckBox
