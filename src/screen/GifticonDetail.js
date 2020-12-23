@@ -131,7 +131,7 @@ const GifticonDetail = ({route,navigation}) =>{
                             <BoldText text={"MVP"} customStyle={{marginLeft:4}}/>
                         </View>
                     </View>
-                    <View style={{backgroundColor:"#FFFFFF",paddingVertical:10,alignItems:"center",justifyContent:"center",borderBottomColor:"#ECECEC",borderBottomWidth:2}}>
+                    <View style={{backgroundColor:"#FFFFFF",paddingVertical:16,alignItems:"center",justifyContent:"center",borderBottomColor:"#ECECEC",borderBottomWidth:2}}>
                         <BoldText text={"상품 정보 및 안내사항"} customStyle={{fontSize:13}}/>
                     </View>
                     <View style={{padding:16,paddingBottom:100,backgroundColor:"#F8F8F8"}}>
