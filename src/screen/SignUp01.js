@@ -145,11 +145,11 @@ const SignUp01 = (props) =>{
                         <View style={{marginTop:14}}>
                             <ExtraBoldText text={"본인 인증하기"} customStyle={{fontSize:14}}/>
                             <View style={{marginTop:14,borderRadius:10,borderWidth:1,borderColor:'#E5E5E5',paddingHorizontal:16,justifyContent:"center",alignItems:"center",paddingTop:22,paddingBottom:16,width:150,backgroundColor:"#FFFFFF"}}>
-                                <ExtraBoldText text={"휴대폰 본인인증"} customStyle={{fontSize:12,color:"#707070"}}/>
+                                <BoldText text={"휴대폰 본인인증"} customStyle={{fontSize:13}}/>
                                 <View style={{marginTop:20,justifyContent:"center",alignItems:"center"}}>
-                                    <RegularText text={"본인 명의의 휴대폰을"} customStyle={{color:'#707070',justifyContent:"center",fontSize:10}}/>
-                                    <RegularText text={"이용하여 본인인증을"} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:10}}/>
-                                    <RegularText text={"진행합니다."} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:10}}/>
+                                    <BoldText text={"본인 명의의 휴대폰을"} customStyle={{color:'#707070',justifyContent:"center",fontSize:11}}/>
+                                    <BoldText text={"이용하여 본인인증을"} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:11}}/>
+                                    <BoldText text={"진행합니다."} customStyle={{color:'#707070',justifyContent:"center",marginTop:8,fontSize:11}}/>
                                 </View>
                                 <TouchableWithoutFeedback onPress={onIdentifyCheck} disabled={authBtn.disabled}>
                                     <View style={{marginTop:25,backgroundColor:authBtn.bgColor,paddingHorizontal:32,paddingVertical:8,borderRadius:6}}>
@@ -168,7 +168,7 @@ const SignUp01 = (props) =>{
                                         uncheckedCheckBoxColor={"#999999"}
                                         onClick={() => onChangeCheckbox("all")}
                                     />
-                                    <BoldText text={"모든 약관에 동의합니다."} customStyle={{fontSize:10,marginLeft:12}}/>
+                                    <BoldText text={"모든 약관에 동의합니다."} customStyle={{fontSize:12,marginLeft:12}}/>
                                 </View>
                                 <View style={{padding:12,flexDirection:"row",alignItems:"center",borderBottomWidth:1,borderBottomColor:'#E5E5E5',justifyContent:"space-between",backgroundColor:"#FFFFFF"}}>
                                     <View style={{flexDirection:"row",alignItems:"center"}}>
@@ -178,7 +178,7 @@ const SignUp01 = (props) =>{
                                             uncheckedCheckBoxColor={"#999999"}
                                             onClick={() => onChangeCheckbox("terms")}
                                         />
-                                        <BoldText text={"이용약관 (필수)"} customStyle={{fontSize:10,marginLeft:12}}/>
+                                        <BoldText text={"이용약관 (필수)"} customStyle={{fontSize:12,marginLeft:12,color:"#707070"}}/>
                                     </View>
                                     <TouchableWithoutFeedback onPress={()=>{
                                         setModalMode("terms");
@@ -198,7 +198,7 @@ const SignUp01 = (props) =>{
                                             uncheckedCheckBoxColor={"#999999"}
                                             onClick={() => onChangeCheckbox("privacy")}
                                         />
-                                        <BoldText text={"개인정보 처리방침 (필수)"} customStyle={{fontSize:10,marginLeft:12}}/>
+                                        <BoldText text={"개인정보 처리방침 (필수)"} customStyle={{fontSize:12,marginLeft:12,color:"#707070"}}/>
                                     </View>
                                     <TouchableWithoutFeedback onPress={()=>{
                                         setModalMode("privacy");
@@ -217,7 +217,7 @@ const SignUp01 = (props) =>{
                                             uncheckedCheckBoxColor={"#999999"}
                                             onClick={() => onChangeCheckbox('login')}
                                         />
-                                        <BoldText text={"자동 로그인 동의 (선택)"} customStyle={{fontSize:10,marginLeft:12}}/>
+                                        <BoldText text={"자동 로그인 동의 (선택)"} customStyle={{fontSize:12,marginLeft:12,color:"#707070"}}/>
                                     </View>
                                 </View>
                             </View>
