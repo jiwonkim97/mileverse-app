@@ -229,10 +229,12 @@ const SignUp01 = (props) =>{
                         </TouchableWithoutFeedback>
                     </View>
                 </ScrollView>
-                <Modal isVisible={modal} backdropTransitionOutTiming={0} style={{margin: 0,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
+                <Modal isVisible={modal}
+                    onBackButtonPress={()=>setModal(false)}                
+                    backdropTransitionOutTiming={0} style={{margin: 0,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
                     <View style={{backgroundColor:"#FFFFFF",borderRadius:6,width:"90%",maxHeight:"80%",flex:1,overflow:"hidden"}}>
                         <View style={{alignItems:'flex-end',paddingRight:16,paddingTop:16}}>
-                            <TouchableWithoutFeedback onPress={()=>setModal(!modal)}>
+                            <TouchableWithoutFeedback onPress={()=>setModal(false)}>
                                 <Image source={require('../../assets/img/ico_close_bl.png')} style={{width:20,height:20,resizeMode:'contain'}}/>
                             </TouchableWithoutFeedback>
                         </View>
