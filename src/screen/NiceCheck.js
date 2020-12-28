@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert,LogBox,SafeAreaView,TouchableWithoutFeedback,Image,View,StyleSheet,Linking } from 'react-native';
+import { Alert,LogBox,SafeAreaView,TouchableWithoutFeedback,Image,View,StyleSheet,Linking,TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import SendIntentAndroid from "react-native-send-intent";
 import CommonStatusbar from '../components/CommonStatusbar';
@@ -24,10 +24,15 @@ const NiceCheck = (props)=>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
-                    </TouchableWithoutFeedback>
-                    <ExtraBoldText text="본인인증" customStyle={{fontSize:16}}/>
+                    <TouchableOpacity onPress={()=>navigation.goBack()}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require('../../assets/img/ico_back.png')} style={{width:21,height:21}} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={'본인인증'} customStyle={{fontSize:16}}/>
+                    </View>
+                    <View style={{width:50}}></View>
                 </View>
                 <WebView
                     source={{uri: 'http://13.209.142.239:3010/api/nice/encrypt'}}
@@ -92,7 +97,7 @@ const NiceCheck = (props)=>{
 }
 const styles = StyleSheet.create({
     header:{
-        height:60,
+        height:50,
         borderColor:"#CCCCCC",
         justifyContent:'center',
         alignItems:'center',
@@ -110,25 +115,11 @@ const styles = StyleSheet.create({
         shadowRadius: 2.22,
         backgroundColor:"white"
     },
-    label:{
-        color:"#707070",
-        fontSize:12
-    },
-    input:{
-        color:"#000000",
-        textAlign:"right"
-    },
-    inputBox:{
-        flexDirection:"row",
-        justifyContent:"space-between",
-        alignItems:"center",
-        padding:16
-    },
-    btnBox:{
-        backgroundColor:"#8D3981",
-        justifyContent:"center",
-        alignItems:"center",
-        borderRadius:6
+    headerIcoWrap:{
+        width:50,
+        height:50,
+        justifyContent:'center',
+        alignItems:'center'
     }
 });
 

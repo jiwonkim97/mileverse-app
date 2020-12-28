@@ -108,7 +108,7 @@ const GifticonDetail = ({route,navigation}) =>{
                 <View style={[styles.header,styles.shadow]}>
                     <TouchableOpacity onPress={()=>navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
-                            <Image source={require('../../assets/img/ico_back.png')} style={{width:8,height:16}} />
+                            <Image source={require('../../assets/img/ico_back.png')} style={{width:21,height:21}} />
                         </View>
                     </TouchableOpacity>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>

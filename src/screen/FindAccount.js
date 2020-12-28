@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {StyleSheet,Image,View,TouchableWithoutFeedback,SafeAreaView} from 'react-native'
+import {StyleSheet,Image,View,TouchableWithoutFeedback,SafeAreaView,TouchableOpacity} from 'react-native'
 import { BoldText,ExtraBoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import FindIdWrap from '../components/FindAccount/FindIdWrap';
@@ -27,10 +27,16 @@ const FindAccount = (props)=>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <TouchableWithoutFeedback onPress={()=>props.navigation.goBack()}>
-                        <Image source={require('../../assets/img/ico_back.png')} style={{resizeMode:"contain", width:10,position:'absolute',left:20}} />
-                    </TouchableWithoutFeedback>
-                    <ExtraBoldText text="아이디/비밀번호 찾기" customStyle={{fontSize:16}}/>
+                    <TouchableOpacity onPress={()=>props.navigation.goBack()}>
+                        <View style={styles.headerIcoWrap}>
+                            <Image source={require('../../assets/img/ico_back.png')} style={{width:21,height:21}} />
+                        </View>
+                    </TouchableOpacity>
+                    <View style={[styles.headerIcoWrap,{flex:1}]}>
+                        <ExtraBoldText text={"아이디/비밀번호 찾기"} customStyle={{fontSize:16}}/>
+                    </View>
+                    <View style={{width:50}}>
+                    </View>
                 </View>
                 <View style={{padding:16,flex:1}}>
                     <View style={{flexDirection:"row"}}>
@@ -55,7 +61,7 @@ const FindAccount = (props)=>{
 }
 const styles = StyleSheet.create({
     header:{
-        height:60,
+        height:50,
         borderColor:"#CCCCCC",
         justifyContent:'center',
         alignItems:'center',
@@ -72,6 +78,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.05,
         shadowRadius: 2.22,
         backgroundColor:"white"
+    },
+    headerIcoWrap:{
+        width:50,
+        height:50,
+        justifyContent:'center',
+        alignItems:'center'
     },
     boxWrap:{
         justifyContent:"center",
