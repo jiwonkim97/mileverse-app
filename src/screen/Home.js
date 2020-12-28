@@ -1,4 +1,4 @@
-import React, { useEffect,useState,useRef,useCallback } from 'react';
+import React, { useEffect,useState,useRef } from 'react';
 import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions,AppState } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
@@ -37,6 +37,9 @@ const HomeScreen = (props) =>{
     const handleAppState = async(netAppState)=>{
         if ( netAppState === "active") {
             brightness.current = await DeviceBrightness.getBrightnessLevel();
+            if(Platform.OS === 'android') {
+                brightness.current = await DeviceBrightness.getSystemBrightnessLevel();
+            }
             DeviceBrightness.setBrightnessLevel(brightness.current);
         }
     }
@@ -202,6 +205,7 @@ const HomeScreen = (props) =>{
             </SafeAreaView>
             <Modal isVisible={modal} backdropTransitionOutTiming={0} 
                 onBackdropPress={()=>{modalToggle(false)}}
+                onBackButtonPress={()=>modalToggle(false)}
                 style={{margin: 0,flex:1,justifyContent:"flex-start"}} useNativeDriver={true} animationIn={"slideInDown"} animationOut={"slideOutUp"}>
                 {Platform.OS === 'ios'? <CommonStatusbar backgroundColor="#FFFFFF"/> : null  }
                 <View style={{backgroundColor:"#ffffff",borderBottomRightRadius:50,borderBottomLeftRadius:50,paddingBottom:60}}>
