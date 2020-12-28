@@ -82,7 +82,7 @@ const MymvpScreen = (props) =>{
         let _item = item.item
         if(_item.C_CODE === 'D1') {
             return (
-                <View style={[styles.listRowWrap]}>
+                <View style={styles.listRowWrap}>
                     <View style={{flex:2}}>
                         <View style={{flexDirection:"row"}}>
                             <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
@@ -98,7 +98,7 @@ const MymvpScreen = (props) =>{
             );
         } else {
             return (
-                <View style={[styles.listRowWrap]}>
+                <View style={styles.listRowWrap}>
                     <View style={{flex:2}}>
                         <View style={{flexDirection:"row"}}>
                             <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
@@ -198,6 +198,11 @@ const MymvpScreen = (props) =>{
         })
         setModal(!modal)
     }
+    const emptyComponent = ()=>(
+        <View style={[styles.listRowWrap,{borderBottomWidth:0}]}>
+            <BoldText text={"조회된 내역이 없습니다."} customStyle={{color:"#707070"}}/>
+        </View>
+    )
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
@@ -248,7 +253,7 @@ const MymvpScreen = (props) =>{
                                 <Image source={require('../../assets/img/ico_filter.png')} style={{resizeMode:'contain',height:24,width:24}} />
                             </TouchableWithoutFeedback>
                         </View>
-                        <Animated.View style={{height:bodyHeight}}>
+                        <Animated.View style={{height:bodyHeight,overflow:'hidden'}}>
                             <View style={{flexDirection:'row',justifyContent:"space-between",padding:10}}>
                                 <TouchableWithoutFeedback onPress={()=>{updateDateByBtn('1w')}}>
                                     <View style={styles.simpleDateBtn}>
@@ -288,6 +293,7 @@ const MymvpScreen = (props) =>{
                             data={data}
                             renderItem={renderItem}
                             keyExtractor={(item) =>item.CREA_DT}
+                            ListEmptyComponent={emptyComponent}
                             style={{flexGrow:0,maxHeight:listHeight,backgroundColor:"#FFFFFF",borderBottomRightRadius:10,borderBottomLeftRadius:10}}
                         />
                     </View>

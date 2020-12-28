@@ -37,7 +37,6 @@ export default ({navigation,route})=>{
         if(/^[0-9]*$/.test(amt)) {
             setInputAmount(amt);
             const exchange = Math.round((rate *(amt-100)))
-            console.log(exchange)
             if(exchange<0)
                 setChangeAmount(0);
             else
@@ -86,7 +85,7 @@ export default ({navigation,route})=>{
         }
         const getAssets = async()=>{
             const {data} = await Axios.get("/api/henesis/assets");
-            SetHasMvc(commaFormat(setBlanceFormat(data.mvc.amount)))
+            SetHasMvc(setBlanceFormat(data.mvc.amount))
         }
         getRate();
         getAssets();

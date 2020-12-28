@@ -57,7 +57,7 @@ const WalletDetail = ({navigation,route}) =>{
     const [symbol,setSymbol] = useState("");
     const [balance,setBalance] = useState("");
     const [amount,setAmount] = useState("");
-    const isFirstRun = useRef(true);
+    
     const toggleFilter = () =>{
         if(toggle) {
             Animated.timing(animatedController,{
@@ -83,7 +83,7 @@ const WalletDetail = ({navigation,route}) =>{
         if(item.transferType === 'DEPOSIT') {
             return (
                 <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`+ ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,symbol:symbol,member:item.ETH_MEMBER})} >
-                    <View style={[styles.listRowWrap]} key={low.index}>
+                    <View style={styles.listRowWrap} key={low.index}>
                         <View>
                             <BoldText text={implyAddr(item.ETH_FROM)} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.ETH_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
@@ -97,7 +97,7 @@ const WalletDetail = ({navigation,route}) =>{
         } else {
             return (
                 <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`- ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,transactionId:item.TR_ID,symbol:route.params.symbol,member:item.ETH_MEMBER})} >
-                    <View style={[styles.listRowWrap]} key={low.index}>
+                    <View style={styles.listRowWrap} key={low.index}>
                         <View>
                             <BoldText text={implyAddr(item.ETH_TO)} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.ETH_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
@@ -236,6 +236,11 @@ const WalletDetail = ({navigation,route}) =>{
         })
         setModal(!modal)
     }
+    const emptyComponent = ()=>(
+        <View style={[styles.listRowWrap,{borderBottomWidth:0}]}>
+            <BoldText text={"조회된 내역이 없습니다."} customStyle={{color:"#707070"}}/>
+        </View>
+    )
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
@@ -298,7 +303,7 @@ const WalletDetail = ({navigation,route}) =>{
                                 <Image source={require('../../assets/img/ico_filter.png')} style={{resizeMode:'contain',height:24,width:24}} />
                             </TouchableWithoutFeedback>
                         </View>
-                        <Animated.View style={{height:bodyHeight}}>
+                        <Animated.View style={{height:bodyHeight,overflow:"hidden"}}>
                             <View style={{flexDirection:'row',justifyContent:"space-between",padding:10}}>
                                 <TouchableWithoutFeedback onPress={()=>{updateDateByBtn('1w')}}>
                                     <View style={styles.simpleDateBtn}>
@@ -339,6 +344,7 @@ const WalletDetail = ({navigation,route}) =>{
                             renderItem={renderItem}
                             keyExtractor={(item) =>item.CREA_DT}
                             style={{flexGrow:0,maxHeight:listHeight,backgroundColor:"#FFFFFF",borderBottomRightRadius:10,borderBottomLeftRadius:10}}
+                            ListEmptyComponent={emptyComponent}
                             onEndReached={()=>{}}
                         />
                     </View>

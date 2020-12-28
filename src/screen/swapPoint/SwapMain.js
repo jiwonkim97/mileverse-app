@@ -41,11 +41,11 @@ export default ({navigation,route})=>{
                     </View>
                 </View>
                 <View style={{marginTop:6,padding:16,backgroundColor:'#FFFFFF',flex:1}}>
-                    <View style={[styles.shodow,{borderRadius:12,justifyContent:"center",alignItems:"center",height:86,overflow:"hidden",backgroundColor:"#FFFFFF"}]}>
+                    <View style={[styles.shadow,{borderRadius:12,justifyContent:"center",alignItems:"center",height:86,backgroundColor:"#FFFFFF"}]}>
                         <BoldText text={"MVC 현재 가격"}/>
                         <ExtraBoldText text={`${String(rate)} 원`} customStyle={{marginTop:10,fontSize:16}}/>
                     </View>
-                    <View style={[styles.shodow,{borderRadius:12,justifyContent:"center",alignItems:"center",height:120,overflow:"hidden",backgroundColor:"#FFFFFF",marginTop:20}]}>
+                    <View style={[styles.shadow,{borderRadius:12,justifyContent:"center",alignItems:"center",height:120,backgroundColor:"#FFFFFF",marginTop:20}]}>
                         <View style={{paddingVertical:6,paddingLeft:16,flexDirection:"row",alignItems:"center",justifyContent:"space-between",height:60,width:"100%"}}>
                             <View style={{flexDirection:"row",alignItems:"center"}}>
                                 <Image source={require("../../../assets/img/symbol_mvp.png")} style={{width:24,height:24,resizeMode:'stretch'}}/>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
     },
-    shodow:{
+    shadow:{
         elevation:5,
         shadowColor: "#000",
         shadowOffset: {

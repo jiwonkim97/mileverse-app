@@ -81,7 +81,7 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
                 <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{
                     trTime:dateFormatByUnixTime(item.BTC_TIME),symbol:"BTC",amount:parseFloat(commaFormat(changeBtc(item.BTC_AMOUNT))),fromAddr:item.BTC_FROM,toAddr:item.BTC_TO||item.BTC_RECV,hash:item.BTC_HASH,member:item.BTC_MEMBER})} 
                      >
-                    <View style={[styles.listRowWrap]} key={low.index}>
+                    <View style={styles.listRowWrap} key={low.index}>
                         <View>
                             <BoldText text={item.BTC_FROM!==null?implyAddr(item.BTC_FROM):"외부 지갑"} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.BTC_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
@@ -97,7 +97,7 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
                 <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{
                     trTime:dateFormatByUnixTime(item.BTC_TIME),symbol:"BTC",amount:parseFloat(commaFormat(changeBtc(item.BTC_AMOUNT))),fromAddr:item.BTC_FROM,toAddr:item.BTC_TO,hash:item.BTC_HASH,member:item.BTC_MEMBER})}
                     >
-                    <View style={[styles.listRowWrap]} key={low.index}> 
+                    <View style={styles.listRowWrap} key={low.index}> 
                         <View>
                             <BoldText text={implyAddr(item.BTC_TO)} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.BTC_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
@@ -221,6 +221,11 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
         })
         setModal(!modal)
     }
+    const emptyComponent = ()=>(
+        <View style={[styles.listRowWrap,{borderBottomWidth:0}]}>
+            <BoldText text={"조회된 내역이 없습니다."} customStyle={{color:"#707070"}}/>
+        </View>
+    )
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
@@ -283,7 +288,7 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
                                 <Image source={require('../../assets/img/ico_filter.png')} style={{resizeMode:'contain',height:24,width:24}} />
                             </TouchableWithoutFeedback>
                         </View>
-                        <Animated.View style={{height:bodyHeight}}>
+                        <Animated.View style={{height:bodyHeight,overflow:"hidden"}}>
                             <View style={{flexDirection:'row',justifyContent:"space-between",padding:10}}>
                                 <TouchableWithoutFeedback onPress={()=>{updateDateByBtn('1w')}}>
                                     <View style={styles.simpleDateBtn}>
@@ -324,6 +329,7 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
                             renderItem={renderItem}
                             keyExtractor={(item) =>item.CREA_DT}
                             style={{flexGrow:0,maxHeight:listHeight,backgroundColor:"#FFFFFF",borderBottomRightRadius:10,borderBottomLeftRadius:10}}
+                            ListEmptyComponent={emptyComponent}
                             onEndReached={()=>{}}
                         />
                     </View>
@@ -445,8 +451,7 @@ const styles = StyleSheet.create({
     contentsCard:{
         marginTop:16,
         backgroundColor:"#FFFFFF",
-        borderRadius:10,
-        overflow:"hidden"
+        borderRadius:10
     },
     shadow:{
         elevation:5,
