@@ -79,11 +79,16 @@ const WalletDetail = ({navigation,route}) =>{
 
     const renderItem = low =>{
         const {item} = low;
+        let _lastItem = {};
+        if(count-1 === low.index) {
+            _lastItem = {borderBottomWidth:0}
+        }
+
         const amount = symbol ==="ETH" ? parseFloat((parseInt(item.ETH_AMOUNT,16)*ethRatio).toFixed(12)):parseFloat((parseInt(item.MVC_AMOUNT,16)*ethRatio).toFixed(12));
         if(item.transferType === 'DEPOSIT') {
             return (
-                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`+ ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,symbol:symbol,member:item.ETH_MEMBER})} >
-                    <View style={styles.listRowWrap} key={low.index}>
+                <TouchableWithoutFeedback key={low.index} onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`+ ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,symbol:symbol,member:item.ETH_MEMBER})} >
+                    <View style={[styles.listRowWrap,_lastItem]}>
                         <View>
                             <BoldText text={implyAddr(item.ETH_FROM)} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.ETH_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
@@ -96,8 +101,8 @@ const WalletDetail = ({navigation,route}) =>{
             );
         } else {
             return (
-                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`- ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,transactionId:item.TR_ID,symbol:route.params.symbol,member:item.ETH_MEMBER})} >
-                    <View style={styles.listRowWrap} key={low.index}>
+                <TouchableWithoutFeedback key={low.index} onPress={()=>navigation.navigate("WalletReceipt",{trTime:dateFormatByUnixTime(item.ETH_TIME),amount:`- ${commaFormat(amount)}`,hash:item.ETH_HASH, toAddr:item.ETH_TO,fromAddr:item.ETH_FROM,transactionId:item.TR_ID,symbol:route.params.symbol,member:item.ETH_MEMBER})} >
+                    <View style={[styles.listRowWrap,_lastItem]}>
                         <View>
                             <BoldText text={implyAddr(item.ETH_TO)} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.ETH_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
@@ -115,7 +120,11 @@ const WalletDetail = ({navigation,route}) =>{
         return `${_date.getFullYear()}-${addZero(_date.getMonth()+1)}-${addZero(_date.getDate())} ${addZero(_date.getHours())}:${addZero(_date.getMinutes())}:${addZero(_date.getSeconds())}`
     }
     const implyAddr = (addr)=>{
-        return `${addr.slice(0,10)}....${addr.slice(-10)}`
+        if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(addr)) {
+            return addr;
+        } else {
+            return `${addr.slice(0,10)}....${addr.slice(-10)}`;
+        }
     }
     const commaFormat = (num)=>{
         const parts = String(num).split(".")
@@ -210,8 +219,8 @@ const WalletDetail = ({navigation,route}) =>{
         const {unixToDate,unixFromDate} =getUnixTime(getFormatDate());
         const {data:low} = await Axios.get('/api/henesis/eth/history',{params:{start:unixFromDate,end:unixToDate,type:type,symbol:route.params.symbol}});
         if(low.result === "success") {
-            setData(low.history);
             setCount(low.history.length);
+            setData(low.history);
         } else {
             alert("사용기록을 불러오는데 실패했습니다.")
         }

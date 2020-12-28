@@ -80,9 +80,13 @@ const MymvpScreen = (props) =>{
 
     const renderItem = item =>{
         let _item = item.item
+        let _lastItem = {};
+        if(count-1 === item.index) {
+            _lastItem = {borderBottomWidth:0}
+        }
         if(_item.C_CODE === 'D1') {
             return (
-                <View style={styles.listRowWrap}>
+                <View style={[styles.listRowWrap,_lastItem]} key={item.index}>
                     <View style={{flex:2}}>
                         <View style={{flexDirection:"row"}}>
                             <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
@@ -98,7 +102,7 @@ const MymvpScreen = (props) =>{
             );
         } else {
             return (
-                <View style={styles.listRowWrap}>
+                <View style={[styles.listRowWrap,_lastItem]} key={item.index}>
                     <View style={{flex:2}}>
                         <View style={{flexDirection:"row"}}>
                             <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
@@ -168,8 +172,8 @@ const MymvpScreen = (props) =>{
             .then((response)=>{
                 var _response = response.data
                 if(_response.result === "success") {
+                    setCount(_response.data.length);
                     setData(_response.data);
-                    setCount(_response.data.length)
                 } else {
                     alert("사용기록을 불러오는데 실패했습니다.")
                 }

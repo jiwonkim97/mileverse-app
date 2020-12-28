@@ -76,12 +76,16 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
 
     const renderItem = low =>{
         const {item} = low
+        let _lastItem = {};
+        if(count-1 === low.index) {
+            _lastItem = {borderBottomWidth:0}
+        }
         if(item.BTC_TYPE === 'DEPOSIT') {
             return (
-                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{
+                <TouchableWithoutFeedback key={low.index} onPress={()=>navigation.navigate("WalletReceipt",{
                     trTime:dateFormatByUnixTime(item.BTC_TIME),symbol:"BTC",amount:parseFloat(commaFormat(changeBtc(item.BTC_AMOUNT))),fromAddr:item.BTC_FROM,toAddr:item.BTC_TO||item.BTC_RECV,hash:item.BTC_HASH,member:item.BTC_MEMBER})} 
                      >
-                    <View style={styles.listRowWrap} key={low.index}>
+                    <View style={[styles.listRowWrap,_lastItem]}>
                         <View>
                             <BoldText text={item.BTC_FROM!==null?implyAddr(item.BTC_FROM):"외부 지갑"} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.BTC_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
@@ -94,10 +98,10 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
             );
         } else {
             return (
-                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletReceipt",{
+                <TouchableWithoutFeedback key={low.index} onPress={()=>navigation.navigate("WalletReceipt",{
                     trTime:dateFormatByUnixTime(item.BTC_TIME),symbol:"BTC",amount:parseFloat(commaFormat(changeBtc(item.BTC_AMOUNT))),fromAddr:item.BTC_FROM,toAddr:item.BTC_TO,hash:item.BTC_HASH,member:item.BTC_MEMBER})}
                     >
-                    <View style={styles.listRowWrap} key={low.index}> 
+                    <View style={[styles.listRowWrap,_lastItem]}>
                         <View>
                             <BoldText text={implyAddr(item.BTC_TO)} customStyle={{color:"#707070",fontSize:12}}/>
                             <BoldText text={dateFormatByUnixTime(item.BTC_TIME)} customStyle={{color:"#707070",fontSize:12,marginTop:6}}/>
@@ -195,8 +199,8 @@ const WalletDetailOnBtc = ({navigation,route}) =>{
         const {unixToDate,unixFromDate} =getUnixTime(getFormatDate());
         const {data:low} = await Axios.get('/api/henesis/btc/history',{params:{start:unixFromDate,end:unixToDate,type:type}});
         if(low.result === "success") {
-            setData(low.history);
             setCount(low.history.length);
+            setData(low.history);
         } else {
             alert("사용기록을 불러오는데 실패했습니다.")
         }
