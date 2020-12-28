@@ -131,7 +131,9 @@ const ChangeScreen = ({navigation,route}) =>{
                         
                     </View>
                 </ScrollView>
-                <Modal isVisible={visible} backdropTransitionOutTiming={0} style={{margin: 0,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
+                <Modal isVisible={visible}
+                    onBackButtonPress={()=>setVisible(false)}
+                    backdropTransitionOutTiming={0} style={{margin: 0,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
                     <View style={{backgroundColor:"#FFFFFF",width:308,borderRadius:6,overflow:"hidden"}}>
                         <View style={{paddingHorizontal:16}}>
                             <View>
