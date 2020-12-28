@@ -104,10 +104,10 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 1,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22,
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
         zIndex:1
     },
     categoryCardWrap:{

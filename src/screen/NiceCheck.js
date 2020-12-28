@@ -24,7 +24,7 @@ const NiceCheck = (props)=>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <TouchableOpacity onPress={()=>navigation.goBack()}>
+                    <TouchableOpacity onPress={()=>props.navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
                             <Image source={require('../../assets/img/ico_back.png')} style={{width:21,height:21}} />
                         </View>

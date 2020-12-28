@@ -50,11 +50,11 @@ const GifticonList = (props) =>{
                                         return (
                                             <TouchableWithoutFeedback key={index} onPress={()=>{props.navigation.navigate('GifticonDetail',{pdt_code:item.PDT_CODE})}}>
                                                 <View style={{width:"50%",paddingHorizontal:8,marginTop:16}}>
-                                                    <View style={[styles.shadow,{borderRadius:10,overflow:"hidden"}]}>
+                                                    <View style={[styles.shadow,{borderRadius:10}]}>
                                                         <View style={{justifyContent:"center",alignItems:"center",height:120}}>
                                                             <Image source={{uri:imagePrefix+item.PDT_IMAGE}} style={{resizeMode:'stretch',width:100,height:100}}/>
                                                         </View>
-                                                        <View style={{backgroundColor:"#F6F6F6",padding:12,height:86,justifyContent:"space-between"}}>
+                                                        <View style={{backgroundColor:"#F6F6F6",padding:12,height:86,justifyContent:"space-between",borderBottomRightRadius:10,borderBottomLeftRadius:10}}>
                                                             <RegularText text={item.PDT_NAME} customStyle={{color:"#2B2B2B",lineHeight:20,fontSize:14}}/>
                                                             <View style={{marginTop:7,flexDirection:"row",alignItems:"center"}}>
                                                                 <ExtraBoldText text={item.PDT_AMOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} customStyle={{fontSize:15}}/>
@@ -106,10 +106,10 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 1,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22,
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
         zIndex:1
     },
     categoryCardWrap:{
