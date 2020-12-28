@@ -11,8 +11,6 @@ import Axios from '../../modules/Axios';
 
 const HealthPick = ({navigation,route}) =>{
     const dispatch = useDispatch();
-    const [visible,setVisible] = useState(false);
-    const [agree,setAgree] = useState(false);
     const [type,setType] = useState(0);
     const [hasPoint,setHasPoint] = useState(route.params.available_points);
     const [changePoint,setChangePoint] = useState("");
@@ -83,11 +81,24 @@ const HealthPick = ({navigation,route}) =>{
                 </>
             ),()=>{
                 dispatch(dialog.closeDialog());
-                navigation.navigate("PinCode",{
-                    mode:"confirm",
-                    onGoBack:(_value)=>{if(_value) requestChangePoint();}
-                });
+                checkLimit();      
             }));
+        }
+    }
+
+    const checkLimit = async()=>{
+        const {data} = await Axios.get('/api/point/change/limit',{params:{amount:changePoint}});
+        if(data.result === 'success') {
+            navigation.navigate("PinCode",{
+                mode:"confirm",
+                onGoBack:(_value)=>{if(_value) requestChangePoint();}
+            });
+        } else {
+            dispatch(dialog.openDialog("alert",(
+                <>
+                    <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
+                </>
+            )));
         }
     }
 

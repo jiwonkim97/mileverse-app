@@ -22,8 +22,23 @@ const ChangeScreen = ({navigation,route}) =>{
             </>
         ),()=>{
             dispatch(dialog.closeDialog());
-            navigation.navigate("DanalPg",{item:target});
+            checkLimit(target)
         }));
+    }
+
+    const checkLimit = async(target)=>{
+        const amount = target === "M10" ? 9000 : 4750;
+        const {data} = await Axios.get('/api/point/buy/limit',{params:{amount:amount}});
+        if(data.result === 'success') {
+            navigation.navigate("DanalPg",{item:target});
+        } else {
+            dispatch(dialog.openDialog("alert",(
+                <>
+                    <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
+                </>
+            )));
+        }
+        
     }
 
     const onChangePoint = async()=>{
@@ -45,7 +60,6 @@ const ChangeScreen = ({navigation,route}) =>{
             } else {
                 Alert.alert("알림","시스템 오류입니다.\n다시 시도해주세요.",[{text:"확인"}]);
             }
-            
         }
     };
 
