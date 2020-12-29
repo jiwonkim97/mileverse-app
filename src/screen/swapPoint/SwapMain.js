@@ -24,7 +24,7 @@ export default ({navigation,route})=>{
                     <View style={{width:50}}>
                     </View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={"MVP를 MVC로 교환 "} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={"MVP/MVC 교환"} customStyle={{fontSize:16}}/>
                     </View>
                     <TouchableOpacity onPress={()=>navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
@@ -81,8 +81,6 @@ const styles = StyleSheet.create({
         alignItems:'center',
         flexDirection:"row",
         justifyContent:"space-between",
-        borderBottomColor:"#F2F2F2",
-        borderBottomWidth:2
     },
     headerIcoWrap:{
         width:50,
@@ -91,13 +89,14 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     shadow:{
-        elevation:5,
-        shadowColor: "#000",
+        backgroundColor:"#FFFFFF",
+        elevation:2,
+        shadowColor: "#000000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 0.5,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22
+        shadowOpacity: 0.20,
+        shadowRadius: 1.6,
     }
 });

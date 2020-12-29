@@ -101,15 +101,15 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     shadow:{
-        backgroundColor:"white",
+        backgroundColor:"#FFFFFF",
         elevation:2,
-        shadowColor: "#000",
+        shadowColor: "#000000",
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 0.5,
         },
         shadowOpacity: 0.20,
-        shadowRadius: 1.41,
+        shadowRadius: 1.6,
         zIndex:1
     },
     categoryCardWrap:{

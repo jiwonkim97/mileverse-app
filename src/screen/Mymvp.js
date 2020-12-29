@@ -210,7 +210,7 @@ const MymvpScreen = (props) =>{
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
-            <SafeAreaView>
+            <SafeAreaView style={{backgroundColor:"#FFFFFF",flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
                     <View style={{width:50}}></View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
@@ -418,14 +418,14 @@ const styles = StyleSheet.create({
     },
     shadow:{
         backgroundColor:"#FFFFFF",
-        elevation:5,
+        elevation:2,
         shadowColor: "#000000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 0.5,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22
+        shadowOpacity: 0.20,
+        shadowRadius: 1.6,
     },
     headerCard:{
         backgroundColor:"#FFFFFF",
@@ -483,7 +483,7 @@ const styles = StyleSheet.create({
         paddingLeft:16,
         paddingRight:12,
         borderBottomWidth:1,
-        borderColor:"#CCCCCC"
+        borderColor:"#E5E5E5"
     },
     listIconWrap:{
         justifyContent:"center",

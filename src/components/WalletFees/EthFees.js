@@ -22,15 +22,15 @@ const styles = StyleSheet.create({
         width:20,height:20,borderRadius:12,backgroundColor:"#FFFFFF"
     },
     shadow:{
-        elevation:5,
-        shadowColor: "#000",
+        backgroundColor:"#FFFFFF",
+        elevation:2,
+        shadowColor: "#000000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 0.5,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22,
-        backgroundColor:"white"
+        shadowOpacity: 0.20,
+        shadowRadius: 1.6,
     },
     rail:{
         flex: 1,

@@ -69,7 +69,7 @@ const ContactScreen = (props) =>{
  
         // PickerDialog의 옵션 객체
         const options= {
-            title:'Select Picker', //다이얼로그의 제목
+            title:'', //다이얼로그의 제목
             takePhotoButtonTitle: '카메라',
             chooseFromLibraryButtonTitle:'앨범',
             cancelButtonTitle: '취소',

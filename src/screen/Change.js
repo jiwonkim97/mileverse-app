@@ -18,7 +18,8 @@ const ChangeScreen = ({navigation,route}) =>{
         const _item = target === "M10" ? "1만원권" : "5천원권";
         dispatch(dialog.openDialog("confirm",(
             <>
-                <BoldText text={`MVP ${_item} 을 구매하시겠습니까?`}/>
+                <BoldText text={`MVP ${_item} 을 구매하시겠습니까?`} customStyle={{fontSize:14}}/>
+                <BoldText text={"* MVP 월 구매 한도는 50,000원 입니다."} customStyle={{textAlign:"center",marginTop:14,fontSize:11,color:"#EE1818"}}/>
             </>
         ),()=>{
             dispatch(dialog.closeDialog());
@@ -174,7 +175,7 @@ const ChangeScreen = ({navigation,route}) =>{
                             </View>
                         </View>
                         <View>
-                            <View style={{flexDirection:"row",alignItems:"center",marginVertical:16,paddingHorizontal:16}}>
+                            <View style={{flexDirection:"row",alignItems:"center",marginVertical:14,paddingHorizontal:16}}>
                                 <CheckBox
                                     isChecked={agree}
                                     checkedCheckBoxColor={'#8D3981'}
@@ -183,7 +184,7 @@ const ChangeScreen = ({navigation,route}) =>{
                                 />
                                 <TouchableWithoutFeedback onPress={()=>setAgree(!agree)}>
                                     <View>
-                                        <BoldText text={"마일리지 교환에 동의합니다."} customStyle={{fontSize:10,marginLeft:10}}/>
+                                        <BoldText text={"마일리지 교환에 동의합니다."} customStyle={{fontSize:12,marginLeft:8}}/>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
@@ -216,16 +217,16 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     shadow:{
-        backgroundColor:"white",
+        backgroundColor:"#FFFFFF",
         elevation:2,
-        shadowColor: "#000",
+        shadowColor: "#000000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 0.5,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22,
-        zIndex:1
+        shadowOpacity: 0.20,
+        shadowRadius: 1.6,
+        zIndex:2
     },
     bannerTitle:{
         fontSize:12,

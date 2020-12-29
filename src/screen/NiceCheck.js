@@ -105,15 +105,15 @@ const styles = StyleSheet.create({
         zIndex:1
     },
     shadow:{
+        backgroundColor:"#FFFFFF",
         elevation:2,
-        shadowColor: "#000",
+        shadowColor: "#000000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 0.5,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22,
-        backgroundColor:"white"
+        shadowOpacity: 0.20,
+        shadowRadius: 1.6,
     },
     headerIcoWrap:{
         width:50,

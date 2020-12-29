@@ -150,7 +150,7 @@ const SignUp02 = (props) =>{
                             </View>
                             <View style={styles.inputBox}>
                                 <BoldText text={"비밀번호 확인"} customStyle={styles.label}/>
-                                <TextInput placeholder="비밀번호를 다시 한 번 입력해주세요." secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" onChangeText={text=>setPassword2(text)} style={styles.input} onBlur={()=>{
+                                <TextInput placeholder="비밀번호를 한 번 더 입력해주세요." secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" onChangeText={text=>setPassword2(text)} style={styles.input} onBlur={()=>{
                                         setErrorText2({txt:"-",color:"#FFFFFF"})
                                         if(!regex.test(password2) && password2!=="") setErrorText2({txt:"* 8~16자 영문, 숫자, 특수문자를 사용하세요.",color:"#FF3B3B"});
                                         else if(password !== password2) setErrorText2({txt:"* 입력하신 비밀번호가 일치하지 않습니다.",color:"#FF3B3B"});
@@ -211,15 +211,15 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     shadow:{
+        backgroundColor:"#FFFFFF",
         elevation:2,
-        shadowColor: "#000",
+        shadowColor: "#000000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 0.5,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22,
-        backgroundColor:"white"
+        shadowOpacity: 0.20,
+        shadowRadius: 1.6,
     },
     label:{
         color:"#707070",

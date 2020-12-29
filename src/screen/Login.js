@@ -15,9 +15,11 @@ const LoginScreen = (props) =>{
     const [autoLogin, setautoLogin] = useState(false);
     const [id,setId] = useState("");
     const [pw,setPw] = useState("");
-    const [focusColor, setFocusColor] = useState("#A9A9A9");
-    const [focusColor2, setFocusColor2] = useState("#A9A9A9");
-    const [erorText,setErrorText] = useState("#FFFFFF");
+    const [focusColor, setFocusColor] = useState("#E5E5E5");
+    const [focusColor2, setFocusColor2] = useState("#E5E5E5");
+    const [textColor,setTextColor] = useState("#2B2B2B");
+    const [textColor2,setTextColor2] = useState("#A9A9A9")
+    const [erorText,setErrorText] = useState(false);
 
     useEffect(() => {
         const storageGetData = async() =>{
@@ -36,9 +38,9 @@ const LoginScreen = (props) =>{
     },[]);
     
     const requestLogin = useCallback((_id,_pw)=>{
-        setErrorText("#FFFFFF");
+        setErrorText(false);
         if(_id === '' || _pw === '') {
-            setErrorText("#EE1818");
+            setErrorText(false);
         } else {
             dispatch(spinner.showSpinner());
             dispatch(actions.loginRequest(_id,_pw)).then((result)=>{
@@ -48,7 +50,7 @@ const LoginScreen = (props) =>{
                     props.navigation.goBack();
                 } else {
                     dispatch(spinner.hideSpinner());
-                    setErrorText("#EE1818");
+                    setErrorText(true);
                 }
             })
         }
@@ -65,30 +67,51 @@ const LoginScreen = (props) =>{
                         <Image source={require('../../assets/img/ico_close_bl.png')} style={{resizeMode:"stretch",width:20,height:20}} />    
                     </TouchableWithoutFeedback>   
                 </View>
-                <View style={{marginTop:40,justifyContent:"center",alignItems:"center"}}>
+                <View style={{marginTop:6,justifyContent:"center",alignItems:"center"}}>
                     <Image source={require('../../assets/img/mileverse_letter_2.png')} style={{resizeMode:'contain',height:25}} />
                 </View>
-                <View style={{marginTop:50,paddingHorizontal:30}}>
-                    <TextInput placeholder="아이디를 입력해주세요." style={[styles.inputForm,{color:focusColor,borderColor:focusColor}]} 
+                <View style={{marginTop:40,paddingHorizontal:30}}>
+                    <TextInput placeholder="아이디를 입력해주세요" placeholderTextColor={"#D5C2D3"} style={[styles.inputForm,{color:textColor,borderColor:focusColor}]} 
                         onChangeText={(text)=>setId(text)} 
                         value={id} 
-                        onFocus={()=>setFocusColor('#8D3981')} 
-                        onBlur={()=>setFocusColor('#A9A9A9')}/>
-                    <TextInput placeholder="비밀번호를 입력해주세요." style={[styles.inputForm,{color:focusColor2,borderColor:focusColor2,marginTop:10}]} 
+                        onFocus={()=>{
+                            setFocusColor('#8D3981');
+                            setTextColor("#8D3981");
+                        }}
+                        onChange={()=>{setErrorText(false)}}
+                        onBlur={()=>{
+                            setFocusColor('#E5E5E5');
+                            setTextColor("#2B2B2B");
+                        }}
+                    />
+                    <TextInput placeholder="비밀번호를 입력해주세요" placeholderTextColor={"#D5C2D3"} style={[styles.inputForm,{color:textColor2,borderColor:focusColor2,marginTop:10}]} 
                         onChangeText={(text)=>setPw(text)} 
                         secureTextEntry={true} 
                         value={pw} 
-                        onFocus={()=>setFocusColor2('#8D3981')} 
-                        onBlur={()=>setFocusColor2('#A9A9A9')}/>
-                    <View style={{marginTop:8,paddingLeft:4}}>
-                        <BoldText text={"* 아이디 및 비밀번호를 확인해주세요."} customStyle={{fontSize:10,color:erorText}}/>
-                    </View>
+                        onFocus={()=>{
+                            setFocusColor2('#8D3981');
+                            setTextColor2('#8D3981');
+                        }} 
+                        onChange={()=>{setErrorText(false)}}
+                        onBlur={()=>{
+                            setFocusColor2('#E5E5E5');
+                            setTextColor2('#2B2B2B');
+                        }}/>
+                    {
+                        erorText?
+                            <View style={{marginTop:8,paddingLeft:4}}>
+                                <BoldText text={"* 아이디 및 비밀번호를 확인해주세요"} customStyle={{fontSize:10,color:"#EE1818"}}/>
+                            </View>
+                        :
+                            null
+                    }
+                    
                     <TouchableWithoutFeedback onPress={()=>{requestLogin(id,pw);}}>
                         <View style={{marginTop:10,width:"100%",height:46,backgroundColor:"#8D3981",borderRadius:8,justifyContent:"center",alignItems:"center"}}>
                             <BoldText text={"로그인"} customStyle={{color:"#FFF",fontSize:14}}/>
                         </View>
                     </TouchableWithoutFeedback>
-                    <View style={{marginTop:12,paddingBottom:16,borderBottomWidth:1,borderBottomColor:"#D8D8D8",flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+                    <View style={{marginTop:12,paddingBottom:12,borderBottomWidth:1,borderBottomColor:"#D8D8D8",flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
                         <View style={{flexDirection:"row"}}>
                             <CheckBox
                                 isChecked={autoLogin}

@@ -31,7 +31,7 @@ export default ()=>{
                 <View style={{paddingTop:40,justifyContent:"center",alignItems:"center"}}>
                     {contents}
                 </View>
-                <View style={{backgroundColor:"red",marginTop:40}}>
+                <View style={{marginTop:40}}>
                     {mode === "alert" ? 
                         <TouchableWithoutFeedback onPress={()=>{
                             if(callback) {

@@ -83,7 +83,7 @@ const HomeScreen = (props) =>{
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1}}>
-                <View style={styles.header}>
+                <View style={[styles.header,styles.shadow]}>
                     <Image source={require('../../assets/img/mileverse_letter_2.png')} style={{width:150,resizeMode:"contain"}}></Image>
                 </View>
                 <ScrollView>
@@ -251,15 +251,15 @@ const styles = StyleSheet.create({
         lineHeight:20
     },
     shadow:{
-        backgroundColor:"white",
-        elevation:2, 
-        shadowColor: "#000",
+        backgroundColor:"#FFFFFF",
+        elevation:2,
+        shadowColor: "#000000",
         shadowOffset: {
             width: 0,
-            height: 3,
+            height: 0.5,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 2.22
+        shadowOpacity: 0.20,
+        shadowRadius: 1.6,
     },
     gifticonImg:{
         width:60,
