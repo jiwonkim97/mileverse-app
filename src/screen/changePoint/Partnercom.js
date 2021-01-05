@@ -9,7 +9,7 @@ import * as spinner from '../../actions/spinner';
 import * as auth from '../../actions/authentication';
 import Axios from '../../modules/Axios';
 
-const HealthPick = ({navigation,route}) =>{
+const Partnercom = ({navigation,route}) =>{
     const dispatch = useDispatch();
     const [type,setType] = useState(0);
     const [hasPoint,setHasPoint] = useState(route.params.available_points);
@@ -104,11 +104,11 @@ const HealthPick = ({navigation,route}) =>{
 
     const requestChangePoint = async()=>{
         dispatch(spinner.showSpinner());
-        const {data} =  await Axios.post("/api/jHealthPick/points",{amount:changePoint,member_id:route.params.member_id});
+        const {data} =  await Axios.post("/api/partnercom/points",{amount:changePoint,member_id:route.params.member_id});
         dispatch(spinner.hideSpinner());
         if(data.result === "success"){
             dispatch(auth.udpateMvp(data.mvp));
-            navigation.navigate("ChangeResult",{amount:changePoint,header:"제이헬스픽"})
+            navigation.navigate("ChangeResult",{amount:changePoint,header:'건강곶간'})
         } else {
             dispatch(dialog.openDialog("alert",(
                 <>
@@ -129,7 +129,7 @@ const HealthPick = ({navigation,route}) =>{
                         </View>
                     </TouchableOpacity>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={'제이헬스픽'} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={'건강곶간'} customStyle={{fontSize:16}}/>
                     </View>
                     <TouchableOpacity onPress={()=>navigation.navigate("Wallet")}>
                         <View style={styles.headerIcoWrap}>
@@ -139,8 +139,10 @@ const HealthPick = ({navigation,route}) =>{
                 </View>
                 <View style={{justifyContent:"space-between",flex:1,backgroundColor:"#FFFFFF"}}>
                     <ScrollView style={{flex:1}}>
-                        <View style={[styles.shadow,{borderRadius:10,justifyContent:"center",alignItems:"center",paddingVertical:13,marginHorizontal:16,marginTop:26}]}>
-                            <Image source={require("../../../assets/img/logo_healthPick.png")} style={{resizeMode:"contain",width:250,height:60}}/>
+                        <View style={[styles.shadow,{borderRadius:10,justifyContent:"center",alignItems:"center",paddingVertical:13,marginHorizontal:16,marginTop:26,flexDirection:"row"}]}>
+                            <Image source={require("../../../assets/img/logo_dongjin.jpeg")} style={{resizeMode:"contain",width:160,height:60}}/>
+                            <View style={{width:1,backgroundColor:'#C4C4C4',height:20,marginHorizontal:7}}></View>
+                            <Image source={require("../../../assets/img/logo_ptnc.jpeg")} style={{resizeMode:"contain",width:130,height:60}}/>
                         </View>
                         <View style={{marginTop:30,marginHorizontal:16}}>
                             <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
@@ -174,7 +176,7 @@ const HealthPick = ({navigation,route}) =>{
                                 <BoldText text={"[포인트 전환 안내]"} customStyle={{color:"#3A3A3A"}}/>
                                 <View style={{marginTop:10}}>
                                     <BoldText text={
-                                        "- 제이헬스픽 1P는 1 MVP(1원)으로 전환됩니다.\n"+
+                                        "- 건강곶간 1P는 1 MVP(1원)으로 전환됩니다.\n"+
                                         "- 전환완료된 MVP는 현금영수증 발급대상이 아닙니다.\n"+
                                         "- 1p 단위로 최소1p, 일 최대 10,000 MVP월 최대 100,000 MVP까지 전환가능합니다.\n"+
                                         "- 전환된 MVP는 바로 사용가능하며, 전환취소 및 출금, 타포인트전환은 불가합니다."} customStyle={{lineHeight:18}}/>
@@ -194,7 +196,7 @@ const HealthPick = ({navigation,route}) =>{
     )
 }
 
-export default HealthPick;
+export default Partnercom;
 
 const styles = StyleSheet.create({
     header:{

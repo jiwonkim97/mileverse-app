@@ -25,7 +25,7 @@ export default ({navigation,route})=>{
                     <View style={{width:50}}>
                     </View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={`제이헬스픽`} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={route.params.header} customStyle={{fontSize:16}}/>
                     </View>
                     <TouchableOpacity onPress={()=>navigation.navigate("Change")}>
                         <View style={styles.headerIcoWrap}>

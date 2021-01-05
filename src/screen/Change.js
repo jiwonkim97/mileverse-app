@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Image,View,SafeAreaView,StyleSheet, TouchableWithoutFeedback,ScrollView,TouchableOpacity,Alert,Platform } from 'react-native';
 import Modal from 'react-native-modal';
@@ -14,6 +14,8 @@ const ChangeScreen = ({navigation,route}) =>{
     const dispatch = useDispatch();
     const [visible,setVisible] = useState(false);
     const [agree,setAgree] = useState(false);
+    const branchIdx = useRef(0);
+    const brnachList = [{screen:"JhealthPick",text:"제이헬스픽",uri:"/api/jHealthPick/users"},{screen:"Partnercom",text:"건강곶간",uri:"/api/partnercom/users"}];
     const doBuyCard = (target)=>{
         const _item = target === "M10" ? "1만원권" : "5천원권";
         dispatch(dialog.openDialog("confirm",(
@@ -46,23 +48,29 @@ const ChangeScreen = ({navigation,route}) =>{
         if(agree === false ) {
             Alert.alert("알림","동의해주세요.",[{text:"확인"}])
         } else {
+            const {uri,screen,text} = brnachList[branchIdx.current]
             dispatch(spinner.showSpinner());
-            const {data} = await Axios.get("/api/jHealthPick/users");
+            const {data} = await Axios.get(uri);
             dispatch(spinner.hideSpinner());
             if(data.result === "success") {
                 if(data.customer) {
                     setVisible(false);
                     setTimeout(()=>{
-                        navigation.navigate("JhealthPick",data.customer)
+                        navigation.navigate(screen,data.customer)
                     },500)
                 } else {
-                    Alert.alert("알림","제이헬스픽 회원이 아닙니다.",[{text:"확인"}]);    
+                    Alert.alert("알림",`${text} 회원이 아닙니다.`,[{text:"확인"}]);    
                 }
             } else {
                 Alert.alert("알림","시스템 오류입니다.\n다시 시도해주세요.",[{text:"확인"}]);
             }
         }
     };
+
+    const onConfirmModal = (idx)=>{
+        branchIdx.current = idx;
+        setVisible(true);
+    }
 
     return (
         <>
@@ -128,10 +136,19 @@ const ChangeScreen = ({navigation,route}) =>{
                         
                         <View style={{marginVertical:26}}>
                             <BoldText text={"MVP 교환"} customStyle={[styles.itemTitle]}/>
-                            <TouchableOpacity onPress={()=>setVisible(true)}>
+                            <TouchableOpacity onPress={()=>onConfirmModal(1)}>
+                                <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
+                                    <View style={{marginVertical:13,flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
+                                        <Image source={require("../../assets/img/logo_dongjin.jpeg")} style={{resizeMode:"contain",width:160,height:60}}/>
+                                        <View style={{width:1,backgroundColor:'#C4C4C4',height:20,marginHorizontal:7}}></View>
+                                        <Image source={require("../../assets/img/logo_ptnc.jpeg")} style={{resizeMode:"contain",width:130,height:60}}/>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>onConfirmModal(0)}>
                                 <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
                                     <View style={{marginVertical:13}}>
-                                        <Image source={require("../../assets/img/logo_healthPick.png")} style={{resizeMode:"contain",width:300,height:60}}/>
+                                        <Image source={require("../../assets/img/logo_healthPick.png")} style={{resizeMode:"contain",width:220,height:60}}/>
                                     </View>
                                 </View>
                             </TouchableOpacity>
@@ -157,18 +174,18 @@ const ChangeScreen = ({navigation,route}) =>{
                                 </View>
                                 <View style={{borderWidth:1,borderColor:"#F2F2F2"}} />
                                 <View style={{marginTop:25,marginBottom:19}}>
-                                    <BoldText text={"제이헬스픽 포인트를 MVP로 전환하기 위해 아래 사항에 동의해 주세요."} customStyle={{lineHeight:22}}/>
+                                    <BoldText text={`${brnachList[branchIdx.current].text} 포인트를 MVP로 전환하기 위해 아래 사항에 동의해 주세요.`} customStyle={{lineHeight:22}}/>
                                 </View>
                                 <ScrollView style={{borderWidth:1,borderRadius:6,borderColor:"#E5E5E5",backgroundColor:"#F3F3F3",padding:16,height:250,paddingBottom:0}}>
                                     <BoldText text={"개인 정보 제3자 제공 동의"} customStyle={{fontSize:12}}/>
                                     <View style={{borderWidth:1,borderColor:"#EBEBEB",marginTop:16}} />
                                     <View style={{marginTop:16,marginBottom:32}}>
                                         <BoldText text={
-                                            "제공받는자: 제이헬스픽\n"+
-                                            "제공목적: 제이헬스픽 포인트 조회 및 전환\n"+
-                                            "제공하는 항목: 개인 식별 정보,제이헬스픽 포인트 잔액\n"+
-                                            "보유 및 이용기간: 마일리지 전환 완료 후 파기\n\n"+
-                                            "회원님은 동의를 거부할 권리가 있으나, 동의 거부 시 마일리지 전환서비스를 위한 최소한의 정보가 제공되지 않아 해당 서비스 이용이 불가능 합니다."} 
+                                            `제공받는자: ${brnachList[branchIdx.current].text}\n`+
+                                            `제공목적: ${brnachList[branchIdx.current].text} 포인트 조회 및 전환\n`+
+                                            `제공하는 항목: 개인 식별 정보,${brnachList[branchIdx.current].text} 포인트 잔액\n`+
+                                            `보유 및 이용기간: 마일리지 전환 완료 후 파기\n\n`+
+                                            `회원님은 동의를 거부할 권리가 있으나, 동의 거부 시 마일리지 전환서비스를 위한 최소한의 정보가 제공되지 않아 해당 서비스 이용이 불가능 합니다.`} 
                                             customStyle={styles.modalContentsText}/>
                                     </View>
                                 </ScrollView>
