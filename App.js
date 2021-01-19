@@ -48,6 +48,7 @@ import WalletAgree from './src/screen/WalletAgree';
 import ScanScreen from './src/screen/ScanScreen';
 import HealthPick from './src/screen/changePoint/HealthPick';
 import Partnercom from './src/screen/changePoint/Partnercom';
+import RealPet from "./src/screen/changePoint/RealPet";
 import ChangeResult from './src/screen/changePoint/ChangeResult';
 import SwapResult from './src/screen/swapPoint/SwapResult';
 import SwapMain from './src/screen/swapPoint/SwapMain';
@@ -199,6 +200,7 @@ const App = () => {
 						<Stack.Screen name="ScanScreen" component={ScanScreen} />
 						<Stack.Screen name="JhealthPick" component={HealthPick} />
 						<Stack.Screen name="Partnercom" component={Partnercom} />
+						<Stack.Screen name="RealPet" component={RealPet} />
 						<Stack.Screen name="ChangeResult" component={ChangeResult} options={{gestureEnabled:false}}/>
 						<Stack.Screen name="MvcToMvp" component={MvcToMvp}/>
 						<Stack.Screen name="MvpToMvc" component={MvpToMvc}/>

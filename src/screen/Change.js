@@ -10,12 +10,18 @@ import * as dialog from '../actions/dialog';
 import * as spinner from '../actions/spinner';
 import Axios from '../modules/Axios';
 
+
+const brnachList = [
+    {screen:"Partnercom",text:"건강곶간",uri:"/api/partnercom/users"},
+    {screen:"RealPet",text:"리얼펫",uri:"/api/realPet/users"},
+    {screen:"JhealthPick",text:"제이헬스픽",uri:"/api/jHealthPick/users"}
+];
+
 const ChangeScreen = ({navigation,route}) =>{
     const dispatch = useDispatch();
     const [visible,setVisible] = useState(false);
     const [agree,setAgree] = useState(false);
     const branchIdx = useRef(0);
-    const brnachList = [{screen:"JhealthPick",text:"제이헬스픽",uri:"/api/jHealthPick/users"},{screen:"Partnercom",text:"건강곶간",uri:"/api/partnercom/users"}];
     const doBuyCard = (target)=>{
         const _item = target === "M10" ? "1만원권" : "5천원권";
         dispatch(dialog.openDialog("confirm",(
@@ -136,7 +142,7 @@ const ChangeScreen = ({navigation,route}) =>{
                         
                         <View style={{marginVertical:26}}>
                             <BoldText text={"MVP 교환"} customStyle={[styles.itemTitle]}/>
-                            <TouchableOpacity onPress={()=>onConfirmModal(1)}>
+                            <TouchableOpacity onPress={()=>onConfirmModal(0)}>
                                 <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
                                     <View style={{marginVertical:13,flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
                                         <Image source={require("../../assets/img/logo_dongjin.jpeg")} style={{resizeMode:"contain",width:160,height:60}}/>
@@ -145,7 +151,14 @@ const ChangeScreen = ({navigation,route}) =>{
                                     </View>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>onConfirmModal(0)}>
+                            <TouchableOpacity onPress={()=>onConfirmModal(1)}>
+                                <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
+                                    <View style={{marginVertical:13}}>
+                                        <Image source={require("../../assets/img/logo_realpet.jpg")} style={{resizeMode:"contain",width:130,height:60}}/>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>onConfirmModal(2)}>
                                 <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
                                     <View style={{marginVertical:13}}>
                                         <Image source={require("../../assets/img/logo_healthPick.png")} style={{resizeMode:"contain",width:220,height:60}}/>
