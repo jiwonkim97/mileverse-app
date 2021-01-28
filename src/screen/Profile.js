@@ -3,9 +3,10 @@ import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,TouchableOp
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Axios from '../modules/Axios';
+import { useTranslation } from 'react-i18next';
 
 const Profile = (props) =>{
-
+    const { t } = useTranslation();
     const [id,setId] = useState("");
     const [name,setName] = useState("");
     const [phone,setPhone] = useState("");
@@ -26,7 +27,7 @@ const Profile = (props) =>{
                 <View style={[styles.header,styles.shadow]}>
                     <View style={{width:50}}></View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={"내 정보"} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={t('menu_3')} customStyle={{fontSize:16}}/>
                     </View>
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
@@ -37,28 +38,28 @@ const Profile = (props) =>{
                 <View style={{padding:16,backgroundColor:"#FFFFFF"}}>
                     <View style={styles.border}>
                         <View style={styles.itemWrap}>
-                            <BoldText text={"아이디"} customStyle={styles.itemLabel}/>
+                            <BoldText text={t('menu_info_1')} customStyle={styles.itemLabel}/>
                             <BoldText text={id} customStyle={styles.itemLabel}/>
                         </View>
                         <View style={styles.itemWrap}>
-                            <BoldText text={"이름"} customStyle={styles.itemLabel}/>
+                            <BoldText text={t('menu_info_2')} customStyle={styles.itemLabel}/>
                             <BoldText text={name} customStyle={styles.itemLabel}/>
                         </View>
                         <View style={{padding:16,flexDirection:"row",justifyContent:"space-between"}}>
-                            <BoldText text={"휴대전화"} customStyle={styles.itemLabel}/>
+                            <BoldText text={t('menu_info_3')} customStyle={styles.itemLabel}/>
                             <BoldText text={phone} customStyle={styles.itemLabel}/>
                         </View>
                     </View>
                     <View style={[styles.border,{marginTop:16}]}>
                         <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("ChangePassword")}>
                             <View style={[styles.itemWrap,{alignItems:"center"}]}>
-                                <BoldText text={"비밀번호 변경"} customStyle={styles.itemLabel}/>
+                                <BoldText text={t('menu_info_4')} customStyle={styles.itemLabel}/>
                                 <Image source={require('../../assets/img/ico_bracket.png')} style={styles.bracket}/>
                             </View>
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("PinCode",{mode:"set"})}>
                             <View style={{padding:16,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-                                <BoldText text={"PinCode 변경"} customStyle={styles.itemLabel}/>
+                                <BoldText text={t('menu_info_5')} customStyle={styles.itemLabel}/>
                                 <Image source={require('../../assets/img/ico_bracket.png')} style={styles.bracket}/>
                             </View>
                         </TouchableWithoutFeedback>
@@ -67,7 +68,7 @@ const Profile = (props) =>{
                     <View style={[styles.border,{marginTop:16,padding:16}]}>
                         <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("WithDraw")}>
                             <View>
-                                <BoldText text={"회원탈퇴"} customStyle={{color:"#A2A2A2",fontSize:12}}/>
+                                <BoldText text={t('menu_info_6')} customStyle={{color:"#A2A2A2",fontSize:12}}/>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>

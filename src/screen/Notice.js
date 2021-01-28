@@ -3,9 +3,11 @@ import { View,SafeAreaView,StyleSheet,TouchableOpacity,Image,ScrollView } from '
 import {ExtraBoldText,RegularText,BoldText} from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios';
+import { useTranslation } from 'react-i18next';
 
 const NoticeScreen = (props) =>{
     const [lists,setLists] = useState([]);
+    const { t } = useTranslation();
     useEffect(()=>{
         const getData = async()=>{
             const {data} = await Axios.get("/api/notice");
@@ -20,7 +22,7 @@ const NoticeScreen = (props) =>{
                 <View style={[styles.header,styles.shadow]}>
                     <View style={{width:50}}></View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={"공지사항"} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={t("menu_5")} customStyle={{fontSize:16}}/>
                     </View>
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>

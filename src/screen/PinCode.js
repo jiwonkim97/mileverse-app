@@ -3,9 +3,13 @@ import { useSelector,useDispatch } from 'react-redux';
 import {View,SafeAreaView,TextInput,StyleSheet,TouchableWithoutFeedback,Keyboard,Platform,Image} from 'react-native';
 import CommonStatusbar from '../components/CommonStatusbar';
 import {ExtraBoldText,BoldText} from '../components/customComponents';
-import * as actions from '../actions/authentication'
+import * as actions from '../actions/authentication';
+import * as RNLocalize from 'react-native-localize';
+import { useTranslation } from 'react-i18next';
+
 const PinCode = ({navigation,route})=>{
     const dispatch = useDispatch();
+    const { t } = useTranslation();
     const {pin:auth_pin} = useSelector(state => state.authentication.userInfo);
     const inputRef = useRef();
     const [pin,setPin] = useState("");
@@ -22,12 +26,14 @@ const PinCode = ({navigation,route})=>{
     const [numCheck,setNumCheck] = useState(false);
     const [firstChk,setFirstChk] = useState(false);
     const [firstPin,setFirstPin] = useState("");
-
+    const [local,setLocale] = useState("ko");
     
     useEffect(()=>{
         Keyboard.addListener('keyboardDidHide',()=>{
             Keyboard.dismiss();
-        })
+        });
+        RNLocalize.getLocales()[0].languageCode === 'ko' ? setLocale("ko") : setLocale("en")
+
     },[]);
 
     useEffect(()=>{
@@ -77,6 +83,7 @@ const PinCode = ({navigation,route})=>{
             }
         }
     },[pin]);
+
     const clearDots = ()=>{
         let _dots = {};
         for(let i = 1 ; i<=6 ; i++) {
@@ -122,11 +129,19 @@ const PinCode = ({navigation,route})=>{
             <CommonStatusbar backgroundColor="#EEEEEE"/>
             <SafeAreaView style={{flex:1,backgroundColor:"#EEEEEE"}}>
                 <View style={{paddingLeft:40,paddingTop:70}}>
-                    <View style={{flexDirection:"row"}}>
-                        <ExtraBoldText text={"PIN번호"} customStyle={{fontSize:30}}/>
-                        <BoldText text={"를"} customStyle={{fontSize:30}}/>
-                    </View>
-                    <BoldText text={"입력해주세요."} customStyle={{fontSize:30,marginTop:8}}/>
+                    {
+                        local === 'ko' ?
+                        <>
+                            <View style={{flexDirection:"row"}}>
+                                <ExtraBoldText text={"PIN번호"} customStyle={{fontSize:30}}/>
+                                <BoldText text={"를"} customStyle={{fontSize:30}}/>
+                            </View>
+                            <BoldText text={"입력해주세요."} customStyle={{fontSize:30,marginTop:8}}/>
+                        </> 
+                        :
+                        <BoldText text={t('menu_info_11')} customStyle={{fontSize:25,marginTop:8}}/>
+                    }
+                    
                 </View>
                 {
                     Platform.OS === "ios" ? 
@@ -159,13 +174,13 @@ const PinCode = ({navigation,route})=>{
                 </TouchableWithoutFeedback>
                 <View style={{alignItems:'center',marginTop:20}}>
                     {
-                        error ? <BoldText text={"Pin코드가 일치하지 않습니다."}  customStyle={{color:"#EE1818"}} /> : null
+                        error ? <BoldText text={t("alert_pincode_3")}  customStyle={{color:"#EE1818"}} /> : null
                     }
                     {
-                        confirm ? <BoldText text={"한 번 더 입력해 주세요."}  customStyle={{color:"#021AEE"}} /> : null
+                        confirm ? <BoldText text={t("menu_info_12")}  customStyle={{color:"#021AEE"}} /> : null
                     }
                     {
-                        numCheck ? <BoldText text={"숫자만 입력 가능합니다."}  customStyle={{color:"#EE1818"}} /> : null
+                        numCheck ? <BoldText text={t("alert_pincode_2")}  customStyle={{color:"#EE1818"}} /> : null
                     }
                 </View>
                 <TextInput value={pin} ref={inputRef} autoFocus={true} keyboardType={"numeric"} maxLength={6} style={{width:0,height:0,fontFamily:"NotoSans-Regular"}} onChangeText={text=>{onSetDots(text)}}/>

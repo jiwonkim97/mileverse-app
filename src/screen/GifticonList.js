@@ -3,10 +3,12 @@ import { Image,View,SafeAreaView,StyleSheet, TouchableWithoutFeedback,SectionLis
 import { RegularText, ExtraBoldText, BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios';
+import { useTranslation } from 'react-i18next';
 
-const imagePrefix = "https://mv-image.s3.ap-northeast-2.amazonaws.com";
+const imagePrefix = "https://image.mileverse.com";
 const GifticonList = (props) =>{
     const [gifticonList,setGificonList] = useState([]);
+    const { t } = useTranslation();
 
     useEffect(()=>{
         Axios.get('/api/gifticon/gifticon-list',{params:{category:props.route.params.ctgr_code}}).then((response)=>{
@@ -20,7 +22,7 @@ const GifticonList = (props) =>{
                 <View style={[styles.header,styles.shadow]}>
                     <View style={{width:50}}></View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={props.route.params.ctgr_name.replace(',','/')} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={t(props.route.params.ctgr_name)} customStyle={{fontSize:16,textAlign:'center'}}/>
                     </View>
                     <TouchableOpacity onPress={()=>props.navigation.navigate("GifticonCategory")}>
                         <View style={styles.headerIcoWrap}>
@@ -34,9 +36,10 @@ const GifticonList = (props) =>{
                     keyExtractor={({index}) => index}
                     ListHeaderComponent={
                         <>
-                            <ImageBackground style={{marginBottom:6}} source={require("../../assets/img/gifticon_banner_bg.png")} style={{width:"100%",height:80,resizeMode:"stretch",marginTop:6}}>
+                            <View style={{height:6,backgroundColor:"#F2F2F2"}}></View>
+                            <ImageBackground style={{}} source={require("../../assets/img/gifticon_banner_bg.png")} style={{width:"100%",height:80,resizeMode:"stretch"}}>
                                 <View style={{paddingTop:32,paddingLeft:26}}>
-                                    <BoldText text={"다양한 기프티콘을 만나보세요!"} customStyle={{color:"#F3C839",fontSize:14}}/>
+                                    <BoldText text={t('use_giftcon_12')} customStyle={{color:"#F3C839",fontSize:14}}/>
                                 </View>
                             </ImageBackground>
                             <View style={{height:6,backgroundColor:"#F2F2F2",marginBottom:16}}></View>

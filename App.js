@@ -1,5 +1,8 @@
 
 import React,{useEffect,useState} from 'react';
+import i18n from './src/i18n';
+import { useTranslation } from 'react-i18next';
+import * as RNLocalize from 'react-native-localize';
 import { useWindowDimensions,Image,StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -54,6 +57,7 @@ import SwapResult from './src/screen/swapPoint/SwapResult';
 import SwapMain from './src/screen/swapPoint/SwapMain';
 import MvpToMvc from './src/screen/swapPoint/MvpToMvc';
 import MvcToMvp from './src/screen/swapPoint/MvcToMvp';
+import SignUpEn from './src/screen/SignUpEn';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -65,6 +69,7 @@ const LoginGuard = (event,navigation,_stat,_target) =>{
 	_stat === false ? navigation.navigate("Login") : navigation.navigate(_target)
 }
 const TabScreen = ({navigation}) =>{
+	const { t } = useTranslation();
 	const stat = useSelector(state => state.authentication.status.isLoggedIn);
 	const wallet = useSelector(state => state.authentication.userInfo.wallet);
 	return (
@@ -89,12 +94,12 @@ const TabScreen = ({navigation}) =>{
 			  }}
 			barStyle={{ backgroundColor: 'white' }}
 		>
-			<Tab.Screen name="Home" component={HomeScreen} options={{title:"홈",tabBarIcon:({focused})=>{
+			<Tab.Screen name="Home" component={HomeScreen} options={{title:t("main_18"),tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/home_active.png') : require('./assets/img/home.png')} style={styles.dockIcon}/>
 				)
 			}}}/>
-			<Tab.Screen name="GifticonCategory" component={GifticonCategory} options={{title:"사용처",tabBarIcon:({focused})=>{
+			<Tab.Screen name="GifticonCategory" component={GifticonCategory} options={{title:t("main_19"),tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/branch_active.png') : require('./assets/img/branch.png')} style={styles.dockIcon}/>
 				)
@@ -103,26 +108,31 @@ const TabScreen = ({navigation}) =>{
 					LoginGuard(event,navigation,stat,"GifticonCategory")
 				}}
 			)}/>
-			<Tab.Screen name="Change" component={ChangeScreen} options={{title:"교환",tabBarIcon:({focused})=>{
+			<Tab.Screen name="Change" component={ChangeScreen} options={{title:t("main_20"),tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/mvp_active.png') : require('./assets/img/mvp.png')} style={styles.dockIcon}/>
 				)
 			}}} listeners={()=>({tabPress:event=>LoginGuard(event,navigation,stat,"Change")})}/>
-			<Tab.Screen name="Wallet" component={WalletScreen} options={{title:"내 지갑",tabBarIcon:({focused})=>{
-				return (
-					<Image source={focused ? require('./assets/img/wallet_active.png') : require('./assets/img/wallet.png')} style={styles.dockIcon}/>
-				)
-			}}} listeners={()=>({tabPress:event=>{
-				event.preventDefault();
-				if(stat && wallet === "true") {
-					navigation.navigate("Wallet")
-				} else if(stat){
-					navigation.navigate("WalletAgree")
-				} else {
-					navigation.navigate("Login")
-				}
-			}})}/>
-			<Tab.Screen name="Menu" component={HomeScreen} options={{title:"메뉴",tabBarIcon:({focused})=>{
+			{
+				RNLocalize.getLocales()[0].languageCode === "ko" ? 
+					<Tab.Screen name="Wallet" component={WalletScreen} options={{title:t("main_21"),tabBarIcon:({focused})=>{
+						return (
+							<Image source={focused ? require('./assets/img/wallet_active.png') : require('./assets/img/wallet.png')} style={styles.dockIcon}/>
+						)
+					}}} listeners={()=>({tabPress:event=>{
+						event.preventDefault();
+						if(stat && wallet === "true") {
+							navigation.navigate("Wallet")
+						} else if(stat){
+							navigation.navigate("WalletAgree")
+						} else {
+							navigation.navigate("Login")
+						}
+					}})}/>
+				:
+					null
+			}
+			<Tab.Screen name="Menu" component={HomeScreen} options={{title:t("main_22"),tabBarIcon:({focused})=>{
 				return (
 					<Image source={focused ? require('./assets/img/menu_active.png') : require('./assets/img/menu.png')} style={styles.dockIcon}/>
 				)
@@ -178,7 +188,6 @@ const App = () => {
 						<Stack.Screen name="Login" component={LoginScreen} />
 						<Stack.Screen name="Notice" component={NoticeScreen} />
 						<Stack.Screen name="Contact" component={ContactScreen} />
-						<Stack.Screen name="SignUp02" component={SignUp02} />
 						<Stack.Screen name="Profile" component={Profile} />
 						<Stack.Screen name="Config" component={Config} />
 						<Stack.Screen name="ChangePassword" component={ChangePassword} />
@@ -187,6 +196,8 @@ const App = () => {
 						<Stack.Screen name="GifticonDetail" component={GifticonDetail} />
 						<Stack.Screen name="FindAccount" component={FindAccount} />
 						<Stack.Screen name="SignUp01" component={SignUp01} />
+						<Stack.Screen name="SignUp02" component={SignUp02} />
+						<Stack.Screen name="SignUpEn" component={SignUpEn} />
 						<Stack.Screen name="NiceCheck" component={NiceCheck} />
 						<Stack.Screen name="DanalPg" component={DanalPg} />
 						<Stack.Screen name="PinCode" component={PinCode} />

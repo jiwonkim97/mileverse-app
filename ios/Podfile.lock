@@ -332,6 +332,8 @@ PODS:
     - React
   - RNGestureHandler (1.7.0):
     - React
+  - RNLocalize (2.0.1):
+    - React-Core
   - RNPermissions (3.0.0):
     - React-Core
   - RNReanimated (1.12.0):
@@ -404,6 +406,7 @@ DEPENDENCIES:
   - "RNCPicker (from `../node_modules/@react-native-community/picker`)"
   - RNExitApp (from `../node_modules/react-native-exit-app`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -505,6 +508,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-exit-app"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNReanimated:
@@ -566,6 +571,7 @@ SPEC CHECKSUMS:
   RNCPicker: 914b557e20b3b8317b084aca9ff4b4edb95f61e4
   RNExitApp: 7d81855142a4d11eb75f4f06fdebf5a950d7aef2
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
+  RNLocalize: dcf0fdb332b37b0d24178e876a7ce4dbbc9c838d
   RNPermissions: 350964d19150b183796a88180fb7ec62a1e41422
   RNReanimated: 9c475f9b272232351d94a1a781e8b7580bac1ff4
   RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2

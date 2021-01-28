@@ -10,7 +10,7 @@ import Axios from '../modules/Axios';
 import * as spinner from '../actions/spinner';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import { useTranslation } from 'react-i18next';
 
 const ContactScreen = (props) =>{
     const dispatch = useDispatch()
@@ -20,14 +20,15 @@ const ContactScreen = (props) =>{
     const [limitLength, setLimitLength] = useState(0)
     const [file,setFile] = useState({})
     const [fileName,setFileName] = useState("")
+    const { t } = useTranslation();
 
     const sendMail = () =>{
         if(mail === '') {
-            toast.error('회신 메일을 입력해주세요.')
+            toast.error(t('alert_cs_1'))
         } else if(title === '') {
-            toast.error('메일 제목을 입력해주세요.')
+            toast.error(t('alert_cs_2'))
         } else if(contents === '') {
-            toast.error('메일 내용을 입력해주세요.')
+            toast.error(t('alert_cs_3'))
         } else {
             dispatch(spinner.showSpinner());
             let data = new FormData();
@@ -51,11 +52,11 @@ const ContactScreen = (props) =>{
                 }
             }).then(response=>{
                 if(response.data.result === 'success'){
-                    Alert.alert("알림","메일 발송을 완료하였습니다.",[{text:"확인",onPress:()=>dispatch(spinner.hideSpinner())}])
+                    Alert.alert(t('alert_title_1'),t('alert_cs_4'),[{text:t('common_confirm_1'),onPress:()=>dispatch(spinner.hideSpinner())}])
                 }
             }).catch(error=>{
                 console.log("upload error", error);
-                Alert.alert("알림","메일 발송에 실패하였습니다.",[{text:"확인",onPress:()=>dispatch(spinner.hideSpinner())}])
+                Alert.alert(t('alert_title_1'),t('alert_cs_5'),[{text:t('common_confirm_1'),onPress:()=>dispatch(spinner.hideSpinner())}])
             })
         }
     }
@@ -70,11 +71,11 @@ const ContactScreen = (props) =>{
         // PickerDialog의 옵션 객체
         const options= {
             title:'', //다이얼로그의 제목
-            takePhotoButtonTitle: '카메라',
-            chooseFromLibraryButtonTitle:'앨범',
-            cancelButtonTitle: '취소',
+            takePhotoButtonTitle: t('alert_cs_6'),
+            chooseFromLibraryButtonTitle:t('alert_cs_7'),
+            cancelButtonTitle: t("common_cancel_1"),
             customButtons: [
-                {name:'readFile',title:'문서'}
+                {name:'readFile',title:t('alert_cs_8')}
             ],
             storageOptions:{
                 skipBackup: true, //ios에서 icloud에 백업할 것인가?- 안드로이드에서는 무시됨
@@ -86,7 +87,7 @@ const ContactScreen = (props) =>{
         ImagePicker.showImagePicker(options, (response)=>{
             if(response.didCancel){
             }else if(response.error){
-                alert('에러 : ', response.error);
+                alert('ERROR : ', response.error);
             }else if(response.customButton){
                 if(response.customButton === 'readFile'){
                     onFileRead()
@@ -136,7 +137,7 @@ const ContactScreen = (props) =>{
                 <View style={[styles.header,styles.shadow]}>
                     <View style={{width:50}}></View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={"문의하기"} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={t("menu_6")} customStyle={{fontSize:16}}/>
                     </View>
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
@@ -147,21 +148,21 @@ const ContactScreen = (props) =>{
                 <ScrollView style={{flex:1,backgroundColor:"#FFFFFF",borderTopColor:"#ECECEC",borderTopWidth:6}}>
                     <View style={{backgroundColor:"white",paddingHorizontal:16,marginTop:6,flex:1}}>
                         <View style={{marginTop:26}}>
-                            <BoldText text={"주소 입력"}/>
+                            <BoldText text={t("menu_cs_1")}/>
                             <View style={[styles.boxWrap]}>
-                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"이메일을 입력해주세요"} style={[styles.input]} onChangeText={text=>setMail(text)}/>
+                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={t("menu_cs_2")} style={[styles.input]} onChangeText={text=>setMail(text)}/>
                             </View>
                         </View>
                         <View style={{marginTop:26}}>
-                            <BoldText text={"제목"}/>
+                            <BoldText text={t("menu_cs_3")}/>
                             <View style={[styles.boxWrap]}>
-                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"제목을 입력해주세요"} style={[styles.input]} onChangeText={text=>setTitle(text)}/>
+                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={t("menu_cs_4")} style={[styles.input]} onChangeText={text=>setTitle(text)}/>
                             </View>
                         </View>
                         <View style={{marginTop:26}}>
-                            <BoldText text={"내용"}/>
+                            <BoldText text={t("menu_cs_5")}/>
                             <View style={[styles.boxWrap,{height:120,paddingTop:16}]}>
-                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"내용을 입력해주세요."} multiline={true} style={[styles.input,{height:120,textAlignVertical:'top'}]} onChangeText={text=>onChangeContents(text)} numberOfLines={6}/>
+                                <TextInput placeholderTextColor={"#D5C2D3"} placeholder={t("menu_cs_6")} multiline={true} style={[styles.input,{height:120,textAlignVertical:'top'}]} onChangeText={text=>onChangeContents(text)} numberOfLines={6}/>
                             </View>
                             <View style={{alignItems:'flex-end',marginTop:4}}>
                                 <BoldText text={"("+limitLength+"/150)"} customStyle={{color:"#707070",fontSize:10}} />
@@ -169,14 +170,14 @@ const ContactScreen = (props) =>{
                         </View>
                         <View style={{marginTop:12}}>
                             <View style={{flexDirection:'row',alignItems:"center"}}>
-                                <BoldText text={"첨부파일"}/>
-                                <BoldText text={"*JPG, PNG, PDF만 첨부가능합니다."} customStyle={{color:"#EC6E6E",paddingLeft:6,fontSize:10}}/>
+                                <BoldText text={t("menu_cs_7")}/>
+                                <BoldText text={t('menu_cs_8')} customStyle={{color:"#EC6E6E",paddingLeft:6,fontSize:10}}/>
                             </View>
                             <View style={{marginTop:16,padding:6,borderWidth:1,borderColor:"#CCCCCC",flexDirection:'row',alignItems:'center',borderRadius:5}}>
                                 <BoldText text={fileName} customStyle={{flex:9}}/>
                                 <TouchableOpacity style={{flex:3 }} onPress={showPicker}>
                                     <View style={{backgroundColor:"#8D3981",justifyContent:'center',alignItems:"center",padding:10,borderRadius:5}}>
-                                        <BoldText text={"첨부하기"} customStyle={{color:"white",fontSize:10}}/>
+                                        <BoldText text={t('menu_cs_9')} customStyle={{color:"white",fontSize:10}}/>
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -184,12 +185,12 @@ const ContactScreen = (props) =>{
                         <View style={{flexDirection:'row', alignItems:'center',justifyContent:"center",paddingBottom:20,marginTop:10,width:"100%",marginTop:40}}>
                             <TouchableOpacity onPress={()=>props.navigation.goBack()} style={{flex:1}}>
                                 <View style={{backgroundColor:"#EBEBEB",height:50,borderTopLeftRadius:5,borderBottomLeftRadius:5,alignItems:"center",justifyContent:"center"}}>
-                                    <BoldText text={"취소"} customStyle={{color:"#8B8B8B",fontSize:16}}/>
+                                    <BoldText text={t("common_cancel_1")} customStyle={{color:"#8B8B8B",fontSize:16}}/>
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={sendMail} style={{flex:1}}>
                                 <View style={{backgroundColor:"#8D3981",height:50,borderTopRightRadius:5,borderBottomRightRadius:5,alignItems:"center",justifyContent:"center"}}>
-                                    <BoldText text={"보내기"} customStyle={{color:"white",fontSize:16}}/>
+                                    <BoldText text={t("menu_cs_10")} customStyle={{color:"white",fontSize:16}}/>
                                 </View>
                             </TouchableOpacity>
                         </View>

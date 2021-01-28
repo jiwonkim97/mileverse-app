@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import FindIdResult from './FindIdResult';
-import FindIdForm from './FindIdForm';
+import FindPwResult from '../FindPwResult';
+import FindPwFormEn from './FindPwFormEn';
 
 
 
 export default (props)=>{
     const [screen,setScreen] = useState("form");
     const [userId,setUserId] = useState("");
+
     const changeScreen = (_screen,_id)=>{
         setUserId(_id);
         setScreen(_screen);
@@ -14,7 +15,7 @@ export default (props)=>{
 
     return (
         <>
-            {screen === "form" ? <FindIdForm passResult={changeScreen} /> :  <FindIdResult userId={userId} navigation={props.navigation}/>}
+            {screen === "form" ? <FindPwFormEn passResult={changeScreen} /> :  <FindPwResult userId={userId} navigation={props.navigation}/>}
         </>
     )
 }

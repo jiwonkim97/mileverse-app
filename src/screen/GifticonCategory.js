@@ -5,9 +5,11 @@ import { RegularText, ExtraBoldText, BoldText } from '../components/customCompon
 import Modal from 'react-native-modal';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios';
+import { useTranslation } from 'react-i18next';
 
-const imagePrefix = "https://mv-image.s3.ap-northeast-2.amazonaws.com";
+const imagePrefix = "https://image.mileverse.com";
 const GificonCategory = (props) =>{
+    const { t } = useTranslation();
     const [iconSize,setIconSize] = useState(0);
     const [visible,setVisible] = useState(false);
     const [categories,setCategories] = useState([]);
@@ -25,14 +27,14 @@ const GificonCategory = (props) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <ExtraBoldText text="기프티콘" customStyle={{fontSize:16}}/>
+                    <ExtraBoldText text={t('use_giftcon_1')} customStyle={{fontSize:16}}/>
                 </View>
                 <ScrollView style={{backgroundColor:"#FFFFFF",marginTop:6}}>
                        <TouchableWithoutFeedback onPress={()=>setVisible(!visible)}>
                            <View style={{backgroundColor:'#333F68',justifyContent:"space-between",flex:1,height:106,alignItems:"center",flexDirection:"row"}}>
                                 <View style={{paddingLeft:24}}>
-                                   <BoldText text={"기프티콘 사용 공지"} customStyle={{color:"#F3C839",fontSize:18}}/>
-                                   <RegularText text={"기프티콘 사용 가이드 & 안내사항을 확인해주세요!"} customStyle={{color:"#FFFFFF",fontSize:11,marginTop:12}}/>
+                                   <BoldText text={t('use_giftcon_2')} customStyle={{color:"#F3C839",fontSize:18}}/>
+                                   <RegularText text={t('use_giftcon_3')} customStyle={{color:"#FFFFFF",fontSize:11,marginTop:12}}/>
                                </View>
                                <Image source={require("../../assets/img/ico_speaker.png")} style={{resizeMode:"stretch",width:68,height:68,marginRight:16}}/>
                            </View>
@@ -49,7 +51,7 @@ const GificonCategory = (props) =>{
                                                     }}>
                                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                                             <Image source={{uri:imagePrefix+item.CTGR_ICO}} style={{width:iconSize,height:iconSize,marginBottom:24}}/>
-                                                            <BoldText text={item.CTGR_NAME.replace(",",'/\n')} customStyle={styles.categoryText}/>
+                                                            <BoldText text={t(item.CTGR_NAME)} customStyle={styles.categoryText}/>
                                                         </View>
                                                     </View>
                                                 </View>
@@ -65,7 +67,7 @@ const GificonCategory = (props) =>{
                 style={{margin: 0,flex:1,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
                 <View style={{backgroundColor:"#ffffff",borderRadius:10,width:"85%"}}>
                     <View style={styles.noticeHeaderWrap}>
-                        <BoldText text={"기프티콘 사용 공지"} customStyle={{fontSize:15}}/>
+                        <BoldText text={t('use_giftcon_2')} customStyle={{fontSize:15}}/>
                         <TouchableWithoutFeedback onPress={()=>setVisible(!visible)}>
                             <View style={{width:50,height:50,justifyContent:"center",alignItems:"center"}}>
                                 <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
@@ -73,14 +75,14 @@ const GificonCategory = (props) =>{
                         </TouchableWithoutFeedback>
                     </View>
                     <View style={{paddingTop:26,paddingBottom:60,paddingHorizontal:26}}>
-                        <BoldText text={"[기프티콘 구매 이용 가이드]"} customStyle={styles.noticeTextHeader}/>
-                        <RegularText text={"1. 사용하기 > 기프티콘 구매하기를 선택해 주세요."} customStyle={[styles.noticeText,{marginTop:20}]}/>
-                        <RegularText text={"2. 구매할 기프티콘을 선택해 주세요."} customStyle={styles.noticeText}/>
-                        <RegularText text={"3. 구매한 기프티콘은 MMS(문자메세지)로 전송됩니다."} customStyle={styles.noticeText}/>
-                        <BoldText text={"[기프티콘 구매시 주의사항]"} customStyle={[styles.noticeTextHeader,{marginTop:36}]}/>
-                        <RegularText text={"1. 각 기프티콘별로 상품 사용 기간 및 방법이 상이 합니다. 구매 전 꼭 상품 별 유의사항을 확인하여 주세요."} customStyle={[styles.noticeText,{lineHeight:18,marginTop:20}]}/>
-                        <RegularText text={"2. 구매한 기프티콘의 사용기한은 연장 되지 않습니다."} customStyle={styles.noticeText}/>
-                        <RegularText text={"3. 구매한 기프티콘은 취소/환불이 불가능합니다."} customStyle={styles.noticeText}/>
+                        <BoldText text={t('use_giftcon_4')} customStyle={styles.noticeTextHeader}/>
+                        <RegularText text={t('use_giftcon_5')} customStyle={[styles.noticeText,{marginTop:20}]}/>
+                        <RegularText text={t('use_giftcon_6')} customStyle={styles.noticeText}/>
+                        <RegularText text={t('use_giftcon_7')} customStyle={styles.noticeText}/>
+                        <BoldText text={t('use_giftcon_8')} customStyle={[styles.noticeTextHeader,{marginTop:36}]}/>
+                        <RegularText text={t('use_giftcon_9')} customStyle={[styles.noticeText,{lineHeight:18,marginTop:20}]}/>
+                        <RegularText text={t('use_giftcon_10')} customStyle={styles.noticeText}/>
+                        <RegularText text={t('use_giftcon_11')} customStyle={styles.noticeText}/>
                     </View>
                 </View>
             </Modal>
@@ -121,7 +123,8 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     categoryText:{
-        fontSize:14
+        fontSize:14,
+        textAlign:'center'
     },
     noticeHeaderWrap:{
         height:50,

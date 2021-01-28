@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { Image,View,SafeAreaView,TouchableOpacity,StyleSheet,BackHandler} from 'react-native';
 import CommonStatusbar from '../../components/CommonStatusbar';
 import { ExtraBoldText, BoldText } from '../../components/customComponents';
+import { useTranslation } from 'react-i18next';
+
 export default ({navigation,route})=>{
+    const { t } = useTranslation();
+
     useEffect(()=>{
         const backHandler = BackHandler.addEventListener(
             "hardwareBackPress",
@@ -35,11 +39,11 @@ export default ({navigation,route})=>{
                 </View>
                 <View style={{flex:1,justifyContent:"space-between"}}>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                        <ExtraBoldText text={`${commaFormat(route.params.amount)} MVP\n교환 하였습니다.`} customStyle={{fontSize:18,lineHeight:26,textAlign:"center"}}/>
+                        <ExtraBoldText text={`${commaFormat(route.params.amount)} MVP\n${t('alert_exchange_1')}`} customStyle={{fontSize:18,lineHeight:26,textAlign:"center"}}/>
                     </View>
                     <TouchableOpacity onPress={()=>navigation.navigate("Change")}>
                         <View style={{height:50,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center"}}>
-                            <BoldText text={"확인"} customStyle={{color:"#FFFFFF",fontSize:16}}/>
+                            <BoldText text={t("common_confirm_1")} customStyle={{color:"#FFFFFF",fontSize:16}}/>
                         </View>
                     </TouchableOpacity>
                     

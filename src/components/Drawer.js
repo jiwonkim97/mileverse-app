@@ -4,7 +4,7 @@ import { useSelector, useDispatch  } from 'react-redux';
 import * as actions from '../actions/authentication'
 import { BoldText, ExtraBoldText, RegularText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
-
+import { useTranslation } from 'react-i18next';
 
 const CustomDrawerContent = (props) =>{
     const dispatch = useDispatch();
@@ -12,6 +12,7 @@ const CustomDrawerContent = (props) =>{
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
     const {mvp,currentUser:user_name} = useSelector(state => state.authentication.userInfo);
     const [commaMvp,setCommaMvp] = useState(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    const { t } = useTranslation();
 
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -53,7 +54,7 @@ const CustomDrawerContent = (props) =>{
                             <>
                                 <View style={{flexDirection:"row"}}>
                                     <ExtraBoldText text={user_name} customStyle={{fontSize:14,color:"#8D3981"}}/>
-                                    <BoldText text={"님 환영합니다!"} customStyle={{fontSize:14}}/>
+                                    <BoldText text={t('menu_1')} customStyle={{fontSize:14}}/>
                                 </View>
                                 <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("MyMvp")}>
                                     <View style={{flexDirection:"row",marginTop:16,alignItems:"center",alignSelf:"flex-start"}}>
@@ -65,7 +66,7 @@ const CustomDrawerContent = (props) =>{
                             :
                             <>
                                 <View style={{flexDirection:"row"}}>
-                                    <BoldText text={"로그인이 필요합니다."} customStyle={{fontSize:14}}/>
+                                    <BoldText text={t('main_1')} customStyle={{fontSize:14}}/>
                                 </View>
                                 <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("Login")}>
                                     <View style={{flexDirection:"row",marginTop:16,alignItems:"center",alignSelf:"flex-start"}}>
@@ -81,45 +82,45 @@ const CustomDrawerContent = (props) =>{
                     <TouchableWithoutFeedback onPress={()=> onNavigate("Profile",true)}>
                         <View style={styles.drawerItem}>
                             <Image source={require("../../assets/img/ico_profile.png")} style={styles.drawerIco}/>
-                            <BoldText text={"내 정보"} customStyle={styles.drawerItemTxt}/>
+                            <BoldText text={t("menu_3")} customStyle={styles.drawerItemTxt}/>
                         </View>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={()=> onNavigate("MyMvp",true)}>
                         <View style={styles.drawerItem}>
                             <Image source={require("../../assets/img/ico_my_mvp.png")} style={styles.drawerIco}/>
-                            <BoldText text={"나의 MVP"} customStyle={styles.drawerItemTxt}/>
+                            <BoldText text={t('menu_4')} customStyle={styles.drawerItemTxt}/>
                         </View>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={()=> onNavigate("Notice")}>
                         <View style={styles.drawerItem}>
                             <Image source={require("../../assets/img/ico_notice.png")} style={styles.drawerIco}/>
-                            <BoldText text={"공지사항"} customStyle={styles.drawerItemTxt}/>
+                            <BoldText text={t('menu_5')} customStyle={styles.drawerItemTxt}/>
                         </View>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={()=> onNavigate("Contact")}>
                         <View style={styles.drawerItem}>
                             <Image source={require("../../assets/img/ico_mail.png")} style={styles.drawerIco}/>
-                            <BoldText text={"문의하기"} customStyle={styles.drawerItemTxt}/>
+                            <BoldText text={t('menu_6')} customStyle={styles.drawerItemTxt}/>
                         </View>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback onPress={()=> onNavigate("FAQ")}>
                         <View style={styles.drawerItem}>
                             <Image source={require("../../assets/img/ico_faq.png")} style={styles.drawerIco}/>
-                            <BoldText text={"FAQ"} customStyle={styles.drawerItemTxt}/>
+                            <BoldText text={t('menu_7')} customStyle={styles.drawerItemTxt}/>
                         </View>
                     </TouchableWithoutFeedback>
                     {stat? (
                         <TouchableWithoutFeedback onPress={logout}>
                             <View style={styles.drawerItem}>
                                 <Image source={require("../../assets/img/ico_logout.png")} style={styles.drawerIco}/>
-                                <BoldText text={"로그아웃"} customStyle={styles.drawerItemTxt}/>
+                                <BoldText text={t("menu_8")} customStyle={styles.drawerItemTxt}/>
                             </View>
                         </TouchableWithoutFeedback>
                         ) : (
                         <TouchableWithoutFeedback onPress={()=> onNavigate("Login")}>
                             <View style={styles.drawerItem}>
                                 <Image source={require("../../assets/img/ico_login.png")} style={styles.drawerIco}/>
-                                <BoldText text={"로그인"} customStyle={styles.drawerItemTxt}/>
+                                <BoldText text={t("login_1")} customStyle={styles.drawerItemTxt}/>
                             </View>
                         </TouchableWithoutFeedback>
                     )} 

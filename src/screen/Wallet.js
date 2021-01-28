@@ -91,7 +91,7 @@ const Wallet = ({navigation,route}) =>{
                                             <BoldText text={"MVC"} />
                                         </View>
                                         <View style={styles.priceWrap}>
-                                            <BoldText text={`${mvc.amount} MVC`} />
+                                            <BoldText text={`${Number(mvc.amount)} MVC`} />
                                             <BoldText text={`${mvc.balance} KRW`} customStyle={styles.textKrw}/>
                                         </View>
                                     </View>
@@ -113,7 +113,7 @@ const Wallet = ({navigation,route}) =>{
                                             <BoldText text={"BTC"} />
                                         </View>
                                         <View style={styles.priceWrap}>
-                                            <BoldText text={`${btc.amount} BTC`} />
+                                            <BoldText text={`${Number(btc.amount)} BTC`} />
                                             <BoldText text={`${btc.balance } KRW`} customStyle={styles.textKrw}/>
                                         </View>
                                     </View>
@@ -125,7 +125,7 @@ const Wallet = ({navigation,route}) =>{
                                             <BoldText text={"ETH"} />
                                         </View>
                                         <View style={styles.priceWrap}>
-                                            <BoldText text={`${eth.amount} ETH`} />
+                                            <BoldText text={`${Number(eth.amount)} ETH`} />
                                             <BoldText text={`${eth.balance} KRW`} customStyle={styles.textKrw}/>
                                         </View>
                                     </View>

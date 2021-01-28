@@ -8,9 +8,10 @@ import { ExtraBoldText,BoldText,RegularText } from '../components/customComponen
 import AsyncStorage from '@react-native-community/async-storage';
 import Axios from '../modules/Axios';
 import Modal from 'react-native-modal';
-
+import { useTranslation } from 'react-i18next';
 
 const Config = (props) =>{
+    const { t } = useTranslation();
     const [autoLogin, setAutoLogin] = useState(false);
     const [serverPush, setServerPush] = useState(false);
     const [localPush, setLocalPush] = useState(false);
@@ -34,8 +35,8 @@ const Config = (props) =>{
             }
             Axios.get("/api/notice/version",{params:{os:Platform.OS}}).then(({data})=>{
                 if(data.result === "success") {
-                    if(_ver === data.version) setVersionText("최신버전입니다.")
-                    else setVersionText("최신버전이 아닙니다.")
+                    if(_ver === data.version) setVersionText(t('alert_setting_1'))
+                    else setVersionText(t('alert_setting_2'))
                 }
             });
             Axios.get('/get/terms').then((response)=>{
@@ -55,7 +56,7 @@ const Config = (props) =>{
                         <View style={{width:50}}>
                         </View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={`설정`} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={t('menu_setting_0')} customStyle={{fontSize:16}}/>
                     </View>
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
@@ -67,14 +68,14 @@ const Config = (props) =>{
                     <View>
                         <View style={styles.border}>
                             <View style={[styles.align,{backgroundColor:"#EEEEEE"}]}>
-                                <BoldText text={"버전정보"} customStyle={{color:"#2B2B2B",fontSize:14}}/>
+                                <BoldText text={t('menu_setting_1')} customStyle={{color:"#2B2B2B",fontSize:14}}/>
                                 <View style={{flexDirection:"row"}}>
                                     <BoldText text={versionText} customStyle={{color:"#2B2B2B",fontSize:11}}/>
                                     <BoldText text={"V"+_ver} customStyle={{color:"#2B2B2B",fontSize:12,marginLeft:10}}/>
                                 </View>
                             </View>
                             <View style={{ padding:16,flexDirection:'row',justifyContent:"space-between",alignItems:"center"}}>
-                                <BoldText text={"자동 로그인 설정"} customStyle={{color:"#2B2B2B",fontSize:14}}/>
+                                <BoldText text={t('menu_setting_2')} customStyle={{color:"#2B2B2B",fontSize:14}}/>
                                 <ToggleSwitch
                                     isOn={autoLogin}
                                     onColor="#8D3981"
@@ -88,10 +89,10 @@ const Config = (props) =>{
                         </View>
                         <View style={[styles.border,{marginTop:12}]}>
                             <View style={[styles.align,{backgroundColor:"#EEEEEE"}]}>
-                                <BoldText text={"알림수신동의"} customStyle={{color:"#2B2B2B",fontSize:14}}/>
+                                <BoldText text={t('menu_setting_3')} customStyle={{color:"#2B2B2B",fontSize:14}}/>
                             </View>
                             <View style={{ padding:16,flexDirection:'row',justifyContent:"space-between",alignItems:"center"}}>
-                                <BoldText text={"PUSH 알림 설정"} customStyle={{color:"#2B2B2B",fontSize:14}}/>
+                                <BoldText text={t('menu_setting_4')} customStyle={{color:"#2B2B2B",fontSize:14}}/>
                                 <ToggleSwitch
                                     isOn={serverPush}
                                     onColor="#8D3981"
@@ -103,7 +104,7 @@ const Config = (props) =>{
                                 />
                             </View>
                             <View style={styles.align}>
-                                <BoldText text={"MVP 교환/사용 알림"} customStyle={{color:"#2B2B2B",fontSize:14}}/>
+                                <BoldText text={t('menu_setting_5')} customStyle={{color:"#2B2B2B",fontSize:14}}/>
                                 <ToggleSwitch
                                     isOn={localPush}
                                     onColor="#8D3981"
@@ -123,7 +124,7 @@ const Config = (props) =>{
                                 setModal(!modal)
                             }}>
                                 <View>
-                                    <RegularText text={"이용약관"} customStyle={styles.rgText} />
+                                    <RegularText text={t('menu_setting_9')} customStyle={styles.rgText} />
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback onPress={()=>{
@@ -131,7 +132,7 @@ const Config = (props) =>{
                                 setModal(!modal)
                             }}>
                                 <View style={{marginTop:10}}>
-                                    <RegularText text={"개인정보처리방침"} customStyle={styles.rgText} />
+                                    <RegularText text={t('menu_setting_10')} customStyle={styles.rgText} />
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>

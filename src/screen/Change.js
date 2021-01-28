@@ -5,6 +5,7 @@ import Modal from 'react-native-modal';
 import CheckBox from 'react-native-check-box'
 import { RegularText, ExtraBoldText, BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
+import { useTranslation } from 'react-i18next';
 
 import * as dialog from '../actions/dialog';
 import * as spinner from '../actions/spinner';
@@ -18,16 +19,17 @@ const brnachList = [
 ];
 
 const ChangeScreen = ({navigation,route}) =>{
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const [visible,setVisible] = useState(false);
     const [agree,setAgree] = useState(false);
     const branchIdx = useRef(0);
     const doBuyCard = (target)=>{
-        const _item = target === "M10" ? "1만원권" : "5천원권";
+        const _text = target === "M10" ? "exchange_buy_8" : "exchange_buy_9";
         dispatch(dialog.openDialog("confirm",(
             <>
-                <BoldText text={`MVP ${_item} 을 구매하시겠습니까?`} customStyle={{fontSize:14}}/>
-                <BoldText text={"* MVP 월 구매 한도는 50,000원 입니다."} customStyle={{textAlign:"center",marginTop:14,fontSize:11,color:"#EE1818"}}/>
+                <BoldText text={t(_text)} customStyle={{fontSize:14,lineHeight:20}}/>
+                <BoldText text={t("exchange_buy_10")} customStyle={{textAlign:"center",marginTop:14,fontSize:11,color:"#EE1818"}}/>
             </>
         ),()=>{
             dispatch(dialog.closeDialog());
@@ -52,7 +54,7 @@ const ChangeScreen = ({navigation,route}) =>{
 
     const onChangePoint = async()=>{
         if(agree === false ) {
-            Alert.alert("알림","동의해주세요.",[{text:"확인"}])
+            Alert.alert(t("alert_title_1"),t('alert_exchange_7'),[{text:t('common_confirm_1')}])
         } else {
             const {uri,screen,text} = brnachList[branchIdx.current]
             dispatch(spinner.showSpinner());
@@ -65,10 +67,10 @@ const ChangeScreen = ({navigation,route}) =>{
                         navigation.navigate(screen,data.customer)
                     },500)
                 } else {
-                    Alert.alert("알림",`${text} 회원이 아닙니다.`,[{text:"확인"}]);    
+                    Alert.alert(t("alert_title_1"),t("alert_exchange_6",{company:text}),[{text:t('common_confirm_1')}]);    
                 }
             } else {
-                Alert.alert("알림","시스템 오류입니다.\n다시 시도해주세요.",[{text:"확인"}]);
+                Alert.alert(t("alert_title_1"),t("alert_common_1"),[{text:t('common_confirm_1')}]);
             }
         }
     };
@@ -83,16 +85,16 @@ const ChangeScreen = ({navigation,route}) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1}}>
                 <View style={[styles.shadow,styles.header]}>
-                    <ExtraBoldText text="마일리지 교환" customStyle={{fontSize:16}}/>
+                    <ExtraBoldText text={t('exchange_1')} customStyle={{fontSize:16}}/>
                 </View>
                 <ScrollView style={{flex:1}}>
                     {Platform.OS === "android" ?
                         <View style={{backgroundColor:"#394054",padding:24,marginVertical:6}}>
-                            <BoldText text={"[필수공지]"} customStyle={styles.bannerTitle}/>
-                            <RegularText text={"본 상품은 구매 후 환불이 불가능합니다."} customStyle={styles.bannerText}/>
-                            <BoldText text={"[이용안내]"} customStyle={[styles.bannerTitle,{marginTop:20}]}/>
-                            <RegularText text={"구매한 MVP는 앱에서 이용이 가능합니다."} customStyle={styles.bannerText}/>
-                            <RegularText text={"MVP는 1원의 가치를 지니고 있습니다."} customStyle={styles.bannerText}/>
+                            <BoldText text={t('exchange_2')} customStyle={styles.bannerTitle}/>
+                            <RegularText text={t('exchange_3')} customStyle={styles.bannerText}/>
+                            <BoldText text={t('exchange_4')} customStyle={[styles.bannerTitle,{marginTop:20}]}/>
+                            <RegularText text={t('exchange_5')} customStyle={styles.bannerText}/>
+                            <RegularText text={t('exchange_6')} customStyle={styles.bannerText}/>
                         </View>
                         :
                         null
@@ -101,7 +103,7 @@ const ChangeScreen = ({navigation,route}) =>{
                     <View style={{backgroundColor:"#FFFFFF",paddingHorizontal:16,paddingTop:Platform.OS==="android"?26:0}}>
                         {Platform.OS === 'android' ? 
                         <>
-                            <BoldText text={"MVP 상품권 구매"} customStyle={styles.itemTitle}/>
+                            <BoldText text={t('exchange_buy_1')} customStyle={styles.itemTitle}/>
                             <View style={{marginTop:16,flexDirection:'row'}}>
                                 <TouchableWithoutFeedback onPress={()=>doBuyCard("M10")}>
                                     <View style={[styles.cardWrap,styles.shadow]}>
@@ -109,11 +111,11 @@ const ChangeScreen = ({navigation,route}) =>{
                                             <Image source={require("../../assets/img/mvp_gift_10.png")} style={styles.cardImg}/>
                                         </View>
                                         <View style={styles.cardTextWrap}>
-                                            <RegularText text={"MVP 1만원권"} customStyle={styles.salesTitle}/>
+                                            <RegularText text={t("exchange_buy_2")} customStyle={styles.salesTitle}/>
                                             <View style={styles.salesWrap}>
                                                 <ExtraBoldText text={"10%"} customStyle={styles.sales}/>
                                                 <ExtraBoldText text={"9,000"} customStyle={styles.salesPrice}/>
-                                                <RegularText text={"원"} customStyle={{fontSize:13}}/>
+                                                <RegularText text={t('common_unit_1')} customStyle={{fontSize:13}}/>
                                             </View>
                                         </View>
                                     </View>
@@ -125,11 +127,11 @@ const ChangeScreen = ({navigation,route}) =>{
                                             <Image source={require("../../assets/img/mvp_gift_05.png")} style={styles.cardImg}/>
                                         </View>
                                         <View style={styles.cardTextWrap}>
-                                            <RegularText text={"MVP 5천원권"} customStyle={styles.salesTitle}/>
+                                            <RegularText text={t('exchange_buy_5')} customStyle={styles.salesTitle}/>
                                             <View style={styles.salesWrap}>
                                                 <ExtraBoldText text={"5%"} customStyle={styles.sales}/>
                                                 <ExtraBoldText text={"4,750"} customStyle={styles.salesPrice}/>
-                                                <RegularText text={"원"} customStyle={{fontSize:13}}/>
+                                                <RegularText text={t('common_unit_1')} customStyle={{fontSize:13}}/>
                                             </View>
                                         </View>
                                     </View>
@@ -141,7 +143,7 @@ const ChangeScreen = ({navigation,route}) =>{
                         }
                         
                         <View style={{marginVertical:26}}>
-                            <BoldText text={"MVP 교환"} customStyle={[styles.itemTitle]}/>
+                            <BoldText text={t('exchange_7')} customStyle={[styles.itemTitle]}/>
                             <TouchableOpacity onPress={()=>onConfirmModal(0)}>
                                 <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
                                     <View style={{marginVertical:13,flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
@@ -183,22 +185,22 @@ const ChangeScreen = ({navigation,route}) =>{
                         <View style={{paddingHorizontal:16}}>
                             <View>
                                 <View style={{height:54,justifyContent:"center",alignItems:"center"}}>
-                                    <BoldText text={"전환동의"} customStyle={{fontSize:14}}/>
+                                    <BoldText text={t('exchange_8')} customStyle={{fontSize:14}}/>
                                 </View>
                                 <View style={{borderWidth:1,borderColor:"#F2F2F2"}} />
                                 <View style={{marginTop:25,marginBottom:19}}>
-                                    <BoldText text={`${brnachList[branchIdx.current].text} 포인트를 MVP로 전환하기 위해 아래 사항에 동의해 주세요.`} customStyle={{lineHeight:22}}/>
+                                    <BoldText text={`${brnachList[branchIdx.current].text} ${t('exchange_9')}`} customStyle={{lineHeight:22}}/>
                                 </View>
                                 <ScrollView style={{borderWidth:1,borderRadius:6,borderColor:"#E5E5E5",backgroundColor:"#F3F3F3",padding:16,height:250,paddingBottom:0}}>
-                                    <BoldText text={"개인 정보 제3자 제공 동의"} customStyle={{fontSize:12}}/>
+                                    <BoldText text={t('exchange_10')} customStyle={{fontSize:12}}/>
                                     <View style={{borderWidth:1,borderColor:"#EBEBEB",marginTop:16}} />
                                     <View style={{marginTop:16,marginBottom:32}}>
                                         <BoldText text={
-                                            `제공받는자: ${brnachList[branchIdx.current].text}\n`+
-                                            `제공목적: ${brnachList[branchIdx.current].text} 포인트 조회 및 전환\n`+
-                                            `제공하는 항목: 개인 식별 정보,${brnachList[branchIdx.current].text} 포인트 잔액\n`+
-                                            `보유 및 이용기간: 마일리지 전환 완료 후 파기\n\n`+
-                                            `회원님은 동의를 거부할 권리가 있으나, 동의 거부 시 마일리지 전환서비스를 위한 최소한의 정보가 제공되지 않아 해당 서비스 이용이 불가능 합니다.`} 
+                                            `${t('exchange_11')}: ${brnachList[branchIdx.current].text}\n`+
+                                            `${t('exchange_12')}\n`+
+                                            `${t('exchange_13')}\n`+
+                                            `${t('exchange_14')}\n\n`+
+                                            `${t('exchange_15')}`} 
                                             customStyle={styles.modalContentsText}/>
                                     </View>
                                 </ScrollView>
@@ -214,19 +216,19 @@ const ChangeScreen = ({navigation,route}) =>{
                                 />
                                 <TouchableWithoutFeedback onPress={()=>setAgree(!agree)}>
                                     <View>
-                                        <BoldText text={"마일리지 교환에 동의합니다."} customStyle={{fontSize:12,marginLeft:8}}/>
+                                        <BoldText text={t('exchange_16')} customStyle={{fontSize:12,marginLeft:8}}/>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
                             <View style={{flexDirection:'row',height:46}}>
                                 <TouchableWithoutFeedback onPress={()=>setVisible(false)}>
                                     <View style={[styles.modalBottomBtn,{backgroundColor:"#EBEBEB"}]}>
-                                        <BoldText text={"취소"} customStyle={{color:"#8B8B8B",fontSize:14}}/>
+                                        <BoldText text={t('common_cancel_1')} customStyle={{color:"#8B8B8B",fontSize:14}}/>
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback onPress={onChangePoint}>
                                     <View style={[styles.modalBottomBtn,{backgroundColor:"#8D3981"}]}>
-                                        <BoldText text={"확인"} customStyle={{color:"#FFFFFF",fontSize:14}}/>
+                                        <BoldText text={t('common_confirm_1')} customStyle={{color:"#FFFFFF",fontSize:14}}/>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>    

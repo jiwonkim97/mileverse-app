@@ -7,8 +7,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import * as spinner from '../actions/spinner'
 import {BoldText, RegularText} from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
-
-
+import { useTranslation } from 'react-i18next';
+import * as RNLocalize from 'react-native-localize';
 
 const LoginScreen = (props) =>{
     const dispatch = useDispatch();
@@ -20,6 +20,7 @@ const LoginScreen = (props) =>{
     const [textColor,setTextColor] = useState("#2B2B2B");
     const [textColor2,setTextColor2] = useState("#A9A9A9")
     const [erorText,setErrorText] = useState(false);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const storageGetData = async() =>{
@@ -40,7 +41,7 @@ const LoginScreen = (props) =>{
     const requestLogin = useCallback((_id,_pw)=>{
         setErrorText(false);
         if(_id === '' || _pw === '') {
-            setErrorText(false);
+            setErrorText(true);
         } else {
             dispatch(spinner.showSpinner());
             dispatch(actions.loginRequest(_id,_pw)).then((result)=>{
@@ -71,7 +72,7 @@ const LoginScreen = (props) =>{
                     <Image source={require('../../assets/img/mileverse_letter_2.png')} style={{resizeMode:'contain',height:25}} />
                 </View>
                 <View style={{marginTop:40,paddingHorizontal:30}}>
-                    <TextInput placeholder="아이디를 입력해주세요" placeholderTextColor={"#D5C2D3"} style={[styles.inputForm,{color:textColor,borderColor:focusColor}]} 
+                    <TextInput placeholder={t('login_2')} placeholderTextColor={"#D5C2D3"} style={[styles.inputForm,{color:textColor,borderColor:focusColor}]} 
                         onChangeText={(text)=>setId(text)} 
                         value={id} 
                         onFocus={()=>{
@@ -84,7 +85,7 @@ const LoginScreen = (props) =>{
                             setTextColor("#2B2B2B");
                         }}
                     />
-                    <TextInput placeholder="비밀번호를 입력해주세요" placeholderTextColor={"#D5C2D3"} style={[styles.inputForm,{color:textColor2,borderColor:focusColor2,marginTop:10}]} 
+                    <TextInput placeholder={t('login_3')} placeholderTextColor={"#D5C2D3"} style={[styles.inputForm,{color:textColor2,borderColor:focusColor2,marginTop:10}]} 
                         onChangeText={(text)=>setPw(text)} 
                         secureTextEntry={true} 
                         value={pw} 
@@ -100,7 +101,7 @@ const LoginScreen = (props) =>{
                     {
                         erorText?
                             <View style={{marginTop:8,paddingLeft:4}}>
-                                <BoldText text={"* 아이디 및 비밀번호를 확인해주세요"} customStyle={{fontSize:10,color:"#EE1818"}}/>
+                                <BoldText text={t("alert_login_1")} customStyle={{fontSize:10,color:"#EE1818"}}/>
                             </View>
                         :
                             null
@@ -108,7 +109,7 @@ const LoginScreen = (props) =>{
                     
                     <TouchableWithoutFeedback onPress={()=>{requestLogin(id,pw);}}>
                         <View style={{marginTop:10,width:"100%",height:46,backgroundColor:"#8D3981",borderRadius:8,justifyContent:"center",alignItems:"center"}}>
-                            <BoldText text={"로그인"} customStyle={{color:"#FFF",fontSize:14}}/>
+                            <BoldText text={t('login_1')} customStyle={{color:"#FFF",fontSize:14}}/>
                         </View>
                     </TouchableWithoutFeedback>
                     <View style={{marginTop:12,paddingBottom:12,borderBottomWidth:1,borderBottomColor:"#D8D8D8",flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
@@ -122,24 +123,30 @@ const LoginScreen = (props) =>{
                                     AsyncStorage.mergeItem("@loginStorage",JSON.stringify({autoLogin:!autoLogin}));
                                 }}
                             />
-                            <BoldText text={"자동 로그인"} customStyle={{color:'#444444',lineHeight:25,fontSize:12,marginLeft:4}}/>
+                            <BoldText text={t('login_4')} customStyle={{color:'#444444',lineHeight:25,fontSize:12,marginLeft:4}}/>
                         </View>
                         <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("FindAccount")}>
                             <View>
-                                <BoldText text={"아이디/비밀번호 찾기"} customStyle={{color:'#444444',fontSize:12}}/>
+                                <BoldText text={t('login_find_1')} customStyle={{color:'#444444',fontSize:12}}/>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
                     <View style={{marginTop:16,flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
-                        <TouchableWithoutFeedback onPress={()=> props.navigation.navigate("SignUp01")}>
+                        <TouchableWithoutFeedback onPress={()=> {
+                            if(RNLocalize.getLocales()[0].languageCode === "ko") {
+                                props.navigation.navigate("SignUp01")
+                            }else {
+                                props.navigation.navigate("SignUpEn")
+                            }
+                        }}>
                             <View>
-                                <RegularText text={"회원가입"} customStyle={{color:'#676767',fontSize:12}} />
+                                <RegularText text={t('login_5')} customStyle={{color:'#676767',fontSize:12}} />
                             </View>
                         </TouchableWithoutFeedback>
                         <RegularText text={"|"} customStyle={{color:'#676767',fontSize:12,marginHorizontal:8}} />
                         <TouchableWithoutFeedback onPress={()=> props.navigation.navigate("Contact")}>
                             <View>
-                                <RegularText text={"가맹점 문의"} customStyle={{color:'#676767',fontSize:12}} />
+                                <RegularText text={t('login_6')} customStyle={{color:'#676767',fontSize:12}} />
                             </View>
                         </TouchableWithoutFeedback>
                     </View>

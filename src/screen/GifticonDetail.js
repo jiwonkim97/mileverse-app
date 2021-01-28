@@ -9,9 +9,11 @@ import CheckBox from 'react-native-check-box'
 import * as actions from '../actions/authentication'
 import * as dialog from '../actions/dialog';
 import * as spinner from '../actions/spinner'
+import { useTranslation } from 'react-i18next';
 
-const imagePrefix = "https://mv-image.s3.ap-northeast-2.amazonaws.com";
+const imagePrefix = "https://image.mileverse.com";
 const GifticonDetail = ({route,navigation}) =>{
+    const { t } = useTranslation();
     const {pin:auth_pin} = useSelector(state => state.authentication.userInfo);
     const [detail,setDetail] = useState({});
     const [amount,setAmount] = useState(0);
@@ -41,30 +43,22 @@ const GifticonDetail = ({route,navigation}) =>{
                             </View>
                             <BoldText text={detail.PDT_NAME} customStyle={{textAlign:"center",lineHeight:20}}/>
                             <View style={{flexDirection:"row"}}>
-                                <BoldText text={"구매가"} customStyle={{textAlign:"center",lineHeight:20}}/>
-                                <ExtraBoldText text={"완료"} customStyle={{marginLeft:4,lineHeight:20}}/>
-                                <BoldText text={"되었습니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
+                                <BoldText text={t("alert_giftcon_3")} customStyle={{textAlign:"center",lineHeight:20}}/>
                             </View>
                         </>         
-                    ),()=>{
-                        dispatch(dialog.closeDialog());
-                        navigation.goBack();
-                    }));
+                    )));
                 } else {
                     dispatch(dialog.openDialog("alert",(
                         <>
                             <View style={{width:'100%',height:150,justifyContent:"center",alignItems:"center"}}>
                                 <Image source={{uri:imagePrefix+detail.PDT_IMAGE}} style={{resizeMode:"contain",width:120,height:120}}/>
                             </View>
-                            <BoldText text={result.msg} customStyle={{textAlign:"center",fontSize:16,color:"#F22D2D"}}/>
-                            <BoldText text={detail.PDT_NAME} customStyle={{textAlign:"center",marginTop:20}}/>
-                            <View style={{flexDirection:"row",marginTop:6}}>
-                                <BoldText text={"구매가"} customStyle={{textAlign:"center"}}/>
-                                <ExtraBoldText text={"취소"} customStyle={{marginLeft:4,color:"#F22D2D"}}/>
-                                <BoldText text={"되었습니다."} customStyle={{textAlign:"center"}}/>
+                            <BoldText text={detail.PDT_NAME} customStyle={{textAlign:"center",lineHeight:20}}/>
+                            <View style={{flexDirection:"row"}}>
+                                <BoldText text={t("alert_giftcon_2")} customStyle={{textAlign:"center",lineHeight:20}}/>
                             </View>
-                        </>      
-                    )))
+                        </>         
+                    )));
                 }
             })
         }
@@ -75,13 +69,13 @@ const GifticonDetail = ({route,navigation}) =>{
         if(!agree){
             dispatch(dialog.openDialog("alert",(
                 <>
-                    <BoldText text={"구매 확인 및 제 3자 정보 이용 제공에 \n 동의 후 구매가 가능합니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
+                    <BoldText text={t('alert_giftcon_4')} customStyle={{textAlign:"center",lineHeight:20}}/>
                 </>
             )));
         }else{
             dispatch(dialog.openDialog("confirm",(
                 <>
-                    <BoldText text={detail.PDT_NAME+" 을(를)\n 구매 하시겠습니까?"} customStyle={{textAlign:"center",lineHeight:20}}/>
+                    <BoldText text={t("alert_giftcon_5",{item:detail.PDT_NAME})} customStyle={{textAlign:"center",lineHeight:20}}/>
                 </>
             ),()=>{
                 dispatch(dialog.closeDialog());
@@ -99,6 +93,7 @@ const GifticonDetail = ({route,navigation}) =>{
                 }
             }));
         }   
+        
     }
 
     return (
@@ -132,14 +127,14 @@ const GifticonDetail = ({route,navigation}) =>{
                         </View>
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",paddingVertical:16,alignItems:"center",justifyContent:"center",borderBottomColor:"#ECECEC",borderBottomWidth:2}}>
-                        <BoldText text={"상품 정보 및 안내사항"} customStyle={{fontSize:13}}/>
+                        <BoldText text={t('use_giftcon_14')} customStyle={{fontSize:13}}/>
                     </View>
                     <View style={{padding:16,paddingBottom:100,backgroundColor:"#F8F8F8"}}>
                         <View>
-                            <BoldText text={"[필수공지]"} customStyle={{fontSize:12}}/>
+                            <BoldText text={t('use_giftcon_15')} customStyle={{fontSize:12}}/>
                             <View style={{marginTop:10}}>
-                                <BoldText text={"- 본 상품은 구매 후 교환 및 환불이 불가능합니다."} customStyle={{color:'red',fontSize:12}}/>
-                                <BoldText text={"- 본 상품은 구매 후 유효기간 연장이 불가능합니다."} customStyle={{color:'red',marginTop:5,fontSize:12}}/>
+                                <BoldText text={t('use_giftcon_16')} customStyle={{color:'red',fontSize:12}}/>
+                                <BoldText text={t('use_giftcon_17')} customStyle={{color:'red',marginTop:5,fontSize:12}}/>
                             </View>
                             <View style={{marginTop:18}}>
                                 <BoldText text={detail.notice} customStyle={{fontSize:12,lineHeight:20}}/>
@@ -154,11 +149,11 @@ const GifticonDetail = ({route,navigation}) =>{
                         uncheckedCheckBoxColor={"#999999"}
                         onClick={() => setAgree(!agree)}
                     />
-                    <BoldText text={"구매 확인 및 제 3자 정보 이용 제공에 동의합니다."} customStyle={{fontSize:11,marginLeft:10}}/>
+                    <BoldText text={t("use_giftcon_13")} customStyle={{fontSize:11,marginLeft:10}}/>
                 </View>
                 <TouchableWithoutFeedback onPress={onBuyBtn}>
                     <View style={{height:50,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center"}}>
-                        <BoldText text={"구매하기"} customStyle={{fontSize:16,color:"#FFFFFF"}}/>
+                        <BoldText text={t("use_giftcon_18")} customStyle={{fontSize:16,color:"#FFFFFF"}}/>
                     </View>
                 </TouchableWithoutFeedback>
             </SafeAreaView>

@@ -1,8 +1,10 @@
 import React,{useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {BoldText} from "./customComponents";
+import { useTranslation } from 'react-i18next';
 
 const Timer = (props)=>{
+    const { t } = useTranslation();
     const flag = useSelector(state => state.timer.flag);
     const [time,setTime] = useState(179);
 
@@ -25,7 +27,7 @@ const Timer = (props)=>{
 
             let s = (time % 60).toString()
             if (s.length === 1) s = `0${s}`
-        return `인증 유효시간 : ${m}분 : ${s}초`;
+        return `${t("alert_find_14")} : ${m} : ${s}`;
     }
     return (
         <BoldText text={getTime(time)} customStyle={{color:"#5D5D5D",fontSize:10}}/>

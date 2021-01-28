@@ -268,7 +268,7 @@ const WalletDetail = ({navigation,route}) =>{
                 <View style={{paddingHorizontal:16}}>
                     <View style={[styles.shadow,{borderRadius:12,backgroundColor:"#FFFFFF",marginTop:16}]}>
                         <View style={{paddingVertical:36,justifyContent:"center",alignItems:"center"}}>
-                            <ExtraBoldText text={`${amount} ${symbol}`} customStyle={{fontSize:16}}/>
+                            <ExtraBoldText text={`${Number(amount)} ${symbol}`} customStyle={{fontSize:16}}/>
                             <BoldText text={`${balance} KRW`} customStyle={{color:"#707070",fontSize:10,marginTop:6}}/>
                         </View>
                             <View style={{height:50,borderTopWidth:2,borderTopColor:"#F2F2F2",flexDirection:"row"}}>

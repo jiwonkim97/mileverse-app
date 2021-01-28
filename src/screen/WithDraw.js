@@ -7,35 +7,46 @@ import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Axios from '../modules/Axios';
 import * as dialog from '../actions/dialog';
 import * as actions from '../actions/authentication'
+import { useTranslation } from 'react-i18next';
 
 const WithDraw = ({navigation,route}) =>{
     const dispatch = useDispatch();
+    const { t } = useTranslation();
     const [password,setPassword] = useState("");
     const onWithDraw = ()=>{
         Keyboard.dismiss();
-        Axios.delete("/users/profile",{data:{password:password}}).then(({data})=>{
-            if(data.result === "success") {
-                dispatch(dialog.openDialog("alert",(
-                    <>
-                        <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
-                    </>
-                ),()=>{
-                    dispatch(actions.logoutRequest()).then(rst=>{
-                        if(rst === 'INIT') {
-                            AsyncStorage.multiRemove(["@loginStorage","@configStorage"])
-                            dispatch(dialog.closeDialog());
-                            navigation.navigate("Home");
-                        }
-                    });
-                }));
-            } else {
-                dispatch(dialog.openDialog("alert",(
-                    <>
-                        <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
-                    </>
-                )));
-            }
-        });
+        if(password !== '') {
+            Axios.delete("/users/profile",{data:{password:password}}).then(({data})=>{
+                if(data.result === "success") {
+                    dispatch(dialog.openDialog("alert",(
+                        <>
+                            <BoldText text={t("alert_withdraw_1")} customStyle={{textAlign:"center",lineHeight:20}}/>
+                        </>
+                    ),()=>{
+                        dispatch(actions.logoutRequest()).then(rst=>{
+                            if(rst === 'INIT') {
+                                AsyncStorage.multiRemove(["@loginStorage","@configStorage"])
+                                dispatch(dialog.closeDialog());
+                                navigation.navigate("Home");
+                            }
+                        });
+                    }));
+                } else {
+                    dispatch(dialog.openDialog("alert",(
+                        <>
+                            <BoldText text={t("alert_common_1")} customStyle={{textAlign:"center",lineHeight:20}}/>
+                        </>
+                    )));
+                }
+            });
+        } else {
+            dispatch(dialog.openDialog("alert",(
+                <>
+                    <BoldText text={t("signup_13")} customStyle={{textAlign:"center",lineHeight:20}}/>
+                </>
+            )));
+        }
+
     };
 
     return (
@@ -49,7 +60,7 @@ const WithDraw = ({navigation,route}) =>{
                         </View>
                     </TouchableOpacity>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text="회원탈퇴" customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={t('menu_info_6')} customStyle={{fontSize:16}}/>
                     </View>
                     <TouchableOpacity onPress={()=>navigation.navigate("Home")}>
                         <View style={styles.headerIcoWrap}>
@@ -59,12 +70,12 @@ const WithDraw = ({navigation,route}) =>{
                 </View>
                 <View style={{padding:16}}>
                     <View style={{borderRadius:6,borderColor:"#E5E5E5",borderWidth:1,padding:16,flexDirection:'row',justifyContent:"space-between",alignItems:"center"}}>
-                        <TextInput placeholder={"비밀번호를 입력해주세요."} onChangeText={text=>setPassword(text)}
+                        <TextInput placeholder={t('menu_info_8')} onChangeText={text=>setPassword(text)}
                             secureTextEntry={true} maxLength={16} placeholderTextColor="#9E9E9E" style={styles.input}/>
                     </View>
                     <TouchableWithoutFeedback onPress={onWithDraw}>
                         <View style={{backgroundColor:"#8D3981",borderRadius:6,justifyContent:"center",alignItems:"center",height:44,marginTop:16}}>
-                            <BoldText text={"탈퇴"} customStyle={{color:'white',fontSize:14}}/>
+                            <BoldText text={t("menu_info_13")} customStyle={{color:'white',fontSize:14}}/>
                         </View>
                     </TouchableWithoutFeedback>
                 </View>

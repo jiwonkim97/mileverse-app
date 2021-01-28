@@ -4,10 +4,15 @@ import { BoldText,ExtraBoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import FindIdWrap from '../components/FindAccount/FindIdWrap';
 import FindPwWrap from '../components/FindAccount/FindPwWrap';
+import FindIdWrapEn from '../components/FindAccount/en/FindIdWrapEn';
+import FindPwWrapEn from '../components/FindAccount/en/FindPwWrapEn';
 
+import { useTranslation } from 'react-i18next';
+import * as RNLocalize from 'react-native-localize';
 
 const FindAccount = (props)=>{
     const [form,setForm] = useState("ID");
+    const { t } = useTranslation();
     const [idBox,setIdBox] = useState({textColor:"#2B2B2B",bgColor:"#FFFFFF",borderColor:"#F6F6F6"});
     const [pwBox,setPwBox] = useState({textColor:"#A7A7A7",bgColor:"#E5E5E5",borderColor:"#E5E5E5"});
     
@@ -33,7 +38,7 @@ const FindAccount = (props)=>{
                         </View>
                     </TouchableOpacity>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={"아이디/비밀번호 찾기"} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={t("login_find_1")} customStyle={{fontSize:16}}/>
                     </View>
                     <View style={{width:50}}>
                     </View>
@@ -42,18 +47,21 @@ const FindAccount = (props)=>{
                     <View style={{flexDirection:"row"}}>
                         <TouchableWithoutFeedback onPress={()=>{onFormChange("ID")}}>
                             <View style={[styles.boxWrap,{backgroundColor:idBox.bgColor,borderColor:idBox.borderColor}]}>
-                                <BoldText text={"아이디 찾기"} customStyle={{color:idBox.textColor,fontSize:13}}/>
+                                <BoldText text={t("login_find_2")} customStyle={{color:idBox.textColor,fontSize:13}}/>
                             </View>
                         </TouchableWithoutFeedback>
                         <TouchableWithoutFeedback onPress={()=>{onFormChange("PW")}}>
                             <View style={[styles.boxWrap,{backgroundColor:pwBox.bgColor,borderColor:pwBox.borderColor}]}>
-                                <BoldText text={"비밀번호 찾기"} customStyle={{color:pwBox.textColor,fontSize:13}}/>
+                                <BoldText text={t("login_find_7")} customStyle={{color:pwBox.textColor,fontSize:13}}/>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
                     {
-                        form === "ID" ? <FindIdWrap navigation={props.navigation}/> : <FindPwWrap navigation={props.navigation}/>
-                    }    
+                        RNLocalize.getLocales()[0].languageCode === "ko" ? 
+                            form === "ID" ? <FindIdWrap navigation={props.navigation}/> : <FindPwWrap navigation={props.navigation}/>
+                            :
+                            form === "ID" ? <FindIdWrapEn navigation={props.navigation}/> : <FindPwWrapEn navigation={props.navigation}/>
+                    }
                 </View>
             </SafeAreaView>
         </>

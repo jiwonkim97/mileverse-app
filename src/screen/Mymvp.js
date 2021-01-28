@@ -6,9 +6,11 @@ import { RegularText, BoldText,ExtraBoldText } from '../components/customCompone
 import CommonStatusbar from '../components/CommonStatusbar';
 import Modal from 'react-native-modal';
 import RNPickerSelect from 'react-native-picker-select';
+import { useTranslation } from 'react-i18next';
 
 
 const MymvpScreen = (props) =>{
+    const { t } = useTranslation();
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
     const mvp = useSelector(state => state.authentication.userInfo.mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g,","));
     const name = useSelector(state => state.authentication.userInfo.currentUser);
@@ -90,7 +92,7 @@ const MymvpScreen = (props) =>{
                     <View style={{flex:2}}>
                         <View style={{flexDirection:"row"}}>
                             <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
-                            <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={_item.C_NAME}/>
+                            <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={t(_item.C_NAME)}/>
                         </View>
                         <BoldText customStyle={{marginTop:8,color:"#707070"}} text={`${_item.BRD_NAME} ${commaFormat(_item.AMOUNT)} MVP`}/>
                         <BoldText text={_item.CORE} customStyle={{color:"#707070",marginTop:4}}/>
@@ -106,7 +108,7 @@ const MymvpScreen = (props) =>{
                     <View style={{flex:2}}>
                         <View style={{flexDirection:"row"}}>
                             <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
-                            <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={_item.C_NAME}/>
+                            <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={t(_item.C_NAME)}/>
                         </View>
                         <BoldText customStyle={{marginTop:8,color:"#707070"}} text={`${_item.BRD_NAME} ${_item.CORE} -> ${commaFormat(_item.AMOUNT)} MVP`} />
                     </View>
@@ -204,7 +206,7 @@ const MymvpScreen = (props) =>{
     }
     const emptyComponent = ()=>(
         <View style={[styles.listRowWrap,{borderBottomWidth:0}]}>
-            <BoldText text={"조회된 내역이 없습니다."} customStyle={{color:"#707070"}}/>
+            <BoldText text={t("mymvp_7")} customStyle={{color:"#707070"}}/>
         </View>
     )
     return (
@@ -214,7 +216,7 @@ const MymvpScreen = (props) =>{
                 <View style={[styles.header,styles.shadow]}>
                     <View style={{width:50}}></View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={"나의 MVP"} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={t('menu_4')} customStyle={{fontSize:16}}/>
                     </View>
                     <TouchableOpacity onPress={()=>props.navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
@@ -224,7 +226,7 @@ const MymvpScreen = (props) =>{
                 </View>
                 <View style={{paddingHorizontal:16}}>
                     <View style={[styles.shadow,styles.headerCard]}>
-                        <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
+                        <BoldText text={name+t("main_23")} customStyle={{fontSize:15}}/>
                         <View style={{marginTop:8,flexDirection:"row"}}>
                             <ExtraBoldText text={mvp+" MVP"} customStyle={{color:"#8D3981",fontSize:20}}/>
                         </View>
@@ -233,25 +235,24 @@ const MymvpScreen = (props) =>{
                         <View style={{paddingHorizontal:16,paddingTop:16,flexDirection:"row",justifyContent:"space-between"}}>
                             <TouchableWithoutFeedback onPress={()=>{setType("all")}}>
                             <View style={[styles.typeBtn,{borderBottomColor:type==="all"?"#8D3981":"white"}]}>
-                                    <BoldText text={"전체"} customStyle={{fontSize:14}}/>
+                                    <BoldText text={t('mymvp_5')} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback onPress={()=>{setType("use")}}>
                             <View style={[styles.typeBtn,{borderBottomColor:type==="use"?"#8D3981":"white"}]}>
-                                    <BoldText text={"사용"} customStyle={{fontSize:14}}/>
+                                    <BoldText text={t('mymvp_2')} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
                             <TouchableWithoutFeedback onPress={()=>{setType("change")}}>
                                 <View style={[styles.typeBtn,{borderBottomColor:type==="change"?"#8D3981":"white"}]}>
-                                    <BoldText text={"교환"} customStyle={{fontSize:14}}/>
+                                    <BoldText text={t('mymvp_3')} customStyle={{fontSize:14}}/>
                                 </View>
                             </TouchableWithoutFeedback>
                         </View>
                         <View style={[styles.countResultWrap]}>
                             <View style={{flexDirection:"row"}}>
-                                <RegularText text={"총 "} customStyle={{color:"#6B6B6B"}}/>
                                 <RegularText text={count} customStyle={{color:"#8D3981"}}/>
-                                <RegularText text={"건의 조회결과 입니다."} customStyle={{color:"#6B6B6B"}}/>
+                                <RegularText text={t("mymvp_6")} customStyle={{color:"#6B6B6B"}}/>
                             </View>
                             <TouchableWithoutFeedback onPress={toggleFilter}>
                                 <Image source={require('../../assets/img/ico_filter.png')} style={{resizeMode:'contain',height:24,width:24}} />
@@ -261,22 +262,22 @@ const MymvpScreen = (props) =>{
                             <View style={{flexDirection:'row',justifyContent:"space-between",padding:10}}>
                                 <TouchableWithoutFeedback onPress={()=>{updateDateByBtn('1w')}}>
                                     <View style={styles.simpleDateBtn}>
-                                        <BoldText text={"1주일"} customStyle={{color:"#6B6B6B"}}/>
+                                        <BoldText text={t('mymvp_8')} customStyle={{color:"#6B6B6B"}}/>
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback onPress={()=>{updateDateByBtn('1m')}}>
                                 <View style={styles.simpleDateBtn}>
-                                        <BoldText text={"1개월"} customStyle={{color:"#6B6B6B"}}/>
+                                        <BoldText text={t("mymvp_9")} customStyle={{color:"#6B6B6B"}}/>
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback onPress={()=>{updateDateByBtn('3m')}}>
                                 <View style={styles.simpleDateBtn}>
-                                        <BoldText text={"3개월"} customStyle={{color:"#6B6B6B"}}/>
+                                        <BoldText text={t("mymvp_10")} customStyle={{color:"#6B6B6B"}}/>
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback onPress={()=>{updateDateByBtn('6m')}}>
                                     <View style={styles.simpleDateBtn}>
-                                        <BoldText text={"6개월"} customStyle={{color:"#6B6B6B"}}/>
+                                        <BoldText text={t("mymvp_11")} customStyle={{color:"#6B6B6B"}}/>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
@@ -315,7 +316,7 @@ const MymvpScreen = (props) =>{
                                         }}
                                         value={mode.current === "to" ? toYear.current : fromYear.current}
                                         placeholder={{}}
-                                        doneText={"완료"}
+                                        doneText={t("alert_date_2")}
                                         style={{inputIOS:{paddingLeft:10,height:'100%'}}}
                                         items={yearArr}
                                     />
@@ -336,7 +337,7 @@ const MymvpScreen = (props) =>{
                                         }}
                                         value={mode.current === "to" ? toMonth.current : fromMonth.current}
                                         placeholder={{}}
-                                        doneText={"완료"}
+                                        doneText={t("alert_date_2")}
                                         style={{inputIOS:{paddingLeft:10,height:'100%'}}}
                                         items={monthArr}
                                     />
@@ -350,7 +351,7 @@ const MymvpScreen = (props) =>{
                                         }}
                                         value={mode.current === "to" ? toDay.current : fromDay.current}
                                         placeholder={{}}
-                                        doneText={"완료"}
+                                        doneText={t("alert_date_2")}
                                         style={{inputIOS:{paddingLeft:10,height:'100%'}}}
                                         items={dayArr}
                                     />
@@ -370,7 +371,7 @@ const MymvpScreen = (props) =>{
                                         },500)
                                     }}>
                                         <View style={{height:20,justifyContent:"center"}}>
-                                            <BoldText text={"취소"} customStyle={{color:"#9E9E9E"}}/>
+                                            <BoldText text={t("common_cancel_1")} customStyle={{color:"#9E9E9E"}}/>
                                         </View>
                                     </TouchableWithoutFeedback>
                                     <TouchableWithoutFeedback onPress={()=>{
@@ -378,16 +379,16 @@ const MymvpScreen = (props) =>{
                                         const _from = new Date(formatedFromDate).getTime();
                                         const _to = new Date(formatedToDate).getTime();
                                         if (_from > _to) {
-                                            Alert.alert("알림",
-                                            "시작일이 종료일보다 클 수 없습니다.",
-                                            [{text:"확인"}])
+                                            Alert.alert(t("alert_title_1"),
+                                            t("alert_date_1"),
+                                            [{text:t("common_confirm_1")}])
                                         } else {
                                             setDateBox(mode.current);
                                             setModal(!modal);
                                         }
                                     }}>
                                         <View style={{height:20,justifyContent:"center"}}>
-                                            <BoldText text={"확인"} customStyle={{color:"#8D3981",marginLeft:38}}/>
+                                            <BoldText text={t("common_confirm_1")} customStyle={{color:"#8D3981",marginLeft:38}}/>
                                         </View>
                                     </TouchableWithoutFeedback>
                                 </View>

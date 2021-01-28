@@ -8,20 +8,15 @@ import SendIntentAndroid from "react-native-send-intent";
 import { BoldText } from '../components/customComponents';
 import * as dialog from '../actions/dialog';
 import * as auth from '../actions/authentication';
+import { useTranslation } from 'react-i18next';
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
     'WebView'
 ])
-const Loading = ()=>{
-    return (
-        <View style={{width:"100%",height:"100%",justifyContent:"center",alignItems:"center"}}>
-            <Text>잠시만 기다려주세요...</Text>
-        </View>
-    )
-}
 
 const DanalPg = ({navigation,route})=>{
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     return (
         <>
@@ -35,14 +30,18 @@ const DanalPg = ({navigation,route})=>{
                     originWhitelist={['*']}
                     javaScriptEnabled={true}
                     startInLoadingState={true}
-                    renderLoading={Loading}
+                    renderLoading={()=>(
+                        <View style={{width:"100%",height:"100%",justifyContent:"center",alignItems:"center"}}>
+                            <Text>{t("exchange_buy_13")}</Text>
+                        </View>
+                    )}
                     onMessage={(event)=>{
                         const {result,mvp} = JSON.parse(event.nativeEvent.data);
                         console.log(result)
                         if(result === "success") dispatch(auth.udpateMvp(mvp));
                         dispatch(dialog.openDialog("alert",(
                             <>
-                                <BoldText text={`MVP 구매가 ${result === "success" ? "완료" : "취소"}되었습니다.`}/>
+                                <BoldText text={t(result === "success" ? "exchange_buy_11" : "exchange_buy_12")}/>
                             </>
                         ),()=>{
                             dispatch(dialog.closeDialog());

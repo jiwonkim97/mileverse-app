@@ -3,7 +3,8 @@ import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWitho
 import { useSelector,useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 import Barcode from "react-native-barcode-builder";
-import * as toast from '../components/Toast';
+import { useTranslation } from 'react-i18next';
+import * as RNLocalize from 'react-native-localize';
 
 import * as spinner from '../actions/spinner'
 import * as actions from '../actions/authentication'
@@ -24,7 +25,8 @@ const HomeScreen = (props) =>{
     const [codeNum,setCodeNum] = useState("");
     const [commaMvp,setCommaMvp] = useState(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     const bannerHeight = useRef(Dimensions.get("screen").width*643/1501);
-    const brightness = useRef(0)
+    const brightness = useRef(0);
+    const { t } = useTranslation();
     
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -91,18 +93,23 @@ const HomeScreen = (props) =>{
                         <TouchableWithoutFeedback onPress={()=>{
                             stat?props.navigation.navigate("GifticonCategory"):props.navigation.navigate("Login")
                         }}>
-                        <Image source={require("../../assets/img/main_banner.png")} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}/>
+                            {
+                                RNLocalize.getLocales()[0].languageCode === 'ko' ?
+                                    <Image source={require("../../assets/img/main_banner.png")} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}/>
+                                    :   
+                                    <Image source={require("../../assets/img/main_banner_en.png")} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}/>
+                            }
                         </TouchableWithoutFeedback>
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",width:"100%",paddingHorizontal:16,paddingTop:16 ,paddingBottom:16}}>
                         <View style={[styles.shadow,{borderRadius:8}]}>
                             <View style={{paddingTop:40,paddingLeft:50}}>
                                 {stat?
-                                    <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15,color:"#2B2B2B"}}/>
+                                    <BoldText text={name+t('main_23')} customStyle={{fontSize:15,color:"#2B2B2B"}}/>
                                     :
                                     <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("Login")}>
                                         <View>
-                                            <BoldText text={"로그인이 필요합니다."} customStyle={{fontSize:15,color:"#2B2B2B"}}/>
+                                            <BoldText text={t('main_1')} customStyle={{fontSize:15,color:"#2B2B2B"}}/>
                                         </View>
                                     </TouchableWithoutFeedback>
                                     
@@ -124,7 +131,7 @@ const HomeScreen = (props) =>{
                                 }}>
                                     <View style={{alignItems:"center"}}>
                                         <Image source={require("../../assets/img/pay_barcode.png")} style={{resizeMode:"stretch",width:178,height:51,opacity:stat?1:0.3}}/>
-                                        <BoldText text={"터치해서 결제하세요!"} customStyle={{fontSize:11,color:"#2B2B2B",opacity:stat?1:0.5}}/>
+                                        <BoldText text={t('main_2')} customStyle={{fontSize:11,color:"#2B2B2B",opacity:stat?1:0.5}}/>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
@@ -133,40 +140,40 @@ const HomeScreen = (props) =>{
                                     stat?props.navigation.navigate("Change"):props.navigation.navigate("Login")
                                 }}>
                                     <View style={styles.btnWrap}>
-                                        <BoldText text={"MVP 교환"} customStyle={styles.btnTxt}/>
+                                        <BoldText text={t('main_3')} customStyle={styles.btnTxt}/>
                                     </View>    
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback onPress={()=>{
                                     stat?modalToggle(true):props.navigation.navigate("Login")
                                 }}>
                                     <View style={styles.btnWrap}>
-                                        <BoldText text={"MVP 사용"} customStyle={styles.btnTxt}/>
+                                        <BoldText text={t('main_4')} customStyle={styles.btnTxt}/>
                                     </View>
                                 </TouchableWithoutFeedback>
                             </View>
                         </View>
                         <View style={[styles.shadow,{borderRadius:8,marginTop:16,paddingTop:26,paddingBottom:23}]}>
                             <View style={{justifyContent:"center",alignItems:"center"}}>
-                                <BoldText text={"기프티콘 바로가기"} customStyle={{fontSize:18,color:"#2B2B2B"}}/>
+                                <BoldText text={t('main_5')} customStyle={{fontSize:18,color:"#2B2B2B"}}/>
                             </View>
                             <View style={{marginTop:40}}>
                                 <View style={{flexDirection:"row",justifyContent:"space-around"}}>
                                     <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_01","편의점")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_mart.png")} style={[styles.gifticonImg]}/>
-                                            <BoldText text={"편의점"} style={styles.gifticonTxt}/>
+                                            <BoldText text={t('main_6')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
                                     <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_02","커피")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_coffee.png")} style={[styles.gifticonImg]}/>
-                                            <BoldText text={"커피"} style={styles.gifticonTxt}/>
+                                            <BoldText text={t('main_7')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
                                     <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_03","치킨/피자")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_chicken.png")} style={[styles.gifticonImg]}/>
-                                            <BoldText text={"치킨/피자"} style={styles.gifticonTxt}/>
+                                            <BoldText text={t('main_8')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
                                 </View>
@@ -174,19 +181,19 @@ const HomeScreen = (props) =>{
                                     <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_04","베이커리,아이스크림")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_icecream.png")} style={[styles.gifticonImg]}/>
-                                            <BoldText text={" 베이커리/\n아이스크림"} style={styles.gifticonTxt}/>
+                                            <BoldText text={t('main_9')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
                                     <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_05","영화")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_movie.png")} style={[styles.gifticonImg]}/>
-                                            <BoldText text={"영화"} style={styles.gifticonTxt}/>
+                                            <BoldText text={t('main_10')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
                                     <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_06","뷰티")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_beauty.png")} style={[styles.gifticonImg]}/>
-                                            <BoldText text={"뷰티"} style={styles.gifticonTxt}/>
+                                            <BoldText text={t('main_11')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
                                 </View>
@@ -194,12 +201,12 @@ const HomeScreen = (props) =>{
                         </View>
                     </View>
                     <View style={{backgroundColor:"#722D72",width:"100%",padding:20}}>
-                        <RegularText text="회사: 주식회사 트루스트체인" customStyle={styles.footer} />
-                        <RegularText text="대표자: 정진형 | 사업자 등록 번호: 746-87-01620" customStyle={styles.footer} />
-                        <RegularText text="사업장 소재지: 서울특별시 영등포구 당산로 49길 28 1층" customStyle={styles.footer} />
-                        <RegularText text="e-mail: mkt@mileverse.com │ contact@mileverse.com" customStyle={styles.footer} />
-                        <RegularText text="tel: 02-2633-5896" customStyle={styles.footer} />
-                        <RegularText text="Copyright ⓒ 2019 Trustchain Inc. ALL RIGHT RESERVED" customStyle={[styles.footer,{marginTop:10}]} />
+                        <RegularText text={t('main_12')} customStyle={styles.footer} />
+                        <RegularText text={t('main_13')} customStyle={styles.footer} />
+                        <RegularText text={t('main_14')} customStyle={styles.footer} />
+                        <RegularText text={t('main_15')} customStyle={styles.footer} />
+                        <RegularText text={t('main_16')} customStyle={styles.footer} />
+                        <RegularText text={t('main_17')} customStyle={[styles.footer,{marginTop:10}]} />
                     </View>
                 </ScrollView>
             </SafeAreaView>
@@ -210,7 +217,7 @@ const HomeScreen = (props) =>{
                 {Platform.OS === 'ios'? <CommonStatusbar backgroundColor="#FFFFFF"/> : null  }
                 <View style={{backgroundColor:"#ffffff",borderBottomRightRadius:50,borderBottomLeftRadius:50,paddingBottom:60}}>
                     <View style={{paddingTop:50,paddingLeft:54}}>
-                        <BoldText text={name+" 님의 MVP"} customStyle={{fontSize:15}}/>
+                        <BoldText text={name+t("main_23")} customStyle={{fontSize:15}}/>
                         <TouchableWithoutFeedback onPress={()=>{
                             modalToggle(false)
                             props.navigation.navigate("MyMvp")
@@ -268,7 +275,8 @@ const styles = StyleSheet.create({
     },
     gifticonTxt:{
         fontSize:12,
-        color:"#2B2B2B"
+        color:"#2B2B2B",
+        textAlign:"center"
     },
     btnWrap:{
         flex:1,

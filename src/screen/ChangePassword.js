@@ -6,9 +6,11 @@ import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Axios from '../modules/Axios';
 import * as dialog from '../actions/dialog';
+import { useTranslation } from 'react-i18next';
 
 const Profile = (props) =>{
     const dispatch = useDispatch();
+    const { t } = useTranslation();
     const [password,setPassword] = useState("");
     const [newPassword,setNewPassword] = useState("");
     const [newConfirmPassword,setNewConfirmPassword] = useState("");
@@ -23,13 +25,13 @@ const Profile = (props) =>{
         if(password===""){
             setCurrentError("#FF3B3B");
         } else if(newPassword==="" || newConfirmPassword==="") {
-            setNewErrorTxt("* 비밀번호가 일치하지 않습니다.");
+            setNewErrorTxt(t('alert_pw_1'));
             setNewError("#FF3B3B");
         } else if(newPassword !== newConfirmPassword) {
-            setNewErrorTxt("* 비밀번호가 일치하지 않습니다.");
+            setNewErrorTxt(t('alert_pw_1'));
             setNewError("#FF3B3B");
         } else if(!regex.test(newPassword)) {
-            setNewErrorTxt("* 8~16자 영문, 숫자, 특수문자를 사용하세요.");
+            setNewErrorTxt(t('alert_pw_2'));
             setNewError("#FF3B3B");
         } else {
             Axios.put("/users/passwords",{password:password,newPassword:newPassword}).then(({data})=>{
@@ -37,7 +39,7 @@ const Profile = (props) =>{
                     if(data.code === "S1") {
                         dispatch(dialog.openDialog("alert",(
                             <>
-                                <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
+                                <BoldText text={t("alert_find_8")} customStyle={{textAlign:"center",lineHeight:20}}/>
                             </>
                         ),()=>{
                             AsyncStorage.mergeItem("@loginStorage",JSON.stringify({password:newPassword}));
@@ -50,7 +52,7 @@ const Profile = (props) =>{
                 } else {
                     dispatch(dialog.openDialog("alert",(
                         <>
-                            <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
+                            <BoldText text={t("alert_common_1")} customStyle={{textAlign:"center",lineHeight:20}}/>
                         </>
                     )));
                 }
@@ -69,7 +71,7 @@ const Profile = (props) =>{
                         </View>
                     </TouchableOpacity>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
-                        <ExtraBoldText text={"비밀번호 변경"} customStyle={{fontSize:16}}/>
+                        <ExtraBoldText text={t('menu_info_4')} customStyle={{fontSize:16}}/>
                     </View>
                     <TouchableOpacity onPress={()=>props.navigation.navigate("Home")}>
                         <View style={styles.headerIcoWrap}>
@@ -79,22 +81,22 @@ const Profile = (props) =>{
                 </View>
                 <View style={{padding:16}}>
                     <View style={{borderRadius:6,borderColor:"#E5E5E5",borderWidth:1,padding:16,flexDirection:'row',justifyContent:"space-between",alignItems:"center"}}>
-                        <BoldText text={"현재 비밀번호"} customStyle={styles.itemLabel}/>
-                        <TextInput placeholder={"비밀번호를 입력해주세요."} onChangeText={text=>setPassword(text)}
+                        <BoldText text={t('menu_info_7')} customStyle={styles.itemLabel}/>
+                        <TextInput placeholder={t('menu_info_8')} onChangeText={text=>setPassword(text)}
                             secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" style={styles.input}/>
                     </View>
                     <View style={{paddingLeft:16,paddingTop:8}}>
-                        <BoldText text={"* 비밀번호가 일치하지 않습니다."} customStyle={{color:currentError,fontSize:10}}/>
+                        <BoldText text={t('alert_pw_1')} customStyle={{color:currentError,fontSize:10}}/>
                     </View>
                     <View style={{marginTop:10,borderRadius:6,borderColor:"#E5E5E5",borderWidth:1}}>
                         <View style={{borderBottomColor:"#E5E5E5",borderBottomWidth:1,padding:16,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-                            <BoldText text={"새로운 비밀번호 확인"} customStyle={styles.itemLabel}/>
-                            <TextInput placeholder={"비밀번호를 입력해주세요."} onChangeText={text=>setNewPassword(text)}
+                            <BoldText text={t('menu_info_9')} customStyle={styles.itemLabel}/>
+                            <TextInput placeholder={t('menu_info_8')} onChangeText={text=>setNewPassword(text)}
                                 secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" style={styles.input}/>
                         </View>
                         <View style={{padding:16,flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-                            <BoldText text={"비밀번호 확인"} customStyle={styles.itemLabel}/>
-                            <TextInput placeholder={"비밀번호를 입력해주세요."} onChangeText={text=>setNewConfirmPassword(text)}
+                            <BoldText text={t("menu_info_10")} customStyle={styles.itemLabel}/>
+                            <TextInput placeholder={t('menu_info_8')} onChangeText={text=>setNewConfirmPassword(text)}
                                 secureTextEntry={true} maxLength={16} placeholderTextColor="#D5C2D3" style={styles.input}/>
                         </View>
                     </View>
@@ -103,7 +105,7 @@ const Profile = (props) =>{
                     </View>
                     <TouchableWithoutFeedback onPress={onChangePassword}>
                         <View style={{marginTop:10,borderRadius:6,justifyContent:"center",alignItems:"center",height:44,backgroundColor:"#8D3981"}}>
-                            <BoldText text={"확인"} customStyle={{color:"#FFFFFF",fontSize:14}}/>
+                            <BoldText text={t('common_confirm_1')} customStyle={{color:"#FFFFFF",fontSize:14}}/>
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
