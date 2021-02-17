@@ -29,7 +29,9 @@ const Wallet = ({navigation,route}) =>{
         const _floatNum = parseFloat(_fixedNum);
         if(_floatNum<0.000001) {
             const __str_FixedNum = String(_fixedNum);
-            if(__str_FixedNum.slice(-1) === "0") 
+            if( __str_FixedNum === 0 ) {
+                return 0
+            }else if(__str_FixedNum.slice(-1) === "0") 
                 return __str_FixedNum.slice(0,-1);
             else 
                 return __str_FixedNum;
@@ -43,9 +45,9 @@ const Wallet = ({navigation,route}) =>{
             const {data} = await Axios.get("/api/henesis/assets");
             dispatch(spinner.hideSpinner());
             if(data.result === 'success') {
-                setEth({amount:commaFormat(setBlanceFormat(data.eth.amount)),balance:commaFormat(data.eth.balance)});
-                setBtc({amount:commaFormat(setBlanceFormat(data.btc.amount)),balance:commaFormat(data.btc.balance)});
-                setMvc({amount:commaFormat(setBlanceFormat(data.mvc.amount)),balance:commaFormat(data.mvc.balance)});
+                setEth({amount:commaFormat(Number(setBlanceFormat(data.eth.amount))),balance:commaFormat(data.eth.balance)});
+                setBtc({amount:commaFormat(Number(setBlanceFormat(data.btc.amount))),balance:commaFormat(data.btc.balance)});
+                setMvc({amount:commaFormat(Number(setBlanceFormat(data.mvc.amount))),balance:commaFormat(data.mvc.balance)});
                 setTotal(commaFormat(Number(data.eth.balance)+Number(data.btc.balance)+Number(data.mvc.balance)+Number(mvp)));
             } else {
                 dispatch(dialog.openDialog("alert",(
@@ -64,7 +66,7 @@ const Wallet = ({navigation,route}) =>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{backgroundColor:"#FFFFFF",flex:1}}>
                 <View style={[styles.header,styles.shadow]}>
-                    <ExtraBoldText text="내 지갑 " customStyle={{fontSize:16}}/>
+                    <ExtraBoldText text="내 지갑" customStyle={{fontSize:16}}/>
                 </View>
                 <ScrollView>
                     <View style={{paddingHorizontal:16,paddingVertical:20}}>
@@ -91,7 +93,7 @@ const Wallet = ({navigation,route}) =>{
                                             <BoldText text={"MVC"} />
                                         </View>
                                         <View style={styles.priceWrap}>
-                                            <BoldText text={`${Number(mvc.amount)} MVC`} />
+                                            <BoldText text={`${mvc.amount} MVC`} />
                                             <BoldText text={`${mvc.balance} KRW`} customStyle={styles.textKrw}/>
                                         </View>
                                     </View>
@@ -113,7 +115,7 @@ const Wallet = ({navigation,route}) =>{
                                             <BoldText text={"BTC"} />
                                         </View>
                                         <View style={styles.priceWrap}>
-                                            <BoldText text={`${Number(btc.amount)} BTC`} />
+                                            <BoldText text={`${btc.amount} BTC`} />
                                             <BoldText text={`${btc.balance } KRW`} customStyle={styles.textKrw}/>
                                         </View>
                                     </View>
@@ -125,7 +127,7 @@ const Wallet = ({navigation,route}) =>{
                                             <BoldText text={"ETH"} />
                                         </View>
                                         <View style={styles.priceWrap}>
-                                            <BoldText text={`${Number(eth.amount)} ETH`} />
+                                            <BoldText text={`${eth.amount} ETH`} />
                                             <BoldText text={`${eth.balance} KRW`} customStyle={styles.textKrw}/>
                                         </View>
                                     </View>

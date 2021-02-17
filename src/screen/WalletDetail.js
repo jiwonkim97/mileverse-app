@@ -135,7 +135,9 @@ const WalletDetail = ({navigation,route}) =>{
         const _floatNum = parseFloat(_fixedNum);
         if(_floatNum<0.000001) {
             const __str_FixedNum = String(_fixedNum);
-            if(__str_FixedNum.slice(-1) === "0") 
+            if( __str_FixedNum === 0 ) {
+                return 0
+            }else if(__str_FixedNum.slice(-1) === "0") 
                 return __str_FixedNum.slice(0,-1);
             else 
                 return __str_FixedNum;
@@ -150,10 +152,10 @@ const WalletDetail = ({navigation,route}) =>{
                 if(data.result === "success") {
                     if(route.params.symbol === "ETH") {
                         setBalance(commaFormat(String(data.eth.balance)));
-                        setAmount(commaFormat(setBlanceFormat(data.eth.amount)));
+                        setAmount(commaFormat(Number(setBlanceFormat(data.eth.amount))));
                     } else if(route.params.symbol === "MVC"){
                         setBalance(commaFormat(String(data.mvc.balance)));
-                        setAmount(commaFormat(setBlanceFormat(data.mvc.amount)));
+                        setAmount(commaFormat(Number(setBlanceFormat(data.mvc.amount))));
                     }
                     
                 }
@@ -268,7 +270,7 @@ const WalletDetail = ({navigation,route}) =>{
                 <View style={{paddingHorizontal:16}}>
                     <View style={[styles.shadow,{borderRadius:12,backgroundColor:"#FFFFFF",marginTop:16}]}>
                         <View style={{paddingVertical:36,justifyContent:"center",alignItems:"center"}}>
-                            <ExtraBoldText text={`${Number(amount)} ${symbol}`} customStyle={{fontSize:16}}/>
+                            <ExtraBoldText text={`${amount} ${symbol}`} customStyle={{fontSize:16}}/>
                             <BoldText text={`${balance} KRW`} customStyle={{color:"#707070",fontSize:10,marginTop:6}}/>
                         </View>
                             <View style={{height:50,borderTopWidth:2,borderTopColor:"#F2F2F2",flexDirection:"row"}}>
