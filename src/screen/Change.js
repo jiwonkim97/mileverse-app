@@ -88,17 +88,30 @@ const ChangeScreen = ({navigation,route}) =>{
                     <ExtraBoldText text={t('exchange_1')} customStyle={{fontSize:16}}/>
                 </View>
                 <ScrollView style={{flex:1}}>
-                    {Platform.OS === "android" ?
-                        <View style={{backgroundColor:"#394054",padding:24,marginVertical:6}}>
-                            <BoldText text={t('exchange_2')} customStyle={styles.bannerTitle}/>
-                            <RegularText text={t('exchange_3')} customStyle={styles.bannerText}/>
-                            <BoldText text={t('exchange_4')} customStyle={[styles.bannerTitle,{marginTop:20}]}/>
-                            <RegularText text={t('exchange_5')} customStyle={styles.bannerText}/>
-                            <RegularText text={t('exchange_6')} customStyle={styles.bannerText}/>
+                    <View style={{backgroundColor:"#394054",padding:24,marginVertical:6}}>
+                        {
+                            Platform.OS === "android" ?
+                            <View>
+                                <BoldText text={t('exchange_2')} customStyle={styles.bannerTitle}/>
+                                <RegularText text={t('exchange_3')} customStyle={styles.bannerText}/>
+                                <BoldText text={t('exchange_4')} customStyle={[styles.bannerTitle,{marginTop:20}]}/>
+                                <RegularText text={`${t('exchange_5')}\n${t('exchange_6')}`} customStyle={styles.bannerText}/>
+                            </View>
+                            :
+                            null
+                        }
+                        <View>
+                            <BoldText text={"[마일리지 교환 공지]"} customStyle={[styles.bannerTitle,{marginTop:Platform.OS === 'android' ? 20 : 0}]}/>
+                            <RegularText text={"제휴사를 통해 비정상적인 방법의 교환이 발견될 경우 비정상적으로 획득한 마일리지는 모두 회수되며 강제 회원탈퇴 될 수 있음을 알려드립니다."} customStyle={styles.bannerText}/>
+                            <View style={{flexDirection:"row"}}>
+                                <RegularText text={"문의사항은"} customStyle={styles.bannerText}/>
+                                <TouchableOpacity onPress={()=>navigation.navigate("Contact")}>
+                                    <RegularText text={" [여기] "} customStyle={[styles.bannerText,{color:"#F3C839"}]}/>
+                                </TouchableOpacity>
+                                <RegularText text={"를 눌러 메일로 문의해주세요."} customStyle={styles.bannerText}/>
+                            </View>
                         </View>
-                        :
-                        null
-                    }
+                    </View>
                     
                     <View style={{backgroundColor:"#FFFFFF",paddingHorizontal:16,paddingTop:Platform.OS==="android"?26:0}}>
                         {Platform.OS === 'android' ? 
@@ -267,7 +280,8 @@ const styles = StyleSheet.create({
     bannerText:{
         fontSize:11,
         color:"#FFFFFF",
-        marginTop:10
+        marginTop:10,
+        lineHeight:15
     },
     itemTitle:{
         fontSize:15

@@ -133,7 +133,7 @@ const Partnercom = ({navigation,route}) =>{
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
                         <ExtraBoldText text={'리얼펫'} customStyle={{fontSize:16}}/>
                     </View>
-                    <TouchableOpacity onPress={()=>navigation.navigate("Wallet")}>
+                    <TouchableOpacity onPress={()=>navigation.goBack()}>
                         <View style={styles.headerIcoWrap}>
                             <Image source={require("../../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
                         </View>
