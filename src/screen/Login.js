@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback,useState } from 'react';
-import { Image,View,SafeAreaView,TextInput,StyleSheet,TouchableWithoutFeedback } from 'react-native';
+import { Image,View,SafeAreaView,TextInput,StyleSheet,TouchableWithoutFeedback,Alert } from 'react-native';
 import CheckBox from 'react-native-check-box'
 import { useDispatch } from 'react-redux';
 import * as actions from '../actions/authentication'
@@ -9,6 +9,8 @@ import {BoldText, RegularText} from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { useTranslation } from 'react-i18next';
 import * as RNLocalize from 'react-native-localize';
+import Axios from '../modules/Axios'
+import {checkAbusing} from '../modules/AbusingHelper';
 
 const LoginScreen = (props) =>{
     const dispatch = useDispatch();
@@ -44,9 +46,10 @@ const LoginScreen = (props) =>{
             setErrorText(true);
         } else {
             dispatch(spinner.showSpinner());
-            dispatch(actions.loginRequest(_id,_pw)).then((result)=>{
+            dispatch(actions.loginRequest(_id,_pw)).then( async(result)=>{
                 if(result.stat === "SUCCESS"){
                     AsyncStorage.mergeItem("@loginStorage",JSON.stringify({id:_id,password:_pw}));
+                    await checkAbusing(_id)
                     dispatch(spinner.hideSpinner());
                     props.navigation.goBack();
                 } else {

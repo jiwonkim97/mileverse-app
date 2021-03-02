@@ -8,9 +8,11 @@ import * as RNLocalize from 'react-native-localize';
 
 import * as spinner from '../actions/spinner'
 import * as actions from '../actions/authentication'
+import * as dialog from '../actions/dialog';
 import AsyncStorage from '@react-native-community/async-storage';
 import { RegularText, BoldText, ExtraBoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
+import {checkAbusing} from '../modules/AbusingHelper';
 import Axios from '../modules/Axios'
 
 import noticeAlert from '../components/NoticeAlert';
@@ -75,7 +77,10 @@ const HomeScreen = (props) =>{
             dispatch(spinner.showSpinner());
             let _data = {};
             if(value !== null) _data = JSON.parse(value);
-            dispatch(actions.verifyRequest(_data)).then(rst=>{
+            dispatch(actions.verifyRequest(_data)).then(async(rst)=>{
+                if(rst === 'SUCCESS') {
+                    await checkAbusing(_data.id)
+                }
                 dispatch(spinner.hideSpinner())
             })
         })
@@ -158,19 +163,19 @@ const HomeScreen = (props) =>{
                             </View>
                             <View style={{marginTop:40,paddingHorizontal:28}}>
                                 <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_01","편의점")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_01","main_6")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_mart.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={t('main_6')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_02","커피")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_02","main_7")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_coffee.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={t('main_7')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_03","치킨/피자")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_03","main_8")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_chicken.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={t('main_8')} customStyle={styles.gifticonTxt}/>
@@ -178,42 +183,45 @@ const HomeScreen = (props) =>{
                                     </TouchableWithoutFeedback>
                                 </View>
                                 <View style={{flexDirection:"row",justifyContent:"space-between",marginTop:36}}>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_04","베이커리,아이스크림")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_04","main_9")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_icecream.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={t('main_9')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_05","영화")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_05","main_10")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_movie.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={t('main_10')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_06","뷰티")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_06","main_11")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_beauty.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={t('main_11')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
                                 </View>
-                                <View style={{flexDirection:"row",justifyContent:"space-between",marginTop:36}}>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_05","영화")}>
+                                {/* <View style={{flexDirection:"row",justifyContent:"space-between",marginTop:36}}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_08","main_25")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_voucher.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={t('main_25')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_06","뷰티")}>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_09","main_26")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_gift-card.png")} style={[styles.gifticonImg]}/>
                                             <BoldText text={t('main_26')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                    <View style={{width:50,height:50}}>
-
-                                    </View>
-                                </View>
+                                    <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_10","main_27")}>
+                                        <View style={{alignItems:"center",justifyContent:"flex-start"}}>
+                                            <Image source={require("../../assets/img/ico_books.png")} style={[styles.gifticonImg]}/>
+                                            <BoldText text={t('main_27')} customStyle={styles.gifticonTxt}/>
+                                        </View>
+                                    </TouchableWithoutFeedback>
+                                </View> */}
                             </View>
                         </View>
                     </View>

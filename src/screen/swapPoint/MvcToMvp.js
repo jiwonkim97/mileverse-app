@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react';
-import {useSelector,useDispatch} from 'react-redux';
-import {SafeAreaView,View, StyleSheet,TouchableOpacity,Image,ScrollView,TextInput} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {SafeAreaView,View, StyleSheet,TouchableOpacity,Image,ScrollView,TextInput,Alert} from 'react-native';
 import CommonStatusbar from '../../components/CommonStatusbar';
 import { ExtraBoldText,BoldText,RegularText } from '../../components/customComponents';
 import Axios from '../../modules/Axios'
@@ -65,14 +65,20 @@ export default ({navigation,route})=>{
 
     const doChangePoint = async()=>{
         dispatch(spinner.showSpinner());
-        const {data} = await Axios.post("/api/henesis/swap/mvc-to-mvp",{fromMvc:inputAmount,toMvp:changeAmount});
+        const {data} = await Axios.post("/api/henesis/swap/v2/mvc-to-mvp",{fromMvc:inputAmount,toMvp:changeAmount});
         dispatch(spinner.hideSpinner());
         if(data.result === 'success') {
-            dispatch(auth.udpateMvp(data.mvp))
-            navigation.navigate("SwapResult",{
-                header:"MVC를 MVP로 교환 ",
-                result:`${commaFormat(inputAmount)} MVC\n교환 완료 하였습니다.`
-            })
+            if(data.swap === 'ok') {
+                dispatch(auth.udpateMvp(data.mvp))
+                navigation.navigate("SwapResult",{
+                    header:"MVC를 MVP로 교환 ",
+                    result:`${commaFormat(inputAmount)} MVC\n교환 완료 하였습니다.`
+                })
+            } else {
+                dispatch(dialog.openDialog("alert",(
+                    <BoldText text={`교환 한도를 초과하였습니다.\n 교환 가능 수량 : ${commaFormat(data.remain)}`} customStyle={{textAlign:"center",lineHeight:20}}/>
+                )));
+            }
         } else {
             Alert.alert("알림",data.msg,[{title:"확인"}]);
         }

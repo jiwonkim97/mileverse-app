@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image,View,SafeAreaView,StyleSheet, TouchableWithoutFeedback, ImageBackground } from 'react-native';
+import { Image,View,SafeAreaView,StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { RegularText, ExtraBoldText, BoldText } from '../components/customComponents';
 import Modal from 'react-native-modal';

@@ -20,7 +20,7 @@ export default ({navigation,route})=>{
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1}}>
-                <View style={[styles.header]}>
+                <View style={[styles.header,styles.shadow]}>
                     <View style={{width:50}}>
                     </View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
@@ -32,15 +32,7 @@ export default ({navigation,route})=>{
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={{marginTop:6,backgroundColor:"#394054",height:106,paddingLeft:24,justifyContent:"center"}}>
-                    <BoldText text={"[유의사항]"} customStyle={{fontSize:12,color:"#F3C839"}}/>
-                    <View style={{marginTop:12}}>
-                    <RegularText text={
-                        "교환 후 취소가 불가능합니다.\n"+
-                        "현재 시세에 따라 교환됩니다."} customStyle={{fontSize:11,color:"#FFFFFF",lineHeight:20}}/>
-                    </View>
-                </View>
-                <View style={{marginTop:6,padding:16,backgroundColor:'#FFFFFF',flex:1}}>
+                <View style={{padding:16,backgroundColor:'#FFFFFF',flex:1}}>
                     <View style={[styles.shadow,{borderRadius:12,justifyContent:"center",alignItems:"center",height:86,backgroundColor:"#FFFFFF"}]}>
                         <BoldText text={"MVC 현재 가격"}/>
                         <ExtraBoldText text={`${String(rate)} 원`} customStyle={{marginTop:10,fontSize:16}}/>
@@ -69,6 +61,23 @@ export default ({navigation,route})=>{
                             </TouchableOpacity>
                         </View>
                     </View>
+                    <View style={{paddingTop:26,marginTop:26,borderTopWidth:2,borderTopColor:'#E5E5E5'}}>
+                        <BoldText text={"[유의사항]"} customStyle={{}}/>
+                        <View style={{marginTop:12}}>
+                            <BoldText text={
+                                "- 교환 후 취소가 불가능합니다.\n"+
+                                "- 현재 시세에 따라 교환됩니다.\n"+
+                                "- 월 교환한도 이상 교환이 불가능합니다." 
+                            } customStyle={{lineHeight:20}}/>
+                        </View>
+                        <BoldText text={"[월 교환 한도]"} customStyle={{marginTop:20}}/>
+                        <View style={{marginTop:12}}>
+                            <BoldText text={
+                                "- MVC to MVP -> 10,000MVC\n"+
+                                "- MVP to MVC -> 100,000MVP" 
+                            } customStyle={{lineHeight:20}}/>
+                        </View>
+                    </View>
                 </View>
             </SafeAreaView>
         </>
@@ -81,6 +90,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         flexDirection:"row",
         justifyContent:"space-between",
+        zIndex:1
     },
     headerIcoWrap:{
         width:50,

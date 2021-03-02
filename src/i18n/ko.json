@@ -1,6 +1,7 @@
 {
     "common_confirm_1": "확인",
     "common_cancel_1": "취소",
+    "common_cancel_2": "다시보지않기",
     "common_next_1": "다음",
     "common_auth_1": "인증요청",
     "common_auth_2": "인증완료",
@@ -77,6 +78,7 @@
     "main_24": "MVP >",
     "main_25": "상품권",
     "main_26": "기프트카드",
+    "main_27": "도서",
     "exchange_1": "마일리지 교환",
     "exchange_2": "[필수공지]",
     "exchange_3": "본 상품은 구매 후 환불이 불가능합니다.",

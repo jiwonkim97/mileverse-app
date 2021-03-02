@@ -114,7 +114,7 @@ const HealthPick = ({navigation,route}) =>{
         } else {
             dispatch(dialog.openDialog("alert",(
                 <>
-                    <BoldText text={t("alert_exchange_2")} customStyle={{textAlign:"center",lineHeight:20}}/>
+                    <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
                 </>
             ))); 
         }

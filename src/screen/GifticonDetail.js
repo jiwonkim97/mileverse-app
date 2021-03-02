@@ -33,7 +33,7 @@ const GifticonDetail = ({route,navigation}) =>{
         if(pinChk) {
             setPinChk(false)
             dispatch(spinner.showSpinner());
-            dispatch(actions.buyGiftConByMVP(route.params.pdt_code)).then((result)=>{
+            dispatch(actions.buyGiftConByMVP(route.params.pdt_code,detail.SUPPLIER)).then((result)=>{
                 dispatch(spinner.hideSpinner());
                 if(result.stat === "SUCCESS") {
                     dispatch(dialog.openDialog("alert",(

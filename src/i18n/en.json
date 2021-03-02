@@ -1,6 +1,7 @@
 {
     "common_confirm_1": "OK",
     "common_cancel_1": "Cancel",
+    "common_cancel_2": "Don't look again",
     "common_next_1": "Next",
     "common_auth_1": "Authentication",
     "common_auth_2": "Authentication completed",
@@ -77,6 +78,7 @@
     "main_24": "MVP >",
     "main_25": "Voucher",
     "main_26": "Gift card",
+    "main_27": "Books",
     "exchange_1": "Exchange mileage points",
     "exchange_2": "[Required Notice]",
     "exchange_3": "This product is not refundable after purchase.",

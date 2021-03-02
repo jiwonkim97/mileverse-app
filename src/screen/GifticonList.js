@@ -10,6 +10,11 @@ const GifticonList = (props) =>{
     const [gifticonList,setGificonList] = useState([]);
     const { t } = useTranslation();
 
+    const handleCloseBtn = ()=>{
+        props.navigation.goBack();
+        // props.navigation.navigate("GifticonCategory")
+    }
+
     useEffect(()=>{
         Axios.get('/api/gifticon/gifticon-list',{params:{category:props.route.params.ctgr_code}}).then((response)=>{
             setGificonList(response.data.filteredList)
@@ -24,7 +29,7 @@ const GifticonList = (props) =>{
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
                         <ExtraBoldText text={t(props.route.params.ctgr_name)} customStyle={{fontSize:16,textAlign:'center'}}/>
                     </View>
-                    <TouchableOpacity onPress={()=>props.navigation.navigate("GifticonCategory")}>
+                    <TouchableOpacity onPress={handleCloseBtn}>
                         <View style={styles.headerIcoWrap}>
                             <Image source={require("../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
                         </View>
