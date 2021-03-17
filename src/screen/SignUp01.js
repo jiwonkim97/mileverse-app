@@ -70,16 +70,16 @@ const SignUp01 = (props) =>{
                     if(_data.success === "true") {
                         const {data} = await Axios.get("/users/exists",{params:{name:_data.name,mobileno:_data.mobileno}});
                         if(data.result === "success") {
-                            if(data.exists === true) {
-                                dispatch(dialog.openDialog("alert",(
-                                    <>
-                                        <BoldText text={"이미 가입된 회원입니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
-                                    </>
-                                ))); 
-                            } else {
+                            if(data.pass === true) {
                                 setAuthBtn({disabled:true,textColor:"#A7A7A7",bgColor:"#E5E5E5"});
                                 setCheckIdentify(true);
                                 toast.info("본인인증을 완료하였습니다.");
+                            } else {
+                                dispatch(dialog.openDialog("alert",(
+                                    <>
+                                        <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
+                                    </>
+                                ))); 
                             }
                         } else {
                             dispatch(dialog.openDialog("alert",(
@@ -98,7 +98,6 @@ const SignUp01 = (props) =>{
                 }
             });
         }
-        
     }
 
     const onNextStep = ()=>{
