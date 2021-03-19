@@ -34,7 +34,7 @@ const WalletReceipt = ({navigation,route}) =>{
         if (route.params.symbol === "BTC") {
             Linking.openURL(`https://btc.com/${route.params.hash}`);
             
-        } else if(route.params.symbol === "ETH") {
+        } else if(route.params.symbol === "ETH" || route.params.symbol === "MVC" ) {
             Linking.openURL(`https://etherscan.io/tx/${route.params.hash}`);
         }
     }
