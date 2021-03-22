@@ -55,7 +55,7 @@ const GifticonDetail = ({route,navigation}) =>{
                             </View>
                             <BoldText text={detail.PDT_NAME} customStyle={{textAlign:"center",lineHeight:20}}/>
                             <View style={{flexDirection:"row"}}>
-                                <BoldText text={t("alert_giftcon_2")} customStyle={{textAlign:"center",lineHeight:20}}/>
+                                <BoldText text={result.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
                             </View>
                         </>         
                     )));
