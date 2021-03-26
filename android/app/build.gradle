@@ -132,8 +132,8 @@ android {
         applicationId "com.cordova.mileverse"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 20
-        versionName "1.2.8"
+        versionCode 21
+        versionName "1.2.9"
         missingDimensionStrategy 'react-native-camera', 'general'
         missingDimensionStrategy 'react-native-camera', 'mlkit'
         multiDexEnabled true
