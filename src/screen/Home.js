@@ -202,7 +202,7 @@ const HomeScreen = (props) =>{
                                         </View>
                                     </TouchableWithoutFeedback>
                                 </View>
-                                {/* <View style={{flexDirection:"row",justifyContent:"space-between",marginTop:36}}>
+                                <View style={{flexDirection:"row",justifyContent:"space-between",marginTop:36}}>
                                     <TouchableWithoutFeedback onPress={()=>navigateScreen("CTGR_08","main_25")}>
                                         <View style={{alignItems:"center",justifyContent:"flex-start"}}>
                                             <Image source={require("../../assets/img/ico_voucher.png")} style={[styles.gifticonImg]}/>
@@ -221,7 +221,7 @@ const HomeScreen = (props) =>{
                                             <BoldText text={t('main_27')} customStyle={styles.gifticonTxt}/>
                                         </View>
                                     </TouchableWithoutFeedback>
-                                </View> */}
+                                </View>
                             </View>
                         </View>
                     </View>
