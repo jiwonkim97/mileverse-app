@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  MileVerse
+
+  Created by mileverse on 2021/03/30.
+  
+*/
+
+"CFBundleDisplayName" = "MileVerse";
+"CFBundleName" = "MileVerse";
