@@ -16,7 +16,6 @@ const languageDetector = {
   type: 'languageDetector',
   async: true,
   detect: async (cb) => {
-    console.log('lang', RNLocalize.getLocales()[0].languageCode);
     cb(RNLocalize.getLocales()[0].languageCode);
   },
   init: () => {},
@@ -27,7 +26,7 @@ i18next
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',
-    debug: true,
+    debug: false,
     interpolation:{
         escapeValue:false
     },

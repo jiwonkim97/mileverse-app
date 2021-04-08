@@ -11,13 +11,14 @@ import { CardStyleInterpolators,createStackNavigator } from '@react-navigation/s
 import { createStore, applyMiddleware } from 'redux';
 import { Provider, useSelector } from 'react-redux';
 import rootReducer from './src/reducers';
-
+import messaging from '@react-native-firebase/messaging';
 import thunk from 'redux-thunk';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import CustomDrawerContent from './src/components/Drawer'
 import { RootSiblingParent } from 'react-native-root-siblings';
 import DialogComponent from './src/components/Dialog';
+import { checkPermissions } from './src/modules/FireBaseHelper';
 
 import HomeScreen from './src/screen/Home';
 import LoginScreen from './src/screen/Login';
@@ -170,10 +171,22 @@ const SpinnerComponent = () =>{
 	)
 }
 const App = () => {
+	const requestUserPermission = async()=>{
+		await checkPermissions();
+	}
+
 	useEffect(()=>{
 		setTimeout(()=>{
 			SplashScreen.hide();
 		},2000)
+		requestUserPermission();
+		messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+			const {data} = remoteMessage
+		});
+		const unsubscribe = messaging().onMessage(async remoteMessage => {
+			console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
+		});
+		return unsubscribe;
 	},[])
 	
 	return (

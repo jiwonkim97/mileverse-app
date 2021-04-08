@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "115112999803",
+    "firebase_url": "https://mileverse.firebaseio.com",
+    "project_id": "mileverse",
+    "storage_bucket": "mileverse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115112999803:android:e6f686d7b63c104d2b1bde",
+        "android_client_info": {
+          "package_name": "com.awesomepush"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115112999803-2p5553ifhr1pf3pp16naq9h2kbbghruo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwadAvlm8xzRq8D4c03lYUYWFtdlo7t2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115112999803-2p5553ifhr1pf3pp16naq9h2kbbghruo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115112999803:android:10b4a909c49a50922b1bde",
+        "android_client_info": {
+          "package_name": "com.cordova.mileverse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "115112999803-2p5553ifhr1pf3pp16naq9h2kbbghruo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwadAvlm8xzRq8D4c03lYUYWFtdlo7t2o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "115112999803-2p5553ifhr1pf3pp16naq9h2kbbghruo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
