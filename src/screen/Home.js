@@ -1,5 +1,5 @@
 import React, { useEffect,useState,useRef } from 'react';
-import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions,AppState } from 'react-native';
+import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions,AppState,Linking } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 import Barcode from "react-native-barcode-builder";
@@ -8,7 +8,6 @@ import * as RNLocalize from 'react-native-localize';
 
 import * as spinner from '../actions/spinner'
 import * as actions from '../actions/authentication'
-import * as dialog from '../actions/dialog';
 import AsyncStorage from '@react-native-community/async-storage';
 import { RegularText, BoldText, ExtraBoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
@@ -17,6 +16,9 @@ import Axios from '../modules/Axios'
 
 import noticeAlert from '../components/NoticeAlert';
 import DeviceBrightness from '@adrianso/react-native-device-brightness';
+import { updatePushToken,onPushOpenListener,onPushOpenListenerBackground } from '../modules/FireBaseHelper';
+import { SliderBox } from "react-native-image-slider-box";
+import messaging from '@react-native-firebase/messaging';
 
 const HomeScreen = (props) =>{
     const dispatch = useDispatch();
@@ -29,6 +31,10 @@ const HomeScreen = (props) =>{
     const bannerHeight = useRef(Dimensions.get("screen").width*643/1501);
     const brightness = useRef(0);
     const { t } = useTranslation();
+    const [images,setImages] = useState([
+        RNLocalize.getLocales()[0].languageCode === 'ko' ? require("../../assets/img/main_banner.png") :  require("../../assets/img/main_banner_en.png"), 
+        require("../../assets/img/banner_square_note.png")
+    ]);
     
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -66,6 +72,8 @@ const HomeScreen = (props) =>{
         }
         AppState.addEventListener("change",handleAppState);
         checkNotice();
+        onPushOpenListener(props.navigation);
+        onPushOpenListenerBackground(props.navigation);
     },[])
 
     const navigateScreen = (_code,_name) =>{
@@ -79,11 +87,21 @@ const HomeScreen = (props) =>{
             if(value !== null) _data = JSON.parse(value);
             dispatch(actions.verifyRequest(_data)).then(async(rst)=>{
                 if(rst === 'SUCCESS') {
-                    await checkAbusing(_data.id)
+                    await checkAbusing(_data.id);
+                    await updatePushToken(_data.id);
                 }
                 dispatch(spinner.hideSpinner())
             })
         })
+    }
+
+    const handleImage = async(index)=>{
+        if(index === 0) {
+            stat?props.navigation.navigate("GifticonCategory"):props.navigation.navigate("Login")
+        } else if (index === 1) {
+            const {data} = await Axios.get("/get/storage",{params:{key:"SQUARE_NOTE_URL"}});
+            Linking.openURL(data.value);
+        }
     }
 
     return (
@@ -95,16 +113,15 @@ const HomeScreen = (props) =>{
                 </View>
                 <ScrollView>
                     <View style={{paddingVertical:6}}>
-                        <TouchableWithoutFeedback onPress={()=>{
-                            stat?props.navigation.navigate("GifticonCategory"):props.navigation.navigate("Login")
-                        }}>
-                            {
-                                RNLocalize.getLocales()[0].languageCode === 'ko' ?
-                                    <Image source={require("../../assets/img/main_banner.png")} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}/>
-                                    :   
-                                    <Image source={require("../../assets/img/main_banner_en.png")} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}/>
-                            }
-                        </TouchableWithoutFeedback>
+                        <SliderBox
+                            circleLoop
+                            autoplay={true}
+                            autoplayInterval={10000}
+                            images={images}
+                            sliderBoxHeight={bannerHeight.current}
+                            onCurrentImagePressed={handleImage}
+                            imageLoadingColor={'#8D3981'}
+                        />
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",width:"100%",paddingHorizontal:16,paddingTop:16 ,paddingBottom:16}}>
                         <View style={[styles.shadow,{borderRadius:8}]}>

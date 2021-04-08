@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback,useState } from 'react';
-import { Image,View,SafeAreaView,TextInput,StyleSheet,TouchableWithoutFeedback,Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image,View,SafeAreaView,TextInput,StyleSheet,TouchableWithoutFeedback,Linking } from 'react-native';
 import CheckBox from 'react-native-check-box'
 import { useDispatch } from 'react-redux';
 import * as actions from '../actions/authentication'
@@ -9,8 +9,9 @@ import {BoldText, RegularText} from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { useTranslation } from 'react-i18next';
 import * as RNLocalize from 'react-native-localize';
-import Axios from '../modules/Axios'
 import {checkAbusing} from '../modules/AbusingHelper';
+import {updatePushToken} from '../modules/FireBaseHelper';
+import Axios from '../modules/Axios'
 
 const LoginScreen = (props) =>{
     const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const LoginScreen = (props) =>{
         storageGetData()
     },[]);
     
-    const requestLogin = useCallback((_id,_pw)=>{
+    const requestLogin = async(_id,_pw)=>{
         setErrorText(false);
         if(_id === '' || _pw === '') {
             setErrorText(true);
@@ -49,7 +50,8 @@ const LoginScreen = (props) =>{
             dispatch(actions.loginRequest(_id,_pw)).then( async(result)=>{
                 if(result.stat === "SUCCESS"){
                     AsyncStorage.mergeItem("@loginStorage",JSON.stringify({id:_id,password:_pw}));
-                    await checkAbusing(_id)
+                    await checkAbusing(_id);
+                    await updatePushToken(_id);
                     dispatch(spinner.hideSpinner());
                     props.navigation.goBack();
                 } else {
@@ -58,7 +60,12 @@ const LoginScreen = (props) =>{
                 }
             })
         }
-    },[dispatch]);
+    };
+
+    const linkBanner = async()=>{
+        const {data} = await Axios.get("/get/storage",{params:{key:"SQUARE_NOTE_URL"}});
+        Linking.openURL(data.value);
+    }
 
     return (
         <>
@@ -153,6 +160,14 @@ const LoginScreen = (props) =>{
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
+                </View>
+                <View style={{}}>
+                    <TouchableWithoutFeedback onPress={linkBanner}>
+                        <Image
+                            source={require("../../assets/img/banner_bottom_square_note.png")}
+                            style={{resizeMode:"contain",width:'100%'}}
+                        />
+                    </TouchableWithoutFeedback>
                 </View>
             </SafeAreaView>
         </>

@@ -1,7 +1,9 @@
 import React, {useState,useEffect} from 'react';
 import { useSelector } from 'react-redux';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,Platform,ScrollView,TouchableOpacity} from 'react-native';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,Platform,ScrollView,TouchableOpacity,AppState} from 'react-native';
 import ToggleSwitch from 'toggle-switch-react-native'
+import { checkNotifications,openSettings } from 'react-native-permissions'
+import { checkPermissions } from "../modules/FireBaseHelper"
 
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText,RegularText } from '../components/customComponents';
@@ -13,8 +15,7 @@ import { useTranslation } from 'react-i18next';
 const Config = (props) =>{
     const { t } = useTranslation();
     const [autoLogin, setAutoLogin] = useState(false);
-    const [serverPush, setServerPush] = useState(false);
-    const [localPush, setLocalPush] = useState(false);
+    const [pushText,setPushText] = useState(false);
     const [versionText,setVersionText] = useState("");
     const [modal,setModal] = useState(false);
     const [modalMode,setModalMode] = useState("");
@@ -25,28 +26,38 @@ const Config = (props) =>{
 
 
     useEffect(()=>{
+        const handlePermissionCheck = async()=>{
+            if(Platform.OS === 'android') {
+                const {status} = await checkNotifications()
+                if(status === 'blocked') setPushText(false);
+                else setPushText(true);
+            } else {
+                const enabled = await checkPermissions();
+                setPushText(enabled)
+            }
+        }
+        AppState.addEventListener("change",handlePermissionCheck)
         const setToggle = async()=>{
             const loginStorage = await AsyncStorage.getItem("@loginStorage");
-            const configStorage = await AsyncStorage.getItem("@configStorage");
             setAutoLogin(JSON.parse(loginStorage).autoLogin);
-            if( configStorage !== null ) {
-                setServerPush(JSON.parse(configStorage).serverPush)
-                setLocalPush(JSON.parse(configStorage).localPush)
-            }
-            Axios.get("/api/notice/version",{params:{os:Platform.OS}}).then(({data})=>{
-                if(data.result === "success") {
-                    if(_ver === data.version) setVersionText(t('alert_setting_1'))
-                    else setVersionText(t('alert_setting_2'))
-                }
-            });
-            Axios.get('/get/terms').then((response)=>{
-                setTerms(response.data.content);
-            });
-            Axios.get('/get/privacy').then((response)=>{
-                setPrivacy(response.data.content);
-            });
         }
+        Axios.get("/api/notice/version",{params:{os:Platform.OS}}).then(({data})=>{
+            if(data.result === "success") {
+                if(_ver === data.version) setVersionText(t('alert_setting_1'))
+                else setVersionText(t('alert_setting_2'))
+            }
+        });
+        Axios.get('/get/terms').then((response)=>{
+            setTerms(response.data.content);
+        });
+        Axios.get('/get/privacy').then((response)=>{
+            setPrivacy(response.data.content);
+        });
+        handlePermissionCheck();
         setToggle();
+        return ()=>{
+            AppState.removeEventListener('change', handlePermissionCheck);
+        };
     },[]);
     return (
         <>
@@ -93,17 +104,16 @@ const Config = (props) =>{
                             </View>
                             <View style={{ padding:16,flexDirection:'row',justifyContent:"space-between",alignItems:"center"}}>
                                 <BoldText text={t('menu_setting_4')} customStyle={{color:"#2B2B2B",fontSize:14}}/>
-                                <ToggleSwitch
-                                    isOn={serverPush}
-                                    onColor="#8D3981"
-                                    offColor="#C9C9C9"
-                                    onToggle={isOn => {
-                                        setServerPush(isOn);
-                                        AsyncStorage.mergeItem("@configStorage",JSON.stringify({serverPush:isOn}));
-                                    }}
-                                />
+                                <TouchableOpacity style={{width:30,height:30,justifyContent:'center',alignItems:"center"}} onPress={() => openSettings()}>
+                                    {
+                                        pushText ?
+                                            <BoldText text={"ON"} customStyle={{color:"#8D3981",fontSize:14}}/>
+                                        :
+                                            <BoldText text={"OFF"} customStyle={{color:"#B9B9B9",fontSize:14}}/>
+                                    }
+                                </TouchableOpacity>
                             </View>
-                            <View style={styles.align}>
+                            {/* <View style={styles.align}>
                                 <BoldText text={t('menu_setting_5')} customStyle={{color:"#2B2B2B",fontSize:14}}/>
                                 <ToggleSwitch
                                     isOn={localPush}
@@ -114,7 +124,7 @@ const Config = (props) =>{
                                         AsyncStorage.mergeItem("@configStorage",JSON.stringify({localPush:isOn}));
                                     }}
                                 />
-                            </View>
+                            </View> */}
                         </View>
                     </View>
                     <View>
