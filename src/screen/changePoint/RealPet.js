@@ -189,7 +189,6 @@ const Partnercom = ({navigation,route}) =>{
                             <BoldText text={t("exchange_27")} customStyle={{color:"#FFFFFF",fontSize:16}}/>
                         </View>
                     </TouchableOpacity>
-                    
                 </View>
             </SafeAreaView>
         </>

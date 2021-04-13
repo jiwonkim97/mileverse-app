@@ -13,6 +13,7 @@ import Axios from '../modules/Axios';
 
 
 const brnachList = [
+    {screen:"BooknLife",text:"북앤라이프"},
     {screen:"Partnercom",text:"건강곶간",uri:"/api/partnercom/users"},
     {screen:"RealPet",text:"리얼펫",uri:"/api/realPet/users"},
     {screen:"JhealthPick",text:"제이헬스픽",uri:"/api/jHealthPick/users"}
@@ -57,20 +58,25 @@ const ChangeScreen = ({navigation,route}) =>{
             Alert.alert(t("alert_title_1"),t('alert_exchange_7'),[{text:t('common_confirm_1')}])
         } else {
             const {uri,screen,text} = brnachList[branchIdx.current]
-            dispatch(spinner.showSpinner());
-            const {data} = await Axios.get(uri);
-            dispatch(spinner.hideSpinner());
-            if(data.result === "success") {
-                if(data.customer) {
-                    setVisible(false);
-                    setTimeout(()=>{
-                        navigation.navigate(screen,data.customer)
-                    },500)
-                } else {
-                    Alert.alert(t("alert_title_1"),t("alert_exchange_6",{company:text}),[{text:t('common_confirm_1')}]);    
-                }
+            if(screen === 'BooknLife') {
+                setVisible(false);
+                navigation.navigate(screen);
             } else {
-                Alert.alert(t("alert_title_1"),t("alert_common_1"),[{text:t('common_confirm_1')}]);
+                dispatch(spinner.showSpinner());
+                const {data} = await Axios.get(uri);
+                dispatch(spinner.hideSpinner());
+                if(data.result === "success") {
+                    if(data.customer) {
+                        setVisible(false);
+                        setTimeout(()=>{
+                            navigation.navigate(screen,data.customer)
+                        },500)
+                    } else {
+                        Alert.alert(t("alert_title_1"),t("alert_exchange_6",{company:text}),[{text:t('common_confirm_1')}]);    
+                    }
+                } else {
+                    Alert.alert(t("alert_title_1"),t("alert_common_1"),[{text:t('common_confirm_1')}]);
+                }
             }
         }
     };
@@ -159,6 +165,13 @@ const ChangeScreen = ({navigation,route}) =>{
                             <BoldText text={t('exchange_7')} customStyle={[styles.itemTitle]}/>
                             <TouchableOpacity onPress={()=>onConfirmModal(0)}>
                                 <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
+                                    <View style={{marginVertical:13}}>
+                                        <Image source={require("../../assets/img/logo_booknlife.png")} style={{resizeMode:"contain",width:130,height:60}}/>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>onConfirmModal(1)}>
+                                <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
                                     <View style={{marginVertical:13,flexDirection:"row",justifyContent:"center",alignItems:"center"}}>
                                         <Image source={require("../../assets/img/logo_dongjin.jpeg")} style={{resizeMode:"contain",width:160,height:60}}/>
                                         <View style={{width:1,backgroundColor:'#C4C4C4',height:20,marginHorizontal:7}}></View>
@@ -166,14 +179,14 @@ const ChangeScreen = ({navigation,route}) =>{
                                     </View>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>onConfirmModal(1)}>
+                            <TouchableOpacity onPress={()=>onConfirmModal(2)}>
                                 <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
                                     <View style={{marginVertical:13}}>
                                         <Image source={require("../../assets/img/logo_realpet.jpg")} style={{resizeMode:"contain",width:130,height:60}}/>
                                     </View>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>onConfirmModal(2)}>
+                            <TouchableOpacity onPress={()=>onConfirmModal(3)}>
                                 <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
                                     <View style={{marginVertical:13}}>
                                         <Image source={require("../../assets/img/logo_healthPick.png")} style={{resizeMode:"contain",width:220,height:60}}/>

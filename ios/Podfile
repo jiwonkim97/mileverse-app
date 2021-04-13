@@ -10,6 +10,7 @@ target 'MileVerse' do
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+  pod 'react-native-pager-view', :path => '../node_modules/react-native-pager-view'
 
   target 'MileVerseTests' do
     inherit! :complete

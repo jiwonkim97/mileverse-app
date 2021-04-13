@@ -10,20 +10,13 @@ export async function updatePushToken(id) {
     const token = await getToken();
 
     const tokenStorage = await AsyncStorage.getItem("@tokenStorage");
-    console.log(tokenStorage)
     if(tokenStorage) {
         const {token:savedToken} = JSON.parse(tokenStorage);
         if(savedToken !== token) {
-            console.log('update Token')
             await AsyncStorage.mergeItem("@tokenStorage",JSON.stringify({token:token}));
             Axios.post("/users/token",{token:token,id:id});
-        } else {
-            console.log('token equl')
-            console.log(token)
-            console.log(savedToken)
-        }
+        } 
     } else {
-        console.log('init Token')
         await AsyncStorage.mergeItem("@tokenStorage",JSON.stringify({token:token}));
         Axios.post("/users/token",{token:token,id:id});
     }

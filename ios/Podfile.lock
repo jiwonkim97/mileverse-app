@@ -334,6 +334,8 @@ PODS:
     - React
   - react-native-image-picker (2.3.3):
     - React
+  - react-native-pager-view (5.1.2):
+    - React-Core
   - react-native-safe-area-context (3.1.4):
     - React
   - react-native-splash-screen (3.2.0):
@@ -477,6 +479,7 @@ DEPENDENCIES:
   - "react-native-device-brightness (from `../node_modules/@adrianso/react-native-device-brightness`)"
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-splash-screen (from `../node_modules/react-native-splash-screen`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -575,6 +578,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-document-picker"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-pager-view:
+    :path: "../node_modules/react-native-pager-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-splash-screen:
@@ -675,6 +680,7 @@ SPEC CHECKSUMS:
   react-native-device-brightness: 12d8386fe9ed17f604b2d6bc752c70edb53a193f
   react-native-document-picker: c5752781fbc0c126c627c1549b037c139444a4cf
   react-native-image-picker: a6c3d644751a388b0fc8b56822ff7cbd398a3008
+  react-native-pager-view: d728200ac02cad7ccacc5903d0b65ff7b8c00cde
   react-native-safe-area-context: 0ed9288ed4409beabb0817b54efc047286fc84da
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   react-native-webview: 5c41ea867f6928bea865bd49a2d379161d6643e9
@@ -704,6 +710,6 @@ SPEC CHECKSUMS:
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: b2aa46d673f42d896e63e6b0f445302e1bd40cf2
+PODFILE CHECKSUM: f369a5b5332043db60aa5abe1152af9f195112fa
 
 COCOAPODS: 1.10.1
