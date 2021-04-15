@@ -100,11 +100,7 @@ const Wallet = ({navigation,route}) =>{
                                 </TouchableWithoutFeedback>
                             </View>
                         </View>
-                        <TouchableWithoutFeedback onPress={()=>{
-                            dispatch(dialog.openDialog("alert",(
-                                <BoldText text={"※ MVP/MVC 교환 기능이 점검중입니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
-                            )));
-                        }}>
+                        <TouchableWithoutFeedback onPress={()=>navigation.navigate("SwapMain")}>
                             <View style={{marginTop:10,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center",borderRadius:6,height:46}}>
                                 <BoldText text={"MVP/ MVC 교환"} customStyle={{fontSize:14,color:"#FFFFFF"}}/>
                             </View>

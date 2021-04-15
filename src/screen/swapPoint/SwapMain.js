@@ -73,8 +73,8 @@ export default ({navigation,route})=>{
                         <BoldText text={"[월 교환 한도]"} customStyle={{marginTop:20}}/>
                         <View style={{marginTop:12}}>
                             <BoldText text={
-                                "- MVC to MVP -> 10,000MVC\n"+
-                                "- MVP to MVC -> 100,000MVP" 
+                                "- MVC to MVP -> 5,000MVC\n"+
+                                "- MVP to MVC -> 50,000MVP" 
                             } customStyle={{lineHeight:20}}/>
                         </View>
                     </View>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert,LogBox,SafeAreaView,StyleSheet,Linking, Platform,View,Text } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import CommonStatusbar from '../components/CommonStatusbar';
 
 import SendIntentAndroid from "react-native-send-intent";
@@ -18,13 +18,20 @@ LogBox.ignoreLogs([
 const DanalPg = ({navigation,route})=>{
     const { t } = useTranslation();
     const dispatch = useDispatch();
+    const {currentUser:user_name} = useSelector(state => state.authentication.userInfo);
+    const params = {
+        item : route.params.item,
+        amount : route.params.amount,
+        name:user_name
+    }
+
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
                 <WebView
-                    source={{uri: 'http://13.209.142.239:3010/api/danal/pg',method:"POST",
-                        body:"item="+route.params.item,
+                    source={{uri: 'http://13.209.142.239:3010/api/danal/v2/pg',method:"POST",
+                        body:`params=${JSON.stringify(params)}`,
                         headers : Platform.OS !== 'android' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {} 
                     }}
                     originWhitelist={['*']}

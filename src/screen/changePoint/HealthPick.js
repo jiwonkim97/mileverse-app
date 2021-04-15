@@ -83,25 +83,16 @@ const HealthPick = ({navigation,route}) =>{
                 </>
             ),()=>{
                 dispatch(dialog.closeDialog());
-                checkLimit();      
+                navigation.navigate("PinCode",{
+                    mode:"confirm",
+                    onGoBack:(_value)=>{if(_value) requestChangePoint();}
+                });
             }));
         }
     }
 
     const checkLimit = async()=>{
-        const {data} = await Axios.get('/api/point/change/limit',{params:{amount:changePoint}});
-        if(data.result === 'success') {
-            navigation.navigate("PinCode",{
-                mode:"confirm",
-                onGoBack:(_value)=>{if(_value) requestChangePoint();}
-            });
-        } else {
-            dispatch(dialog.openDialog("alert",(
-                <>
-                    <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
-                </>
-            )));
-        }
+        
     }
 
     const requestChangePoint = async()=>{
@@ -176,10 +167,11 @@ const HealthPick = ({navigation,route}) =>{
                                 <BoldText text={t("exchange_22")} customStyle={{color:"#3A3A3A"}}/>
                                 <View style={{marginTop:10}}>
                                     <BoldText text={
+                                        `- 제이헬스픽의 교환 한도는 4,000원 입니다.\n`+
+                                        `- 비정상적인 방법에 의한 교환으로 부당이득이 확인되는 경우 마일벌스 앱 이용이 제한되고, 교환된 금액은 모두 회수조치되며 법적인 책임을 지게 될 수 있습니다.\n`+
                                         `${t("exchange_23")}\n`+
-                                        `${t("exchange_24")}\n`+
-                                        `${t("exchange_25")}\n`+
-                                        `${t("exchange_26")}`} customStyle={{lineHeight:18}}/>
+                                        `- 전환된 MVP는 바로 사용 가능하며, 전환취소 및 출금, 타 포인트 전환은 불가합니다.`} customStyle={{lineHeight:18}}
+                                    />
                                 </View>
                             </View>
                         </View>

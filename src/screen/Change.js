@@ -39,10 +39,10 @@ const ChangeScreen = ({navigation,route}) =>{
     }
 
     const checkLimit = async(target)=>{
-        const amount = target === "M10" ? 9000 : 4750;
+        const amount = target === "M10" ? 9500 : 4750;
         const {data} = await Axios.get('/api/point/buy/limit',{params:{amount:amount}});
         if(data.result === 'success') {
-            navigation.navigate("DanalPg",{item:target});
+            navigation.navigate("DanalPg",{item:target,amount:amount});
         } else {
             dispatch(dialog.openDialog("alert",(
                 <>
@@ -95,19 +95,14 @@ const ChangeScreen = ({navigation,route}) =>{
                 </View>
                 <ScrollView style={{flex:1}}>
                     <View style={{backgroundColor:"#394054",padding:24,marginVertical:6}}>
-                        {
-                            Platform.OS === "android" ?
-                            <View>
-                                <BoldText text={t('exchange_2')} customStyle={styles.bannerTitle}/>
-                                <RegularText text={t('exchange_3')} customStyle={styles.bannerText}/>
-                                <BoldText text={t('exchange_4')} customStyle={[styles.bannerTitle,{marginTop:20}]}/>
-                                <RegularText text={`${t('exchange_5')}\n${t('exchange_6')}`} customStyle={styles.bannerText}/>
-                            </View>
-                            :
-                            null
-                        }
                         <View>
-                            <BoldText text={"[마일리지 교환 공지]"} customStyle={[styles.bannerTitle,{marginTop:Platform.OS === 'android' ? 20 : 0}]}/>
+                            <BoldText text={t('exchange_2')} customStyle={styles.bannerTitle}/>
+                            <RegularText text={t('exchange_3')} customStyle={styles.bannerText}/>
+                            <BoldText text={t('exchange_4')} customStyle={[styles.bannerTitle,{marginTop:20}]}/>
+                            <RegularText text={`${t('exchange_5')}\n${t('exchange_6')}`} customStyle={styles.bannerText}/>
+                        </View>
+                        <View>
+                            <BoldText text={"[마일리지 교환 공지]"} customStyle={[styles.bannerTitle,{marginTop:20}]}/>
                             <RegularText text={"제휴사를 통해 비정상적인 방법의 교환이 발견될 경우 비정상적으로 획득한 마일리지는 모두 회수되며 강제 회원탈퇴 될 수 있음을 알려드립니다."} customStyle={styles.bannerText}/>
                             <View style={{flexDirection:"row"}}>
                                 <RegularText text={"문의사항은"} customStyle={styles.bannerText}/>
@@ -119,54 +114,48 @@ const ChangeScreen = ({navigation,route}) =>{
                         </View>
                     </View>
                     
-                    <View style={{backgroundColor:"#FFFFFF",paddingHorizontal:16,paddingTop:Platform.OS==="android"?26:0}}>
-                        {Platform.OS === 'android' ? 
-                        <>
-                            <BoldText text={t('exchange_buy_1')} customStyle={styles.itemTitle}/>
-                            <View style={{marginTop:16,flexDirection:'row'}}>
-                                <TouchableWithoutFeedback onPress={()=>doBuyCard("M10")}>
-                                    <View style={[styles.cardWrap,styles.shadow]}>
-                                        <View style={styles.cardImgWrap}>
-                                            <Image source={require("../../assets/img/mvp_gift_10.png")} style={styles.cardImg}/>
-                                        </View>
-                                        <View style={styles.cardTextWrap}>
-                                            <RegularText text={t("exchange_buy_2")} customStyle={styles.salesTitle}/>
-                                            <View style={styles.salesWrap}>
-                                                <ExtraBoldText text={"10%"} customStyle={styles.sales}/>
-                                                <ExtraBoldText text={"9,000"} customStyle={styles.salesPrice}/>
-                                                <RegularText text={t('common_unit_1')} customStyle={{fontSize:13}}/>
-                                            </View>
+                    <View style={{backgroundColor:"#FFFFFF",paddingHorizontal:16,paddingTop:26}}>
+                        <BoldText text={t('exchange_buy_1')} customStyle={styles.itemTitle}/>
+                        <View style={{marginTop:16,flexDirection:'row'}}>
+                            <TouchableWithoutFeedback onPress={()=>doBuyCard("M10")}>
+                                <View style={[styles.cardWrap,styles.shadow]}>
+                                    <View style={styles.cardImgWrap}>
+                                        <Image source={require("../../assets/img/mvp_gift_10.png")} style={styles.cardImg}/>
+                                    </View>
+                                    <View style={styles.cardTextWrap}>
+                                        <RegularText text={t("exchange_buy_2")} customStyle={styles.salesTitle}/>
+                                        <View style={styles.salesWrap}>
+                                            <ExtraBoldText text={"5%"} customStyle={styles.sales}/>
+                                            <ExtraBoldText text={"9,500"} customStyle={styles.salesPrice}/>
+                                            <RegularText text={t('common_unit_1')} customStyle={{fontSize:13}}/>
                                         </View>
                                     </View>
-                                </TouchableWithoutFeedback>
-                                <View style={{width:16}} />
-                                <TouchableWithoutFeedback onPress={()=>doBuyCard("M05")}>
-                                    <View style={[styles.cardWrap,styles.shadow]}>
-                                        <View style={styles.cardImgWrap}>
-                                            <Image source={require("../../assets/img/mvp_gift_05.png")} style={styles.cardImg}/>
-                                        </View>
-                                        <View style={styles.cardTextWrap}>
-                                            <RegularText text={t('exchange_buy_5')} customStyle={styles.salesTitle}/>
-                                            <View style={styles.salesWrap}>
-                                                <ExtraBoldText text={"5%"} customStyle={styles.sales}/>
-                                                <ExtraBoldText text={"4,750"} customStyle={styles.salesPrice}/>
-                                                <RegularText text={t('common_unit_1')} customStyle={{fontSize:13}}/>
-                                            </View>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            <View style={{width:16}} />
+                            <TouchableWithoutFeedback onPress={()=>doBuyCard("M05")}>
+                                <View style={[styles.cardWrap,styles.shadow]}>
+                                    <View style={styles.cardImgWrap}>
+                                        <Image source={require("../../assets/img/mvp_gift_05.png")} style={styles.cardImg}/>
+                                    </View>
+                                    <View style={styles.cardTextWrap}>
+                                        <RegularText text={t('exchange_buy_5')} customStyle={styles.salesTitle}/>
+                                        <View style={styles.salesWrap}>
+                                            <ExtraBoldText text={"5%"} customStyle={styles.sales}/>
+                                            <ExtraBoldText text={"4,750"} customStyle={styles.salesPrice}/>
+                                            <RegularText text={t('common_unit_1')} customStyle={{fontSize:13}}/>
                                         </View>
                                     </View>
-                                </TouchableWithoutFeedback>
-                            </View>
-                        </>
-                        :
-                        null
-                        }
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </View>
                         
                         <View style={{marginVertical:26}}>
                             <BoldText text={t('exchange_7')} customStyle={[styles.itemTitle]}/>
                             <TouchableOpacity onPress={()=>onConfirmModal(0)}>
                                 <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
                                     <View style={{marginVertical:13}}>
-                                        <Image source={require("../../assets/img/logo_booknlife.png")} style={{resizeMode:"contain",width:130,height:60}}/>
+                                        <Image source={require("../../assets/img/logo_booknlife.png")} style={{resizeMode:"contain",width:200,height:60}}/>
                                     </View>
                                 </View>
                             </TouchableOpacity>
@@ -194,8 +183,8 @@ const ChangeScreen = ({navigation,route}) =>{
                                 </View>
                             </TouchableOpacity>
                             <View style={{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center",overflow:"hidden"}}>
-                                <View style={{marginVertical:13}}>
-                                    <Image source={require("../../assets/img/logo_jjane.png")} style={{resizeMode:"stretch",width:60,height:57}}/>
+                                <View style={{marginVertical:13,height:57}}>
+                                    {/* <Image source={require("../../assets/img/logo_jjane.png")} style={{resizeMode:"stretch",width:60,height:57}}/> */}
                                 </View>
                                 <View style={styles.mask} />
                                 <ExtraBoldText text={"Coming soon"} customStyle={{fontSize:20,color:"#FFFFFF",position:"absolute"}}/>
@@ -303,7 +292,6 @@ const styles = StyleSheet.create({
         flex:1,
         aspectRatio:1,
         borderRadius:10,
-        overflow:"hidden"
     },
     cardImgWrap:{
         flex:1,
