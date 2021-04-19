@@ -50,7 +50,6 @@ const ChangeScreen = ({navigation,route}) =>{
                 </>
             )));
         }
-        
     }
 
     const onChangePoint = async()=>{

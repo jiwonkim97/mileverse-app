@@ -110,7 +110,7 @@ const MymvpScreen = (props) =>{
                             <BoldText text={_item.CREA_DT} customStyle={{color:"#707070"}}/>
                             <BoldText customStyle={{marginLeft:20,color:"#707070"}} text={t(_item.C_NAME)}/>
                         </View>
-                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={`${_item.BRD_NAME} ${_item.CORE} -> ${commaFormat(_item.AMOUNT)} MVP`} />
+                        <BoldText customStyle={{marginTop:8,color:"#707070"}} text={`${_item.BRD_NAME} ${commaFormat(_item.CORE)} -> ${commaFormat(_item.AMOUNT)} MVP`} />
                     </View>
                     <View style={[styles.listIconWrap]}>
                         <Image source={require('../../assets/img/ico_change.png')} style={{resizeMode:"contain",height:28,width:40}}></Image>

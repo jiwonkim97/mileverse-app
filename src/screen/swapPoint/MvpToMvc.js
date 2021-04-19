@@ -22,15 +22,13 @@ export default ({navigation,route})=>{
     const handleInputAmount = (amt)=>{
         if(/^[0-9]*$/.test(amt)) {
             setInputAmount(amt);
-            setChangeAmount(Math.round(amt/rate))
+            setChangeAmount(Math.round((amt-(amt * 0.0005))/rate))
         }
     };
     const requestChangePoint =()=>{
         setErrorStat({stat:false,text:""})
         if(inputAmount === "")  {
             setErrorStat({stat:true,text:"* 수량을 입력해주세요."})
-        } else if(Number(inputAmount) < 100) {
-            setErrorStat({stat:true,text:"* 100MVP 이상 교환 가능합니다."})
         } else if(Number(inputAmount) > Number(hasMvp)){
             setErrorStat({stat:true,text:"* 잔액이 부족합니다."})
         } else {
@@ -143,15 +141,18 @@ export default ({navigation,route})=>{
                             </View>
                         </View>
                         <View style={{marginTop:26}}>
-                            <BoldText text={"[유의사항]"}/>
+                            <BoldText text={"유의사항"}/>
                             <View style={{marginTop:8}}>
                                 <BoldText text={
-                                    "MVP -> MVC 교환 시 정수 단위로만 교환 가능 합니다.\n"+
-                                    "교환되는 금액이 소수점이하일 경우 반올림 됩니다.\n"+
-                                    "교환한 이후 취소가 불가능합니다.\n"+
-                                    "현재 시세에 따라 교환됩니다.\n"+
-                                    "교환 된 MVC는 MVC지갑으로 입급됨니다.\n"+
-                                    "100MVP 이상 부터 교환 가능 합니다."} customStyle={{marginTop:8,lineHeight:20}}/>
+                                    "- 교환되는 금액이 소수점이하일 경우 반올림 됩니다.\n"+
+                                    "- 교환한 이후 취소가 불가능합니다.\n"+
+                                    "- 현재 시세에 따라 교환됩니다.\n"+
+                                    "- 교환 된 MVC는 MVC지갑으로 입급됨니다."} customStyle={{marginTop:8,lineHeight:20}}/>
+                                    <View style={{flexDirection:"row",alignItems:'center'}}>
+                                        <BoldText text={"- 교환 시 교환 수량에 "} customStyle={{lineHeight:20}}/>
+                                        <BoldText text={"0.05%"} customStyle={{lineHeight:20,color:"#EE1818"}}/>
+                                        <BoldText text={"가 수수료로 차감 됩니다."} customStyle={{lineHeight:20}}/>
+                                    </View>
                             </View>
                         </View>
                     </ScrollView>

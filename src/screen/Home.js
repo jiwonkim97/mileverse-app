@@ -35,6 +35,7 @@ const HomeScreen = (props) =>{
         RNLocalize.getLocales()[0].languageCode === 'ko' ? require("../../assets/img/main_banner.png") :  require("../../assets/img/main_banner_en.png"), 
         require("../../assets/img/banner_square_note.png")
     ]);
+    const [bannerEvent,setBannerEvent] = useState(false);
     
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -70,8 +71,16 @@ const HomeScreen = (props) =>{
             const _notice = await noticeAlert(_response,_ver);
             if(_notice === true) onVerifyRequest();
         }
+        const setBannerList = async()=>{
+            const {data} = await Axios.get("/get/storage",{params:{key:"EVENT"}});
+            if(data.value === 'true') {
+                setImages(["https://image.mileverse.com/event/event_home_banner.png"].concat(images));
+                setBannerEvent(true);
+            }
+        }
         AppState.addEventListener("change",handleAppState);
         checkNotice();
+        setBannerList();
         onPushOpenListener(props.navigation);
         onPushOpenListenerBackground(props.navigation);
     },[])
@@ -96,11 +105,22 @@ const HomeScreen = (props) =>{
     }
 
     const handleImage = async(index)=>{
-        if(index === 0) {
-            stat?props.navigation.navigate("GifticonCategory"):props.navigation.navigate("Login")
-        } else if (index === 1) {
-            const {data} = await Axios.get("/get/storage",{params:{key:"SQUARE_NOTE_URL"}});
-            Linking.openURL(data.value);
+        if(bannerEvent) {
+            if(index === 0) {
+                props.navigation.navigate("Event");
+            } else if (index === 1) {
+                stat?props.navigation.navigate("GifticonCategory"):props.navigation.navigate("Login");
+            } else if(index === 2) {
+                const {data} = await Axios.get("/get/storage",{params:{key:"SQUARE_NOTE_URL"}});
+                Linking.openURL(data.value);
+            }
+        } else {
+            if(index === 0) {
+                stat?props.navigation.navigate("GifticonCategory"):props.navigation.navigate("Login");
+            } else if (index === 1) {
+                const {data} = await Axios.get("/get/storage",{params:{key:"SQUARE_NOTE_URL"}});
+                Linking.openURL(data.value);
+            }
         }
     }
 

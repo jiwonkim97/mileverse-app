@@ -61,6 +61,9 @@ import MvpToMvc from './src/screen/swapPoint/MvpToMvc';
 import MvcToMvp from './src/screen/swapPoint/MvcToMvp';
 import SignUpEn from './src/screen/SignUpEn';
 
+import EventScreen from './src/screen/event/EventScreen';
+import EventPayDetail from './src/screen/event/EventPayDetail';
+
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -232,6 +235,9 @@ const App = () => {
 						<Stack.Screen name="MvpToMvc" component={MvpToMvc}/>
 						<Stack.Screen name="SwapResult" component={SwapResult}/>
 						<Stack.Screen name="SwapMain" component={SwapMain}/>
+
+						<Stack.Screen name="Event" component={EventScreen}/>
+						<Stack.Screen name="EventPayDetail" component={EventPayDetail}/>
 					</Stack.Navigator>
 				</NavigationContainer>
 				<DialogComponent />

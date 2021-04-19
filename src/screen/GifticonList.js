@@ -12,7 +12,6 @@ const GifticonList = (props) =>{
 
     const handleCloseBtn = ()=>{
         props.navigation.goBack();
-        // props.navigation.navigate("GifticonCategory")
     }
 
     useEffect(()=>{

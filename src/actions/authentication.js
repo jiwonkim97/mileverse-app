@@ -64,10 +64,10 @@ export function convertMVPRequest(_amount) {
     }
 }
 
-export function buyGiftConByMVP(_item,supply) {
+export function buyGiftConByMVP(_item,supply,event) {
     return (dispatch,getState) =>{
         dispatch(initRequest());
-        return Axios.post('/api/gifticon/v2/sending',{item:_item,supply:supply})
+        return Axios.post('/api/gifticon/v2/sending',{item:_item,supply:supply,event:event})
             .then((response)=>{
                 var _response = response.data
                 _response.result === "success" ? dispatch(udpateMvp(_response.mvp)) : dispatch(failureRequest(_response.msg))
