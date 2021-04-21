@@ -704,7 +704,7 @@
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MileVerse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.3.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -731,7 +731,7 @@
 				DEVELOPMENT_TEAM = 7JNN4GQ7FJ;
 				INFOPLIST_FILE = MileVerse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.3.4;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

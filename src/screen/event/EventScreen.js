@@ -41,7 +41,7 @@ export default({navigation})=>{
             dispatch(dialog.openDialog("confirm",(
                 <>
                     <BoldText text={_text} customStyle={{fontSize:14,lineHeight:20}}/>
-                    <BoldText text={"* MVP 월 구매 한도는 100,000원 입니다."} customStyle={{textAlign:"center",marginTop:14,fontSize:11,color:"#EE1818"}}/>
+                    <BoldText text={"* MVP 월 구매 한도는 50,000원 입니다."} customStyle={{textAlign:"center",marginTop:14,fontSize:11,color:"#EE1818"}}/>
                 </>
             ),()=>{
                 dispatch(dialog.closeDialog());
@@ -83,7 +83,7 @@ export default({navigation})=>{
                             style={{width:'100%',aspectRatio:1,marginVertical:6}}
                         />
                     </View>
-                    <View style={{paddingHorizontal:16,marginVertical:26}}>
+                    <View style={{paddingHorizontal:16,marginTop:26,marginBottom:78}}>
                         <BoldText text={"MVP 상품권 구매"} customStyle={{fontSize:15}}/>
                         <View style={{marginTop:16,flexDirection:"row"}}>
                             <TouchableWithoutFeedback onPress={()=>buyVoucher("M10")}>

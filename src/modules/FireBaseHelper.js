@@ -9,17 +9,18 @@ export async function getToken() {
 export async function updatePushToken(id) {
     const token = await getToken();
 
-    const tokenStorage = await AsyncStorage.getItem("@tokenStorage");
-    if(tokenStorage) {
-        const {token:savedToken} = JSON.parse(tokenStorage);
-        if(savedToken !== token) {
-            await AsyncStorage.mergeItem("@tokenStorage",JSON.stringify({token:token}));
-            Axios.post("/users/token",{token:token,id:id});
-        } 
-    } else {
-        await AsyncStorage.mergeItem("@tokenStorage",JSON.stringify({token:token}));
-        Axios.post("/users/token",{token:token,id:id});
-    }
+    // const tokenStorage = await AsyncStorage.getItem("@tokenStorage");
+    await Axios.post("/users/token",{token:token,id:id});
+    // if(tokenStorage) {
+    //     const {token:savedToken} = JSON.parse(tokenStorage);
+    //     if(savedToken !== token) {
+    //         await AsyncStorage.mergeItem("@tokenStorage",JSON.stringify({token:token}));
+    //         Axios.post("/users/token",{token:token,id:id});
+    //     } 
+    // } else {
+    //     await AsyncStorage.mergeItem("@tokenStorage",JSON.stringify({token:token}));
+    //     Axios.post("/users/token",{token:token,id:id});
+    // }
 }
 
 export async function checkPermissions() {
@@ -28,16 +29,21 @@ export async function checkPermissions() {
 }
 
 export async function onPushOpenListener(navigation) {
-    messaging().onNotificationOpenedApp((remoteMessage)=>{
-        const {data} = remoteMessage
-        if (data.hasOwnProperty('target') && data.target !== '') {
-            navigation.navigate(data.target)
-        }
+    messaging().onNotificationOpenedApp(async(remoteMessage)=>{
+        // const {data} = remoteMessage
+        // if (data.hasOwnProperty('target') && data.target !== '') {
+        //     navigation.navigate(data.target)
+        // }
+        console.log(remoteMessage);
+        console.log('onPushOpenListener')
+        const {data} = await Axios.get("/get/storage",{params:{key:"PUSH_NAVIGATE"}});
+        if(data.value !== "") navigation.navigate(data.value)
     });
 }
 
 export async function onPushOpenListenerBackground(navigation) {
     const pushStorage = await AsyncStorage.getItem("@pushStorage");
+    console.log("pushStorage",pushStorage)
     if(pushStorage) {
         const {target} = JSON.parse(pushStorage);
         if(target !== '') {
@@ -45,4 +51,6 @@ export async function onPushOpenListenerBackground(navigation) {
             navigation.navigate(target)
         }
     }
+    // const {data} = await Axios.get("/get/storage",{params:{key:"PUSH_NAVIGATE"}});
+    // if(data.value !== "") navigation.navigate(data.value);
 }

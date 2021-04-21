@@ -41,7 +41,10 @@ export default({navigation,route})=>{
                                 <BoldText text={"구매가 완료되었습니다."} customStyle={{textAlign:"center",lineHeight:20}}/>
                             </View>
                         </>         
-                    )));
+                    ),()=>{
+                        dispatch(dialog.closeDialog());
+                        navigation.navigate("Event");
+                    }));
                 } else {
                     dispatch(dialog.openDialog("alert",(
                         <>

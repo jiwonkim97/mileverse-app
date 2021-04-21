@@ -4,9 +4,11 @@ import { RegularText, ExtraBoldText, BoldText } from '../components/customCompon
 import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios';
 import { useTranslation } from 'react-i18next';
-
+import * as dialog from '../actions/dialog';
+import { useDispatch } from 'react-redux';
 const imagePrefix = "https://image.mileverse.com";
 const GifticonList = (props) =>{
+    const dispatch = useDispatch();
     const [gifticonList,setGificonList] = useState([]);
     const { t } = useTranslation();
 
@@ -16,7 +18,22 @@ const GifticonList = (props) =>{
 
     useEffect(()=>{
         Axios.get('/api/gifticon/gifticon-list',{params:{category:props.route.params.ctgr_code}}).then((response)=>{
-            setGificonList(response.data.filteredList)
+            console.log()
+            if(response.data.filteredList.length === 0) {
+                setTimeout(()=>{
+                    dispatch(dialog.openDialog("alert",(
+                        <>
+                            <BoldText text={"해당 상품은 준비중입니다."} customStyle={{textAlign:"center"}}/>
+                        </>
+                    ),()=>{
+                        dispatch(dialog.closeDialog());
+                        props.navigation.goBack();
+                    }));
+                },500)
+                
+            } else {
+                setGificonList(response.data.filteredList);
+            }
         });
     },[])
     return (

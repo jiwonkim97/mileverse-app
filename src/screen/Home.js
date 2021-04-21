@@ -133,7 +133,10 @@ const HomeScreen = (props) =>{
                 </View>
                 <ScrollView>
                     <View style={{paddingVertical:6}}>
-                        <SliderBox
+                        <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate("Event");}}>
+                            <Image source={{uri:"https://image.mileverse.com/event/event_home_banner.png"}} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}></Image>
+                        </TouchableWithoutFeedback>
+                        {/* <SliderBox
                             circleLoop
                             autoplay={true}
                             autoplayInterval={10000}
@@ -141,7 +144,7 @@ const HomeScreen = (props) =>{
                             sliderBoxHeight={bannerHeight.current}
                             onCurrentImagePressed={handleImage}
                             imageLoadingColor={'#8D3981'}
-                        />
+                        /> */}
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",width:"100%",paddingHorizontal:16,paddingTop:16 ,paddingBottom:16}}>
                         <View style={[styles.shadow,{borderRadius:8}]}>
