@@ -17,8 +17,7 @@ const GifticonList = (props) =>{
     }
 
     useEffect(()=>{
-        Axios.get('/api/gifticon/gifticon-list',{params:{category:props.route.params.ctgr_code}}).then((response)=>{
-            console.log()
+        Axios.get('/api/gifticon/v2/gifticon-list',{params:{category:props.route.params.ctgr_code}}).then((response)=>{
             if(response.data.filteredList.length === 0) {
                 setTimeout(()=>{
                     dispatch(dialog.openDialog("alert",(
@@ -72,7 +71,17 @@ const GifticonList = (props) =>{
                                 {
                                     item.row.map((item,index)=>{
                                         return (
-                                            <TouchableWithoutFeedback key={index} onPress={()=>{props.navigation.navigate('GifticonDetail',{pdt_code:item.PDT_CODE})}}>
+                                            <TouchableWithoutFeedback key={index} onPress={()=>{
+                                                    if(item.EVENT_GB === 'Y' && item.SOLDOUT_GB === 'Y') {
+                                                        dispatch(dialog.openDialog("alert",(
+                                                            <>
+                                                                <BoldText text={"해당 상품은 재고가 소진되었습니다."} customStyle={{textAlign:"center"}}/>
+                                                            </>
+                                                        )));
+                                                    } else {
+                                                        props.navigation.navigate('GifticonDetail',{pdt_code:item.PDT_CODE})
+                                                    }
+                                                }}>
                                                 <View style={{width:"50%",paddingHorizontal:8,marginTop:16}}>
                                                     <View style={[styles.shadow,{borderRadius:10}]}>
                                                         <View style={{justifyContent:"center",alignItems:"center",height:120}}>
@@ -80,10 +89,20 @@ const GifticonList = (props) =>{
                                                         </View>
                                                         <View style={{backgroundColor:"#F6F6F6",padding:12,height:86,justifyContent:"space-between",borderBottomRightRadius:10,borderBottomLeftRadius:10}}>
                                                             <RegularText text={item.PDT_NAME} customStyle={{color:"#2B2B2B",lineHeight:20,fontSize:14}}/>
-                                                            <View style={{marginTop:7,flexDirection:"row",alignItems:"center"}}>
-                                                                <ExtraBoldText text={item.PDT_AMOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} customStyle={{fontSize:15}}/>
-                                                                <RegularText text={"MVP"} customStyle={{marginLeft:5,fontSize:13}}/>
-                                                            </View>
+                                                            {
+                                                                item.EVENT_GB === 'Y' ? (
+                                                                    <View style={{marginTop:7,flexDirection:"row",alignItems:"center"}}>
+                                                                        <ExtraBoldText text={`${item.SALE_RATIO}%`} customStyle={{fontSize:15,color:"#EE1818"}}/>
+                                                                        <ExtraBoldText text={item.SALE_AMOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} customStyle={{fontSize:15,marginLeft:7}}/>
+                                                                        <RegularText text={"MVP"} customStyle={{marginLeft:5,fontSize:13}}/>
+                                                                    </View>
+                                                                ) : (
+                                                                    <View style={{marginTop:7,flexDirection:"row",alignItems:"center"}}>
+                                                                        <ExtraBoldText text={item.PDT_AMOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} customStyle={{fontSize:15}}/>
+                                                                        <RegularText text={"MVP"} customStyle={{marginLeft:5,fontSize:13}}/>
+                                                                    </View>
+                                                                )
+                                                            }
                                                         </View>
                                                     </View>
                                                 </View>

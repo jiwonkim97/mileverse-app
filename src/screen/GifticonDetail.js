@@ -25,7 +25,11 @@ const GifticonDetail = ({route,navigation}) =>{
         Axios.get("/api/gifticon/item-detail",{params:{item:route.params.pdt_code}}).then(response=>{
             const {detail} = response.data
             setDetail(detail)
-            setAmount(detail.PDT_AMOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            if(detail.EVENT_GB === 'Y') {
+                setAmount(detail.SALE_AMOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            }else {
+                setAmount(detail.PDT_AMOUNT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            }
         });
     },[]);
 
@@ -33,7 +37,7 @@ const GifticonDetail = ({route,navigation}) =>{
         if(pinChk) {
             setPinChk(false)
             dispatch(spinner.showSpinner());
-            dispatch(actions.buyGiftConByMVP(route.params.pdt_code,detail.SUPPLIER)).then((result)=>{
+            dispatch(actions.buyGiftConByMVP(route.params.pdt_code,detail.SUPPLIER,detail.EVENT_GB)).then((result)=>{
                 dispatch(spinner.hideSpinner());
                 if(result.stat === "SUCCESS") {
                     dispatch(dialog.openDialog("alert",(
@@ -46,7 +50,14 @@ const GifticonDetail = ({route,navigation}) =>{
                                 <BoldText text={t("alert_giftcon_3")} customStyle={{textAlign:"center",lineHeight:20}}/>
                             </View>
                         </>         
-                    )));
+                    ),()=>{
+                        if(route.params.eventScreen) {
+                            dispatch(dialog.closeDialog());
+                            navigation.goBack();
+                        } else {
+                            dispatch(dialog.closeDialog());
+                        }
+                    }));
                 } else {
                     dispatch(dialog.openDialog("alert",(
                         <>
@@ -121,10 +132,21 @@ const GifticonDetail = ({route,navigation}) =>{
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",padding:16,borderBottomColor:"#ECECEC",borderBottomWidth:2}}>
                         <BoldText text={detail.PDT_NAME} customStyle={{fontSize:15}}/>
-                        <View style={{marginTop:11,flexDirection:"row",alignItems:"center"}}>
-                            <ExtraBoldText text={amount} customStyle={{fontSize:15}}/>
-                            <BoldText text={"MVP"} customStyle={{marginLeft:4}}/>
-                        </View>
+                        {
+                            detail.EVENT_GB === "Y" ? (
+                                <View style={{marginTop:11,flexDirection:"row",alignItems:"center"}}>
+                                    <ExtraBoldText text={`${detail.SALE_RATIO}%`} customStyle={{fontSize:15,color:"#EE1818"}}/>
+                                    <ExtraBoldText text={amount} customStyle={{fontSize:15,marginLeft:7}}/>
+                                    <BoldText text={"MVP"} customStyle={{marginLeft:4}}/>
+                                </View>        
+                            ) :(
+                                <View style={{marginTop:11,flexDirection:"row",alignItems:"center"}}>
+                                    <ExtraBoldText text={amount} customStyle={{fontSize:15}}/>
+                                    <BoldText text={"MVP"} customStyle={{marginLeft:4}}/>
+                                </View>
+                            )
+                        }
+                        
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",paddingVertical:16,alignItems:"center",justifyContent:"center",borderBottomColor:"#ECECEC",borderBottomWidth:2}}>
                         <BoldText text={t('use_giftcon_14')} customStyle={{fontSize:13}}/>

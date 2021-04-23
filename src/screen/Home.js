@@ -36,6 +36,7 @@ const HomeScreen = (props) =>{
         require("../../assets/img/banner_square_note.png")
     ]);
     const [bannerEvent,setBannerEvent] = useState(false);
+    const [img,setImg] = useState("");
     
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -78,9 +79,14 @@ const HomeScreen = (props) =>{
                 setBannerEvent(true);
             }
         }
+        const getImg = async()=>{
+            const {data} = await Axios.get("/get/storage",{params:{key:"HOME_BANNER"}});
+            setImg(data.value)
+        }
         AppState.addEventListener("change",handleAppState);
         checkNotice();
-        setBannerList();
+        // setBannerList();
+        getImg();
         onPushOpenListener(props.navigation);
         onPushOpenListenerBackground(props.navigation);
     },[])
@@ -133,9 +139,14 @@ const HomeScreen = (props) =>{
                 </View>
                 <ScrollView>
                     <View style={{paddingVertical:6}}>
-                        <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate("Event");}}>
-                            <Image source={{uri:"https://image.mileverse.com/event/event_home_banner.png"}} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}></Image>
-                        </TouchableWithoutFeedback>
+                        {
+                            img !== '' ?
+                                <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate("Event");}}>
+                                    <Image source={{uri:img}} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}></Image>
+                                </TouchableWithoutFeedback>
+                            :
+                                null
+                        }
                         {/* <SliderBox
                             circleLoop
                             autoplay={true}

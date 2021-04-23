@@ -11,15 +11,21 @@ import * as dialog from '../../actions/dialog';
 export default({navigation})=>{
     const [prodtList,setProdtList] = useState([]);
     const dispatch = useDispatch();
+    const [img,setImg] = useState("");
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
     useEffect(()=>{
         const getLists = async()=>{
-           const {data} = await Axios.get("/api/event/list");
+           const {data} = await Axios.get("/api/gifticon/v2/gifticon-list/event");
            if(data.success) {
                setProdtList(data.lists)
            }
         }
+        const getImg = async()=>{
+            const {data} = await Axios.get("/get/storage",{params:{key:"MAIN_BANNER"}});
+            setImg(data.value)
+        }
         getLists();
+        getImg();
     },[]);
 
     const checkLimit = async(target)=>{
@@ -78,10 +84,16 @@ export default({navigation})=>{
                 </View>
                 <ScrollView>
                     <View style={{backgroundColor:"#F2F2F2"}}>
-                        <Image
-                            source={{uri:"https://image.mileverse.com/event/main_banner.png"}}
-                            style={{width:'100%',aspectRatio:1,marginVertical:6}}
-                        />
+                        {
+                            img !== "" ?
+                                <Image
+                                    source={{uri:img}}
+                                    style={{width:'100%',aspectRatio:1,marginVertical:6}}
+                                />
+                            :
+                                null
+                        }
+                        
                     </View>
                     <View style={{paddingHorizontal:16,marginTop:26,marginBottom:78}}>
                         <BoldText text={"MVP 상품권 구매"} customStyle={{fontSize:15}}/>
@@ -133,12 +145,14 @@ export default({navigation})=>{
                             })
                         }
                         <View style={{marginTop:30,borderTopWidth:1,borderTopColor:'#F2F2F2',paddingTop:25}}>
-                            <BoldText text={"상품정보 및 안내사항"} />
+                            <BoldText text={"이벤트 유의사항 안내"} />
                             <BoldText 
                                 customStyle={{marginTop:10,lineHeight:18}}
                                 text={
-                                    '- 본 이벤트는 마일벌스 회원 전용 이벤트입니다.\n'+
-                                    '- MVP 구매는 이벤트 기간동안 월100,000원까지로 구매가 제한됩니다.\n'+
+                                    '- 본 상품은 마일벌스 회원 전용 상품입니다.\n'+
+                                    '- 본 상품들은 이벤트 기간에만 할인된 가격에 구매가 가능합니다.\n'+
+                                    '- MVP 구매와 도서문화상품권 구매는 이벤트 기간동안 월 50,000원까지로 구매가 제한됩니다.\n'+
+                                    '- 구매하신 이벤트 상품은 환불 및 교환이 불가한 상품이므로 구매 시 유의 바랍니다.\n'+
                                     '- 이벤트 구성 및 스케줄은 당사 사정에 따라 변경 또는 종료될 수 있으며 행사수량 소진 시 조기종료 될 수 있습니다.\n'+
                                     '- 비정상적인 방법에 의한 교환으로 부당이득을 취함이 확인되는 경우, 마일벌스 앱 이용제한 및 교환금액 전체 회수, 법적인 책임을 지게 될 수 있음을 안내드립니다.'
                                 }

@@ -51,23 +51,10 @@ export function verifyRequest(_parmas) {
     }
 }
 
-export function convertMVPRequest(_amount) {
-    return (dispatch,getState) =>{
-        dispatch(initRequest());
-        return Axios.post('/api/point/trustToMvp',{amount:_amount})
-            .then((response)=>{
-                var _response = response.data
-                _response.result === "success" ? dispatch(udpateMvp(_response.mvp)) : dispatch(failureRequest(_response.msg))
-            }).catch((error)=>{
-                dispatch(failureRequest());
-            }).then(()=> { return {stat:getState().authentication.request.status,msg:getState().authentication.request.msg} });
-    }
-}
-
 export function buyGiftConByMVP(_item,supply,event) {
     return (dispatch,getState) =>{
         dispatch(initRequest());
-        return Axios.post('/api/gifticon/v2/sending',{item:_item,supply:supply,event:event})
+        return Axios.post('/api/gifticon/v3/sending',{item:_item,supply:supply,event:event})
             .then((response)=>{
                 var _response = response.data
                 _response.result === "success" ? dispatch(udpateMvp(_response.mvp)) : dispatch(failureRequest(_response.msg))
