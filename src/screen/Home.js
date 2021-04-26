@@ -1,5 +1,5 @@
 import React, { useEffect,useState,useRef } from 'react';
-import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions,AppState,Linking } from 'react-native';
+import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions,AppState } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 import Barcode from "react-native-barcode-builder";
@@ -18,7 +18,6 @@ import noticeAlert from '../components/NoticeAlert';
 import DeviceBrightness from '@adrianso/react-native-device-brightness';
 import { updatePushToken,onPushOpenListener,onPushOpenListenerBackground } from '../modules/FireBaseHelper';
 import { SliderBox } from "react-native-image-slider-box";
-import messaging from '@react-native-firebase/messaging';
 
 const HomeScreen = (props) =>{
     const dispatch = useDispatch();
@@ -35,7 +34,6 @@ const HomeScreen = (props) =>{
         RNLocalize.getLocales()[0].languageCode === 'ko' ? require("../../assets/img/main_banner.png") :  require("../../assets/img/main_banner_en.png"), 
         require("../../assets/img/banner_square_note.png")
     ]);
-    const [bannerEvent,setBannerEvent] = useState(false);
     const [img,setImg] = useState("");
     
     useEffect(()=>{
@@ -66,29 +64,20 @@ const HomeScreen = (props) =>{
     }
     
     useEffect(()=>{
-        const checkNotice = async() => {
-            const _getNotice = await Axios.post('/api/notice/check-notice-version',{version:_ver,platform:Platform.OS});
-            const _response = _getNotice.data.rows
-            const _notice = await noticeAlert(_response,_ver);
-            if(_notice === true) onVerifyRequest();
-        }
-        const setBannerList = async()=>{
-            const {data} = await Axios.get("/get/storage",{params:{key:"EVENT"}});
-            if(data.value === 'true') {
-                setImages(["https://image.mileverse.com/event/event_home_banner.png"].concat(images));
-                setBannerEvent(true);
-            }
+        const initApp = async() => {
+            const {data} = await Axios.post('/api/notice/check-notice-version',{version:_ver,platform:Platform.OS});
+            await noticeAlert(data.rows,_ver);
+            await onVerifyRequest();
         }
         const getImg = async()=>{
             const {data} = await Axios.get("/get/storage",{params:{key:"HOME_BANNER"}});
             setImg(data.value)
         }
         AppState.addEventListener("change",handleAppState);
-        checkNotice();
-        // setBannerList();
-        getImg();
         onPushOpenListener(props.navigation);
         onPushOpenListenerBackground(props.navigation);
+        initApp();
+        getImg();
     },[])
 
     const navigateScreen = (_code,_name) =>{
@@ -109,27 +98,6 @@ const HomeScreen = (props) =>{
             })
         })
     }
-
-    const handleImage = async(index)=>{
-        if(bannerEvent) {
-            if(index === 0) {
-                props.navigation.navigate("Event");
-            } else if (index === 1) {
-                stat?props.navigation.navigate("GifticonCategory"):props.navigation.navigate("Login");
-            } else if(index === 2) {
-                const {data} = await Axios.get("/get/storage",{params:{key:"SQUARE_NOTE_URL"}});
-                Linking.openURL(data.value);
-            }
-        } else {
-            if(index === 0) {
-                stat?props.navigation.navigate("GifticonCategory"):props.navigation.navigate("Login");
-            } else if (index === 1) {
-                const {data} = await Axios.get("/get/storage",{params:{key:"SQUARE_NOTE_URL"}});
-                Linking.openURL(data.value);
-            }
-        }
-    }
-
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>

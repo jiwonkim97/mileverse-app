@@ -184,9 +184,6 @@ const App = () => {
 			SplashScreen.hide();
 		},2000)
 		requestUserPermission();
-		messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-			const {data} = remoteMessage
-		});
 		const unsubscribe = messaging().onMessage(async remoteMessage => {
 			console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
 		});

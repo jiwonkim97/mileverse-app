@@ -1,4 +1,4 @@
-import { Platform,Linking } from 'react-native';
+import { Platform,Linking, Alert } from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 import AlertAsync from "react-native-alert-async";
 import AsyncStorage from '@react-native-community/async-storage';
@@ -63,11 +63,18 @@ export default async(info,_ver) => {
             })
         }
         if(flag) {
-            return await AlertAsync(
-                info.TITLE,
-                info.EXPL,
-                buttons[info.TYPE_CODE]
-            );
+            // return await AlertAsync(
+            //     info.TITLE,
+            //     info.EXPL,
+            //     buttons[info.TYPE_CODE]
+            // );
+            // await AlertAsync(
+            //     info.TITLE,
+            //     info.EXPL,
+            //     buttons[info.TYPE_CODE]
+            // );
+            // console.log(info.TITLE)
+            Alert.alert(info.TITLE,info.EXPL,buttons[info.TYPE_CODE])
         } else return true;
     }else return true;
     
