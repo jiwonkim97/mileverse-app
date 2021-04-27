@@ -18,6 +18,8 @@ import noticeAlert from '../components/NoticeAlert';
 import DeviceBrightness from '@adrianso/react-native-device-brightness';
 import { updatePushToken,onPushOpenListener,onPushOpenListenerBackground } from '../modules/FireBaseHelper';
 import { SliderBox } from "react-native-image-slider-box";
+import codePush from "react-native-code-push";
+
 
 const HomeScreen = (props) =>{
     const dispatch = useDispatch();
@@ -63,10 +65,30 @@ const HomeScreen = (props) =>{
         }
     }
     
+    const Codepush = () =>{
+		codePush.sync({
+		  updateDialog: { //업데이트 다이얼로그 설정
+			title : "새로운 업데이트가 존재합니다.",
+			optionalUpdateMessage : "지금 업데이트하시겠습니까?",
+			optionalIgnoreButtonLabel : "나중에",
+			optionalInstallButtonLabel : "업데이트"
+		  },
+		  installMode: codePush.InstallMode.IMMEDIATE //즉시 업데이트
+		});
+	}
+
+    
     useEffect(()=>{
         const initApp = async() => {
             const {data} = await Axios.post('/api/notice/check-notice-version',{version:_ver,platform:Platform.OS});
-            await noticeAlert(data.rows,_ver);
+            codePush.checkForUpdate()
+            .then(async(update) => {
+                if (!update) {
+                    await noticeAlert(data.rows,_ver);
+                } else {
+                    Codepush();
+                }
+            });
             await onVerifyRequest();
         }
         const getImg = async()=>{

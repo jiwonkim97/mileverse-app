@@ -245,7 +245,6 @@ const App = () => {
 
 export default App;
 
-
 const styles = StyleSheet.create({
     dockIcon:{width:24,height:24,resizeMode:"contain"}
 });
