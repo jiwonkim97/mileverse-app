@@ -20,6 +20,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8241E7C10CB08F6ECF1ECC45 /* libPods-MileVerse-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C5D821CB20BFF1C0203D4F /* libPods-MileVerse-tvOSTests.a */; };
 		9AC09C38BD7F3C956F32F9CC /* libPods-MileVerse.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3405FF8EA19900E57FD33706 /* libPods-MileVerse.a */; };
+		AACCAC6E2638FD9A00D4ECE3 /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = AACCAC6D2638FD9900D4ECE3 /* AppCenter-Config.plist */; };
 		AAD960AF24E508C400B8ECA9 /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = AAD960AE24E508C400B8ECA9 /* Fonts */; };
 		AAE1CCB12612DA4A00F6E65C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAE1CCB32612DA4A00F6E65C /* InfoPlist.strings */; };
 		AAE1CDB226157EAA00F6E65C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AAE1CDB126157EAA00F6E65C /* GoogleService-Info.plist */; };
@@ -65,6 +66,7 @@
 		5FF6BAC354DA4A1385A96480 /* Pods-MileVerse-MileVerseTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MileVerse-MileVerseTests.debug.xcconfig"; path = "Target Support Files/Pods-MileVerse-MileVerseTests/Pods-MileVerse-MileVerseTests.debug.xcconfig"; sourceTree = "<group>"; };
 		819B5BDFEF24D628038D1A5F /* libPods-MileVerse-MileVerseTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MileVerse-MileVerseTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MileVerse/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AACCAC6D2638FD9900D4ECE3 /* AppCenter-Config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		AAD960AE24E508C400B8ECA9 /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Fonts; sourceTree = "<group>"; };
 		AAD960B024E50CB700B8ECA9 /* MileVerse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = MileVerse.entitlements; path = MileVerse/MileVerse.entitlements; sourceTree = "<group>"; };
 		AAE1CCB22612DA4A00F6E65C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				AACCAC6D2638FD9900D4ECE3 /* AppCenter-Config.plist */,
 				AAE1CCB32612DA4A00F6E65C /* InfoPlist.strings */,
 				AAD960AE24E508C400B8ECA9 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* MileVerse */,
@@ -359,6 +362,7 @@
 				AAE1CDB226157EAA00F6E65C /* GoogleService-Info.plist in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				AACCAC6E2638FD9A00D4ECE3 /* AppCenter-Config.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,12 +703,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MileVerse/MileVerse.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 7JNN4GQ7FJ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MileVerse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3.5;
+				MARKETING_VERSION = 1.3.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -727,11 +731,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = MileVerse/MileVerse.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 7JNN4GQ7FJ;
 				INFOPLIST_FILE = MileVerse/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.3.5;
+				MARKETING_VERSION = 1.3.6;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
