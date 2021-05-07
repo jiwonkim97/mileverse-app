@@ -164,8 +164,6 @@ const WalletWithDraw = ({navigation,route}) =>{
                     member:member.current
                 });
                 data.result === "success" ? _flag = true : null; 
-            data.result === "success" ? _flag = true : null; 
-                data.result === "success" ? _flag = true : null; 
             } else {
                 const {data} = await Axios.post("/api/henesis/btc/transfer",{
                     symbol:symbol,
@@ -175,8 +173,6 @@ const WalletWithDraw = ({navigation,route}) =>{
                     send_amount:sendAmount,
                     member:member.current
                 });
-                data.result === "success" ? _flag = true : null; 
-            data.result === "success" ? _flag = true : null; 
                 data.result === "success" ? _flag = true : null; 
             }
             dispatch(spinner.hideSpinner());

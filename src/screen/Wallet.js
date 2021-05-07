@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
-import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,ScrollView } from 'react-native';
+import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image,ScrollView, Alert } from 'react-native';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Axios from '../modules/Axios';
@@ -59,7 +59,11 @@ const Wallet = ({navigation,route}) =>{
             }
         });
           return unsubscribe;
-    },[navigation])
+    },[navigation]);
+
+    const preventWallet = ()=>{
+        Alert.alert("점검",'지갑 점검으로 인해 사용이 불가합니다.',[{text:"확인"}])
+    }
 
     return (
         <>
@@ -86,7 +90,10 @@ const Wallet = ({navigation,route}) =>{
                                         <BoldText text={`${commaMvp} MVP`} />
                                     </View>
                                 </TouchableWithoutFeedback>
-                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDetail",{header:"Mileverse",symbol:"MVC"})}>
+                                <TouchableWithoutFeedback onPress={()=>{
+                                    // navigation.navigate("WalletDetail",{header:"Mileverse",symbol:"MVC"});
+                                    preventWallet();
+                                }}>
                                     <View style={[styles.itemOffset,{borderTopWidth:1,borderTopColor:"#ECECEC"}]}>
                                         <View style={styles.symbolWrap}>
                                             <Image source={require("../../assets/img/symbol_mvc.png")} style={styles.symbolIco}/>
@@ -100,7 +107,10 @@ const Wallet = ({navigation,route}) =>{
                                 </TouchableWithoutFeedback>
                             </View>
                         </View>
-                        <TouchableWithoutFeedback onPress={()=>navigation.navigate("SwapMain")}>
+                        <TouchableWithoutFeedback onPress={()=>{
+                            // navigation.navigate("SwapMain");
+                            preventWallet();
+                        }}>
                             <View style={{marginTop:10,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center",borderRadius:6,height:46}}>
                                 <BoldText text={"MVP/ MVC 교환"} customStyle={{fontSize:14,color:"#FFFFFF"}}/>
                             </View>
@@ -108,7 +118,10 @@ const Wallet = ({navigation,route}) =>{
                         <View style={{marginTop:27}}>
                             <BoldText text={"자산"} />
                             <View style={{marginTop:16}}>
-                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDetailOnBtc",{header:"Bitcoin",symbol:"BTC"})}>
+                                <TouchableWithoutFeedback onPress={()=>{
+                                    // navigation.navigate("WalletDetailOnBtc",{header:"Bitcoin",symbol:"BTC"});
+                                    preventWallet();
+                                }}>
                                     <View style={[styles.itemOffset,styles.itemBorder]}>
                                         <View style={styles.symbolWrap}>
                                             <Image source={require("../../assets/img/symbol_btc.png")} style={styles.symbolIco}/>
@@ -120,7 +133,10 @@ const Wallet = ({navigation,route}) =>{
                                         </View>
                                     </View>
                                 </TouchableWithoutFeedback>
-                                <TouchableWithoutFeedback onPress={()=>navigation.navigate("WalletDetail",{header:"Ethereum",symbol:"ETH"})}>
+                                <TouchableWithoutFeedback onPress={()=>{
+                                    // navigation.navigate("WalletDetail",{header:"Ethereum",symbol:"ETH"});
+                                    preventWallet();
+                                }}>
                                     <View style={[styles.itemOffset,styles.itemBorder,{marginTop:10}]}>
                                         <View style={styles.symbolWrap}>
                                             <Image source={require("../../assets/img/symbol_eth.png")} style={styles.symbolIco}/>
