@@ -47,7 +47,7 @@ export default({navigation})=>{
             dispatch(dialog.openDialog("confirm",(
                 <>
                     <BoldText text={_text} customStyle={{fontSize:14,lineHeight:20}}/>
-                    <BoldText text={"* MVP 월 구매 한도는 50,000원 입니다."} customStyle={{textAlign:"center",marginTop:14,fontSize:11,color:"#EE1818"}}/>
+                    <BoldText text={"* MVP 월 구매 한도는 100,000원 입니다."} customStyle={{textAlign:"center",marginTop:14,fontSize:11,color:"#EE1818"}}/>
                 </>
             ),()=>{
                 dispatch(dialog.closeDialog());
@@ -151,7 +151,7 @@ export default({navigation})=>{
                                 text={
                                     '- 본 상품은 마일벌스 회원 전용 상품입니다.\n'+
                                     '- 본 상품들은 이벤트 기간에만 할인된 가격에 구매가 가능합니다.\n'+
-                                    '- MVP 구매와 도서문화상품권 구매는 이벤트 기간동안 월 50,000원까지로 구매가 제한됩니다.\n'+
+                                    '- MVP 구매와 도서문화상품권 구매는 월 100,000원까지로 구매가 제한됩니다.\n'+
                                     '- 구매하신 이벤트 상품은 환불 및 교환이 불가한 상품이므로 구매 시 유의 바랍니다.\n'+
                                     '- 이벤트 구성 및 스케줄은 당사 사정에 따라 변경 또는 종료될 수 있으며 행사수량 소진 시 조기종료 될 수 있습니다.\n'+
                                     '- 비정상적인 방법에 의한 교환으로 부당이득을 취함이 확인되는 경우, 마일벌스 앱 이용제한 및 교환금액 전체 회수, 법적인 책임을 지게 될 수 있음을 안내드립니다.'
