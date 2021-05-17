@@ -64,6 +64,20 @@ import SignUpEn from './src/screen/SignUpEn';
 import EventScreen from './src/screen/event/EventScreen';
 import EventPayDetail from './src/screen/event/EventPayDetail';
 
+import codePush from "react-native-code-push";
+
+let codePushOptions = { 
+	checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+	installMode: codePush.InstallMode.IMMEDIATE,
+	updateDialog:{
+		title:"새로운 업데이트가 존재합니다.",
+		mandatoryUpdateMessage:"최신 버전에서 이용해주세요.",
+		mandatoryContinueButtonLabel:"업데이트",
+		optionalUpdateMessage : "지금 업데이트하시겠습니까?",
+		optionalIgnoreButtonLabel : "나중에",
+		optionalInstallButtonLabel : "업데이트"
+	}
+};
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -174,7 +188,7 @@ const SpinnerComponent = () =>{
 		/>
 	)
 }
-const App = () => {
+let App = () => {
 	const requestUserPermission = async()=>{
 		await checkPermissions();
 	}
@@ -242,7 +256,7 @@ const App = () => {
 		</RootSiblingParent>
 	);
 };
-
+App = codePush(codePushOptions)(App);
 export default App;
 
 const styles = StyleSheet.create({
