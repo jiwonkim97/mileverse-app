@@ -1,5 +1,5 @@
 import React, { useEffect,useState,useRef } from 'react';
-import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions,AppState } from 'react-native';
+import { Image,View,SafeAreaView,ScrollView ,StyleSheet,Platform, TouchableWithoutFeedback,Dimensions,AppState,Linking } from 'react-native';
 import { useSelector,useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 import Barcode from "react-native-barcode-builder";
@@ -17,7 +17,6 @@ import Axios from '../modules/Axios'
 import noticeAlert from '../components/NoticeAlert';
 import DeviceBrightness from '@adrianso/react-native-device-brightness';
 import { updatePushToken,onPushOpenListener,onPushOpenListenerBackground } from '../modules/FireBaseHelper';
-import { SliderBox } from "react-native-image-slider-box";
 
 
 const HomeScreen = (props) =>{
@@ -108,23 +107,9 @@ const HomeScreen = (props) =>{
                 </View>
                 <ScrollView>
                     <View style={{paddingVertical:6}}>
-                        {
-                            img !== '' ?
-                                <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate("Event");}}>
-                                    <Image source={{uri:img}} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}></Image>
-                                </TouchableWithoutFeedback>
-                            :
-                                null
-                        }
-                        {/* <SliderBox
-                            circleLoop
-                            autoplay={true}
-                            autoplayInterval={10000}
-                            images={images}
-                            sliderBoxHeight={bannerHeight.current}
-                            onCurrentImagePressed={handleImage}
-                            imageLoadingColor={'#8D3981'}
-                        /> */}
+                        <TouchableWithoutFeedback onPress={()=>{Linking.openURL("https://safeconnect.co.kr/sfconn/um/mileverse01?ptrSvcSn=psn130&et=mileverse01&cscpc=Y");}}>
+                            <Image source={require("../../assets/img/banner_square_note.png")} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}></Image>
+                        </TouchableWithoutFeedback>
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",width:"100%",paddingHorizontal:16,paddingTop:16 ,paddingBottom:16}}>
                         <View style={[styles.shadow,{borderRadius:8}]}>
