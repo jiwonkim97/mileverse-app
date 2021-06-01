@@ -30,7 +30,7 @@ const DanalPg = ({navigation,route})=>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
                 <WebView
-                    source={{uri: 'https://server.mileverse.com/rest/api/danal/v2/pg',method:"POST",
+                    source={{uri: 'http://13.209.142.239:3010/api/danal/v2/pg',method:"POST",
                         body:`params=${JSON.stringify(params)}`,
                         headers : Platform.OS !== 'android' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {} 
                     }}
