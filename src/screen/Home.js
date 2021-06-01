@@ -34,7 +34,6 @@ const HomeScreen = (props) =>{
         RNLocalize.getLocales()[0].languageCode === 'ko' ? require("../../assets/img/main_banner.png") :  require("../../assets/img/main_banner_en.png"), 
         require("../../assets/img/banner_square_note.png")
     ]);
-    const [img,setImg] = useState("");
     
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -69,15 +68,10 @@ const HomeScreen = (props) =>{
             await noticeAlert(data.rows,_ver);
             await onVerifyRequest();
         }
-        const getImg = async()=>{
-            const {data} = await Axios.get("/get/storage",{params:{key:"HOME_BANNER"}});
-            setImg(data.value)
-        }
         AppState.addEventListener("change",handleAppState);
         onPushOpenListener(props.navigation);
         onPushOpenListenerBackground(props.navigation);
         initApp();
-        getImg();
     },[])
 
     const navigateScreen = (_code,_name) =>{
@@ -107,8 +101,8 @@ const HomeScreen = (props) =>{
                 </View>
                 <ScrollView>
                     <View style={{paddingVertical:6}}>
-                        <TouchableWithoutFeedback onPress={()=>{Linking.openURL("https://safeconnect.co.kr/sfconn/um/mileverse01?ptrSvcSn=psn130&et=mileverse01&cscpc=Y");}}>
-                            <Image source={require("../../assets/img/banner_square_note.png")} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}></Image>
+                        <TouchableWithoutFeedback onPress={()=>{Linking.openURL("https://www.mileverse.com/events");}}>
+                            <Image source={require("../../assets/img/airdrop_banner.png")} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}></Image>
                         </TouchableWithoutFeedback>
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",width:"100%",paddingHorizontal:16,paddingTop:16 ,paddingBottom:16}}>

@@ -75,8 +75,10 @@ const SignUp02 = (props) =>{
         setErrorText({txt:"-",color:"#FFFFFF"});
         if(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(id)) {
             setErrorText({txt:"* 아이디에 한글을 사용할 수 없습니다.",color:"#EE1818"})
-        }else if(id === "") {
+        } else if(id === "") {
             setErrorText({txt:"* 아이디를 입력해주세요.",color:"#EE1818"})
+        } else if(/[\s]/g.test(id)){
+            setErrorText({txt:"* 아이디에 공백은 사용할 수 없습니다.",color:"#EE1818"})
         } else {
             Axios.post('/users/doubleCheck',{id:id})
             .then((response)=>{
