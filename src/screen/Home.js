@@ -64,9 +64,12 @@ const HomeScreen = (props) =>{
     
     useEffect(()=>{
         const initApp = async() => {
-            const {data} = await Axios.post('/api/notice/check-notice-version',{version:_ver,platform:Platform.OS});
-            await noticeAlert(data.rows,_ver);
-            await onVerifyRequest();
+            try {
+                const {data} = await Axios.post('/api/notice/check-notice-version',{version:_ver,platform:Platform.OS});
+                await noticeAlert(data.rows,_ver);
+                await onVerifyRequest();
+            } catch(e) {
+            }
         }
         AppState.addEventListener("change",handleAppState);
         onPushOpenListener(props.navigation);
