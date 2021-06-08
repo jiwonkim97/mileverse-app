@@ -61,10 +61,6 @@ const Wallet = ({navigation,route}) =>{
           return unsubscribe;
     },[navigation]);
 
-    const preventWallet = ()=>{
-        Alert.alert("점검",'지갑 점검으로 인해 사용이 불가합니다.',[{text:"확인"}])
-    }
-
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
@@ -91,8 +87,7 @@ const Wallet = ({navigation,route}) =>{
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback onPress={()=>{
-                                    // navigation.navigate("WalletDetail",{header:"Mileverse",symbol:"MVC"});
-                                    preventWallet();
+                                    navigation.navigate("WalletDetail",{header:"Mileverse",symbol:"MVC"});
                                 }}>
                                     <View style={[styles.itemOffset,{borderTopWidth:1,borderTopColor:"#ECECEC"}]}>
                                         <View style={styles.symbolWrap}>
@@ -108,8 +103,7 @@ const Wallet = ({navigation,route}) =>{
                             </View>
                         </View>
                         <TouchableWithoutFeedback onPress={()=>{
-                            // navigation.navigate("SwapMain");
-                            preventWallet();
+                            navigation.navigate("SwapMain");
                         }}>
                             <View style={{marginTop:10,backgroundColor:"#8D3981",justifyContent:"center",alignItems:"center",borderRadius:6,height:46}}>
                                 <BoldText text={"MVP/ MVC 교환"} customStyle={{fontSize:14,color:"#FFFFFF"}}/>
@@ -119,8 +113,7 @@ const Wallet = ({navigation,route}) =>{
                             <BoldText text={"자산"} />
                             <View style={{marginTop:16}}>
                                 <TouchableWithoutFeedback onPress={()=>{
-                                    // navigation.navigate("WalletDetailOnBtc",{header:"Bitcoin",symbol:"BTC"});
-                                    preventWallet();
+                                    navigation.navigate("WalletDetailOnBtc",{header:"Bitcoin",symbol:"BTC"});
                                 }}>
                                     <View style={[styles.itemOffset,styles.itemBorder]}>
                                         <View style={styles.symbolWrap}>
@@ -134,8 +127,7 @@ const Wallet = ({navigation,route}) =>{
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <TouchableWithoutFeedback onPress={()=>{
-                                    // navigation.navigate("WalletDetail",{header:"Ethereum",symbol:"ETH"});
-                                    preventWallet();
+                                    navigation.navigate("WalletDetail",{header:"Ethereum",symbol:"ETH"});
                                 }}>
                                     <View style={[styles.itemOffset,styles.itemBorder,{marginTop:10}]}>
                                         <View style={styles.symbolWrap}>

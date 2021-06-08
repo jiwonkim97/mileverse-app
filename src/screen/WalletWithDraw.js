@@ -23,6 +23,7 @@ const WalletWithDraw = ({navigation,route}) =>{
     const [fee,setFee] = useState("");
     const [modal,setModal] = useState(false);
     const member = useRef(false);
+    const toID = useRef(null)
     const [symbol,setSymbol] = useState(route.params.symbol);
     const [sendTokenFee,setSendTokenFee] = useState(0);
 
@@ -103,6 +104,7 @@ const WalletWithDraw = ({navigation,route}) =>{
         } else {
             let url = "";
             member.current = false;
+            toID.current = null;
             if(symbol === "ETH" || symbol === "MVC") url = "/api/henesis/eth/wallets/users";
             else if(symbol === "BTC") url = "/api/henesis/btc/wallets/users";
             const {data} = await Axios.get(url,{params:{address:address}});
@@ -111,6 +113,7 @@ const WalletWithDraw = ({navigation,route}) =>{
                     setFee("회원 간 수수료 면제");
                     setSendAmount(inputAmount)
                     member.current = true;
+                    toID.current = data.to;
                 } else if(data.check === false && symbol === "BTC") {
                     setFee("0.0002 BTC");
                     setSendAmount(parseFloat((Number(inputAmount) - 0.0002).toFixed(8)))
@@ -155,13 +158,14 @@ const WalletWithDraw = ({navigation,route}) =>{
             let _flag = false;
             dispatch(spinner.showSpinner());
             if(symbol !== "BTC") {
-                const {data} = await Axios.post("/api/henesis/eth/transfer",{
+                const {data} = await Axios.post("/api/henesis/eth/v2/transfer",{
                     symbol:symbol,
                     toAddr:address,
                     fromAddr:fromAddr,
                     input_amount:inputAmount,
                     send_amount:sendAmount,
-                    member:member.current
+                    member:member.current,
+                    to:toID.current
                 });
                 data.result === "success" ? _flag = true : null; 
             } else {

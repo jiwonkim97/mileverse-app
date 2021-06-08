@@ -50,7 +50,7 @@ export default ({navigation,route})=>{
 
     const doChangePoint = async()=>{
         dispatch(spinner.showSpinner());
-        const {data} = await Axios.post("/api/henesis/swap/v2/mvp-to-mvc",{fromMvp:inputAmount,toMvc:changeAmount});
+        const {data} = await Axios.post("/api/henesis/swap/v3/mvp-to-mvc",{fromMvp:inputAmount,toMvc:changeAmount});
         dispatch(spinner.hideSpinner());
         if(data.result === 'success') {
             if(data.swap === 'ok') {
