@@ -34,7 +34,7 @@ const WithDraw = ({navigation,route}) =>{
                 } else {
                     dispatch(dialog.openDialog("alert",(
                         <>
-                            <BoldText text={t("alert_common_1")} customStyle={{textAlign:"center",lineHeight:20}}/>
+                            <BoldText text={data.msg} customStyle={{textAlign:"center",lineHeight:20}}/>
                         </>
                     )));
                 }
