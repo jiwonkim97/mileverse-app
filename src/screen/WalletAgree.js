@@ -61,7 +61,7 @@ const WalletAgree = ({navigation,route}) =>{
     const onCrateWallet = async()=>{
         if(all){
             dispatch(spinner.showSpinner());
-            const {data} = await Axios.post("/api/henesis/v2/wallets");
+            const {data} = await Axios.post("/api/henesis/wallets");
             dispatch(spinner.hideSpinner());
             if(data.result === "success") {
                 dispatch(dialog.openDialog("alert",(

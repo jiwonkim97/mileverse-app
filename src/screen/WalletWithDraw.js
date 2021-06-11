@@ -158,7 +158,7 @@ const WalletWithDraw = ({navigation,route}) =>{
             let _flag = false;
             dispatch(spinner.showSpinner());
             if(symbol !== "BTC") {
-                const {data} = await Axios.post("/api/henesis/eth/v2/transfer",{
+                const {data} = await Axios.post("/api/henesis/eth/transfer",{
                     symbol:symbol,
                     toAddr:address,
                     fromAddr:fromAddr,
