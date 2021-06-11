@@ -358,8 +358,8 @@ PODS:
     - React
   - react-native-document-picker (3.5.4):
     - React
-  - react-native-image-picker (2.3.3):
-    - React
+  - react-native-image-picker (4.0.3):
+    - React-Core
   - react-native-pager-view (5.1.2):
     - React-Core
   - react-native-safe-area-context (3.1.4):
@@ -731,7 +731,7 @@ SPEC CHECKSUMS:
   react-native-camera: 5c1fbfecf63b802b8ca4a71c60d30a71550fb348
   react-native-device-brightness: 12d8386fe9ed17f604b2d6bc752c70edb53a193f
   react-native-document-picker: c5752781fbc0c126c627c1549b037c139444a4cf
-  react-native-image-picker: a6c3d644751a388b0fc8b56822ff7cbd398a3008
+  react-native-image-picker: 4089335b89b625d4e34d53fb249c48a7a791b3ea
   react-native-pager-view: d728200ac02cad7ccacc5903d0b65ff7b8c00cde
   react-native-safe-area-context: 0ed9288ed4409beabb0817b54efc047286fc84da
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865

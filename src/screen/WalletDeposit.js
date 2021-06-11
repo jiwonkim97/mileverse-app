@@ -4,6 +4,7 @@ import { View,StyleSheet,SafeAreaView,TouchableWithoutFeedback,Image, Alert,Touc
 import Clipboard from '@react-native-community/clipboard';
 import * as toast from '../components/Toast';
 import * as spinner from '../actions/spinner'
+import * as dialog from '../actions/dialog'
 import QRCode from 'react-native-qrcode-generator';
 
 import CommonStatusbar from '../components/CommonStatusbar';
@@ -34,13 +35,16 @@ const WalletDeposit = ({navigation,route}) =>{
                 }]);
             }
             dispatch(spinner.showSpinner());
-            const {data} = await Axios.get(url);
+            const {data} = await Axios.get(url,{params:{deposit:true}});
             if(data.result === "success") {
                 if(symbol === "ETH" || symbol === "MVC" ) {
                     setAddr(data.eth.address);
                 } else if(symbol === "BTC") {
                     setAddr(data.btc.address);
                 }
+                if(data.refresh) {
+                    dispatch(dialog.openDialog('alert',<BoldText text={'입금 주소가 재 발급 되었습니다.\n입금 전 입금 주소를 확인해 주세요.\n잘못된 주소로 입금 시 자산 회수가 불가능합니다.'} customStyle={{textAlign:"center",lineHeight:20}}/>))
+                } 
             } else {
                 Alert.alert("알림",data.msg,[{text:'확인'}]);
             }
