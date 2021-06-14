@@ -63,17 +63,6 @@ export default async(info,_ver) => {
             })
         }
         if(flag) {
-            // return await AlertAsync(
-            //     info.TITLE,
-            //     info.EXPL,
-            //     buttons[info.TYPE_CODE]
-            // );
-            // await AlertAsync(
-            //     info.TITLE,
-            //     info.EXPL,
-            //     buttons[info.TYPE_CODE]
-            // );
-            // console.log(info.TITLE)
             Alert.alert(info.TITLE,info.EXPL,buttons[info.TYPE_CODE])
         } else return true;
     }else return true;

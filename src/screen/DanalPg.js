@@ -9,6 +9,7 @@ import { BoldText } from '../components/customComponents';
 import * as dialog from '../actions/dialog';
 import * as auth from '../actions/authentication';
 import { useTranslation } from 'react-i18next';
+import {endpoint} from '../../properties.json'
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
@@ -30,7 +31,7 @@ const DanalPg = ({navigation,route})=>{
             <CommonStatusbar backgroundColor="#F9F9F9"/>
             <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
                 <WebView
-                    source={{uri: 'https://server.mileverse.com/rest/api/danal/v2/pg',method:"POST",
+                    source={{uri: `${endpoint}/api/danal/v2/pg`,method:"POST",
                         body:`params=${JSON.stringify(params)}`,
                         headers : Platform.OS !== 'android' ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {} 
                     }}

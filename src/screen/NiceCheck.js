@@ -4,6 +4,7 @@ import { WebView } from 'react-native-webview';
 import SendIntentAndroid from "react-native-send-intent";
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText } from '../components/customComponents';
+import {endpoint} from '../../properties.json'
 
 
 LogBox.ignoreLogs([
@@ -35,7 +36,7 @@ const NiceCheck = (props)=>{
                     <View style={{width:50}}></View>
                 </View>
                 <WebView
-                    source={{uri: 'https://server.mileverse.com/rest/api/nice/encrypt'}}
+                    source={{uri: `${endpoint}/rest/api/nice/encrypt`}}
                     originWhitelist={['*']}
                     javaScriptEnabled={true}
                     onMessage={(event)=>{

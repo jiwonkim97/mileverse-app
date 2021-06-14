@@ -182,7 +182,6 @@ const WalletWithDraw = ({navigation,route}) =>{
             dispatch(spinner.hideSpinner());
             
             if(_flag) {
-                // setModal(!modal);
                 navigation.navigate("WalletResult",{amount:inputAmount,symbol:symbol});
             } else {
                 alert("오류로 인해 전송이 취소되었습니다.")

@@ -28,39 +28,11 @@ export default (props)=>{
     }
     return (
         <View>
-            {/* <BoldText text={"전송 수수료"}/>
-            <View style={{marginTop:16,flexDirection:"row",height:38,overflow:"hidden",borderRadius:6}}>
-                <TouchableWithoutFeedback onPress={()=>setFeesBtn("low")}>
-                    <View style={[styles.feesBtnWrap,{borderRightWidth:1,borderRightColor:"#FFFFFF",backgroundColor:lowBtn.bg}]}>
-                        <BoldText text={"낮음"} customStyle={{color:lowBtn.textColor}}/>
-                    </View>
-                </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={()=>setFeesBtn("moderate")}>
-                    <View style={[styles.feesBtnWrap,{borderRightWidth:1,borderRightColor:"#FFFFFF",backgroundColor:moderateBtn.bg}]}>
-                        <BoldText text={"보통"} customStyle={{color:moderateBtn.textColor}}/>
-                    </View>
-                </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={()=>setFeesBtn("high")}>
-                    <View style={[styles.feesBtnWrap,{backgroundColor:highBtn.bg}]}>
-                        <BoldText text={"높음"} customStyle={{color:highBtn.textColor}}/>
-                    </View>
-                </TouchableWithoutFeedback>
-            </View>
-
-            <View style={{marginTop:20}}>
-                <BoldText text={"수수료 (1 Byte 당)"}/>
-                <View style={{marginTop:16,borderWidth:1,borderColor:"#E5E5E5",borderRadius:6,flexDirection:"row",alignItems:'center',paddingHorizontal:16,justifyContent:"space-between",height:46}}>
-                    <TextInput placeholderTextColor={"#D5C2D3"} placeholder={"가스 리밋가격을 입력해주세요"} style={styles.input} editable={false} value={fee}/>
-                    <BoldText text={"BTC"}/>
-                </View>
-            </View> */}
-
             <View style={{marginTop:16,borderWidth:1,borderColor:"#F2F2F2"}} />
             <View style={{marginTop:26,marginBottom:100}}>
                 <BoldText text={"[유의사항]"} customStyle={styles.noticeText}/>
                 <BoldText text={"잘못 전송한 경우 취소가 불가능합니다.\n전송 시 전송 수수료(0.0002 BTC)가 발생합니다."} customStyle={[styles.noticeText,{marginTop:9,lineHeight:18}]}/>
             </View>   
-
         </View>
     )
 }

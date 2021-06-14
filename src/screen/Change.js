@@ -183,7 +183,6 @@ const ChangeScreen = ({navigation,route}) =>{
                             </TouchableOpacity>
                             <View style={{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center",overflow:"hidden"}}>
                                 <View style={{marginVertical:13,height:57}}>
-                                    {/* <Image source={require("../../assets/img/logo_jjane.png")} style={{resizeMode:"stretch",width:60,height:57}}/> */}
                                 </View>
                                 <View style={styles.mask} />
                                 <ExtraBoldText text={"Coming soon"} customStyle={{fontSize:20,color:"#FFFFFF",position:"absolute"}}/>

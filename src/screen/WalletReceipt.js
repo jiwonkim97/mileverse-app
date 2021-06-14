@@ -19,16 +19,6 @@ const WalletReceipt = ({navigation,route}) =>{
                  }
             }
         }
-        // if(route.params.member === 'Y') {
-        //     setGas("수수료 면제")
-        // } else {
-        //     getGasFee()
-        //     if(route.params.symbol === "ETH" || route.params.symbol === "MVC") {
-        //         setGas(`0.005 ETH`);
-        //     }else if(route.params.symbol === "BTC") {
-        //         setGas(`0.0002 ${route.params.symbol}`);
-        //     }
-        // }
     },[])
     const openWebBrowser = ()=>{
         if (route.params.symbol === "BTC") {

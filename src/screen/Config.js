@@ -113,18 +113,6 @@ const Config = (props) =>{
                                     }
                                 </TouchableOpacity>
                             </View>
-                            {/* <View style={styles.align}>
-                                <BoldText text={t('menu_setting_5')} customStyle={{color:"#2B2B2B",fontSize:14}}/>
-                                <ToggleSwitch
-                                    isOn={localPush}
-                                    onColor="#8D3981"
-                                    offColor="#C9C9C9"
-                                    onToggle={isOn => {
-                                        setLocalPush(isOn);
-                                        AsyncStorage.mergeItem("@configStorage",JSON.stringify({localPush:isOn}));
-                                    }}
-                                />
-                            </View> */}
                         </View>
                     </View>
                     <View>

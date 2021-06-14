@@ -6,7 +6,6 @@ import BtcFees from '../components/WalletFees/BtcFees';
 import CommonStatusbar from '../components/CommonStatusbar';
 import { ExtraBoldText,BoldText } from '../components/customComponents';
 import Modal from 'react-native-modal';
-import OriginAxios from 'axios';
 import Axios from '../modules/Axios';
 import * as spinner from '../actions/spinner';
 
@@ -33,8 +32,6 @@ const WalletWithDraw = ({navigation,route}) =>{
         const defaultSetting = async()=>{
             dispatch(spinner.showSpinner());
             if(route.params.symbol === "BTC") {
-                // const {data:btcGasApiResult} = await OriginAxios.get("https://bitcoinfees.earn.com/api/v1/fees/recommended");
-                // setBitGasFees(btcGasApiResult);
                 const {data} = await Axios.get("/api/henesis/btc/balance");
                 setAmountFromDB(data.balance)
                 setFromAddr(data.address)
