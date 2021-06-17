@@ -82,9 +82,8 @@ const ContactScreen = (props) =>{
                 if( Platform.OS==='ios' || granted === PermissionsAndroid.RESULTS.GRANTED ) {
                     if(mode === 'camera') {
                         launchCamera({mediaType:'photo'},({assets})=>{
-                            setVisible(false)
                             if(assets) {
-                                console.log(assets[0].fileSize)
+                                setVisible(false)
                                 setFile({
                                     fileName: assets[0].fileName,
                                     type: assets[0].type,
@@ -97,9 +96,8 @@ const ContactScreen = (props) =>{
                         })
                     } else {
                         launchImageLibrary({mediaType:'photo'},({assets})=>{
-                            setVisible(false)
                             if(assets){
-                                console.log(assets[0].fileSize)
+                                setVisible(false)
                                 setFile({
                                     fileName: assets[0].fileName,
                                     type: assets[0].type,

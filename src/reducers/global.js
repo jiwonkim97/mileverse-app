@@ -1,6 +1,6 @@
 
 const initialState = {
-    version: "1.3.8"
+    version: "1.3.9"
 };
 
 export default function global(state, action) {
