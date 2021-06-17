@@ -1,8 +1,9 @@
 import React,{  useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Image,View,SafeAreaView,TextInput,StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { Image,View,SafeAreaView,TextInput,StyleSheet, TouchableOpacity, Alert,PermissionsAndroid,Platform} from 'react-native';
 import * as toast from '../components/Toast';
-import ImagePicker from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import Modal from 'react-native-modal';
 import DocumentPicker from 'react-native-document-picker';
 import {ExtraBoldText,BoldText} from '../components/customComponents';
 
@@ -21,8 +22,9 @@ const ContactScreen = (props) =>{
     const [file,setFile] = useState({})
     const [fileName,setFileName] = useState("")
     const { t } = useTranslation();
+    const [visible,setVisible] = useState(false);
 
-    const sendMail = () =>{
+    const sendMail = async() =>{
         if(mail === '') {
             toast.error(t('alert_cs_1'))
         } else if(title === '') {
@@ -31,28 +33,27 @@ const ContactScreen = (props) =>{
             toast.error(t('alert_cs_3'))
         } else {
             dispatch(spinner.showSpinner());
-            let data = new FormData();
+            const data = new FormData();
             data.append("from",mail)
             data.append("title",title)
             data.append("contents",contents)
-            let url = '/api/notice/sendMailWithOutFile'
             if(Object.keys(file).length !== 0) {
                 data.append("avatar", {
                     name: file.fileName,
                     type: file.type,
                     uri:
-                      Platform.OS === "android" ? file.uri : file.uri.replace("file://", "")
+                      Platform.OS === "android" ? file.uri : "file://"+file.uri
                 });
-                url = '/api/notice/sendMail'
             }
-            Axios.post(url,data,{
+            Axios.post('/api/notice/mail',data,{
                 headers:{
                     "Content-Type": "multipart/form-data",
-                    "processData": false,
                 }
             }).then(response=>{
                 if(response.data.result === 'success'){
                     Alert.alert(t('alert_title_1'),t('alert_cs_4'),[{text:t('common_confirm_1'),onPress:()=>dispatch(spinner.hideSpinner())}])
+                } else {
+                    Alert.alert(t('alert_title_1'),t('alert_cs_5'),[{text:t('common_confirm_1'),onPress:()=>dispatch(spinner.hideSpinner())}])    
                 }
             }).catch(error=>{
                 console.log("upload error", error);
@@ -60,51 +61,61 @@ const ContactScreen = (props) =>{
             })
         }
     }
-    // "Content-Type": 'multipart/form-data; charset=utf-8; boundary="another cool boundary";'
-    const showPicker=()=>{
-        //ImagePicker를 이용해서 카메라 or 사진선택앱을 선택하여 이미지 가져오기
-        // 카메라를 다루려면 Camera, External Storage 퍼미션이 필요함
-        // Android의 경우 퍼미션을 주려면 .. AndroidManifest.xml에서 직접 작성
-        // <uses-permission android:name="android.permission.CAMERA" />
-        // <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
- 
-        // PickerDialog의 옵션 객체
-        const options= {
-            title:'', //다이얼로그의 제목
-            takePhotoButtonTitle: t('alert_cs_6'),
-            chooseFromLibraryButtonTitle:t('alert_cs_7'),
-            cancelButtonTitle: t("common_cancel_1"),
-            customButtons: [
-                {name:'readFile',title:t('alert_cs_8')}
-            ],
-            storageOptions:{
-                skipBackup: true, //ios에서 icloud에 백업할 것인가?- 안드로이드에서는 무시됨
-                path: 'MileVerse',//카메라로 캡쳐시에 저장될 폴더명 [ Pictures/[path] 경로]
-            }
-        };
- 
-        //위에서 만든 옵션을 기준으로 다이얼로그 보이기 
-        ImagePicker.showImagePicker(options, (response)=>{
-            if(response.didCancel){
-            }else if(response.error){
-                alert('ERROR : ', response.error);
-            }else if(response.customButton){
-                if(response.customButton === 'readFile'){
-                    onFileRead()
+    const selectDialog= async(mode)=>{
+        if(mode === 'file') {
+            onFileRead()
+        } else {
+            try {
+                let granted = null;
+                if(Platform.OS === 'android') {
+                    granted = await PermissionsAndroid.request(
+                        PermissionsAndroid.PERMISSIONS.CAMERA,
+                        {
+                          title: "카메라 권한",
+                          message:"카메라 권한을 허용하시겠습니까?",
+                          buttonNeutral: "나중에",
+                          buttonNegative: "취소",
+                          buttonPositive: "확인"
+                        }
+                    );    
                 }
-            }else{
-                if(response.fileName === null || response.fileName === undefined) {
-                    if( response.uri.indexOf('jpg') || response.uri.indexOf('JPG') ) response.fileName = new Date().getTime()+".jpg";
-                    else if( response.uri.indexOf('png') || response.uri.indexOf('PNG') ) response.fileName = new Date().getTime()+".png";
-                    else if( response.uri.indexOf('jpeg') || response.uri.indexOf('JPEG') ) response.fileName = new Date().getTime()+".jpeg";
-                    response.originalname = response.fileName;
-                    response.filename = response.fileName;
+                if( Platform.OS==='ios' || granted === PermissionsAndroid.RESULTS.GRANTED ) {
+                    if(mode === 'camera') {
+                        launchCamera({mediaType:'photo'},({assets})=>{
+                            setVisible(false)
+                            if(assets) {
+                                console.log(assets[0].fileSize)
+                                setFile({
+                                    fileName: assets[0].fileName,
+                                    type: assets[0].type,
+                                    uri:assets[0].uri
+                                })
+                                if( assets[0].fileName.indexOf('jpg') || assets[0].fileName.indexOf('JPG') ) setFileName(new Date().getTime()+".jpg")
+                                else if( assets[0].fileName.indexOf('png') || assets[0].fileName.indexOf('PNG') ) setFileName(new Date().getTime()+".png")
+                                else if( assets[0].fileName.indexOf('jpeg') || assets[0].fileName.indexOf('JPEG') ) setFileName(new Date().getTime()+".jpeg")
+                            }
+                        })
+                    } else {
+                        launchImageLibrary({mediaType:'photo'},({assets})=>{
+                            setVisible(false)
+                            if(assets){
+                                console.log(assets[0].fileSize)
+                                setFile({
+                                    fileName: assets[0].fileName,
+                                    type: assets[0].type,
+                                    uri:assets[0].uri
+                                })
+                                if( assets[0].fileName.indexOf('jpg') || assets[0].fileName.indexOf('JPG') ) setFileName(new Date().getTime()+".jpg")
+                                else if( assets[0].fileName.indexOf('png') || assets[0].fileName.indexOf('PNG') ) setFileName(new Date().getTime()+".png")
+                                else if( assets[0].fileName.indexOf('jpeg') || assets[0].fileName.indexOf('JPEG') ) setFileName(new Date().getTime()+".jpeg")
+                            }
+                        })
+                    }
                 }
-                setFile(response)
-                setFileName(response.fileName)
+            } catch (err) {
+                console.warn(err);
             }
-        });
- 
+        }
     }
 
     const onFileRead = async() =>{
@@ -112,6 +123,7 @@ const ContactScreen = (props) =>{
             const res = await DocumentPicker.pick({
                 type: [DocumentPicker.types.pdf],
             });
+            setVisible(false)
             res.filename = res.name
             res.originalname = res.name
             res.fileName = res.name
@@ -175,11 +187,14 @@ const ContactScreen = (props) =>{
                             </View>
                             <View style={{marginTop:16,padding:6,borderWidth:1,borderColor:"#CCCCCC",flexDirection:'row',alignItems:'center',borderRadius:5}}>
                                 <BoldText text={fileName} customStyle={{flex:9}}/>
-                                <TouchableOpacity style={{flex:3 }} onPress={showPicker}>
+                                <TouchableOpacity style={{flex:3 }} onPress={()=>setVisible(true)}>
                                     <View style={{backgroundColor:"#8D3981",justifyContent:'center',alignItems:"center",padding:10,borderRadius:5}}>
                                         <BoldText text={t('menu_cs_9')} customStyle={{color:"white",fontSize:10}}/>
                                     </View>
                                 </TouchableOpacity>
+                            </View>
+                            <View style={{marginTop:6,paddingLeft:6}}>
+                                <BoldText text={'첨부파일 추가 시 10~20초 시간이 걸릴 수 있습니다.'} customStyle={{color:"#929292",fontSize:10}}/>
                             </View>
                         </View>
                         <View style={{flexDirection:'row', alignItems:'center',justifyContent:"center",paddingBottom:20,marginTop:10,width:"100%",marginTop:40}}>
@@ -196,6 +211,29 @@ const ContactScreen = (props) =>{
                         </View>
                     </View>
                 </ScrollView>
+                <Modal
+                    onBackdropPress={()=>setVisible(false)}
+                    isVisible={visible}
+                    onBackButtonPress={()=>setVisible(false)}
+                    backdropTransitionOutTiming={0} style={{margin: 0,justifyContent:"center",alignItems:"center"}} useNativeDriver={true}>
+                        <View style={{backgroundColor:"#FFFFFF"}}>
+                            <TouchableOpacity onPress={()=>selectDialog('camera')}>
+                                <View style={{height:50,width:280,justifyContent:'center',paddingHorizontal:10}}>
+                                    <BoldText text={'카메라'} customStyle={{fontSize:16}}/>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>selectDialog('album')}>
+                                <View style={{height:50,width:280,justifyContent:'center',paddingHorizontal:10}}>
+                                    <BoldText text={'앨범'} customStyle={{fontSize:16}}/>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>selectDialog('file')}>
+                                <View style={{height:50,width:280,justifyContent:'center',paddingHorizontal:10}}>
+                                    <BoldText text={'파일'} customStyle={{fontSize:16}}/>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                </Modal>
             </SafeAreaView>
         </>
         
