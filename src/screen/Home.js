@@ -30,10 +30,7 @@ const HomeScreen = (props) =>{
     const bannerHeight = useRef(Dimensions.get("screen").width*643/1501);
     const brightness = useRef(0);
     const { t } = useTranslation();
-    const [images,setImages] = useState([
-        RNLocalize.getLocales()[0].languageCode === 'ko' ? require("../../assets/img/main_banner.png") :  require("../../assets/img/main_banner_en.png"), 
-        require("../../assets/img/banner_square_note.png")
-    ]);
+    const [imgUrl,setImgUrl] = useState("");
     
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -69,11 +66,17 @@ const HomeScreen = (props) =>{
                 await noticeAlert(data.rows,_ver);
                 await onVerifyRequest();
             } catch(e) {
+                console.log(e)
             }
+        }
+        const getBanner = async () => {
+            const {data} = await Axios.get("/get/storage",{params:{key:"HOME_BANNER"}});
+            setImgUrl(data.value)
         }
         AppState.addEventListener("change",handleAppState);
         onPushOpenListener(props.navigation);
         onPushOpenListenerBackground(props.navigation);
+        getBanner();
         initApp();
     },[])
 
@@ -104,9 +107,14 @@ const HomeScreen = (props) =>{
                 </View>
                 <ScrollView>
                     <View style={{paddingVertical:6}}>
-                        <TouchableWithoutFeedback onPress={()=>{Linking.openURL("https://www.mileverse.com/events");}}>
-                            <Image source={require("../../assets/img/airdrop_banner.png")} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}></Image>
-                        </TouchableWithoutFeedback>
+                        {
+                            imgUrl !== "" ?
+                                <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("Event")}>
+                                    <Image source={{uri:imgUrl}} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}/>
+                                </TouchableWithoutFeedback>
+                            :
+                                null
+                        }
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",width:"100%",paddingHorizontal:16,paddingTop:16 ,paddingBottom:16}}>
                         <View style={[styles.shadow,{borderRadius:8}]}>

@@ -62,11 +62,6 @@ const LoginScreen = (props) =>{
         }
     };
 
-    const linkBanner = async()=>{
-        const {data} = await Axios.get("/get/storage",{params:{key:"SQUARE_NOTE_URL"}});
-        Linking.openURL(data.value);
-    }
-
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
@@ -162,7 +157,7 @@ const LoginScreen = (props) =>{
                     </View>
                 </View>
                 <View style={{}}>
-                    <TouchableWithoutFeedback onPress={linkBanner}>
+                    <TouchableWithoutFeedback onPress={()=>Linking.openURL('https://safeconnect.co.kr/sfconn/um/mileverse01?ptrSvcSn=psn130&et=mileverse01&cscpc=Y')}>
                         <Image
                             source={require("../../assets/img/banner_bottom_square_note.png")}
                             style={{resizeMode:"contain",width:'100%'}}

@@ -5,6 +5,7 @@ import { ExtraBoldText,BoldText } from '../components/customComponents';
 import CommonStatusbar from '../components/CommonStatusbar';
 import Axios from '../modules/Axios';
 import * as dialog from '../actions/dialog';
+import { loginSuccess } from '../actions/authentication'
 
 const SignUp02 = (props) =>{
     const dispatch = useDispatch();
@@ -35,13 +36,15 @@ const SignUp02 = (props) =>{
             Axios.post('/users/insert',{id:id,name:name,phone:phone,pw:password2,email:mail,pin:pin,conninfo:conninfo})
             .then((response)=>{
                 if(response.data.result==="success") {
-                    dispatch(dialog.openDialog("confirm",(
-                        <>
-                            <BoldText text={'회원가입이 완료되었습니다.'}/>
-                        </>
-                    ),()=>{
+                    dispatch(dialog.openDialog("confirm",(<BoldText text={'회원가입이 완료되었습니다.'}/>),
+                    ()=>{
                         dispatch(dialog.closeDialog());
-                        props.navigation.navigate("Login");
+                        dispatch(loginSuccess(response.data.username,response.data.mvp,response.data.code,response.data.pin,response.data.wallet));
+                        if(new Date().getTime() <= new Date("2021/07/07 17:00:00").getTime()) {
+                            props.navigation.navigate("Event");
+                        } else {
+                            props.navigation.navigate("Home");
+                        }
                     }));
                 } else if(response.data.result==="fail"){
                     dispatch(dialog.openDialog("confirm",(
