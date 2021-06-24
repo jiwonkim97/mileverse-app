@@ -82,7 +82,7 @@ export default({navigation})=>{
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
-            <SafeAreaView style={{flex:1,backgroundColor:"#FFFFFF"}}>
+            <SafeAreaView style={{flex:1}}>
                 <View style={styles.header}>
                     <View style={{width:50}}></View>
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
@@ -107,7 +107,7 @@ export default({navigation})=>{
                         }
                         
                     </View>
-                    <View style={{paddingHorizontal:16,marginTop:30}}>
+                    <View style={{paddingHorizontal:16,paddingVertical:30,backgroundColor:"#FFFFFF"}}>
                         <View>
                             <BoldText text={
                                 "- 기간: 07/01 10: 00(목) ~ 07/07 10:00 (수)\n" +
@@ -126,12 +126,12 @@ export default({navigation})=>{
                             </View>
                         </View>
                         <TouchableWithoutFeedback onPress={applyEvents}>
-                            <View style={{marginTop:26,justifyContent:'center',alignItems:'center',backgroundColor:"#8D3981",flex:1,height:37,borderRadius:6}}>
+                            <View style={{marginTop:26,justifyContent:'center',alignItems:'center',backgroundColor:"#8D3981",flex:1,height:44,borderRadius:6}}>
                                 <BoldText text={'응모하기'} customStyle={{color:"#FFFFFF",fontSize:14}}/>
                             </View>
                         </TouchableWithoutFeedback>
                     </View>
-                    <View style={{marginTop:30,backgroundColor:"#F3F3F3",paddingHorizontal:16,paddingTop:26}}>
+                    <View style={{backgroundColor:"#F3F3F3",paddingHorizontal:16,paddingTop:26}}>
                         <BoldText text={"이벤트 유의사항"}/>
                         <View style={{marginTop:12}}>
                             <BoldText 
