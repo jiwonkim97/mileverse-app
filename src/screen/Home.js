@@ -17,7 +17,8 @@ import Axios from '../modules/Axios'
 import noticeAlert from '../components/NoticeAlert';
 import DeviceBrightness from '@adrianso/react-native-device-brightness';
 import { updatePushToken,onPushOpenListener,onPushOpenListenerBackground } from '../modules/FireBaseHelper';
-
+import { SliderBox } from "react-native-image-slider-box";
+import {IMAGE_PREFIX} from '../../properties.json';
 
 const HomeScreen = (props) =>{
     const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const HomeScreen = (props) =>{
     const bannerHeight = useRef(Dimensions.get("screen").width*643/1501);
     const brightness = useRef(0);
     const { t } = useTranslation();
-    const [imgUrl,setImgUrl] = useState("");
+    const [images,setImages] = useState([]);
     
     useEffect(()=>{
         setCommaMvp(mvp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","))
@@ -71,7 +72,7 @@ const HomeScreen = (props) =>{
         }
         const getBanner = async () => {
             const {data} = await Axios.get("/get/storage",{params:{key:"HOME_BANNER"}});
-            setImgUrl(data.value)
+            setImages(data.value.split(',').map(item=>IMAGE_PREFIX+item))
         }
         AppState.addEventListener("change",handleAppState);
         onPushOpenListener(props.navigation);
@@ -98,6 +99,15 @@ const HomeScreen = (props) =>{
             })
         })
     }
+
+    const handleImage = (index) => {
+        if(index === 0) {
+            props.navigation.navigate("Event")
+        } else if(index === 1) {
+            Linking.openURL("https://www.mileverse.com/events");
+        }
+    }
+
     return (
         <>
             <CommonStatusbar backgroundColor="#F9F9F9"/>
@@ -107,14 +117,16 @@ const HomeScreen = (props) =>{
                 </View>
                 <ScrollView>
                     <View style={{paddingVertical:6}}>
-                        {
-                            imgUrl !== "" ?
-                                <TouchableWithoutFeedback onPress={()=>props.navigation.navigate("Event")}>
-                                    <Image source={{uri:imgUrl}} style={{resizeMode:"stretch",width:"100%",height:bannerHeight.current}}/>
-                                </TouchableWithoutFeedback>
-                            :
-                                null
-                        }
+                        <SliderBox
+                             circleLoop
+                             autoplay={true}
+                             autoplayInterval={10000}
+                             images={images}
+                             dotColor={'#8D3981'}
+                             sliderBoxHeight={bannerHeight.current}
+                             onCurrentImagePressed={handleImage}
+                             imageLoadingColor={'#8D3981'}
+                         /> 
                     </View>
                     <View style={{backgroundColor:"#FFFFFF",width:"100%",paddingHorizontal:16,paddingTop:16 ,paddingBottom:16}}>
                         <View style={[styles.shadow,{borderRadius:8}]}>

@@ -7,13 +7,13 @@ import {BoldText,ExtraBoldText} from '../../components/customComponents'
 import Axios from "../../modules/Axios";
 import { useDispatch } from 'react-redux';
 import * as dialog from '../../actions/dialog';
+import {IMAGE_PREFIX} from '../../../properties.json'
 
 const itemList = [
-    {label:"스크류바",id:"SCREW",url:"screw.jpg"},
-    {label:"메로나",id:"MERONA",url:"merona.jpg"},
-    {label:"돼지바",id:"PIG",url:"pig.jpg"},
+    {label:"스크류바",id:"SCREW",url:"/event/screw.jpg"},
+    {label:"메로나",id:"MERONA",url:"/event/merona.jpg"},
+    {label:"돼지바",id:"PIG",url:"/event/pig.jpg"},
 ]
-const imgPrefix = "https://image.mileverse.com/event/"
 export default({navigation})=>{
     const dispatch = useDispatch();
     const [img,setImg] = useState("");
@@ -69,7 +69,7 @@ export default({navigation})=>{
             <TouchableWithoutFeedback onPress={()=>selectItem(item.id)} key={index}>
                 <View style={[{borderRadius:10,flex:1},styles.shadow,renderMg(index),renderHightlight(item.id)]}>
                     <View style={{justifyContent:'center',alignItems:'center',paddingVertical:4}}>
-                        <Image source={{uri:`${imgPrefix}${item.url}`}} resizeMode={'stretch'} style={{width:91,height:90}}/>
+                        <Image source={{uri:`${IMAGE_PREFIX}${item.url}`}} resizeMode={'stretch'} style={{width:91,height:90}}/>
                     </View>
                     <View style={{paddingVertical:10,paddingHorizontal:12,backgroundColor:"#F6F6F6",justifyContent:"center",alignItems:"center",borderBottomRightRadius:10,borderBottomLeftRadius:10}}>
                         <BoldText text={item.label} customStyle={{fontSize:14,color:"#000000"}}/>
