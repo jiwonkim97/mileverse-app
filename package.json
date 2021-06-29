@@ -63,6 +63,7 @@
     "react-native-tab-view": "^3.0.1",
     "react-native-webview": "^10.8.2",
     "react-redux": "^7.2.1",
+    "react-useinterval": "^1.0.2",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "rn-range-slider": "^2.0.3",

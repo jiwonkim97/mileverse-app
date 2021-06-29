@@ -8,6 +8,8 @@ import Axios from "../../modules/Axios";
 import { useDispatch } from 'react-redux';
 import * as dialog from '../../actions/dialog';
 import {IMAGE_PREFIX} from '../../../properties.json'
+import {formmatedNumber} from '../../modules/CommonHelper';
+import useInterval from 'react-useinterval';
 
 const itemList = [
     {label:"스크류바",id:"SCREW",url:"/event/screw.jpg"},
@@ -18,7 +20,12 @@ export default({navigation})=>{
     const dispatch = useDispatch();
     const [img,setImg] = useState("");
     const [select,setSelect] = useState("");
+    const [stock,setStock] = useState(0);
     const stat = useSelector(state => state.authentication.status.isLoggedIn);
+
+    useInterval(() => {
+        getStock();
+    }, 7000);
 
     useEffect(()=>{
         const getImg = async()=>{
@@ -26,7 +33,13 @@ export default({navigation})=>{
             setImg(data.value)
         }
         getImg();
+        getStock();
     },[]);
+
+    const getStock = async() => {
+        const {data} = await Axios.get("/get/storage",{params:{key:"EVENT_ICECREAM"}});
+        setStock(data.value);
+    }
 
     const selectItem = (_id)=>{
         setSelect(_id);
@@ -44,7 +57,10 @@ export default({navigation})=>{
          }else {
             const {data} = await Axios.post("/api/event/icecream",{id:select})
             if(data.success) {
-                dispatch(dialog.openDialog("alert",<BoldText text={"응모 완료 되었습니다."}/>));
+                dispatch(dialog.openDialog("alert",<BoldText text={"응모 완료 되었습니다."}/>,()=>{
+                    dispatch(dialog.closeDialog());
+                    getStock();
+                }));
             } else {
                 dispatch(dialog.openDialog("alert",<BoldText text={data.msg}/>));
             }
@@ -110,15 +126,18 @@ export default({navigation})=>{
                     <View style={{paddingHorizontal:16,paddingVertical:30,backgroundColor:"#FFFFFF"}}>
                         <View>
                             <BoldText text={
-                                "- 기간: 07/01 10: 00(목) ~ 07/07 10:00 (수)\n" +
-                                "- 당첨자 발표 및 상품 지급: 07/09 (금)\n"+
-                                "- 진행 방법: 신규 회원 가입 후 응모버튼을 통하여 참여\n"+
+                                "- 기간: 07/01 10: 00(목) ~ 07/07 17:00 (수)\n" +
+                                "- 당첨자 발표 및 상품 지급: 07/12 (월)\n"+
+                                "- 진행 방법: 신규 회원 가입 후 응모버튼을 터치하여 참여\n"+
                                 "- 상품: GS25 아이스크림 교환권"
                             } customStyle={{fontSize:14,lineHeight:23}}/>
                         </View>
                         <View style={{marginTop:30,backgroundColor:"#F2F2F2",height:2}}></View>
                         <View style={{marginTop:30}}>
-                            <BoldText text={"이벤트 상품 선택"} customStyle={{fontSize:15}}/>
+                            <View style={{flexDirection:"row",justifyContent:'space-between',alignItems:"flex-end"}}>
+                                <BoldText text={"이벤트 상품 선택"} customStyle={{fontSize:15}}/>
+                                <BoldText text={`남은 수량 :  ${formmatedNumber(stock)}개`} customStyle={{fontSize:11,color:"grey"}}/>
+                            </View>
                             <View style={{flexDirection:"row",marginTop:20}}>
                                 {
                                     itemList.map((item,index)=>renderItem(item,index))
@@ -136,10 +155,15 @@ export default({navigation})=>{
                         <View style={{marginTop:12}}>
                             <BoldText 
                             text={
-                                "- 비정상적이거나 불법적인 방법으로 이벤트에 참여한 경우,이벤트 운영에 방해되는 행위를 한 경우에는 참여 대상에서 제외될 수 있습니다.\n\n"+
+                                "- 비정상적이거나 불법적인 방법으로 이벤트에 참여한 경우,\n"+
+                                "  이벤트 운영에 방해되는 행위를 한 경우에는 참여\n"+
+                                "  대상에서 제외될 수 있습니다.\n\n"+
                                 "- 선택한 상품은 변경이 불가능 합니다.\n\n"+
-                                "- 매장 내 재고 소진 시 타 매장에서 교환 가능하며, 유효기간 연장은 불가능합니다.\n\n"+
-                                "- 이벤트 참여 시, 상품 지급에 필요한 개인 정보 활용에 동의하신 것으로 간주되며 개인 정보는 이벤트 종료 후 파기 됩니다.\n\n"
+                                "- 매장 내 재고 소진 시 타 매장에서 교환 가능하며,\n"+
+                                "  유효기간 연장은 불가능합니다.\n\n"+
+                                "- 이벤트 참여 시, 상품 지급에 필요한 개인 정보 활용에\n"+
+                                "  동의하신 것으로 간주되며 개인 정보는 이벤트 종료 후\n"+
+                                "  파기 됩니다.\n\n"
                             }
                             customStyle={{lineHeight:18}}
                             />
