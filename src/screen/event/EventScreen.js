@@ -25,7 +25,7 @@ export default({navigation})=>{
 
     useInterval(() => {
         getStock();
-    }, 7000);
+    }, 5000);
 
     useEffect(()=>{
         const getImg = async()=>{
