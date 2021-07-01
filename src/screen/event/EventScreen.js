@@ -104,7 +104,7 @@ export default({navigation})=>{
                     <View style={[styles.headerIcoWrap,{flex:1}]}>
                         <ExtraBoldText text={"이벤트"} customStyle={{fontSize:16}}/>
                     </View>
-                    <TouchableWithoutFeedback onPress={()=>navigation.goBack()}>
+                    <TouchableWithoutFeedback onPress={()=>navigation.navigate('Home')}>
                         <View style={styles.headerIcoWrap}>
                             <Image source={require("../../../assets/img/ico_close_bl.png")} style={{width:20,height:20}}/>
                         </View>
