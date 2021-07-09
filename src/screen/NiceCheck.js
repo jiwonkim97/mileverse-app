@@ -36,7 +36,7 @@ const NiceCheck = (props)=>{
                     <View style={{width:50}}></View>
                 </View>
                 <WebView
-                    source={{uri: `${endpoint}/rest/api/nice/encrypt`}}
+                    source={{uri: `${endpoint}/api/nice/encrypt`}}
                     originWhitelist={['*']}
                     javaScriptEnabled={true}
                     onMessage={(event)=>{

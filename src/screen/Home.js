@@ -102,9 +102,7 @@ const HomeScreen = (props) =>{
 
     const handleImage = (index) => {
         if(index === 0) {
-            props.navigation.navigate("Event")
-        } else if(index === 1) {
-            Linking.openURL("https://www.mileverse.com/events");
+            Linking.openURL('https://safeconnect.co.kr/sfconn/um/mileverse01?ptrSvcSn=psn130&et=mileverse01&cscpc=Y');
         }
     }
 
