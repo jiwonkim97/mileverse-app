@@ -50,7 +50,6 @@ import WalletWithDraw from './src/screen/WalletWithDraw';
 import WalletResult from './src/screen/WalletResult';
 import WalletAgree from './src/screen/WalletAgree';
 import ScanScreen from './src/screen/ScanScreen';
-import HealthPick from './src/screen/changePoint/HealthPick';
 import Partnercom from './src/screen/changePoint/Partnercom';
 import RealPet from "./src/screen/changePoint/RealPet";
 import BooknLife from './src/screen/changePoint/booknlife/BooknLife';
@@ -237,7 +236,6 @@ let App = () => {
 						<Stack.Screen name="WalletResult" component={WalletResult} options={{gestureEnabled:false}}/>
 						<Stack.Screen name="WalletAgree" component={WalletAgree} />
 						<Stack.Screen name="ScanScreen" component={ScanScreen} />
-						<Stack.Screen name="JhealthPick" component={HealthPick} />
 						<Stack.Screen name="Partnercom" component={Partnercom} />
 						<Stack.Screen name="BooknLife" component={BooknLife} />
 						<Stack.Screen name="RealPet" component={RealPet} />

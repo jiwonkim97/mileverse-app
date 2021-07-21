@@ -16,7 +16,6 @@ const brnachList = [
     {screen:"BooknLife",text:"북앤라이프"},
     {screen:"Partnercom",text:"건강곶간",uri:"/api/partnercom/users"},
     {screen:"RealPet",text:"리얼펫",uri:"/api/realPet/users"},
-    {screen:"JhealthPick",text:"제이헬스픽",uri:"/api/jHealthPick/users"}
 ];
 
 const ChangeScreen = ({navigation,route}) =>{
@@ -171,13 +170,6 @@ const ChangeScreen = ({navigation,route}) =>{
                                 <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
                                     <View style={{marginVertical:13}}>
                                         <Image source={require("../../assets/img/logo_realpet.jpg")} style={{resizeMode:"contain",width:130,height:60}}/>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>onConfirmModal(3)}>
-                                <View style={[styles.shadow,{marginTop:16,borderRadius:10,justifyContent:"center",alignItems:"center"}]}>
-                                    <View style={{marginVertical:13}}>
-                                        <Image source={require("../../assets/img/logo_healthPick.png")} style={{resizeMode:"contain",width:220,height:60}}/>
                                     </View>
                                 </View>
                             </TouchableOpacity>
